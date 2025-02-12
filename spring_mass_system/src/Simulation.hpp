@@ -22,6 +22,9 @@ public:
     void setDampingCoefficient(float z);
     const std::vector<Ball>& getBalls() const;
 
+    std::vector<glm::vec3> getParticlePositions() const;
+    const std::vector<glm::vec3> getParticleVelocities() const;
+
     void clearSimulation();  
     void createCord(int numBalls, float length, float springRestLength, bool bothEndsStatic);
     void applyGravityLink();

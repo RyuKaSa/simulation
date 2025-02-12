@@ -7,7 +7,7 @@ Simulation::Simulation() : springConstant(0.5f) {
     // ballCenter = new PMat(1.0f, glm::vec3( 0.5f, 0.5f, 0.5f));
     // ballRight  = new PMat(1.0f, glm::vec3( 0.5f, 0.0f, 0.0f));
 
-    createCord(8, 7.0f, 0.1f, false); // Default cord setup (3 balls, 1m length, both ends static)
+    createCord(8, 7.0f, 0.1f, true); // Default cord setup (3 balls, 1m length, both ends static)
 
     gravityLink = new Link(ballObjects, glm::vec3(0.0f, -9.81f, 0.0f));  // ✅ Use all particles
 }
@@ -94,6 +94,22 @@ void Simulation::createCord(int numBalls, float length, float springRestLength, 
 void Simulation::applyGravityLink() {
     // Apply gravity to all particles in the system using the gravity link
     gravityLink->applyGravity();
+}
+
+std::vector<glm::vec3> Simulation::getParticlePositions() const {
+    std::vector<glm::vec3> positions;
+    for (const auto* ball : ballObjects) {
+        positions.push_back(ball->getPosition());
+    }
+    return positions;
+}
+
+const std::vector<glm::vec3> Simulation::getParticleVelocities() const {
+    std::vector<glm::vec3> velocities;
+    for (const auto& ball : ballObjects) {
+        velocities.push_back(ball->getVelocity());
+    }
+    return velocities;
 }
 
 void Simulation::clearSimulation() {
