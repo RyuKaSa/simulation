@@ -9,6 +9,8 @@ public:
     void update();
     void setSpringConstant(float newK);
     void setDampingCoefficient(float newZ);
+    PMat* getP1() const { return p1; }
+    PMat* getP2() const { return p2; }
 private:
     PMat* p1;
     PMat* p2;

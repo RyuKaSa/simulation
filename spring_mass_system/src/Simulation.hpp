@@ -5,6 +5,7 @@
 #include <glm/glm.hpp>
 #include "PMat.hpp"
 #include "Spring.hpp"
+#include "Link.hpp"
 #include <iostream>
 
 struct Ball {
@@ -20,14 +21,18 @@ public:
     void setSpringConstant(float k);
     void setDampingCoefficient(float z);
     const std::vector<Ball>& getBalls() const;
+
+    void clearSimulation();  
+    void createCord(int numBalls, float length, float springRestLength, bool bothEndsStatic);
+    void applyGravityLink();
 private:
     float springConstant;
+    Link* gravityLink;
     std::vector<Ball> balls;
-    PMat* ballLeft;
-    PMat* ballCenter;
-    PMat* ballRight;
-    Spring* springLeftCenter;
-    Spring* springCenterRight;
+
+    std::vector<PMat*> ballObjects;
+    std::vector<Spring*> springs;
+    bool bothEndsStatic;
 };
 
 #endif // SIMULATION_H
