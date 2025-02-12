@@ -6,6 +6,11 @@
 #include "Simulation.hpp"
 #include "GUI.hpp"
 
+double getCurrentTime() {
+    // Return seconds as a double
+    return (double)SDL_GetPerformanceCounter() / (double)SDL_GetPerformanceFrequency();
+}
+
 int main(int argc, char* argv[]) {
     // Initialize SDL and set OpenGL attributes for GLSL 330 Core
     if (SDL_Init(SDL_INIT_VIDEO) != 0) {
@@ -46,7 +51,12 @@ int main(int argc, char* argv[]) {
 
     bool running = true;
     SDL_Event event;
-    const float targetFrameTime = 1000.0f / 60.0f; // Fixed 60 fps
+    // double physicsDelta = 1.0 / 100.0;  // 100 Hz physics
+    double renderDelta  = 1.0 / 60.0;   // 60 FPS rendering
+
+    double physicsAccumulator = 0.0;
+    double renderAccumulator  = 0.0;
+    double lastTime = getCurrentTime(); // measure with SDL_GetPerformanceCounter, etc.
 
     while (running) {
         Uint32 frameStart = SDL_GetTicks();
@@ -59,20 +69,38 @@ int main(int argc, char* argv[]) {
         gui.newFrame();
         gui.draw(); // Draw GUI (slider for global parameter)
 
-        // Pass global parameter to simulation and update (dt = 1/60)
+        // Pass global parameter to simulation and update
         simulation.setSpringConstant(gui.getSpringConstant());
         simulation.setDampingCoefficient(gui.getDampingCoefficient());
-        simulation.update(1.0f / 60.0f);
+        
+        // Convert from steps-per-second to a delta time
+        int physicsSteps = gui.getPhysicsSteps();  // 1 to 1000
+        double physicsDelta = 1.0 / double(physicsSteps);
 
-        // std::cout << "Simulation Start: " << std::endl;
-        renderer.render(simulation);  // Render balls (from simulation)
-        gui.render();  // Render the GUI on top
+        // Accumulator timing
+        double now = getCurrentTime();
+        double elapsed = now - lastTime;  // time in seconds
+        lastTime = now;
 
-        SDL_GL_SwapWindow(window);
+        physicsAccumulator += elapsed;
+        renderAccumulator  += elapsed;
 
-        Uint32 frameTime = SDL_GetTicks() - frameStart;
-        if (frameTime < targetFrameTime)
-            SDL_Delay(targetFrameTime - frameTime);
+        // 1) Do physics updates at fixed 100 Hz
+        while (physicsAccumulator >= physicsDelta) {
+            simulation.update(physicsDelta);
+            physicsAccumulator -= physicsDelta;
+        }
+
+        // 2) Render at ~60 FPS if enough time has passed
+        if (renderAccumulator >= renderDelta) {
+            renderer.render(simulation);
+            gui.render();  
+            SDL_GL_SwapWindow(window);
+
+            renderAccumulator -= renderDelta;
+        }
+
+
     }
 
     gui.cleanup();

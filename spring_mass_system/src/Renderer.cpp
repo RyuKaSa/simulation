@@ -95,7 +95,7 @@ void Renderer::render(const Simulation& simulation) {
     glUseProgram(shaderProgram);
     // perspective camera
     auto projection = glm::perspective(glm::radians(45.0f), 16.0f / 9.0f, 0.1f, 100.0f);
-    auto view = glm::lookAt(glm::vec3(0.0f, 0.0f, 1.0f), glm::vec3(0.0f, 0.0f, 0.0f), glm::vec3(0.0f, 1.0f, 0.0f));
+    auto view = glm::lookAt(glm::vec3(0.0f, 0.0f, 5.0f), glm::vec3(0.0f, 0.0f, 0.0f), glm::vec3(0.0f, 1.0f, 0.0f));
     // Render each ball.
     for (const auto& ball : simulation.getBalls()) {
         glm::mat4 model = glm::translate(glm::mat4(1.0f), ball.position);

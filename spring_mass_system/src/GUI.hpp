@@ -15,9 +15,11 @@ public:
     void cleanup();
     float getSpringConstant() const;
     float getDampingCoefficient() const;
+    int getPhysicsSteps() const;
 private:
     float springConstant;
     float dampingCoefficient;
+    int physicsSteps;
 };
 
 #endif // GUI_H

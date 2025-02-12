@@ -3,7 +3,9 @@
 #include "imgui_impl_sdl2.h"
 #include "imgui_impl_opengl3.h"
 
-GUI::GUI(SDL_Window* window, SDL_GLContext glContext) : springConstant(100.0f), dampingCoefficient(0.0f) {
+GUI::GUI(SDL_Window* window, SDL_GLContext glContext)
+    : springConstant(50.0f), dampingCoefficient(0.0f), physicsSteps(60) {
+
     // Initialize ImGui context.
     IMGUI_CHECKVERSION();
     ImGui::CreateContext();
@@ -24,6 +26,7 @@ void GUI::draw() {
     ImGui::Begin("Physics Parameters");
     ImGui::SliderFloat("Spring Constant", &springConstant, 0.0f, 500.0f);
     ImGui::SliderFloat("Damping Coefficient", &dampingCoefficient, 0.0f, 5.0f);
+    ImGui::SliderInt("Physics Steps", &physicsSteps, 10, 1000);
     ImGui::End();
 }
 
@@ -48,4 +51,8 @@ float GUI::getSpringConstant() const {
 
 float GUI::getDampingCoefficient() const {
     return dampingCoefficient;
+}
+
+int GUI::getPhysicsSteps() const {
+    return physicsSteps;
 }
