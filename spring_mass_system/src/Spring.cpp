@@ -1,12 +1,13 @@
 #include "Spring.hpp"
 #include <glm/glm.hpp>
 
-Spring::Spring(PMat* p1, PMat* p2, float springConstant)
+Spring::Spring(PMat* p1, PMat* p2, float springConstant, float restLengthScale)
     : p1(p1), p2(p2), k(springConstant), z(0.5f)
 {
     // restLength = glm::length(p2->getPosition() - p1->getPosition()) * 0.5f;
     // restLength = glm::distance(p1->getPosition(), p2->getPosition());
-    restLength = 0.5f;
+    float initialDistance = glm::distance(p1->getPosition(), p2->getPosition());
+    restLength = initialDistance * restLengthScale;
 }
 
 void Spring::setSpringConstant(float newK) {
@@ -34,6 +35,30 @@ void Spring::update() {
     glm::vec3 F = -k * (d - restLength) * u + z * (p2->getVelocity() - p1->getVelocity());
     p1->applyForce(F);
     p2->applyForce(-F);
+}
+
+void Spring::Conditional_Update() {
+    float d = glm::distance(p1->getPosition(), p2->getPosition());
+    float maxLength = 1.1f * restLength; // 130% of rest length
+    glm::vec3 u = (p1->getPosition() - p2->getPosition()) / d;
+    glm::vec3 dampingForce = z * (p2->getVelocity() - p1->getVelocity());
+
+    if (d > maxLength) {
+        // Compute how much the spring is extended beyond the max allowed length
+        float extraStretch = d - maxLength;
+        // Normal force computed up to the max allowed extension
+        glm::vec3 normalForce = -k * (maxLength - restLength) * u;
+        // Extra corrective force with a higher stiffness to pull back the extra stretch
+        float k_extra = k * 100.0f; // Increase this factor as needed
+        glm::vec3 extraForce = -k_extra * extraStretch * u;
+        glm::vec3 totalForce = normalForce + extraForce + dampingForce;
+        p1->applyForce(totalForce);
+        p2->applyForce(-totalForce);
+    } else {
+        glm::vec3 F = -k * (d - restLength) * u + dampingForce;
+        p1->applyForce(F);
+        p2->applyForce(-F);
+    }
 }
 
 /*

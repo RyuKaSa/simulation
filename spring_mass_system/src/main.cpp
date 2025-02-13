@@ -99,6 +99,9 @@ int main(int argc, char* argv[]) {
 
             renderAccumulator -= renderDelta;
         }
+        else {
+            gui.render();
+        }
 
 
     }

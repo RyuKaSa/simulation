@@ -52,6 +52,10 @@ Renderer::~Renderer() {
     glDeleteProgram(shaderProgram);
     glDeleteVertexArrays(1, &vao);
     glDeleteBuffers(1, &vbo);
+    glDeleteVertexArrays(1, &gridVAO);
+    glDeleteBuffers(1, &gridVBO);
+    glDeleteVertexArrays(1, &springVAO);
+    glDeleteBuffers(1, &springVBO);
 }
 
 void Renderer::init() {
@@ -65,6 +69,11 @@ void Renderer::init() {
         vertices[(i+1)*3 + 1] = radius * sin(angle);
         vertices[(i+1)*3 + 2] = 0.0f;
     }
+
+    // spring geometry
+    glGenVertexArrays(1, &springVAO);
+    glGenBuffers(1, &springVBO);
+
     glGenVertexArrays(1, &vao);
     glGenBuffers(1, &vbo);
     glBindVertexArray(vao);
@@ -185,6 +194,33 @@ void Renderer::render(const Simulation& simulation) {
         if (speed > maxSpeed) maxSpeed = speed;
     }
 
+    // render springs
+    std::vector<glm::vec3> springEndpoints = simulation.getSpringEndpoints();
+    if (!springEndpoints.empty()) {
+        glBindVertexArray(springVAO);
+        glBindBuffer(GL_ARRAY_BUFFER, springVBO);
+        glBufferData(GL_ARRAY_BUFFER, springEndpoints.size() * sizeof(glm::vec3),
+                    springEndpoints.data(), GL_DYNAMIC_DRAW);
+        glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, 3 * sizeof(float), (void*)0);
+        glEnableVertexAttribArray(0);
+        
+        // Use a distinct color for springs (blue in this case)
+        unsigned int colorLoc = glGetUniformLocation(shaderProgram, "uColor");
+        glUniform3f(colorLoc, 0.0f, 0.0f, 1.0f);
+        
+        // Reset model matrix to identity (since spring endpoints are in world space)
+        glm::mat4 identityModel = glm::mat4(1.0f);
+        unsigned int modelLoc = glGetUniformLocation(shaderProgram, "uModel");
+        glUniformMatrix4fv(modelLoc, 1, GL_FALSE, glm::value_ptr(identityModel));
+        
+        // Recompute the MVP using the identity model matrix
+        glm::mat4 mvp = projection * view * identityModel;
+        unsigned int mvpLoc = glGetUniformLocation(shaderProgram, "uMVP");
+        glUniformMatrix4fv(mvpLoc, 1, GL_FALSE, glm::value_ptr(mvp));
+        
+        glDrawArrays(GL_LINES, 0, springEndpoints.size());
+    }
+
     // Render each ball with velocity-based color
     for (size_t i = 0; i < simulation.getBalls().size(); i++) {
         float speed = glm::length(velocities[i]);
@@ -232,7 +268,7 @@ void Renderer::adjustCameraToFit(const Simulation& simulation) {
 
     // Compute camera distance based on bounding box size
     float maxExtent = glm::length(maxPos - minPos);
-    float distance = maxExtent * 2.0f;  // Increase for padding
+    float distance = maxExtent * 1.2f;  // Increase for padding
 
     // Set target values for Lerp
     targetPosition = glm::vec3(center.x, center.y, distance);

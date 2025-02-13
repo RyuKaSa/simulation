@@ -31,6 +31,8 @@ private:
     int gridVertexCount;
     void initGrid();
     void renderGrid(const glm::mat4& projection, const glm::mat4& view);
+
+    unsigned int springVAO, springVBO;
 };
 
 #endif // RENDERER_H
