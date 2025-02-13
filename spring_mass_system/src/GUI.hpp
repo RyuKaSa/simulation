@@ -3,6 +3,7 @@
 
 #include <SDL.h>
 #include <SDL_opengl.h>
+#include <iostream>
 
 class GUI {
 public:
@@ -16,10 +17,13 @@ public:
     float getSpringConstant() const;
     float getDampingCoefficient() const;
     int getPhysicsSteps() const;
+    bool isResetRequested();
+    void clearResetFlag();
 private:
     float springConstant;
     float dampingCoefficient;
     int physicsSteps;
+    bool reset;
 };
 
 #endif // GUI_H

@@ -19,7 +19,11 @@ class Simulation {
 public:
     Simulation();
     ~Simulation();
-    
+
+    void Initialization();
+
+    void reset();
+
     void update(float dt);
     void setSpringConstant(float k);
     void setDampingCoefficient(float z);

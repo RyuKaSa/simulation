@@ -44,7 +44,8 @@ void main() {
 
 Renderer::Renderer() {
     init();
-    cameraPosition = glm::vec3(0.0f, 0.0f, 5.0f);
+    targetDistance = 10.0f;
+    cameraPosition = glm::vec3(0.0f, 0.0f, targetDistance);
     cameraTarget = glm::vec3(0.0f, 0.0f, 0.0f);
 }
 
@@ -88,8 +89,8 @@ void Renderer::init() {
 void Renderer::initGrid() {
     // We'll create grid lines on the X-Y plane, covering a region from -20 to 20 in both X and Y.
     std::vector<float> gridVertices;
-    float gridSize = 50.0f;
-    float spacing = 1.0f;  // You can adjust spacing as desired
+    float gridSize = 150.0f;
+    float spacing = 1.0f;
     
     // Vertical lines: constant X, Y goes from -gridSize to gridSize
     for (float x = -gridSize; x <= gridSize; x += spacing) {
@@ -178,7 +179,7 @@ void Renderer::render(const Simulation& simulation) {
     glUseProgram(shaderProgram);
 
     // Perspective camera using lerped values
-    auto projection = glm::perspective(glm::radians(45.0f), 16.0f/9.0f, 0.1f, 100.0f);
+    auto projection = glm::perspective(glm::radians(45.0f), 16.0f/9.0f, 0.1f, 1000.0f);
     auto view = glm::lookAt(cameraPosition, cameraTarget, glm::vec3(0.0f, 1.0f, 0.0f));
 
     // First, render the grid
@@ -188,7 +189,7 @@ void Renderer::render(const Simulation& simulation) {
     std::vector<glm::vec3> velocities = simulation.getParticleVelocities();
 
     // Find the maximum velocity magnitude
-    float maxSpeed = 0.01f;
+    float maxSpeed = 0.03f;
     for (const auto& velocity : velocities) {
         float speed = glm::length(velocity);
         if (speed > maxSpeed) maxSpeed = speed;
@@ -251,14 +252,12 @@ void Renderer::render(const Simulation& simulation) {
 
 void Renderer::adjustCameraToFit(const Simulation& simulation) {
     std::vector<glm::vec3> positions = simulation.getParticlePositions();
-    
     if (positions.empty()) return;
 
-    // Compute bounding box
+    // Compute bounding box and center
     glm::vec3 minPos = positions[0];
     glm::vec3 maxPos = positions[0];
     glm::vec3 center(0.0f);
-
     for (const auto& pos : positions) {
         minPos = glm::min(minPos, pos);
         maxPos = glm::max(maxPos, pos);
@@ -266,11 +265,40 @@ void Renderer::adjustCameraToFit(const Simulation& simulation) {
     }
     center /= static_cast<float>(positions.size());
 
-    // Compute camera distance based on bounding box size
+    // Compute a new desired distance based on the bounding box size
     float maxExtent = glm::length(maxPos - minPos);
-    float distance = maxExtent * 1.2f;  // Increase for padding
+    float newDistance = maxExtent * 1.1f;  // Add some padding
 
-    // Set target values for Lerp
-    targetPosition = glm::vec3(center.x, center.y, distance);
-    targetCenter   = center;  // Look at the center of the system
+    // Clamp the new distance to avoid extreme zooms
+    const float minDistance = 5.0f;
+    const float maxDistance = 100.0f;
+    newDistance = glm::clamp(newDistance, minDistance, maxDistance);
+
+    // Lerp the target distance to smooth the transition over frames
+    targetDistance = glm::mix(targetDistance, newDistance, lerpFactor);
+
+    // Update target center and target position using the smoothed distance
+    targetCenter = center;
+    targetPosition = center + glm::vec3(0.0f, 0.0f, targetDistance);
+}
+
+void Renderer::cameraReset(const Simulation& simulation) {
+    std::vector<glm::vec3> positions = simulation.getParticlePositions();
+    if (positions.empty()) return;
+
+    // Compute bounding box and center
+    glm::vec3 minPos = positions[0];
+    glm::vec3 maxPos = positions[0];
+    glm::vec3 center(0.0f);
+    for (const auto& pos : positions) {
+        minPos = glm::min(minPos, pos);
+        maxPos = glm::max(maxPos, pos);
+        center += pos;
+    }
+    center /= static_cast<float>(positions.size());
+
+    // Set the camera target directly to the center
+    cameraTarget = center;
+    cameraPosition = glm::vec3(center.x, center.y, 5.0f);
+
 }

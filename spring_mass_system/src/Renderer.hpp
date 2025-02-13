@@ -11,6 +11,7 @@ public:
     ~Renderer();
     void render(const Simulation& simulation);
     void adjustCameraToFit(const Simulation& simulation);
+    void cameraReset(const Simulation& simulation);
 
 private:
     unsigned int shaderProgram;
@@ -24,7 +25,8 @@ private:
     glm::vec3 cameraTarget;  
     glm::vec3 targetPosition;
     glm::vec3 targetCenter;
-    float lerpFactor = 0.02f;
+    float targetDistance;
+    float lerpFactor = 0.06f;
 
     // Grid geometry
     unsigned int gridVAO, gridVBO;

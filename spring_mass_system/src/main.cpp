@@ -51,7 +51,6 @@ int main(int argc, char* argv[]) {
 
     bool running = true;
     SDL_Event event;
-    // double physicsDelta = 1.0 / 100.0;  // 100 Hz physics
     double renderDelta  = 1.0 / 60.0;   // 60 FPS rendering
 
     double physicsAccumulator = 0.0;
@@ -69,12 +68,20 @@ int main(int argc, char* argv[]) {
         gui.newFrame();
         gui.draw(); // Draw GUI (slider for global parameter)
 
+        // Check for a reset request.
+        if (gui.isResetRequested()) {
+            simulation.reset();
+            renderer.cameraReset(simulation);
+            // Clear the reset flag
+            gui.clearResetFlag();
+        }
+
         // Pass global parameter to simulation and update
         simulation.setSpringConstant(gui.getSpringConstant());
         simulation.setDampingCoefficient(gui.getDampingCoefficient());
         
         // Convert from steps-per-second to a delta time
-        int physicsSteps = gui.getPhysicsSteps();  // 1 to 1000
+        int physicsSteps = gui.getPhysicsSteps();
         double physicsDelta = 1.0 / double(physicsSteps);
 
         // Accumulator timing
@@ -85,7 +92,7 @@ int main(int argc, char* argv[]) {
         physicsAccumulator += elapsed;
         renderAccumulator  += elapsed;
 
-        // 1) Do physics updates at fixed 100 Hz
+        // 1) Do physics updates
         while (physicsAccumulator >= physicsDelta) {
             simulation.update(physicsDelta);
             physicsAccumulator -= physicsDelta;
@@ -100,7 +107,7 @@ int main(int argc, char* argv[]) {
             renderAccumulator -= renderDelta;
         }
         else {
-            gui.render();
+            gui.render(); // for ensuring gui is rendered every loop iteration
         }
 
 

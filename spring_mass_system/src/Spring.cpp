@@ -39,7 +39,8 @@ void Spring::update() {
 
 void Spring::Conditional_Update() {
     float d = glm::distance(p1->getPosition(), p2->getPosition());
-    float maxLength = 1.1f * restLength; // 130% of rest length
+    float maxLength = 1.1f * restLength;
+    float minLength = 0.9f * restLength;
     glm::vec3 u = (p1->getPosition() - p2->getPosition()) / d;
     glm::vec3 dampingForce = z * (p2->getVelocity() - p1->getVelocity());
 

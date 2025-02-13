@@ -24,9 +24,14 @@ void GUI::newFrame() {
 
 void GUI::draw() {
     ImGui::Begin("Physics Parameters");
-    ImGui::SliderFloat("Spring Constant", &springConstant, 1.0f, 500.0f);
-    ImGui::SliderFloat("Damping Coefficient", &dampingCoefficient, 1.0f, 20.0f);
+    ImGui::SliderFloat("Spring Constant", &springConstant, 0.0f, 1000.0f);
+    ImGui::SliderFloat("Damping Coefficient", &dampingCoefficient, 1.0f, 50.0f);
     ImGui::SliderInt("Physics Steps", &physicsSteps, 10, 10000);
+    
+    if (ImGui::Button("Reset")) {
+        reset = true;
+    }
+    
     ImGui::End();
 }
 
@@ -55,4 +60,14 @@ float GUI::getDampingCoefficient() const {
 
 int GUI::getPhysicsSteps() const {
     return physicsSteps;
+}
+
+bool GUI::isResetRequested() {
+    // std::cout << "reset requested" << std::endl;
+    return reset;
+}
+
+void GUI::clearResetFlag() {
+    std::cout << "reset cleared" << std::endl;
+    reset = false;
 }

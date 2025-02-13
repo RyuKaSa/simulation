@@ -1,17 +1,21 @@
 #include "Simulation.hpp"
 
 Simulation::Simulation() : springConstant(0.5f) {
-    // Create three PMats.
-    // Left and right balls are static (we won't call update on them).
-    // ballLeft   = new PMat(1.0f, glm::vec3(-0.5f, 0.0f, 0.0f));
-    // ballCenter = new PMat(1.0f, glm::vec3( 0.5f, 0.5f, 0.5f));
-    // ballRight  = new PMat(1.0f, glm::vec3( 0.5f, 0.0f, 0.0f));
+    Simulation::Initialization();
+}
 
-    // createCord(21, 10.0f, 0.1f, true); // Default cord setup (3 balls, 1m length, both ends static)
-    // createHexGrid(15, 1.0f, 1.0f); // Default hex grid setup (5 hexagons, 1m hexagon size)
-    createSquareGridWithDiagonals(25, 1.0f, 1.0f); // Default square grid setup (10x10 grid
+void Simulation::Initialization() {
+    // createCord(50, 25.0f, 0.5f, false); // Default cord setup (3 balls, 1m length, both ends static)
+    createHexGrid(50, 0.5f, 1.0f); // Default hex grid setup (5 hexagons, 1m hexagon size)
+    // createSquareGridWithDiagonals(50, 0.5f, 1.0f); // Default square grid setup (10x10 grid
     // gravityLink = new Link(ballObjects, glm::vec3(0.0f, -9.81f, 0.0f));
-    gravityLink = new Link(ballObjects, glm::vec3(5.0f, -9.81f, 0.0f));
+    gravityLink = new Link(ballObjects, glm::vec3(5.0f, -9.81f, -1.0f));
+}
+
+// reset function, call clear, then call simulation
+void Simulation::reset() {
+    std::cout << "RESET initialized" << std::endl;
+    Simulation::Initialization();
 }
 
 Simulation::~Simulation() {
@@ -110,7 +114,7 @@ void Simulation::createHexGrid(int numHexagons, float hexagonSize, float springR
 
             std::vector<int> hexVertexIndices;
             for (int i = 0; i < 6; ++i) {
-                float angle = glm::radians(60.0f * i);
+                float angle = glm::radians(60.0f * i+ 90.0f);
                 glm::vec3 vertex = center + glm::vec3(hexagonSize * cos(angle),
                                                        hexagonSize * sin(angle),
                                                        0.0f);
@@ -122,6 +126,10 @@ void Simulation::createHexGrid(int numHexagons, float hexagonSize, float springR
                 int idx2 = hexVertexIndices[(i+1) % 6];
                 edgeSet.insert(std::minmax(idx1, idx2));
             }
+            // Add interior diagonals (3 more springs per hexagon)
+            // edgeSet.insert(std::minmax(hexVertexIndices[0], hexVertexIndices[3]));
+            // edgeSet.insert(std::minmax(hexVertexIndices[1], hexVertexIndices[4]));
+            // edgeSet.insert(std::minmax(hexVertexIndices[2], hexVertexIndices[5]));
         }
     }
 
@@ -147,7 +155,6 @@ void Simulation::createHexGrid(int numHexagons, float hexagonSize, float springR
         spring->setDampingCoefficient(0.5f);
         springs.push_back(spring);
     }
-
 }
 
 void Simulation::createSquareGridWithDiagonals(int gridSize, float spacing, float springRestLength) {
@@ -250,7 +257,7 @@ void Simulation::clearSimulation() {
     }
     ballObjects.clear();
 
-    balls.clear(); // Clear visual representation
+    balls.clear();
 
     if (gravityLink) {
         delete gravityLink;
