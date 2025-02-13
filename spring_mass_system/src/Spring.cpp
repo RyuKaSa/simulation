@@ -40,25 +40,28 @@ void Spring::update() {
 void Spring::Conditional_Update() {
     float d = glm::distance(p1->getPosition(), p2->getPosition());
     float maxLength = 1.1f * restLength;
-    float minLength = 0.9f * restLength;
     glm::vec3 u = (p1->getPosition() - p2->getPosition()) / d;
     glm::vec3 dampingForce = z * (p2->getVelocity() - p1->getVelocity());
 
     if (d > maxLength) {
-        // Compute how much the spring is extended beyond the max allowed length
         float extraStretch = d - maxLength;
-        // Normal force computed up to the max allowed extension
         glm::vec3 normalForce = -k * (maxLength - restLength) * u;
-        // Extra corrective force with a higher stiffness to pull back the extra stretch
-        float k_extra = k * 100.0f; // Increase this factor as needed
+        float k_extra = k * 100.0f;
         glm::vec3 extraForce = -k_extra * extraStretch * u;
         glm::vec3 totalForce = normalForce + extraForce + dampingForce;
-        p1->applyForce(totalForce);
-        p2->applyForce(-totalForce);
+        
+        { // Lock p1 while applying force
+          std::lock_guard<std::mutex> lock(p1->mtx);
+          p1->applyForce(totalForce);
+        }
+        { // Lock p2 while applying force
+          std::lock_guard<std::mutex> lock(p2->mtx);
+          p2->applyForce(-totalForce);
+        }
     } else {
         glm::vec3 F = -k * (d - restLength) * u + dampingForce;
-        p1->applyForce(F);
-        p2->applyForce(-F);
+        { std::lock_guard<std::mutex> lock(p1->mtx); p1->applyForce(F); }
+        { std::lock_guard<std::mutex> lock(p2->mtx); p2->applyForce(-F); }
     }
 }
 

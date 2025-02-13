@@ -16,9 +16,14 @@ public:
 private:
     unsigned int shaderProgram;
     unsigned int vao, vbo;
+    unsigned int instanceVBO;
+    
     void init();
     void initShaders();
     int numSegments = 32;
+
+    // Cached uniform locations
+    int mvpLoc, modelLoc, colorLoc, useInstanceLoc, gridSpacingLoc;
 
     // Camera properties
     glm::vec3 cameraPosition;
@@ -34,6 +39,7 @@ private:
     void initGrid();
     void renderGrid(const glm::mat4& projection, const glm::mat4& view);
 
+    // Spring geometry
     unsigned int springVAO, springVBO;
 };
 

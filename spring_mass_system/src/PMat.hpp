@@ -2,6 +2,7 @@
 #define PMAT_HPP
 
 #include <glm/glm.hpp>
+#include <mutex>
 
 class PMat {
 public:
@@ -22,6 +23,8 @@ public:
 
     // Reset accumulated force (should be called after update)
     void resetForce();
+
+    std::mutex mtx;
     
 private:
     float mass;

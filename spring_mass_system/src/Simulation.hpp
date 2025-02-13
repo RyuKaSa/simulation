@@ -9,6 +9,9 @@
 #include <iostream>
 #include <set>
 #include <utility>
+#include <thread>
+#include <algorithm>
+
 
 struct Ball {
     glm::vec3 position;
