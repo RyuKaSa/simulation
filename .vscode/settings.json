@@ -26,6 +26,7 @@
         "__debug": "cpp",
         "atomic": "cpp",
         "exception": "cpp",
-        "algorithm": "cpp"
+        "algorithm": "cpp",
+        "__mutex_base": "cpp"
     }
 }

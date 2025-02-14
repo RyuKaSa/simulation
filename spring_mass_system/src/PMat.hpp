@@ -3,6 +3,7 @@
 
 #include <glm/glm.hpp>
 #include <mutex>
+#include <atomic>
 
 class PMat {
 public:
@@ -10,6 +11,8 @@ public:
     
     // Apply an external force
     void applyForce(const glm::vec3& force);
+
+    void applyForceThreadSafe(const glm::vec3& force);
     
     // Update position and velocity
     void update(float dt);
@@ -31,6 +34,7 @@ private:
     glm::vec3 pos;
     glm::vec3 vel;
     glm::vec3 forceAccum;
+    std::atomic<glm::vec3> forceAccumAtomic;
 };
 
 #endif // PMAT_HPP

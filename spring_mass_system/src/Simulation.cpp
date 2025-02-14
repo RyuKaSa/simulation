@@ -6,7 +6,7 @@ Simulation::Simulation() : springConstant(0.5f) {
 
 void Simulation::Initialization() {
     // createCord(50, 25.0f, 0.5f, false); // Default cord setup (3 balls, 1m length, both ends static)
-    createHexGrid(50, 0.5f, 1.0f); // Default hex grid setup (5 hexagons, 1m hexagon size)
+    createHexGrid(100, 0.5f, 1.0f); // Default hex grid setup (5 hexagons, 1m hexagon size)
     // createSquareGridWithDiagonals(50, 0.5f, 1.0f); // Default square grid setup (10x10 grid
     // gravityLink = new Link(ballObjects, glm::vec3(0.0f, -9.81f, 0.0f));
     gravityLink = new Link(ballObjects, glm::vec3(5.0f, -9.81f, -1.0f));
@@ -40,30 +40,56 @@ void Simulation::setDampingCoefficient(float z) {
 }
 
 void Simulation::update(float dt) {
-    for (Spring* spring : springs)
-        // spring->update();
-        spring->Conditional_Update();
-
+    // --- Parallel Spring Update ---
+    unsigned int numThreads = std::thread::hardware_concurrency();
+    if (numThreads == 0)
+        numThreads = 2;
+    std::vector<std::thread> threads;
+    size_t numSprings = springs.size();
+    size_t chunkSize = (numSprings + numThreads - 1) / numThreads;
+    for (unsigned int t = 0; t < numThreads; t++) {
+        size_t start = t * chunkSize;
+        size_t end = std::min(start + chunkSize, numSprings);
+        threads.push_back(std::thread([this, start, end]() {
+            for (size_t i = start; i < end; i++) {
+                springs[i]->Conditional_Update();
+            }
+        }));
+    }
+    for (auto &th : threads) {
+        th.join();
+    }
+    
     if (gravityLink)
         applyGravityLink();
-
-    bool useStaticFlags = (ballStaticFlags.size() == ballObjects.size());
-    for (size_t i = 0; i < ballObjects.size(); i++) {
-        bool isStatic = useStaticFlags 
-                         ? ballStaticFlags[i] 
-                         : (bothEndsStatic ? (i == 0 || i == ballObjects.size()-1) : (i == 0));
-        if (isStatic)
-            ballObjects[i]->update_fixed(dt);
-        else
-            ballObjects[i]->update(dt);
+    
+    // --- Parallel Particle Update ---
+    size_t numParticles = ballObjects.size();
+    size_t chunkSizeParticles = (numParticles + numThreads - 1) / numThreads;
+    threads.clear();
+    for (unsigned int t = 0; t < numThreads; t++) {
+        size_t start = t * chunkSizeParticles;
+        size_t end = std::min(start + chunkSizeParticles, numParticles);
+        threads.push_back(std::thread([this, dt, start, end]() {
+            for (size_t i = start; i < end; i++) {
+                bool isStatic = (ballStaticFlags.size() == ballObjects.size())
+                                  ? ballStaticFlags[i]
+                                  : (bothEndsStatic ? (i == 0 || i == ballObjects.size()-1) : (i == 0));
+                if (isStatic)
+                    ballObjects[i]->update_fixed(dt);
+                else
+                    ballObjects[i]->update(dt);
+            }
+        }));
     }
-
-    for (size_t i = 0; i < ballObjects.size(); i++)
+    for (auto &th : threads) {
+        th.join();
+    }
+    
+    // Update the positions in the "balls" array
+    for (size_t i = 0; i < ballObjects.size(); i++) {
         balls[i].position = ballObjects[i]->getPosition();
-}
-
-const std::vector<Ball>& Simulation::getBalls() const {
-    return balls;
+    }
 }
 
 void Simulation::createCord(int numBalls, float length, float springRestLength, bool bothEndsStatic) {
@@ -263,4 +289,9 @@ void Simulation::clearSimulation() {
         delete gravityLink;
         gravityLink = nullptr;
     }
+}
+
+// get balls
+const std::vector<Ball>& Simulation::getBalls() const {
+    return balls;
 }

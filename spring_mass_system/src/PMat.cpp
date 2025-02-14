@@ -1,14 +1,25 @@
 #include "PMat.hpp"
 
 PMat::PMat(float mass, const glm::vec3& position, const glm::vec3& velocity)
-    : mass(mass), pos(position), vel(velocity), forceAccum(0.0f) { }
+    : mass(mass), pos(position), vel(velocity), forceAccum(0.0f), forceAccumAtomic(glm::vec3(0.0f)) { }
 
-void PMat::applyForce(const glm::vec3& force) {
+    void PMat::applyForce(const glm::vec3& force) {
+    forceAccum += force;
+}
+
+void PMat::applyForceThreadSafe(const glm::vec3& force) {
+    std::scoped_lock lock(mtx);
     forceAccum += force;
 }
 
 void PMat::update(float dt) {
-    glm::vec3 acceleration = forceAccum / mass;
+    // Lock to safely read forceAccum
+    glm::vec3 appliedForce;
+    {
+        std::scoped_lock lock(mtx);
+        appliedForce = forceAccum;
+    }
+    glm::vec3 acceleration = appliedForce / mass;
     vel += acceleration * dt;
     pos += vel * dt;
     resetForce();
@@ -20,6 +31,7 @@ void PMat::update_fixed(float dt) {
 }
 
 void PMat::resetForce() {
+    std::scoped_lock lock(mtx);
     forceAccum = glm::vec3(0.0f);
 }
 

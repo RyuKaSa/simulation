@@ -4,7 +4,7 @@
 #include "imgui_impl_opengl3.h"
 
 GUI::GUI(SDL_Window* window, SDL_GLContext glContext)
-    : springConstant(200.0f), dampingCoefficient(10.0f), physicsSteps(4000) {
+    : springConstant(200.0f), dampingCoefficient(10.0f), physicsSteps(1000) {
 
     // Initialize ImGui context.
     IMGUI_CHECKVERSION();

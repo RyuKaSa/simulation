@@ -43,26 +43,20 @@ void Spring::Conditional_Update() {
     glm::vec3 u = (p1->getPosition() - p2->getPosition()) / d;
     glm::vec3 dampingForce = z * (p2->getVelocity() - p1->getVelocity());
 
+    glm::vec3 totalForce;
     if (d > maxLength) {
         float extraStretch = d - maxLength;
         glm::vec3 normalForce = -k * (maxLength - restLength) * u;
         float k_extra = k * 100.0f;
         glm::vec3 extraForce = -k_extra * extraStretch * u;
-        glm::vec3 totalForce = normalForce + extraForce + dampingForce;
-        
-        { // Lock p1 while applying force
-          std::lock_guard<std::mutex> lock(p1->mtx);
-          p1->applyForce(totalForce);
-        }
-        { // Lock p2 while applying force
-          std::lock_guard<std::mutex> lock(p2->mtx);
-          p2->applyForce(-totalForce);
-        }
+        totalForce = normalForce + extraForce + dampingForce;
     } else {
-        glm::vec3 F = -k * (d - restLength) * u + dampingForce;
-        { std::lock_guard<std::mutex> lock(p1->mtx); p1->applyForce(F); }
-        { std::lock_guard<std::mutex> lock(p2->mtx); p2->applyForce(-F); }
+        totalForce = -k * (d - restLength) * u + dampingForce;
     }
+
+    // Apply force atomically (Now correctly per instance)
+    p1->applyForceThreadSafe(totalForce);
+    p2->applyForceThreadSafe(-totalForce);
 }
 
 /*

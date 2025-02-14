@@ -14,7 +14,7 @@ void Link::applyGravity() {
 
     for (PMat* particle : particleList) {
         if (particle) {
-            particle->applyForce(forceValue);
+            particle->applyForceThreadSafe(forceValue);
         }
     }
 }
