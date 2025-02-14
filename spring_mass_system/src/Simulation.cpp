@@ -6,7 +6,7 @@ Simulation::Simulation() : springConstant(0.5f) {
 
 void Simulation::Initialization() {
     // createCord(50, 25.0f, 0.5f, false); // Default cord setup (3 balls, 1m length, both ends static)
-    createHexGrid(100, 0.5f, 1.0f); // Default hex grid setup (5 hexagons, 1m hexagon size)
+    createHexGrid(60, 0.5f, 1.0f); // Default hex grid setup (5 hexagons, 1m hexagon size)
     // createSquareGridWithDiagonals(50, 0.5f, 1.0f); // Default square grid setup (10x10 grid
     // gravityLink = new Link(ballObjects, glm::vec3(0.0f, -9.81f, 0.0f));
     gravityLink = new Link(ballObjects, glm::vec3(5.0f, -9.81f, -1.0f));
