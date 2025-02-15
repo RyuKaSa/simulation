@@ -21,8 +21,12 @@ public:
     bool isResetRequested();
     void clearResetFlag();
 
-    bool isThrowCubeRequested() const;
-    void clearThrowCubeFlag();
+    bool isThrowBallRequested() const;
+    void clearThrowBallFlag();
+
+    void setPerformanceMetrics(float physicsStepTime, float renderFrameTime,
+                               float totalFrameTime, float fps,
+                               int numParticles, int numSprings);
 private:
     float springConstant;
     float dampingCoefficient;
@@ -30,7 +34,15 @@ private:
     float impulseScaling;
     bool reset;
 
-    bool throwCubeRequested;
+    bool throwBallRequested;
+
+    // Performance metrics variables
+    float performancePhysicsStepTime = 0.0f;
+    float performanceRenderFrameTime  = 0.0f;
+    float performanceTotalFrameTime   = 0.0f;
+    float performanceFPS              = 0.0f;
+    int   performanceNumParticles     = 0;
+    int   performanceNumSprings       = 0;
 };
 
 #endif // GUI_H

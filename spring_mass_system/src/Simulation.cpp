@@ -6,7 +6,7 @@ Simulation::Simulation() : springConstant(0.5f) {
 
 void Simulation::Initialization() {
     // createCord(50, 25.0f, 0.5f, true); // Default cord setup (3 balls, 1m length, both ends static)
-    createHexGrid(30, 1.0f, 0.9f, false, 10.0f); // Default hex grid setup (20 hexagons, 1m size, both ends static)
+    createHexGrid(100, 1.0f, 0.9f, false, 10.0f); // Default hex grid setup (20 hexagons, 1m size, both ends static)
     // createSquareGridWithDiagonals(50, 0.5f, 1.0f); // Default square grid setup (10x10 grid
     // gravityLink = new Link(ballObjects, glm::vec3(0.0f, -9.81f, 0.0f));
     gravityLink = new Link(ballObjects, glm::vec3(30.81f, 0.0f, 0.0f));
@@ -250,6 +250,7 @@ void Simulation::createHexGrid(int numHexagons, float hexagonSize, float springR
         b.position = pos;
         b.color = glm::vec3(1.0f, 0.0f, 0.0f);
         b.type = ParticleType::STRUCTURE;
+        b.dimensions = glm::vec3(3.0f);
         balls.push_back(b);
     }
 
@@ -463,22 +464,19 @@ bool Simulation::isPointInTriangle(const glm::vec3& point,
     return (u >= 0.0f) && (v >= 0.0f) && (u + v <= 1.0f);
 }
 
-void Simulation::throwCube(const glm::vec3& cameraPos, const glm::vec3& cameraDir,
+void Simulation::throwBall(const glm::vec3& cameraPos, const glm::vec3& cameraDir,
                              float speed, float mass, const glm::vec3& dimensions) {
     glm::vec3 spawnPos = cameraPos + cameraDir * 1.0f;
     glm::vec3 initialVelocity = cameraDir * speed;
-    CubeParticle* cube = new CubeParticle(mass, spawnPos, initialVelocity, dimensions, ParticleType::EXTERNAL);
-    ballObjects.push_back(cube);
+    BallParticle* ball = new BallParticle(mass, spawnPos, initialVelocity, dimensions, ParticleType::EXTERNAL);
+    ballObjects.push_back(ball);
     Ball b;
-    b.position = cube->getPosition();
+    b.position = ball->getPosition();
     b.color = glm::vec3(0.0f, 1.0f, 0.0f);
-    b.type = cube->type;
+    b.type = ball->type;
+    b.dimensions = ball->getDimensions();
     balls.push_back(b);
-    // Mark the thrown cube as dynamic.
     ballStaticFlags.push_back(false);
-    // std::cout << "size of CubeP : " << sizeof(CubeParticle) << std::endl;
-    // std::cout << "size of PMat  : " << sizeof(PMat) << std::endl;
-
 }
 
 void Simulation::applyGravityLink() {
@@ -545,8 +543,8 @@ void Simulation::clearSimulation() {
     springs.clear();
 
     for (PMat* ball : ballObjects) {
-        if (dynamic_cast<CubeParticle*>(ball)) {
-            // std::cout << "Deleting CubeParticle: " << ball << std::endl;
+        if (dynamic_cast<BallParticle*>(ball)) {
+            // std::cout << "Deleting BallParticle: " << ball << std::endl;
         } else {
             // std::cout << "Deleting PMat: " << ball << std::endl;
         }
@@ -590,4 +588,3 @@ std::vector<glm::vec3> Simulation::getHexHitboxTriangles() const {
     }
     return vertices;
 }
-

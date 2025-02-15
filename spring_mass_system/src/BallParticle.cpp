@@ -1,7 +1,7 @@
-#include "CubeParticle.hpp"
+#include "BallParticle.hpp"
 #include <glm/gtx/transform.hpp>
 
-CubeParticle::CubeParticle(float mass, 
+BallParticle::BallParticle(float mass, 
                            const glm::vec3& position, 
                            const glm::vec3& velocity,
                            const glm::vec3& dimensions, 
@@ -10,19 +10,19 @@ CubeParticle::CubeParticle(float mass,
 {
 }
 
-const glm::vec3& CubeParticle::getDimensions() const {
+const glm::vec3& BallParticle::getDimensions() const {
     return dims;
 }
 
-void CubeParticle::setDimensions(const glm::vec3& dimensions) {
+void BallParticle::setDimensions(const glm::vec3& dimensions) {
     dims = dimensions;
 }
 
-CubeParticle* CubeParticle::spawnCube(const glm::vec3& spawnPosition,
+BallParticle* BallParticle::spawnBall(const glm::vec3& spawnPosition,
                                       const glm::vec3& dimensions,
                                       float mass,
                                       const glm::vec3& gravity) {
-    // Give the cube a small initial velocity in the direction of gravity.
+    // Give the ball a small initial velocity in the direction of gravity.
     glm::vec3 initialVelocity = gravity * 0.1f;
-    return new CubeParticle(mass, spawnPosition, initialVelocity, dimensions, ParticleType::EXTERNAL);
+    return new BallParticle(mass, spawnPosition, initialVelocity, dimensions, ParticleType::EXTERNAL);
 }

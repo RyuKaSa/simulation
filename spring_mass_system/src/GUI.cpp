@@ -4,7 +4,12 @@
 #include "imgui_impl_opengl3.h"
 
 GUI::GUI(SDL_Window* window, SDL_GLContext glContext)
-    : springConstant(200.0f), dampingCoefficient(0.5f), physicsSteps(700), reset(false), throwCubeRequested(false), impulseScaling(1000.0f)
+    : springConstant(200.0f),
+      dampingCoefficient(0.5f),
+      physicsSteps(200),
+      reset(false),
+      throwBallRequested(false),
+      impulseScaling(1000.0f)
 {
     // Initialize ImGui context.
     IMGUI_CHECKVERSION();
@@ -23,6 +28,7 @@ void GUI::newFrame() {
 }
 
 void GUI::draw() {
+    // Draw the original parameter window.
     ImGui::Begin("Physics Parameters");
     
     ImGui::SliderFloat("Spring Constant", &springConstant, 0.0f, 1000.0f);
@@ -34,11 +40,20 @@ void GUI::draw() {
         reset = true;
     }
     
-    // New button to throw a cube:
-    if (ImGui::Button("Throw Cube")) {
-        throwCubeRequested = true;
+    if (ImGui::Button("Throw Ball")) {
+        throwBallRequested = true;
     }
     
+    ImGui::End();
+
+    // --- New window for performance metrics ---
+    ImGui::Begin("Performance Metrics");
+    ImGui::Text("Physics Step Time: %.3f ms", performancePhysicsStepTime * 1000.0f);
+    ImGui::Text("Render Frame Time: %.3f ms", performanceRenderFrameTime * 1000.0f);
+    ImGui::Text("Total Frame Time: %.3f ms", performanceTotalFrameTime * 1000.0f);
+    ImGui::Text("FPS: %.1f", performanceFPS);
+    ImGui::Text("Particles: %d", performanceNumParticles);
+    ImGui::Text("Springs: %d", performanceNumSprings);
     ImGui::End();
 }
 
@@ -77,16 +92,28 @@ bool GUI::isResetRequested() {
     return reset;
 }
 
-// New functions for cube throwing:
-bool GUI::isThrowCubeRequested() const {
-    return throwCubeRequested;
+bool GUI::isThrowBallRequested() const {
+    return throwBallRequested;
 }
 
-void GUI::clearThrowCubeFlag() {
-    throwCubeRequested = false;
+void GUI::clearThrowBallFlag() {
+    throwBallRequested = false;
 }
 
 void GUI::clearResetFlag() {
     std::cout << "reset cleared" << std::endl;
     reset = false;
+}
+
+// New setter for performance metrics
+void GUI::setPerformanceMetrics(float physicsStepTime, float renderFrameTime,
+                                float totalFrameTime, float fps,
+                                int numParticles, int numSprings)
+{
+    performancePhysicsStepTime = physicsStepTime;
+    performanceRenderFrameTime  = renderFrameTime;
+    performanceTotalFrameTime   = totalFrameTime;
+    performanceFPS              = fps;
+    performanceNumParticles     = numParticles;
+    performanceNumSprings       = numSprings;
 }

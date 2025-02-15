@@ -11,17 +11,17 @@
 #include <utility>
 #include <thread>
 #include <algorithm>
-#include "CubeParticle.hpp"
+#include "BallParticle.hpp"
 #include <array>
 #include <numeric>
 #include <glm/gtx/norm.hpp>
 #include <glm/gtc/constants.hpp>
 #include <glm/gtx/compatibility.hpp>
-
 struct Ball {
     glm::vec3 position;
     glm::vec3 color;
     ParticleType type;
+    glm::vec3 dimensions;
 };
 
 struct HexFace {
@@ -64,7 +64,7 @@ public:
     void createSquareGridWithDiagonals(int gridSize, float spacing, float springRestLength);
     void applyGravityLink();
 
-    void throwCube(const glm::vec3& cameraPos, const glm::vec3& cameraDir,
+    void throwBall(const glm::vec3& cameraPos, const glm::vec3& cameraDir,
                 float speed = 10.0f, float mass = 1.0f,
                 const glm::vec3& dimensions = glm::vec3(0.5f));
 

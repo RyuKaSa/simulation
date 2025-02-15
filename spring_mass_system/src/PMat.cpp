@@ -18,7 +18,6 @@ void PMat::applyForceThreadSafe(const glm::vec3& force) {
 }
 
 void PMat::update(float dt) {
-    // Lock to safely read forceAccum
     glm::vec3 appliedForce;
     {
         std::scoped_lock lock(mtx);
@@ -31,7 +30,6 @@ void PMat::update(float dt) {
 
     // Append the current velocity to the history.
     velocityHistory.push_back(vel);
-    // Keep only the last x entries.
     if (velocityHistory.size() > 100) {
         velocityHistory.pop_front();
     }

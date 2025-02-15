@@ -48,6 +48,9 @@ private:
     unsigned int springVAO, springVBO;
 
     unsigned int hexVAO, hexVBO;
+
+    // Maximum number of instances to support
+    static const size_t maxInstances = 10000;
 };
 
 #endif // RENDERER_H

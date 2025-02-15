@@ -5,31 +5,31 @@
 #include "PMat.hpp"
 #include <glm/glm.hpp>
 
-class CubeParticle : public PMat {
+class BallParticle : public PMat {
 public:
     // Constructor: mass, position, velocity, dimensions, and type (default to EXTERNAL)
-    CubeParticle(float mass, 
+    BallParticle(float mass, 
                  const glm::vec3& position, 
                  const glm::vec3& velocity,
                  const glm::vec3& dimensions, 
                  ParticleType type = ParticleType::EXTERNAL);
     
-    virtual ~CubeParticle() {}
+    virtual ~BallParticle() {}
 
-    // Getter for cube dimensions
+    // Getter for ball dimensions
     const glm::vec3& getDimensions() const;
 
-    // Setter for cube dimensions
+    // Setter for ball dimensions
     void setDimensions(const glm::vec3& dimensions);
 
     // (Optional) A basic spawn function that gives a small initial velocity from gravity.
-    static CubeParticle* spawnCube(const glm::vec3& spawnPosition,
+    static BallParticle* spawnBall(const glm::vec3& spawnPosition,
                                    const glm::vec3& dimensions,
                                    float mass,
                                    const glm::vec3& gravity);
 
 private:
-    glm::vec3 dims; // dimensions of the cube (width, height, depth)
+    glm::vec3 dims; // dimensions of the ball (width, height, depth)
 };
 
 #endif // CUBE_PARTICLE_HPP
