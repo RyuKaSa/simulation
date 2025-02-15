@@ -6,10 +6,10 @@ Simulation::Simulation() : springConstant(0.5f) {
 
 void Simulation::Initialization() {
     // createCord(50, 25.0f, 0.5f, true); // Default cord setup (3 balls, 1m length, both ends static)
-    createHexGrid(15, 1.0f, 0.7f, true, 30.0f); // Default hex grid setup (20 hexagons, 1m size, both ends static)
+    createHexGrid(15, 1.0f, 0.7f, false, 30.0f); // Default hex grid setup (20 hexagons, 1m size, both ends static)
     // createSquareGridWithDiagonals(50, 0.5f, 1.0f); // Default square grid setup (10x10 grid
     // gravityLink = new Link(ballObjects, glm::vec3(0.0f, -9.81f, 0.0f));
-    gravityLink = new Link(ballObjects, glm::vec3(0.0f, -9.81f, 1.0f));
+    gravityLink = new Link(ballObjects, glm::vec3(9.81f, 0.0f, 0.0f));
 }
 
 void Simulation::reset() {
@@ -119,7 +119,8 @@ void Simulation::update(float dt) {
 void Simulation::updateHexFaces() {
     hexFaces.clear();
     // Use hexagonIndices to update hitboxes based on current particle positions.
-    for (const auto& hexIndices : hexagonIndices) {
+    for (size_t h = 0; h < hexagonIndices.size(); ++h) {
+        const auto& hexIndices = hexagonIndices[h];
         std::vector<glm::vec3> currentHexVertices;
         for (int idx : hexIndices) {
             currentHexVertices.push_back(ballObjects[idx]->getPosition());
@@ -139,6 +140,7 @@ void Simulation::updateHexFaces() {
             glm::vec3 edge1 = currentHexVertices[i] - center;
             glm::vec3 edge2 = currentHexVertices[next] - center;
             face.normal = glm::normalize(glm::cross(edge1, edge2));
+            face.hexagonIndex = static_cast<int>(h);
             hexFaces.push_back(face);
         }
     }
@@ -382,23 +384,38 @@ void Simulation::collisionDetectionAndResolution(float dt) {
         for (const HexFace& face : hexFaces) {
             glm::vec3 planePoint = face.triangle[0];
             glm::vec3 normal = face.normal;
-
-            // Calculate signed distance
             float dist = glm::dot(pos - planePoint, normal);
 
-            // Only check front-facing collisions
-            if (dist > collisionOffset || dist < 0.0f) continue;
+            // Only check front-facing collisions.
+            if (dist > collisionOffset || dist < 0.0f)
+                continue;
 
-            // Point-in-triangle test
             if (isPointInTriangle(pos, face.triangle, normal)) {
-                // Position correction
-                glm::vec3 correction = normal * (collisionOffset - dist);
-                extP->addCorrection(correction);
+                // Total correction impulse required to separate the objects.
+                glm::vec3 totalCorrection = normal * (collisionOffset - dist) * impulseScaling;
+                // Apply half correction to the external particle.
+                extP->addCorrection(totalCorrection * 0.5f);
 
-                // Velocity reflection
-                float velDot = glm::dot(vel, normal);
-                if (velDot < 0) { // Only reflect if moving toward surface
-                    glm::vec3 reflected = vel - (1.0f + restitution) * velDot * normal;
+                // Now, distribute the other half among the structure particles that belong to this hexagon.
+                // Retrieve the indices for this hexagon:
+                const std::vector<int>& indices = hexagonIndices[face.hexagonIndex];
+                glm::vec3 structureCorrection = -(totalCorrection * 0.5f) / static_cast<float>(indices.size());
+                for (int idx : indices) {
+                    // Apply position correction to each structure particle.
+                    ballObjects[idx]->addCorrection(structureCorrection);
+
+                    glm::vec3 structVel = ballObjects[idx]->getVelocity();
+                    float velDot = glm::dot(structVel, normal);
+                    if (velDot < 0) {
+                        glm::vec3 newVel = structVel - (1.0f + restitution) * velDot * normal;
+                        ballObjects[idx]->reflectVelocity(newVel);
+                    }
+                }
+
+                // Also reflect velocity for the external particle.
+                float extVelDot = glm::dot(vel, normal);
+                if (extVelDot < 0) {
+                    glm::vec3 reflected = vel - (1.0f + restitution) * extVelDot * normal;
                     extP->reflectVelocity(reflected);
                 }
             }
@@ -557,3 +574,4 @@ std::vector<glm::vec3> Simulation::getHexHitboxTriangles() const {
     }
     return vertices;
 }
+

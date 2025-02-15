@@ -4,7 +4,7 @@
 #include "imgui_impl_opengl3.h"
 
 GUI::GUI(SDL_Window* window, SDL_GLContext glContext)
-    : springConstant(200.0f), dampingCoefficient(0.5f), physicsSteps(400), reset(false), throwCubeRequested(false)
+    : springConstant(200.0f), dampingCoefficient(0.5f), physicsSteps(700), reset(false), throwCubeRequested(false), impulseScaling(1000.0f)
 {
     // Initialize ImGui context.
     IMGUI_CHECKVERSION();
@@ -26,8 +26,9 @@ void GUI::draw() {
     ImGui::Begin("Physics Parameters");
     
     ImGui::SliderFloat("Spring Constant", &springConstant, 0.0f, 1000.0f);
-    ImGui::SliderFloat("Damping Coefficient", &dampingCoefficient, 0.0f, 2.0f);
+    ImGui::SliderFloat("Damping Coefficient", &dampingCoefficient, 0.0f, 4.0f);
     ImGui::SliderInt("Physics Steps", &physicsSteps, 180, 1000);
+    ImGui::SliderFloat("Impulse Scaling", &impulseScaling, 0.0f, 5000.0f);
     
     if (ImGui::Button("Reset")) {
         reset = true;
@@ -66,6 +67,10 @@ float GUI::getDampingCoefficient() const {
 
 int GUI::getPhysicsSteps() const {
     return physicsSteps;
+}
+
+float GUI::getImpulseScaling() const {
+    return impulseScaling;
 }
 
 bool GUI::isResetRequested() {

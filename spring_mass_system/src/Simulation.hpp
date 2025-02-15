@@ -27,6 +27,7 @@ struct Ball {
 struct HexFace {
     std::array<glm::vec3, 3> triangle; // Store as triangles for collision
     glm::vec3 normal;
+    int hexagonIndex;
 };
 
 class Simulation {
@@ -50,6 +51,10 @@ public:
     const std::vector<glm::vec3> getParticleVelocities() const;
     const std::vector<glm::vec3> getStructureParticleVelocities() const;
     std::vector<glm::vec3> getSpringEndpoints() const;
+
+    // getter for impulseScaling
+    float getImpulseScaling() const { return impulseScaling; }
+    void setImpulseScaling(float scaling) { impulseScaling = scaling; }
 
     std::vector<glm::vec3> getHexHitboxTriangles() const;
 
@@ -81,6 +86,7 @@ private:
     std::vector<std::vector<int>> hexagonIndices;
 
     mutable std::recursive_mutex simulationMutex;
+    float impulseScaling = 1000.0f;
 };
 
 #endif // SIMULATION_H

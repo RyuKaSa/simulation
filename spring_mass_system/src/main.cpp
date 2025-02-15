@@ -80,13 +80,14 @@ int main(int argc, char* argv[]) {
             glm::vec3 camPos = renderer.getCameraPosition();
             // Compute the normalized camera direction:
             glm::vec3 camDir = glm::normalize(renderer.getCameraTarget() - camPos);
-            simulation.throwCube(camPos, camDir, 30.0f, 1.0f, glm::vec3(1.0f));
+            simulation.throwCube(camPos, camDir, 30.0f, 100.0f, glm::vec3(2.0f));
             gui.clearThrowCubeFlag();
         }
 
         // Pass global parameter to simulation and update
         simulation.setSpringConstant(gui.getSpringConstant());
         simulation.setDampingCoefficient(gui.getDampingCoefficient());
+        simulation.setImpulseScaling(gui.getImpulseScaling());
         
         // Convert from steps-per-second to a delta time
         int physicsSteps = gui.getPhysicsSteps();

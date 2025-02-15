@@ -17,6 +17,7 @@ public:
     float getSpringConstant() const;
     float getDampingCoefficient() const;
     int getPhysicsSteps() const;
+    float getImpulseScaling() const;
     bool isResetRequested();
     void clearResetFlag();
 
@@ -26,6 +27,7 @@ private:
     float springConstant;
     float dampingCoefficient;
     int physicsSteps;
+    float impulseScaling;
     bool reset;
 
     bool throwCubeRequested;
