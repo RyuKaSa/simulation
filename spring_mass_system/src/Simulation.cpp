@@ -6,10 +6,10 @@ Simulation::Simulation() : springConstant(0.5f) {
 
 void Simulation::Initialization() {
     // createCord(50, 25.0f, 0.5f, true); // Default cord setup (3 balls, 1m length, both ends static)
-    createHexGrid(15, 1.0f, 0.7f, false, 30.0f); // Default hex grid setup (20 hexagons, 1m size, both ends static)
+    createHexGrid(30, 1.0f, 0.9f, false, 10.0f); // Default hex grid setup (20 hexagons, 1m size, both ends static)
     // createSquareGridWithDiagonals(50, 0.5f, 1.0f); // Default square grid setup (10x10 grid
     // gravityLink = new Link(ballObjects, glm::vec3(0.0f, -9.81f, 0.0f));
-    gravityLink = new Link(ballObjects, glm::vec3(9.81f, 0.0f, 0.0f));
+    gravityLink = new Link(ballObjects, glm::vec3(30.81f, 0.0f, 0.0f));
 }
 
 void Simulation::reset() {
@@ -365,8 +365,8 @@ void Simulation::createSquareGridWithDiagonals(int gridSize, float spacing, floa
 }
 
 void Simulation::collisionDetectionAndResolution(float dt) {
-    const float collisionOffset = 0.2f; // Increased offset
-    const float restitution = 0.8f; // Bounce energy
+    const float collisionOffset = 0.1f; // Increased offset
+    const float restitution = 0.8f;       // Bounce energy
 
     std::vector<PMat*> externalParticles;
     for (PMat* p : ballObjects) {
@@ -391,19 +391,35 @@ void Simulation::collisionDetectionAndResolution(float dt) {
                 continue;
 
             if (isPointInTriangle(pos, face.triangle, normal)) {
-                // Total correction impulse required to separate the objects.
+                // Compute total correction impulse required to separate the objects.
                 glm::vec3 totalCorrection = normal * (collisionOffset - dist) * impulseScaling;
-                // Apply half correction to the external particle.
-                extP->addCorrection(totalCorrection * 0.5f);
 
-                // Now, distribute the other half among the structure particles that belong to this hexagon.
-                // Retrieve the indices for this hexagon:
+                // Mass-based weighting:
+                // Let m_external be the mass of the external particle.
+                float m_external = extP->getMass();
+                // Retrieve the indices for the hexagon that produced this face.
                 const std::vector<int>& indices = hexagonIndices[face.hexagonIndex];
-                glm::vec3 structureCorrection = -(totalCorrection * 0.5f) / static_cast<float>(indices.size());
+                // Compute total mass of the structure particles involved.
+                float m_structure = 0.0f;
                 for (int idx : indices) {
-                    // Apply position correction to each structure particle.
+                    m_structure += ballObjects[idx]->getMass();
+                }
+                float totalMass = m_external + m_structure;
+                if(totalMass < 1e-6f)
+                    totalMass = 1e-6f;
+                // Define mass-based fractions:
+                float extFraction = m_structure / totalMass;    // External particle gets a fraction proportional to the structure mass.
+                float structFraction = m_external / totalMass;    // Structure gets a fraction proportional to the external mass.
+
+                // Apply correction:
+                extP->addCorrection(totalCorrection * extFraction);
+
+                // Distribute the remaining correction among the structure particles.
+                glm::vec3 structureCorrection = -(totalCorrection * structFraction) / static_cast<float>(indices.size());
+                for (int idx : indices) {
                     ballObjects[idx]->addCorrection(structureCorrection);
 
+                    // Reflect velocity for structure particles.
                     glm::vec3 structVel = ballObjects[idx]->getVelocity();
                     float velDot = glm::dot(structVel, normal);
                     if (velDot < 0) {
