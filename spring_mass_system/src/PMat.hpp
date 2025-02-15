@@ -4,11 +4,17 @@
 #include <glm/glm.hpp>
 #include <mutex>
 #include <atomic>
+#include <deque>
+
+enum class ParticleType {
+    STRUCTURE,
+    EXTERNAL
+};
 
 class PMat {
 public:
-    PMat(float mass, const glm::vec3& position, const glm::vec3& velocity = glm::vec3(0.0f));
-    
+    PMat(float mass, const glm::vec3& position, ParticleType type = ParticleType::STRUCTURE, const glm::vec3& velocity = glm::vec3(0.0f));
+
     // Apply an external force
     void applyForce(const glm::vec3& force);
 
@@ -23,11 +29,25 @@ public:
     // Getters
     const glm::vec3& getPosition() const;
     const glm::vec3& getVelocity() const;
+    // get mass
+    float getMass() const;
+    
+
+    void addCorrection(const glm::vec3& correction);
+    glm ::vec3 getAverageVelocity() const;
+    void reflectVelocity(const glm::vec3& newVel);
+
+
 
     // Reset accumulated force (should be called after update)
     void resetForce();
 
-    std::mutex mtx;
+    virtual ~PMat() {}
+
+    mutable std::mutex mtx;
+
+    unsigned int id;             // a unique id assigned at creation
+    ParticleType type;           // distinguishes structure vs. external
     
 private:
     float mass;
@@ -35,6 +55,8 @@ private:
     glm::vec3 vel;
     glm::vec3 forceAccum;
     std::atomic<glm::vec3> forceAccumAtomic;
+
+    std::deque<glm::vec3> velocityHistory;
 };
 
 #endif // PMAT_HPP

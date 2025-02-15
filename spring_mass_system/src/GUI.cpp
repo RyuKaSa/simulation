@@ -4,8 +4,8 @@
 #include "imgui_impl_opengl3.h"
 
 GUI::GUI(SDL_Window* window, SDL_GLContext glContext)
-    : springConstant(200.0f), dampingCoefficient(10.0f), physicsSteps(1000) {
-
+    : springConstant(200.0f), dampingCoefficient(0.5f), physicsSteps(400), reset(false), throwCubeRequested(false)
+{
     // Initialize ImGui context.
     IMGUI_CHECKVERSION();
     ImGui::CreateContext();
@@ -24,12 +24,18 @@ void GUI::newFrame() {
 
 void GUI::draw() {
     ImGui::Begin("Physics Parameters");
+    
     ImGui::SliderFloat("Spring Constant", &springConstant, 0.0f, 1000.0f);
-    ImGui::SliderFloat("Damping Coefficient", &dampingCoefficient, 1.0f, 50.0f);
-    ImGui::SliderInt("Physics Steps", &physicsSteps, 10, 10000);
+    ImGui::SliderFloat("Damping Coefficient", &dampingCoefficient, 0.0f, 2.0f);
+    ImGui::SliderInt("Physics Steps", &physicsSteps, 180, 1000);
     
     if (ImGui::Button("Reset")) {
         reset = true;
+    }
+    
+    // New button to throw a cube:
+    if (ImGui::Button("Throw Cube")) {
+        throwCubeRequested = true;
     }
     
     ImGui::End();
@@ -63,8 +69,16 @@ int GUI::getPhysicsSteps() const {
 }
 
 bool GUI::isResetRequested() {
-    // std::cout << "reset requested" << std::endl;
     return reset;
+}
+
+// New functions for cube throwing:
+bool GUI::isThrowCubeRequested() const {
+    return throwCubeRequested;
+}
+
+void GUI::clearThrowCubeFlag() {
+    throwCubeRequested = false;
 }
 
 void GUI::clearResetFlag() {

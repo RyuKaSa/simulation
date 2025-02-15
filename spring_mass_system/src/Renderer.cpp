@@ -62,6 +62,8 @@ Renderer::~Renderer() {
     glDeleteBuffers(1, &gridVBO);
     glDeleteVertexArrays(1, &springVAO);
     glDeleteBuffers(1, &springVBO);
+    glDeleteVertexArrays(1, &hexVAO);
+    glDeleteBuffers(1, &hexVBO);
 }
 
 void Renderer::init() {
@@ -110,13 +112,17 @@ void Renderer::init() {
     // Initialize spring VAO/VBO (for batched spring rendering)
     glGenVertexArrays(1, &springVAO);
     glGenBuffers(1, &springVBO);
+
+    // Initialize hexagon VAO/VBO (for hex grid rendering)
+    glGenVertexArrays(1, &hexVAO);
+    glGenBuffers(1, &hexVBO);
 }
 
 void Renderer::initGrid() {
     // Create grid lines on the X-Y plane covering a large region.
     std::vector<float> gridVertices;
-    float gridSize = 150.0f;
-    float spacing = 1.0f;
+    float gridSize = 300.0f;
+    float spacing = 4.0f;
     
     // Vertical lines
     for (float x = -gridSize; x <= gridSize; x += spacing) {
@@ -210,11 +216,14 @@ void Renderer::render(const Simulation& simulation) {
     cameraTarget = glm::mix(cameraTarget, targetCenter, lerpFactor);
     
     glClearColor(0.7f, 0.7f, 0.7f, 1.0f);
-    glClear(GL_COLOR_BUFFER_BIT);
+    glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
     glUseProgram(shaderProgram);
     
     auto projection = glm::perspective(glm::radians(45.0f), 16.0f/9.0f, 0.1f, 1000.0f);
     auto view = glm::lookAt(cameraPosition, cameraTarget, glm::vec3(0.0f, 1.0f, 0.0f));
+
+    glEnable(GL_DEPTH_TEST);
+    glDepthFunc(GL_LESS);
     
     // Render grid (disable instancing)
     glUniform1i(useInstanceLoc, 0);
@@ -225,16 +234,29 @@ void Renderer::render(const Simulation& simulation) {
         glUniformMatrix4fv(mvpLoc, 1, GL_FALSE, glm::value_ptr(mvp));
         renderGrid(projection, view);
     }
+
+    // Render hex hitboxes
+    renderHexHitboxes(simulation, projection, view);
     
     // --- Render Springs (batched) ---
     std::vector<glm::vec3> springEndpoints = simulation.getSpringEndpoints();
     if (!springEndpoints.empty()) {
+        // Compute a small offset in the direction from the target to the camera
+        glm::vec3 camDir = glm::normalize(cameraPosition - cameraTarget);
+        glm::vec3 offset = 0.01f * camDir; // springs moved 0.001 closer to the camera
+
+        // Apply the offset to each spring endpoint (only for rendering)
+        for (auto &pt : springEndpoints) {
+            pt += offset;
+        }
+        
         glBindVertexArray(springVAO);
         glBindBuffer(GL_ARRAY_BUFFER, springVBO);
         glBufferData(GL_ARRAY_BUFFER, springEndpoints.size() * sizeof(glm::vec3),
-                     springEndpoints.data(), GL_DYNAMIC_DRAW);
+                    springEndpoints.data(), GL_DYNAMIC_DRAW);
         glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, 3 * sizeof(float), (void*)0);
         glEnableVertexAttribArray(0);
+        
         // For springs, disable instancing.
         glUniform1i(useInstanceLoc, 0);
         glUniform3f(colorLoc, 0.0f, 0.0f, 1.0f); // Blue springs
@@ -250,35 +272,52 @@ void Renderer::render(const Simulation& simulation) {
     const auto& balls = simulation.getBalls();
     std::vector<glm::vec3> velocities = simulation.getParticleVelocities();
 
-    // Determine maximum speed to normalize velocities (start with a small value)
-    float maxSpeed = 0.03f;
-    for (const auto& vel : velocities) {
-        float speed = glm::length(vel);
-        if (speed > maxSpeed) {
-            maxSpeed = speed;
+    // 1) Determine maximum speed among *structure only*:
+    float maxStructureSpeed = 0.01f; // a small nonzero to avoid divide-by-zero
+    for (size_t i = 0; i < balls.size(); i++)
+    {
+        if (balls[i].type == ParticleType::STRUCTURE) {
+            float speed = glm::length(velocities[i]);
+            if (speed > maxStructureSpeed) {
+                maxStructureSpeed = speed;
+            }
         }
     }
 
+    // 2) Build instance data for rendering:
     std::vector<float> instanceData;
-    instanceData.reserve(balls.size() * 6);
-    for (size_t i = 0; i < balls.size(); i++) {
+    instanceData.reserve(balls.size() * 6);  // 3 for position + 3 for color
+
+    for (size_t i = 0; i < balls.size(); i++)
+    {
         const auto& ball = balls[i];
-        float speed = glm::length(velocities[i]);
-        // Compute a normalized speed between 0 and 1.
-        float normalizedSpeed = glm::clamp(speed / maxSpeed, 0.0f, 1.0f);
-        // Mix from green (slow) to red (fast).
-        glm::vec3 color = glm::mix(glm::vec3(0.0f, 1.0f, 0.0f), 
-                                glm::vec3(1.0f, 0.0f, 0.0f), 
-                                normalizedSpeed);
-        // Push ball position (instance offset)
+        glm::vec3 color;
+
+        // if ParticleType::EXTERNAL
+        if (ball.type == ParticleType::EXTERNAL) {
+            color = glm::vec3(0.0f, 1.0f, 0.0f); // green
+        }
+        else {
+            // STRUCTURE: color from green to red based on speed
+            float speed = glm::length(velocities[i]);
+            float normalized = (maxStructureSpeed < 1e-6f)
+                            ? 0.0f
+                            : glm::clamp(speed / maxStructureSpeed, 0.0f, 1.0f);
+            color = glm::mix(glm::vec3(0.0f, 1.0f, 0.0f),  // green
+                            glm::vec3(1.0f, 0.0f, 0.0f),  // red
+                            normalized);
+        }
+
+        // Position
         instanceData.push_back(ball.position.x);
         instanceData.push_back(ball.position.y);
         instanceData.push_back(ball.position.z);
-        // Push the computed color
+        // Color
         instanceData.push_back(color.r);
         instanceData.push_back(color.g);
         instanceData.push_back(color.b);
     }
+
     glBindBuffer(GL_ARRAY_BUFFER, instanceVBO);
     glBufferData(GL_ARRAY_BUFFER, instanceData.size() * sizeof(float),
                 instanceData.data(), GL_DYNAMIC_DRAW);
@@ -296,8 +335,40 @@ void Renderer::render(const Simulation& simulation) {
     glBindVertexArray(0);
 }
 
+void Renderer::renderHexHitboxes(const Simulation& simulation, const glm::mat4& projection, const glm::mat4& view) {
+    // Get all hitbox triangle vertices from the simulation.
+    std::vector<glm::vec3> triangles = simulation.getHexHitboxTriangles();
+    if (triangles.empty())
+        return;
+    
+    // Disable instancing (we're doing simple batched drawing)
+    glUniform1i(useInstanceLoc, 0);
+    // Set a light blue color (e.g., RGB: 0.68, 0.85, 0.90)
+    glUniform3f(colorLoc, 0.68f, 0.85f, 0.90f);
+    
+    // Set model and MVP matrices (here, we assume an identity model)
+    glm::mat4 model = glm::mat4(1.0f);
+    glUniformMatrix4fv(modelLoc, 1, GL_FALSE, glm::value_ptr(model));
+    glm::mat4 mvp = projection * view * model;
+    glUniformMatrix4fv(mvpLoc, 1, GL_FALSE, glm::value_ptr(mvp));
+    
+    // Bind our hex hitbox VAO and update its vertex buffer with the batched triangle data.
+    glBindVertexArray(hexVAO);
+    glBindBuffer(GL_ARRAY_BUFFER, hexVBO);
+    glBufferData(GL_ARRAY_BUFFER, triangles.size() * sizeof(glm::vec3), triangles.data(), GL_DYNAMIC_DRAW);
+    // Attribute 0: vertex position (3 floats per vertex)
+    glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, sizeof(glm::vec3), (void*)0);
+    glEnableVertexAttribArray(0);
+    
+    // Draw all triangles in one call.
+    glDrawArrays(GL_TRIANGLES, 0, static_cast<GLsizei>(triangles.size()));
+    
+    glBindVertexArray(0);
+}
+
 void Renderer::adjustCameraToFit(const Simulation& simulation) {
-    std::vector<glm::vec3> positions = simulation.getParticlePositions();
+    // Use only structure particle positions.
+    std::vector<glm::vec3> positions = simulation.getStructureParticlePositions();
     if (positions.empty()) return;
 
     glm::vec3 minPos = positions[0];
@@ -323,19 +394,39 @@ void Renderer::adjustCameraToFit(const Simulation& simulation) {
 }
 
 void Renderer::cameraReset(const Simulation& simulation) {
-    std::vector<glm::vec3> positions = simulation.getParticlePositions();
+    // Retrieve structure particle positions
+    std::vector<glm::vec3> positions = simulation.getStructureParticlePositions();
     if (positions.empty()) return;
 
+    // Compute bounding box and center
     glm::vec3 minPos = positions[0];
     glm::vec3 maxPos = positions[0];
-    glm::vec3 center(0.0f);
+    glm::vec3 sum(0.0f);
     for (const auto& pos : positions) {
         minPos = glm::min(minPos, pos);
         maxPos = glm::max(maxPos, pos);
-        center += pos;
+        sum += pos;
     }
-    center /= static_cast<float>(positions.size());
+    glm::vec3 center = sum / static_cast<float>(positions.size());
 
+    // Compute extent and clamp it to avoid extreme values
+    float extent = glm::length(maxPos - minPos);
+    const float maxAllowedExtent = 200.0f; // maximum extent considered reasonable
+    extent = glm::min(extent, maxAllowedExtent);
+
+    // Determine the new camera distance with a minimum fallback
+    const float minDistance = 5.0f;
+    float desiredDistance = glm::max(extent * 1.1f, minDistance);
+
+    const float maxCenterDistance = 200.0f;
+    if (glm::length(center) > maxCenterDistance) {
+        center = glm::normalize(center) * maxCenterDistance;
+    }
+
+    // Immediately update camera variables (bypassing the lerp)
     cameraTarget = center;
-    cameraPosition = glm::vec3(center.x, center.y, 5.0f);
+    targetCenter = center;
+    targetDistance = desiredDistance;
+    targetPosition = center + glm::vec3(0.0f, 0.0f, 0.0f);
+    cameraPosition = targetPosition; // directly set the camera position
 }

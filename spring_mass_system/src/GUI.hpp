@@ -19,11 +19,16 @@ public:
     int getPhysicsSteps() const;
     bool isResetRequested();
     void clearResetFlag();
+
+    bool isThrowCubeRequested() const;
+    void clearThrowCubeFlag();
 private:
     float springConstant;
     float dampingCoefficient;
     int physicsSteps;
     bool reset;
+
+    bool throwCubeRequested;
 };
 
 #endif // GUI_H

@@ -76,6 +76,14 @@ int main(int argc, char* argv[]) {
             gui.clearResetFlag();
         }
 
+        if (gui.isThrowCubeRequested()) {
+            glm::vec3 camPos = renderer.getCameraPosition();
+            // Compute the normalized camera direction:
+            glm::vec3 camDir = glm::normalize(renderer.getCameraTarget() - camPos);
+            simulation.throwCube(camPos, camDir, 30.0f, 1.0f, glm::vec3(1.0f));
+            gui.clearThrowCubeFlag();
+        }
+
         // Pass global parameter to simulation and update
         simulation.setSpringConstant(gui.getSpringConstant());
         simulation.setDampingCoefficient(gui.getDampingCoefficient());
@@ -109,8 +117,6 @@ int main(int argc, char* argv[]) {
         else {
             gui.render(); // for ensuring gui is rendered every loop iteration
         }
-
-
     }
 
     gui.cleanup();

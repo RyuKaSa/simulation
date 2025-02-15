@@ -10,10 +10,9 @@ void Link::applyGravity() {
         return;
     }
 
-    // std::cout << "Applying gravity to " << particleList.size() << " particles..." << std::endl;
-
     for (PMat* particle : particleList) {
-        if (particle) {
+        // Only apply gravity if the particle is part of the structure.
+        if (particle && particle->type == ParticleType::STRUCTURE) {
             particle->applyForceThreadSafe(forceValue);
         }
     }

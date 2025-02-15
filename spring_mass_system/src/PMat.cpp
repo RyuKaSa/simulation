@@ -1,9 +1,14 @@
 #include "PMat.hpp"
 
-PMat::PMat(float mass, const glm::vec3& position, const glm::vec3& velocity)
-    : mass(mass), pos(position), vel(velocity), forceAccum(0.0f), forceAccumAtomic(glm::vec3(0.0f)) { }
+static std::atomic<unsigned int> globalParticleId{0};
 
-    void PMat::applyForce(const glm::vec3& force) {
+PMat::PMat(float mass, const glm::vec3& position, ParticleType type, const glm::vec3& velocity)
+    : mass(mass), pos(position), vel(velocity), forceAccum(0.0f), type(type)
+{
+    id = globalParticleId.fetch_add(1);
+}
+
+void PMat::applyForce(const glm::vec3& force) {
     forceAccum += force;
 }
 
@@ -23,6 +28,25 @@ void PMat::update(float dt) {
     vel += acceleration * dt;
     pos += vel * dt;
     resetForce();
+
+    // Append the current velocity to the history.
+    velocityHistory.push_back(vel);
+    // Keep only the last x entries.
+    if (velocityHistory.size() > 100) {
+        velocityHistory.pop_front();
+    }
+}
+
+glm::vec3 PMat::getAverageVelocity() const {
+    std::scoped_lock lock(mtx);
+    glm::vec3 sum(0.0f);
+    for (const auto& v : velocityHistory) {
+        sum += v;
+    }
+    // If history is empty (should only happen at the very start), return zero.
+    if (velocityHistory.empty())
+        return glm::vec3(0.0f);
+    return sum / static_cast<float>(velocityHistory.size());
 }
 
 void PMat::update_fixed(float dt) {
@@ -40,9 +64,23 @@ const glm::vec3& PMat::getPosition() const {
 }
 
 const glm::vec3& PMat::getVelocity() const {
+    std::scoped_lock lock(mtx);
     return vel;
 }
 
+float PMat::getMass() const {
+    return mass;
+}
+
+void PMat::addCorrection(const glm::vec3& correction) {
+    std::scoped_lock lock(mtx);
+    pos += correction;
+}
+
+void PMat::reflectVelocity(const glm::vec3& newVel) {
+    std::scoped_lock lock(mtx);
+    vel = newVel;
+}
 
 /*
 #include <PMat.h>

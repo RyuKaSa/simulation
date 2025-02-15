@@ -12,6 +12,11 @@ public:
     void render(const Simulation& simulation);
     void adjustCameraToFit(const Simulation& simulation);
     void cameraReset(const Simulation& simulation);
+    void renderHexHitboxes(const Simulation& simulation, const glm::mat4& projection, const glm::mat4& view);
+
+    // getters for cam pos and direction
+    glm::vec3 getCameraPosition() const { return cameraPosition; }
+    glm::vec3 getCameraTarget() const { return cameraTarget; }
 
 private:
     unsigned int shaderProgram;
@@ -31,7 +36,7 @@ private:
     glm::vec3 targetPosition;
     glm::vec3 targetCenter;
     float targetDistance;
-    float lerpFactor = 0.06f;
+    float lerpFactor = 0.03f;
 
     // Grid geometry
     unsigned int gridVAO, gridVBO;
@@ -41,6 +46,8 @@ private:
 
     // Spring geometry
     unsigned int springVAO, springVBO;
+
+    unsigned int hexVAO, hexVBO;
 };
 
 #endif // RENDERER_H

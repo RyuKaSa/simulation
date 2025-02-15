@@ -41,7 +41,14 @@ void Spring::Conditional_Update() {
     float d = glm::distance(p1->getPosition(), p2->getPosition());
     float maxLength = 1.1f * restLength;
     glm::vec3 u = (p1->getPosition() - p2->getPosition()) / d;
-    glm::vec3 dampingForce = z * (p2->getVelocity() - p1->getVelocity());
+
+    // Compute effective mass (assumes PMat has a getMass() method)
+    float m_eff = (p1->getMass() + p2->getMass()) * 0.5f;
+    // 'z' is your GUI-exposed damping coefficient; now we scale it with mass and k:
+    float adjustedDamping = 2.0f * z * sqrt(m_eff * k);
+
+    // Use adjustedDamping for the damping force.
+    glm::vec3 dampingForce = adjustedDamping * (p2->getVelocity() - p1->getVelocity());
 
     glm::vec3 totalForce;
     if (d > maxLength) {
@@ -54,7 +61,6 @@ void Spring::Conditional_Update() {
         totalForce = -k * (d - restLength) * u + dampingForce;
     }
 
-    // Apply force atomically (Now correctly per instance)
     p1->applyForceThreadSafe(totalForce);
     p2->applyForceThreadSafe(-totalForce);
 }
