@@ -8,10 +8,8 @@ GUI::GUI(SDL_Window* window, SDL_GLContext glContext)
       dampingCoefficient(0.5f),
       physicsSteps(1000),
       reset(false),
-      throwBallRequested(false),
       impulseScaling(1000.0f)
 {
-    // Initialize ImGui context.
     IMGUI_CHECKVERSION();
     ImGui::CreateContext();
     ImGui_ImplSDL2_InitForOpenGL(window, glContext);
@@ -33,7 +31,6 @@ void GUI::draw() {
     ImGui::SliderFloat("Damping Coefficient", &dampingCoefficient, 0.0f, 20.0f);
     ImGui::SliderFloat("Impulse Scaling", &impulseScaling, 0.0f, 5000.0f);
     if (ImGui::Button("Reset")) { reset = true; }
-    if (ImGui::Button("Throw Ball")) { throwBallRequested = true; }
     ImGui::End();
 
     ImGui::Begin("Performance Metrics");
@@ -80,14 +77,6 @@ float GUI::getImpulseScaling() const {
 
 bool GUI::isResetRequested() {
     return reset;
-}
-
-bool GUI::isThrowBallRequested() const {
-    return throwBallRequested;
-}
-
-void GUI::clearThrowBallFlag() {
-    throwBallRequested = false;
 }
 
 void GUI::clearResetFlag() {

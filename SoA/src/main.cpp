@@ -7,12 +7,10 @@
 #include "GUI.hpp"
 
 double getCurrentTime() {
-    // Return seconds as a double
     return (double)SDL_GetPerformanceCounter() / (double)SDL_GetPerformanceFrequency();
 }
 
 int main(int argc, char* argv[]) {
-    // Initialize SDL and set OpenGL attributes for GLSL 330 Core
     if (SDL_Init(SDL_INIT_VIDEO) != 0) {
         std::cerr << "SDL_Init Error: " << SDL_GetError() << std::endl;
         return -1;
@@ -42,9 +40,8 @@ int main(int argc, char* argv[]) {
         SDL_Quit();
         return -1;
     }
-    SDL_GL_SetSwapInterval(1); // Enable vsync
+    SDL_GL_SetSwapInterval(1);
 
-    // Create modules
     Renderer renderer;
     Simulation simulation;
     GUI gui(window, glContext);
@@ -53,10 +50,6 @@ int main(int argc, char* argv[]) {
 
     bool running = true;
     SDL_Event event;
-    double renderDelta = 1.0 / 60.0;   // target 60 FPS rendering
-
-    double physicsAccumulator = 0.0;
-    double renderAccumulator = 0.0;
     double lastTime = getCurrentTime();
 
     while (running) {
@@ -68,7 +61,6 @@ int main(int argc, char* argv[]) {
             gui.processEvent(event);
         }
 
-        // Process reset/throw ball requests BEFORE starting a new ImGui frame.
         if (gui.isResetRequested()) {
             simulation.stopAsyncUpdates();
             simulation.reset();
@@ -76,29 +68,19 @@ int main(int argc, char* argv[]) {
             gui.clearResetFlag();
             simulation.startAsyncUpdates();
         }
-        if (gui.isThrowBallRequested()) {
-            glm::vec3 camPos = renderer.getCameraPosition();
-            glm::vec3 camDir = glm::normalize(renderer.getCameraTarget() - camPos);
-            simulation.throwBall(camPos, camDir, 60.0f, 100.0f, glm::vec3(25.0f));
-            gui.clearThrowBallFlag();
-        }
 
-        // Update global simulation parameters.
         simulation.setSpringConstant(gui.getSpringConstant());
         simulation.setDampingCoefficient(gui.getDampingCoefficient());
         simulation.setImpulseScaling(gui.getImpulseScaling());
 
-        // Get performance counts.
         int numParticles = simulation.getSnapshotBalls().size();
         int numSprings = simulation.getSpringEndpoints().size() / 2;
 
-        // Begin new ImGui frame.
         gui.newFrame();
         gui.draw();
 
-        // --- Rendering ---
         double renderStart = getCurrentTime();
-        renderer.render(simulation);  // In Renderer::render, use simulation.getSnapshotBalls()
+        renderer.render(simulation);
         gui.render();
         SDL_GL_SwapWindow(window);
         double renderEnd = getCurrentTime();
@@ -108,11 +90,9 @@ int main(int argc, char* argv[]) {
         double totalFrameTime = frameEnd - frameStart;
         double fps = (totalFrameTime > 0.0) ? 1.0 / totalFrameTime : 0.0;
 
-        // Get the physics update time from the simulation thread.
         float physicsStepTime = simulation.lastPhysicsUpdateTime.load();
         int effectiveSteps = simulation.effectiveStepsPerSecond.load();
 
-        // --- Update Performance Metrics in the GUI ---
         gui.setPerformanceMetrics(physicsStepTime,
                                   (float)renderFrameTime,
                                   (float)totalFrameTime,

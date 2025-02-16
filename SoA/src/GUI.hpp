@@ -21,9 +21,6 @@ public:
     bool isResetRequested();
     void clearResetFlag();
 
-    bool isThrowBallRequested() const;
-    void clearThrowBallFlag();
-
     void setPerformanceMetrics(float physicsStepTime, float renderFrameTime,
                                 float totalFrameTime, float fps,
                                 int numParticles, int numSprings,
@@ -34,8 +31,6 @@ private:
     int physicsSteps;
     float impulseScaling;
     bool reset;
-
-    bool throwBallRequested;
 
     // Performance metrics variables:
     float performancePhysicsStepTime = 0.0f;

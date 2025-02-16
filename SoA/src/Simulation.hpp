@@ -43,12 +43,6 @@ struct BallSoA {
     }
 };
 
-struct HexFace {
-    std::array<glm::vec3, 3> triangle;
-    glm::vec3 normal;
-    int hexagonIndex;
-};
-
 class Simulation {
 public:
     Simulation();
@@ -57,8 +51,6 @@ public:
     void Initialization();
     void reset();
     void update(float dt);
-    void updateHexFaces();
-    void collisionDetectionAndResolution(float dt);
 
     void setSpringConstant(float k);
     void setDampingCoefficient(float z);
@@ -74,31 +66,23 @@ public:
     // gravity link usage
     void applyGravityLink();
 
-    // collisions
-    bool isPointInTriangle(const glm::vec3& point, 
-                           const std::array<glm::vec3, 3>& triangle,
-                           const glm::vec3& normal) const;
-
-    void throwBall(const glm::vec3& cameraPos, const glm::vec3& cameraDir,
-                   float speed=10.f, float mass=1.f, const glm::vec3& dims=glm::vec3(0.5f));
-
-    void startAsyncUpdates();
-    void stopAsyncUpdates();
-
-    // rendering queries (keep same signatures)
+    // rendering queries
     const std::vector<Ball>& getBalls() const;
     std::vector<glm::vec3> getParticlePositions() const;
     std::vector<glm::vec3> getStructureParticlePositions() const;
     const std::vector<glm::vec3> getParticleVelocities() const;
     const std::vector<glm::vec3> getStructureParticleVelocities() const;
     std::vector<glm::vec3> getSpringEndpoints() const;
-    std::vector<glm::vec3> getHexHitboxTriangles() const;
 
     void clearSimulation();
 
     const std::vector<Ball>& getSnapshotBalls() const;
     BallSoA getSnapshotSoA() const;
     BallSoA convertBallsToSoA(const std::vector<Ball>& balls) const;
+
+    // Async update methods (added to match definitions in Simulation.cpp)
+    void startAsyncUpdates();
+    void stopAsyncUpdates();
 
     // concurrency info
     std::atomic<int> effectiveStepsPerSecond { 0 };
@@ -112,16 +96,10 @@ private:
     // Vector of all springs
     std::vector<SpringData> springs;
 
-    // For hex collisions
-    std::vector<HexFace> hexFaces;
-    std::vector<std::vector<glm::vec3>> hexagonVertexLists;
-    std::vector<std::vector<int>> hexagonIndices;
-
     // Gravity link that references SoA
     Link* gravityLink = nullptr;
 
-    // For old “Balls” usage in snapshots, collision, etc.
-    // (We keep it so we don't break code that queries getBalls())
+    // For legacy “Ball” usage in snapshots
     std::vector<Ball> balls;
 
     // settings

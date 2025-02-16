@@ -12,9 +12,8 @@ public:
     void render(const Simulation& simulation);
     void adjustCameraToFit(const Simulation& simulation);
     void cameraReset(const Simulation& simulation);
-    void renderHexHitboxes(const Simulation& simulation, const glm::mat4& projection, const glm::mat4& view);
 
-    // getters for cam pos and direction
+    // getters for camera position and target
     glm::vec3 getCameraPosition() const { return cameraPosition; }
     glm::vec3 getCameraTarget() const { return cameraTarget; }
 
@@ -38,7 +37,7 @@ private:
     float targetDistance;
     float lerpFactor = 0.03f;
 
-    float minCameraDistance = 5.0f;   // default minimum camera distance
+    float minCameraDistance = 5.0f;
     float maxCameraDistance = 1000.0f;
 
     // Grid geometry
@@ -49,8 +48,6 @@ private:
 
     // Spring geometry
     unsigned int springVAO, springVBO;
-
-    unsigned int hexVAO, hexVBO;
 
     // Maximum number of instances to support
     static const size_t maxInstances = 10000;

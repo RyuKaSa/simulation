@@ -18,8 +18,8 @@ layout (location = 3) in float scale;     // Ball scale
 
 uniform mat4 uMVP;
 uniform mat4 uModel;
-uniform int useInstance;   // 0 or 1 instead of bool
-uniform vec3 uColor;       // Fallback color when not instanced
+uniform int useInstance;
+uniform vec3 uColor;
 
 out vec3 fColor;
 
@@ -33,7 +33,7 @@ void main()
 }
 )glsl";
 
-// Simplified Fragment Shader using the interpolated color
+// Fragment Shader
 const char* fragmentShaderSource = R"glsl(
 #version 330 core
 in vec3 fColor;
@@ -61,17 +61,13 @@ Renderer::~Renderer() {
     glDeleteBuffers(1, &gridVBO);
     glDeleteVertexArrays(1, &springVAO);
     glDeleteBuffers(1, &springVBO);
-    glDeleteVertexArrays(1, &hexVAO);
-    glDeleteBuffers(1, &hexVBO);
 }
 
 void Renderer::init() {
     initShaders();
     
-    // Create ball geometry (a circle)
     float radius = 0.1f;
     float vertices[(numSegments + 2) * 3];
-    // Center vertex
     vertices[0] = 0.0f; vertices[1] = 0.0f; vertices[2] = 0.0f;
     for (int i = 0; i <= numSegments; i++) {
         float angle = i * 2.0f * 3.1415926f / numSegments;
@@ -80,24 +76,19 @@ void Renderer::init() {
         vertices[(i + 1) * 3 + 2] = 0.0f;
     }
     
-    // Setup ball VAO and VBO for static geometry.
     glGenVertexArrays(1, &vao);
     glGenBuffers(1, &vbo);
     glBindVertexArray(vao);
     glBindBuffer(GL_ARRAY_BUFFER, vbo);
     glBufferData(GL_ARRAY_BUFFER, sizeof(vertices), vertices, GL_STATIC_DRAW);
-    // aPos attribute (location = 0)
     glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, 3 * sizeof(float), (void*)0);
     glEnableVertexAttribArray(0);
     
-    // Create instance VBO for per-instance data.
     glGenBuffers(1, &instanceVBO);
     glBindBuffer(GL_ARRAY_BUFFER, instanceVBO);
-    // Preallocate a buffer large enough for maxInstances
     const GLsizeiptr instanceBufferSize = maxInstances * 7 * sizeof(float);
     glBufferData(GL_ARRAY_BUFFER, instanceBufferSize, nullptr, GL_DYNAMIC_DRAW);
     
-    // Setup instance attributes: offset (location=1), color (location=2), scale (location=3)
     const GLsizei stride = 7 * sizeof(float);
     glVertexAttribPointer(1, 3, GL_FLOAT, GL_FALSE, stride, (void*)0);
     glEnableVertexAttribArray(1);
@@ -115,11 +106,8 @@ void Renderer::init() {
     
     initGrid();
     
-    // Create VAOs/VBOs for springs and hexagons once (resource reuse)
     glGenVertexArrays(1, &springVAO);
     glGenBuffers(1, &springVBO);
-    glGenVertexArrays(1, &hexVAO);
-    glGenBuffers(1, &hexVBO);
 }
 
 void Renderer::initGrid() {
@@ -127,12 +115,10 @@ void Renderer::initGrid() {
     float gridSize = 300.0f;
     float spacing = 4.0f;
     
-    // Vertical lines
     for (float x = -gridSize; x <= gridSize; x += spacing) {
         gridVertices.push_back(x); gridVertices.push_back(-gridSize); gridVertices.push_back(0.0f);
         gridVertices.push_back(x); gridVertices.push_back(gridSize);  gridVertices.push_back(0.0f);
     }
-    // Horizontal lines
     for (float y = -gridSize; y <= gridSize; y += spacing) {
         gridVertices.push_back(-gridSize); gridVertices.push_back(y); gridVertices.push_back(0.0f);
         gridVertices.push_back(gridSize);  gridVertices.push_back(y); gridVertices.push_back(0.0f);
@@ -151,7 +137,7 @@ void Renderer::initGrid() {
 }
 
 void Renderer::renderGrid(const glm::mat4& projection, const glm::mat4& view) {
-    glUniform3f(colorLoc, 0.5f, 0.5f, 0.5f);  // Grid color
+    glUniform3f(colorLoc, 0.5f, 0.5f, 0.5f);
     glUniform1f(gridSpacingLoc, 1.0f);
 
     glm::mat4 model = glm::mat4(1.0f);
@@ -169,7 +155,6 @@ void Renderer::initShaders() {
     int success;
     char infoLog[512];
     
-    // Compile vertex shader
     unsigned int vertexShader = glCreateShader(GL_VERTEX_SHADER);
     glShaderSource(vertexShader, 1, &vertexShaderSource, nullptr);
     glCompileShader(vertexShader);
@@ -179,7 +164,6 @@ void Renderer::initShaders() {
         std::cerr << "Vertex Shader Compilation Failed: " << infoLog << std::endl;
     }
     
-    // Compile fragment shader
     unsigned int fragmentShader = glCreateShader(GL_FRAGMENT_SHADER);
     glShaderSource(fragmentShader, 1, &fragmentShaderSource, nullptr);
     glCompileShader(fragmentShader);
@@ -189,7 +173,6 @@ void Renderer::initShaders() {
         std::cerr << "Fragment Shader Compilation Failed: " << infoLog << std::endl;
     }
     
-    // Link shaders into program
     shaderProgram = glCreateProgram();
     glAttachShader(shaderProgram, vertexShader);
     glAttachShader(shaderProgram, fragmentShader);
@@ -202,7 +185,6 @@ void Renderer::initShaders() {
     glDeleteShader(vertexShader);
     glDeleteShader(fragmentShader);
     
-    // Cache uniform locations for later use
     mvpLoc = glGetUniformLocation(shaderProgram, "uMVP");
     modelLoc = glGetUniformLocation(shaderProgram, "uModel");
     colorLoc = glGetUniformLocation(shaderProgram, "uColor");
@@ -213,21 +195,18 @@ void Renderer::initShaders() {
 void Renderer::render(const Simulation& simulation) {
     adjustCameraToFit(simulation);
     
-    // Smooth camera transition (lerp)
     cameraPosition = glm::mix(cameraPosition, targetPosition, lerpFactor);
     cameraTarget   = glm::mix(cameraTarget, targetCenter, lerpFactor);
     
     glClearColor(0.7f, 0.7f, 0.7f, 1.0f);
     glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
     glUseProgram(shaderProgram);
-    
     auto projection = glm::perspective(glm::radians(45.0f), 16.0f/9.0f, 0.1f, 1000.0f);
-    auto view       = glm::lookAt(cameraPosition, cameraTarget, glm::vec3(0.0f, 1.0f, 0.0f));
+    auto view = glm::lookAt(cameraPosition, cameraTarget, glm::vec3(0.0f, 1.0f, 0.0f));
 
     glEnable(GL_DEPTH_TEST);
     glDepthFunc(GL_LESS);
     
-    // Render grid (non-instanced)
     glUniform1i(useInstanceLoc, 0);
     {
         glm::mat4 model = glm::mat4(1.0f);
@@ -236,11 +215,8 @@ void Renderer::render(const Simulation& simulation) {
         glUniformMatrix4fv(mvpLoc, 1, GL_FALSE, glm::value_ptr(mvp));
         renderGrid(projection, view);
     }
-
-    // Render hex hitboxes (batched, non-instanced)
-    renderHexHitboxes(simulation, projection, view);
     
-    // Render springs (batched)
+    // Render springs
     std::vector<glm::vec3> springEndpoints = simulation.getSpringEndpoints();
     if (!springEndpoints.empty()) {
         glm::vec3 camDir = glm::normalize(cameraPosition - cameraTarget);
@@ -266,19 +242,15 @@ void Renderer::render(const Simulation& simulation) {
         glBindVertexArray(0);
     }
     
-    // --- Render Balls with Instanced Rendering using SoA ---
-    // Retrieve the snapshot from the simulation as a BallSoA.
+    // Render Balls with instanced rendering
     BallSoA soa = simulation.getSnapshotSoA();
     size_t instanceCount = soa.posX.size();
     if (instanceCount > maxInstances)
         instanceCount = maxInstances;
     
-    // For physics-based color calculations, still retrieve velocities (if not converted to SoA)
     std::vector<glm::vec3> velocities = simulation.getParticleVelocities();
     float maxStructureSpeed = 0.01f;
-    // Here we assume that soa.types holds the integer values corresponding to ParticleType.
     for (size_t i = 0; i < instanceCount; i++) {
-        // Compare to ParticleType::STRUCTURE (cast to int)
         if (soa.types[i] == static_cast<int>(ParticleType::STRUCTURE)) {
             float speed = glm::length(velocities[i]);
             if (speed > maxStructureSpeed)
@@ -286,23 +258,18 @@ void Renderer::render(const Simulation& simulation) {
         }
     }
     
-    // Build instance data from the SoA.
     std::vector<float> instanceData;
-    instanceData.reserve(instanceCount * 7); // 7 floats per instance: 3 for position, 3 for color, 1 for scale.
+    instanceData.reserve(instanceCount * 7);
     for (size_t i = 0; i < instanceCount; i++) {
-        // Position:
         instanceData.push_back(soa.posX[i]);
         instanceData.push_back(soa.posY[i]);
         instanceData.push_back(soa.posZ[i]);
-        // Color:
         instanceData.push_back(soa.colorR[i]);
         instanceData.push_back(soa.colorG[i]);
         instanceData.push_back(soa.colorB[i]);
-        // Scale: for simplicity, we use dimsX as a scale value.
         instanceData.push_back(soa.dimsX[i]);
     }
     
-    // Update the instance VBO with the new instance data.
     glBindBuffer(GL_ARRAY_BUFFER, instanceVBO);
     glBufferData(GL_ARRAY_BUFFER, instanceData.size() * sizeof(float),
                  instanceData.data(), GL_DYNAMIC_DRAW);
@@ -316,30 +283,6 @@ void Renderer::render(const Simulation& simulation) {
     }
     glBindVertexArray(vao);
     glDrawArraysInstanced(GL_TRIANGLE_FAN, 0, numSegments + 2, instanceCount);
-    glBindVertexArray(0);
-}
-
-void Renderer::renderHexHitboxes(const Simulation& simulation, const glm::mat4& projection, const glm::mat4& view) {
-    std::vector<glm::vec3> triangles = simulation.getHexHitboxTriangles();
-    if (triangles.empty())
-        return;
-    
-    glUniform1i(useInstanceLoc, 0);
-    glUniform3f(colorLoc, 0.68f, 0.85f, 0.90f);
-    
-    glm::mat4 model = glm::mat4(1.0f);
-    glUniformMatrix4fv(modelLoc, 1, GL_FALSE, glm::value_ptr(model));
-    glm::mat4 mvp = projection * view * model;
-    glUniformMatrix4fv(mvpLoc, 1, GL_FALSE, glm::value_ptr(mvp));
-    
-    glBindVertexArray(hexVAO);
-    glBindBuffer(GL_ARRAY_BUFFER, hexVBO);
-    glBufferData(GL_ARRAY_BUFFER, triangles.size() * sizeof(glm::vec3), triangles.data(), GL_DYNAMIC_DRAW);
-    glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, sizeof(glm::vec3), (void*)0);
-    glEnableVertexAttribArray(0);
-    
-    glDrawArrays(GL_TRIANGLES, 0, static_cast<GLsizei>(triangles.size()));
-    
     glBindVertexArray(0);
 }
 
@@ -358,9 +301,8 @@ void Renderer::adjustCameraToFit(const Simulation& simulation) {
     center /= static_cast<float>(positions.size());
 
     float maxExtent = glm::length(maxPos - minPos);
-    float newDistance = maxExtent * 1.1f;  // Add some padding
+    float newDistance = maxExtent * 1.1f;
 
-    // Use the member variables for clamping:
     newDistance = glm::clamp(newDistance, minCameraDistance, maxCameraDistance);
 
     targetDistance = glm::mix(targetDistance, newDistance, lerpFactor);
@@ -383,12 +325,10 @@ void Renderer::cameraReset(const Simulation& simulation) {
     glm::vec3 center = sum / static_cast<float>(positions.size());
 
     float extent = glm::length(maxPos - minPos);
-    // Limit the extent using the maximum allowed camera distance.
     extent = glm::min(extent, maxCameraDistance);
 
     float desiredDistance = glm::max(extent * 1.1f, minCameraDistance);
 
-    // If the center is too far, limit its distance as well.
     if (glm::length(center) > maxCameraDistance) {
         center = glm::normalize(center) * maxCameraDistance;
     }
