@@ -43,6 +43,12 @@ struct BallSoA {
     }
 };
 
+// New struct for hexagon triangles (to fill the hexagon)
+struct HexTriangle {
+    glm::vec3 vertices[3];
+    glm::vec3 normal;
+};
+
 class Simulation {
 public:
     Simulation();
@@ -73,6 +79,7 @@ public:
     const std::vector<glm::vec3> getParticleVelocities() const;
     const std::vector<glm::vec3> getStructureParticleVelocities() const;
     std::vector<glm::vec3> getSpringEndpoints() const;
+    const std::vector<HexTriangle>& getHexTriangles() const; // new
 
     void clearSimulation();
 
@@ -80,9 +87,12 @@ public:
     BallSoA getSnapshotSoA() const;
     BallSoA convertBallsToSoA(const std::vector<Ball>& balls) const;
 
-    // Async update methods (added to match definitions in Simulation.cpp)
+    // Async update methods
     void startAsyncUpdates();
     void stopAsyncUpdates();
+
+    // New: update hexagon triangles (to be called every physics step)
+    void updateHexTriangles();
 
     // concurrency info
     std::atomic<int> effectiveStepsPerSecond { 0 };
@@ -115,6 +125,11 @@ private:
 
     std::vector<Ball> snapshotBalls;
     BallSoA snapshotSoA;
+
+    // New members to support hexagon triangles
+    std::vector<std::vector<glm::vec3>> hexagonVertexLists;
+    std::vector<std::vector<int>> hexagonIndices;
+    std::vector<HexTriangle> hexTriangles;
 };
 
 #endif

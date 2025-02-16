@@ -17,6 +17,9 @@ public:
     glm::vec3 getCameraPosition() const { return cameraPosition; }
     glm::vec3 getCameraTarget() const { return cameraTarget; }
 
+    // New: render hexagon triangles
+    void renderHexTriangles(const Simulation& simulation, const glm::mat4& projection, const glm::mat4& view);
+
 private:
     unsigned int shaderProgram;
     unsigned int vao, vbo;
@@ -48,6 +51,9 @@ private:
 
     // Spring geometry
     unsigned int springVAO, springVBO;
+
+    // New: Hexagon triangles geometry for rendering
+    unsigned int hexTriVAO, hexTriVBO;
 
     // Maximum number of instances to support
     static const size_t maxInstances = 10000;

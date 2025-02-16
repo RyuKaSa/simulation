@@ -20,11 +20,11 @@ Simulation::~Simulation() {
 }
 
 void Simulation::Initialization() {
-    // Example: create a default hex grid
-    createHexGrid(30, 1.0f, 1.0f, false, 10.0f);
+    // Example: create a default hex grid (adjust count/size as desired)
+    createHexGrid(60, 1.0f, 1.0f, false, 10.0f);
     // Gravity link
     if (gravityLink) { delete gravityLink; }
-    gravityLink = new Link(soA, glm::vec3(40.0f, 0.0f, 0.0f)); 
+    gravityLink = new Link(soA, glm::vec3(40.0f, 0.0f, 0.0f));
 }
 
 void Simulation::reset() {
@@ -50,6 +50,9 @@ void Simulation::clearSimulation() {
 
     springs.clear();
     balls.clear();
+    hexagonVertexLists.clear();
+    hexagonIndices.clear();
+    hexTriangles.clear();
 
     if (gravityLink) {
         delete gravityLink;
@@ -176,6 +179,9 @@ void Simulation::update(float dt) {
         b.dimensions = (i < soA.dimensions.size()) ? soA.dimensions[i] : glm::vec3(1.f);
         balls[i]   = b;
     }
+    
+    // 5) Update hexagon triangles from the current particle positions.
+    updateHexTriangles();
 }
 
 void Simulation::applyGravityLink() {
@@ -231,10 +237,13 @@ void Simulation::createHexGrid(int numHexagons, float hexagonSize, float springR
     this->bothEndsStatic = bothEndsStatic_;
     std::vector<glm::vec3> uniquePositions;
     springs.clear();
+    hexagonVertexLists.clear();
+    hexagonIndices.clear();
+    hexTriangles.clear();
 
     auto rotationMatrix = glm::rotate(glm::mat4(1.0f),
                                       glm::radians(orientationDegrees),
-                                      glm::vec3(1.f, 0.f, 0.f));
+                                      glm::vec3(1.f,0.f,0.f));
 
     auto findOrAdd = [&](const glm::vec3 &pos) -> int {
         const float eps = 0.0001f;
@@ -248,6 +257,7 @@ void Simulation::createHexGrid(int numHexagons, float hexagonSize, float springR
     };
 
     std::set<std::pair<int,int>> edgeSet;
+    // For each hexagon, also record its vertices and indices.
     for (int r = 0; r < numHexagons; r++) {
         for (int c = 0; c < numHexagons; c++) {
             glm::vec3 center;
@@ -270,11 +280,15 @@ void Simulation::createHexGrid(int numHexagons, float hexagonSize, float springR
                 currentVerts.push_back(vertex);
                 indices.push_back(findOrAdd(vertex));
             }
+            hexagonVertexLists.push_back(currentVerts);
+            hexagonIndices.push_back(indices);
+
+            // Also record edges for springs
             for (int i = 0; i < 6; i++) {
                 int idx1 = indices[i];
-                int idx2 = indices[(i + 1) % 6];
+                int idx2 = indices[(i+1)%6];
                 if (idx1 > idx2) std::swap(idx1, idx2);
-                edgeSet.insert({ idx1, idx2 });
+                edgeSet.insert({idx1, idx2});
             }
         }
     }
@@ -286,7 +300,7 @@ void Simulation::createHexGrid(int numHexagons, float hexagonSize, float springR
     soA.mass.resize(n, 10.f);
     soA.type.resize(n, ParticleType::STRUCTURE);
     soA.isStatic.resize(n, false);
-    soA.color.resize(n, glm::vec3(1, 0, 0));
+    soA.color.resize(n, glm::vec3(1,0,0));
     soA.dimensions.resize(n, glm::vec3(3.f));
 
     float minX = 1e9f, maxX = -1e9f;
@@ -313,6 +327,9 @@ void Simulation::createHexGrid(int numHexagons, float hexagonSize, float springR
         sp.damping = 0.5f;
         springs.push_back(sp);
     }
+    
+    // Initially compute hexagon triangles.
+    updateHexTriangles();
 }
 
 void Simulation::createSquareGridWithDiagonals(int gridSize, float spacing, float springRestLength) {
@@ -342,7 +359,7 @@ void Simulation::createSquareGridWithDiagonals(int gridSize, float spacing, floa
             soA.type.push_back(ParticleType::STRUCTURE);
             bool sflag = (c == 0); 
             soA.isStatic.push_back(sflag);
-            soA.color.push_back(glm::vec3(1, 0, 0));
+            soA.color.push_back(glm::vec3(1,0,0));
             soA.dimensions.push_back(glm::vec3(1.f));
         }
     }
@@ -479,6 +496,41 @@ BallSoA Simulation::convertBallsToSoA(const std::vector<Ball>& inBalls) const {
         soa.dimsZ[i]  = inBalls[i].dimensions.z;
     }
     return soa;
+}
+
+const std::vector<HexTriangle>& Simulation::getHexTriangles() const {
+    return hexTriangles;
+}
+
+void Simulation::updateHexTriangles() {
+    hexTriangles.clear();
+    // For each hexagon (as defined by hexagonIndices), compute triangles
+    for (size_t h = 0; h < hexagonIndices.size(); h++) {
+        const std::vector<int>& indices = hexagonIndices[h];
+        if (indices.size() < 6) continue;
+        std::vector<glm::vec3> currentVerts;
+        currentVerts.reserve(indices.size());
+        for (int idx : indices) {
+            currentVerts.push_back(soA.position[idx]);
+        }
+        // Compute center of hexagon
+        glm::vec3 center(0.0f);
+        for (const auto &v : currentVerts) {
+            center += v;
+        }
+        center /= (float)currentVerts.size();
+        // Create 6 triangles (center, vertex[i], vertex[(i+1)%6])
+        for (int i = 0; i < 6; i++) {
+            HexTriangle tri;
+            tri.vertices[0] = center;
+            tri.vertices[1] = currentVerts[i];
+            tri.vertices[2] = currentVerts[(i+1)%6];
+            glm::vec3 edge1 = tri.vertices[1] - center;
+            glm::vec3 edge2 = tri.vertices[2] - center;
+            tri.normal = glm::normalize(glm::cross(edge1, edge2));
+            hexTriangles.push_back(tri);
+        }
+    }
 }
 
 void Simulation::startAsyncUpdates() {

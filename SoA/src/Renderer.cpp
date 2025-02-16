@@ -61,11 +61,14 @@ Renderer::~Renderer() {
     glDeleteBuffers(1, &gridVBO);
     glDeleteVertexArrays(1, &springVAO);
     glDeleteBuffers(1, &springVBO);
+    glDeleteVertexArrays(1, &hexTriVAO);
+    glDeleteBuffers(1, &hexTriVBO);
 }
 
 void Renderer::init() {
     initShaders();
     
+    // Create ball geometry (a circle)
     float radius = 0.1f;
     float vertices[(numSegments + 2) * 3];
     vertices[0] = 0.0f; vertices[1] = 0.0f; vertices[2] = 0.0f;
@@ -108,6 +111,17 @@ void Renderer::init() {
     
     glGenVertexArrays(1, &springVAO);
     glGenBuffers(1, &springVBO);
+    
+    // Initialize hexagon triangles VAO/VBO (for batched rendering)
+    glGenVertexArrays(1, &hexTriVAO);
+    glGenBuffers(1, &hexTriVBO);
+    glBindVertexArray(hexTriVAO);
+    glBindBuffer(GL_ARRAY_BUFFER, hexTriVBO);
+    // Preallocate buffer space (will update every frame)
+    glBufferData(GL_ARRAY_BUFFER, 0, nullptr, GL_DYNAMIC_DRAW);
+    glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, 3 * sizeof(float), (void*)0);
+    glEnableVertexAttribArray(0);
+    glBindVertexArray(0);
 }
 
 void Renderer::initGrid() {
@@ -202,11 +216,12 @@ void Renderer::render(const Simulation& simulation) {
     glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
     glUseProgram(shaderProgram);
     auto projection = glm::perspective(glm::radians(45.0f), 16.0f/9.0f, 0.1f, 1000.0f);
-    auto view = glm::lookAt(cameraPosition, cameraTarget, glm::vec3(0.0f, 1.0f, 0.0f));
+    auto view       = glm::lookAt(cameraPosition, cameraTarget, glm::vec3(0.0f, 1.0f, 0.0f));
 
     glEnable(GL_DEPTH_TEST);
     glDepthFunc(GL_LESS);
     
+    // Render grid (non-instanced)
     glUniform1i(useInstanceLoc, 0);
     {
         glm::mat4 model = glm::mat4(1.0f);
@@ -216,7 +231,7 @@ void Renderer::render(const Simulation& simulation) {
         renderGrid(projection, view);
     }
     
-    // Render springs
+    // Render springs (batched)
     std::vector<glm::vec3> springEndpoints = simulation.getSpringEndpoints();
     if (!springEndpoints.empty()) {
         glm::vec3 camDir = glm::normalize(cameraPosition - cameraTarget);
@@ -242,7 +257,10 @@ void Renderer::render(const Simulation& simulation) {
         glBindVertexArray(0);
     }
     
-    // Render Balls with instanced rendering
+    // Render hexagon triangles (batched)
+    renderHexTriangles(simulation, projection, view);
+    
+    // Render Balls with instanced rendering using SoA
     BallSoA soa = simulation.getSnapshotSoA();
     size_t instanceCount = soa.posX.size();
     if (instanceCount > maxInstances)
@@ -283,6 +301,36 @@ void Renderer::render(const Simulation& simulation) {
     }
     glBindVertexArray(vao);
     glDrawArraysInstanced(GL_TRIANGLE_FAN, 0, numSegments + 2, instanceCount);
+    glBindVertexArray(0);
+}
+
+void Renderer::renderHexTriangles(const Simulation& simulation, const glm::mat4& projection, const glm::mat4& view) {
+    const std::vector<HexTriangle>& tris = simulation.getHexTriangles();
+    if (tris.empty()) return;
+    
+    // Build a contiguous vertex array: 3 vertices per triangle.
+    std::vector<glm::vec3> triVertices;
+    triVertices.reserve(tris.size() * 3);
+    for (const auto &tri : tris) {
+        for (int i = 0; i < 3; i++) {
+            triVertices.push_back(tri.vertices[i]);
+        }
+    }
+    
+    glBindVertexArray(hexTriVAO);
+    glBindBuffer(GL_ARRAY_BUFFER, hexTriVBO);
+    glBufferData(GL_ARRAY_BUFFER, triVertices.size() * sizeof(glm::vec3), triVertices.data(), GL_DYNAMIC_DRAW);
+    
+    glUniform1i(useInstanceLoc, 0);
+    glUniform3f(colorLoc, 0.68f, 0.85f, 0.90f); // light blue color, adjust as needed
+    
+    glm::mat4 model = glm::mat4(1.0f);
+    glUniformMatrix4fv(modelLoc, 1, GL_FALSE, glm::value_ptr(model));
+    glm::mat4 mvp = projection * view * model;
+    glUniformMatrix4fv(mvpLoc, 1, GL_FALSE, glm::value_ptr(mvp));
+    
+    glDrawArrays(GL_TRIANGLES, 0, static_cast<GLsizei>(triVertices.size()));
+    
     glBindVertexArray(0);
 }
 
