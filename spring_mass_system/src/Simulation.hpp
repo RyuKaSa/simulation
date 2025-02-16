@@ -28,6 +28,26 @@ struct Ball {
     glm::vec3 dimensions;
 };
 
+struct BallSoA {
+    std::vector<float> posX, posY, posZ;
+    std::vector<float> colorR, colorG, colorB;
+    std::vector<int>   types;     // e.g., 0 = STRUCTURE, 1 = EXTERNAL
+    std::vector<float> dimsX, dimsY, dimsZ;
+
+    void resize(size_t n) {
+        posX.resize(n);
+        posY.resize(n);
+        posZ.resize(n);
+        colorR.resize(n);
+        colorG.resize(n);
+        colorB.resize(n);
+        types.resize(n);
+        dimsX.resize(n);
+        dimsY.resize(n);
+        dimsZ.resize(n);
+    }
+};
+
 struct HexFace {
     std::array<glm::vec3, 3> triangle; // Store as triangles for collision
     glm::vec3 normal;
@@ -80,8 +100,12 @@ public:
     void stopAsyncUpdates();
 
     const std::vector<Ball>& getSnapshotBalls() const;
+    BallSoA getSnapshotSoA() const;
     std::atomic<int> effectiveStepsPerSecond{0};
     std::atomic<float> lastPhysicsUpdateTime{0.0f};
+
+    BallSoA snapshotSoA;
+    BallSoA convertBallsToSoA(const std::vector<Ball>& balls) const;
 private:
     float springConstant;
     Link* gravityLink;

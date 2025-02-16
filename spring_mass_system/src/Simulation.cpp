@@ -611,7 +611,7 @@ void Simulation::asyncLoop() {
         // Update the snapshot for rendering.
         {
             std::lock_guard<std::mutex> snapshotLock(snapshotMutex);
-            snapshotBalls = balls;  // Deep copy of your simulation's "balls" vector.
+            snapshotSoA = convertBallsToSoA(balls);
         }
 
         // Update the physics update duration.
@@ -643,4 +643,38 @@ void Simulation::stopAsyncUpdates() {
 const std::vector<Ball>& Simulation::getSnapshotBalls() const {
     std::lock_guard<std::mutex> lock(snapshotMutex);
     return snapshotBalls;
+}
+
+BallSoA Simulation::getSnapshotSoA() const {
+    std::lock_guard<std::mutex> lock(snapshotMutex);
+    return snapshotSoA; // Return a copy
+}
+
+BallSoA Simulation::convertBallsToSoA(const std::vector<Ball>& balls) const {
+    BallSoA soa;
+    size_t n = balls.size();
+    soa.posX.resize(n);
+    soa.posY.resize(n);
+    soa.posZ.resize(n);
+    soa.colorR.resize(n);
+    soa.colorG.resize(n);
+    soa.colorB.resize(n);
+    soa.types.resize(n);
+    soa.dimsX.resize(n);
+    soa.dimsY.resize(n);
+    soa.dimsZ.resize(n);
+
+    for (size_t i = 0; i < n; i++) {
+        soa.posX[i] = balls[i].position.x;
+        soa.posY[i] = balls[i].position.y;
+        soa.posZ[i] = balls[i].position.z;
+        soa.colorR[i] = balls[i].color.r;
+        soa.colorG[i] = balls[i].color.g;
+        soa.colorB[i] = balls[i].color.b;
+        soa.types[i]  = static_cast<int>(balls[i].type);
+        soa.dimsX[i]  = balls[i].dimensions.x;
+        soa.dimsY[i]  = balls[i].dimensions.y;
+        soa.dimsZ[i]  = balls[i].dimensions.z;
+    }
+    return soa;
 }

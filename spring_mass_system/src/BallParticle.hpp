@@ -22,7 +22,6 @@ public:
     // Setter for ball dimensions
     void setDimensions(const glm::vec3& dimensions);
 
-    // (Optional) A basic spawn function that gives a small initial velocity from gravity.
     static BallParticle* spawnBall(const glm::vec3& spawnPosition,
                                    const glm::vec3& dimensions,
                                    float mass,

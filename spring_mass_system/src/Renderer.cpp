@@ -215,14 +215,14 @@ void Renderer::render(const Simulation& simulation) {
     
     // Smooth camera transition (lerp)
     cameraPosition = glm::mix(cameraPosition, targetPosition, lerpFactor);
-    cameraTarget = glm::mix(cameraTarget, targetCenter, lerpFactor);
+    cameraTarget   = glm::mix(cameraTarget, targetCenter, lerpFactor);
     
     glClearColor(0.7f, 0.7f, 0.7f, 1.0f);
     glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
     glUseProgram(shaderProgram);
     
     auto projection = glm::perspective(glm::radians(45.0f), 16.0f/9.0f, 0.1f, 1000.0f);
-    auto view = glm::lookAt(cameraPosition, cameraTarget, glm::vec3(0.0f, 1.0f, 0.0f));
+    auto view       = glm::lookAt(cameraPosition, cameraTarget, glm::vec3(0.0f, 1.0f, 0.0f));
 
     glEnable(GL_DEPTH_TEST);
     glDepthFunc(GL_LESS);
@@ -266,47 +266,43 @@ void Renderer::render(const Simulation& simulation) {
         glBindVertexArray(0);
     }
     
-    // --- Render Balls with Instanced Rendering ---
-    const auto& balls = simulation.getSnapshotBalls();
+    // --- Render Balls with Instanced Rendering using SoA ---
+    // Retrieve the snapshot from the simulation as a BallSoA.
+    BallSoA soa = simulation.getSnapshotSoA();
+    size_t instanceCount = soa.posX.size();
+    if (instanceCount > maxInstances)
+        instanceCount = maxInstances;
+    
+    // For physics-based color calculations, still retrieve velocities (if not converted to SoA)
     std::vector<glm::vec3> velocities = simulation.getParticleVelocities();
-
     float maxStructureSpeed = 0.01f;
-    for (size_t i = 0; i < balls.size(); i++) {
-        if (balls[i].type == ParticleType::STRUCTURE) {
+    // Here we assume that soa.types holds the integer values corresponding to ParticleType.
+    for (size_t i = 0; i < instanceCount; i++) {
+        // Compare to ParticleType::STRUCTURE (cast to int)
+        if (soa.types[i] == static_cast<int>(ParticleType::STRUCTURE)) {
             float speed = glm::length(velocities[i]);
             if (speed > maxStructureSpeed)
                 maxStructureSpeed = speed;
         }
     }
-
-    size_t instanceCount = balls.size();
-    if (instanceCount > maxInstances)
-        instanceCount = maxInstances;
     
-    // Build instance data in a temporary vector.
+    // Build instance data from the SoA.
     std::vector<float> instanceData;
-    instanceData.reserve(instanceCount * 7); // 7 floats per instance
-
+    instanceData.reserve(instanceCount * 7); // 7 floats per instance: 3 for position, 3 for color, 1 for scale.
     for (size_t i = 0; i < instanceCount; i++) {
-        const auto& ball = balls[i];
-        glm::vec3 color;
-        if (ball.type == ParticleType::EXTERNAL) {
-            color = glm::vec3(0.0f, 1.0f, 0.0f);
-        } else {
-            float speed = glm::length(velocities[i]);
-            float normalized = (maxStructureSpeed < 1e-6f) ? 0.0f : glm::clamp(speed / maxStructureSpeed, 0.0f, 1.0f);
-            color = glm::mix(glm::vec3(0.0f, 1.0f, 0.0f), glm::vec3(1.0f, 0.0f, 0.0f), normalized);
-        }
-        instanceData.push_back(ball.position.x);
-        instanceData.push_back(ball.position.y);
-        instanceData.push_back(ball.position.z);
-        instanceData.push_back(color.r);
-        instanceData.push_back(color.g);
-        instanceData.push_back(color.b);
-        instanceData.push_back(ball.dimensions.x);
+        // Position:
+        instanceData.push_back(soa.posX[i]);
+        instanceData.push_back(soa.posY[i]);
+        instanceData.push_back(soa.posZ[i]);
+        // Color:
+        instanceData.push_back(soa.colorR[i]);
+        instanceData.push_back(soa.colorG[i]);
+        instanceData.push_back(soa.colorB[i]);
+        // Scale: for simplicity, we use dimsX as a scale value.
+        instanceData.push_back(soa.dimsX[i]);
     }
     
-    // Update the instance VBO with the new data.
+    // Update the instance VBO with the new instance data.
     glBindBuffer(GL_ARRAY_BUFFER, instanceVBO);
     glBufferData(GL_ARRAY_BUFFER, instanceData.size() * sizeof(float),
                  instanceData.data(), GL_DYNAMIC_DRAW);
