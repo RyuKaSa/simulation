@@ -1,15 +1,17 @@
 #include "Simulation.hpp"
 
+extern double getCurrentTime();
+
 Simulation::Simulation() : springConstant(0.5f) {
     Simulation::Initialization();
 }
 
 void Simulation::Initialization() {
     // createCord(50, 25.0f, 0.5f, true); // Default cord setup (3 balls, 1m length, both ends static)
-    createHexGrid(100, 1.0f, 0.9f, false, 10.0f); // Default hex grid setup (20 hexagons, 1m size, both ends static)
+    createHexGrid(60, 1.0f, 0.9f, false, 10.0f); // Default hex grid setup (20 hexagons, 1m size, both ends static)
     // createSquareGridWithDiagonals(50, 0.5f, 1.0f); // Default square grid setup (10x10 grid
     // gravityLink = new Link(ballObjects, glm::vec3(0.0f, -9.81f, 0.0f));
-    gravityLink = new Link(ballObjects, glm::vec3(30.81f, 0.0f, 0.0f));
+    gravityLink = new Link(ballObjects, glm::vec3(40.0f, 0.0f, 0.0f));
 }
 
 void Simulation::reset() {
@@ -244,7 +246,7 @@ void Simulation::createHexGrid(int numHexagons, float hexagonSize, float springR
 
     // Create particles from unique positions
     for (const auto &pos : uniquePositions) {
-        PMat* ball = new PMat(1.0f, pos);
+        PMat* ball = new PMat(10.0f, pos);
         ballObjects.push_back(ball);
         Ball b;
         b.position = pos;
@@ -587,4 +589,58 @@ std::vector<glm::vec3> Simulation::getHexHitboxTriangles() const {
         }
     }
     return vertices;
+}
+
+void Simulation::asyncLoop() {
+    double lastTime = getCurrentTime();
+    double lastMeasureTime = lastTime;
+    int stepsCount = 0;
+
+    while (asyncRunning) {
+        double now = getCurrentTime();
+        double dt = now - lastTime;
+        lastTime = now;
+
+        // Update simulation state (using simulationMutex)
+        {
+            std::lock_guard<std::recursive_mutex> lock(simulationMutex);
+            update((float)dt);
+        }
+        stepsCount++;  // count this update
+
+        // Update the snapshot for rendering.
+        {
+            std::lock_guard<std::mutex> snapshotLock(snapshotMutex);
+            snapshotBalls = balls;  // Deep copy of your simulation's "balls" vector.
+        }
+
+        // Update the physics update duration.
+        lastPhysicsUpdateTime.store((float)dt);
+
+        // Every 1 second, update the effective steps per second.
+        if (now - lastMeasureTime >= 1.0) {
+            effectiveStepsPerSecond.store(stepsCount);
+            stepsCount = 0;
+            lastMeasureTime = now;
+        }
+        
+        // Sleep briefly to yield CPU (adjust as needed)
+        std::this_thread::sleep_for(std::chrono::milliseconds(1));
+    }
+}
+
+void Simulation::startAsyncUpdates() {
+    asyncRunning = true;
+    asyncThread = std::thread(&Simulation::asyncLoop, this);
+}
+
+void Simulation::stopAsyncUpdates() {
+    asyncRunning = false;
+    if (asyncThread.joinable())
+        asyncThread.join();
+}
+
+const std::vector<Ball>& Simulation::getSnapshotBalls() const {
+    std::lock_guard<std::mutex> lock(snapshotMutex);
+    return snapshotBalls;
 }

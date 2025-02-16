@@ -38,6 +38,9 @@ private:
     float targetDistance;
     float lerpFactor = 0.03f;
 
+    float minCameraDistance = 5.0f;   // default minimum camera distance
+    float maxCameraDistance = 1000.0f;
+
     // Grid geometry
     unsigned int gridVAO, gridVBO;
     int gridVertexCount;

@@ -49,6 +49,8 @@ int main(int argc, char* argv[]) {
     Simulation simulation;
     GUI gui(window, glContext);
 
+    simulation.startAsyncUpdates();
+
     bool running = true;
     SDL_Event event;
     double renderDelta = 1.0 / 60.0;   // target 60 FPS rendering
@@ -58,25 +60,26 @@ int main(int argc, char* argv[]) {
     double lastTime = getCurrentTime();
 
     while (running) {
-        double totalFrameStart = getCurrentTime();
+        double frameStart = getCurrentTime();
 
-        // Process events first.
         while (SDL_PollEvent(&event)) {
             if (event.type == SDL_QUIT)
                 running = false;
             gui.processEvent(event);
         }
 
-        // --- Perform reset or throw ball BEFORE starting a new ImGui frame ---
+        // Process reset/throw ball requests BEFORE starting a new ImGui frame.
         if (gui.isResetRequested()) {
+            simulation.stopAsyncUpdates();
             simulation.reset();
             renderer.cameraReset(simulation);
             gui.clearResetFlag();
+            simulation.startAsyncUpdates();
         }
         if (gui.isThrowBallRequested()) {
             glm::vec3 camPos = renderer.getCameraPosition();
             glm::vec3 camDir = glm::normalize(renderer.getCameraTarget() - camPos);
-            simulation.throwBall(camPos, camDir, 60.0f, 100.0f, glm::vec3(8.0f));
+            simulation.throwBall(camPos, camDir, 60.0f, 100.0f, glm::vec3(25.0f));
             gui.clearThrowBallFlag();
         }
 
@@ -85,66 +88,41 @@ int main(int argc, char* argv[]) {
         simulation.setDampingCoefficient(gui.getDampingCoefficient());
         simulation.setImpulseScaling(gui.getImpulseScaling());
 
-        // Get object counts for performance info.
-        int numParticles = simulation.getBalls().size();
+        // Get performance counts.
+        int numParticles = simulation.getSnapshotBalls().size();
         int numSprings = simulation.getSpringEndpoints().size() / 2;
 
-        // Convert physics steps to a delta time.
-        int physicsSteps = gui.getPhysicsSteps();
-        double physicsDelta = 1.0 / double(physicsSteps);
-
-        // Timing update.
-        double now = getCurrentTime();
-        double elapsed = now - lastTime;  // in seconds
-        lastTime = now;
-        physicsAccumulator += elapsed;
-        renderAccumulator += elapsed;
-
-        // --- Physics Updates ---
-        double physicsStart = getCurrentTime();
-        while (physicsAccumulator >= physicsDelta) {
-            simulation.update(physicsDelta);
-            physicsAccumulator -= physicsDelta;
-        }
-        double physicsEnd = getCurrentTime();
-        double physicsStepTime = physicsEnd - physicsStart;
-
-        // --- Begin a New ImGui Frame ---
+        // Begin new ImGui frame.
         gui.newFrame();
-
-        // Draw the GUI (including parameter controls and, later, performance metrics).
         gui.draw();
 
         // --- Rendering ---
-        double renderFrameTime = 0.0;
-        if (renderAccumulator >= renderDelta) {
-            double renderStart = getCurrentTime();
-            renderer.render(simulation);
-            gui.render();
-            SDL_GL_SwapWindow(window);
-            double renderEnd = getCurrentTime();
-            renderFrameTime = renderEnd - renderStart;
-            renderAccumulator -= renderDelta;
-        }
-        else {
-            // Always render GUI even if we're not swapping buffers.
-            gui.render();
-        }
+        double renderStart = getCurrentTime();
+        renderer.render(simulation);  // In Renderer::render, use simulation.getSnapshotBalls()
+        gui.render();
+        SDL_GL_SwapWindow(window);
+        double renderEnd = getCurrentTime();
+        double renderFrameTime = renderEnd - renderStart;
 
-        double totalFrameEnd = getCurrentTime();
-        double totalFrameTime = totalFrameEnd - totalFrameStart;
+        double frameEnd = getCurrentTime();
+        double totalFrameTime = frameEnd - frameStart;
         double fps = (totalFrameTime > 0.0) ? 1.0 / totalFrameTime : 0.0;
 
+        // Get the physics update time from the simulation thread.
+        float physicsStepTime = simulation.lastPhysicsUpdateTime.load();
+        int effectiveSteps = simulation.effectiveStepsPerSecond.load();
+
         // --- Update Performance Metrics in the GUI ---
-        // (Assumes you have implemented GUI::setPerformanceMetrics as discussed.)
-        gui.setPerformanceMetrics((float)physicsStepTime,
+        gui.setPerformanceMetrics(physicsStepTime,
                                   (float)renderFrameTime,
                                   (float)totalFrameTime,
                                   (float)fps,
                                   numParticles,
-                                  numSprings);
+                                  numSprings,
+                                  effectiveSteps);
     }
 
+    simulation.stopAsyncUpdates();
     gui.cleanup();
     SDL_GL_DeleteContext(glContext);
     SDL_DestroyWindow(window);

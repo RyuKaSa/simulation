@@ -25,8 +25,9 @@ public:
     void clearThrowBallFlag();
 
     void setPerformanceMetrics(float physicsStepTime, float renderFrameTime,
-                               float totalFrameTime, float fps,
-                               int numParticles, int numSprings);
+                                float totalFrameTime, float fps,
+                                int numParticles, int numSprings,
+                                int physicsStepsPerSecond);
 private:
     float springConstant;
     float dampingCoefficient;
@@ -36,13 +37,14 @@ private:
 
     bool throwBallRequested;
 
-    // Performance metrics variables
+    // Performance metrics variables:
     float performancePhysicsStepTime = 0.0f;
     float performanceRenderFrameTime  = 0.0f;
     float performanceTotalFrameTime   = 0.0f;
     float performanceFPS              = 0.0f;
     int   performanceNumParticles     = 0;
     int   performanceNumSprings       = 0;
+    int   performancePhysicsStepsPerSecond = 0;
 };
 
 #endif // GUI_H

@@ -17,6 +17,10 @@
 #include <glm/gtx/norm.hpp>
 #include <glm/gtc/constants.hpp>
 #include <glm/gtx/compatibility.hpp>
+
+#include <mutex>
+#include <chrono>
+
 struct Ball {
     glm::vec3 position;
     glm::vec3 color;
@@ -71,6 +75,13 @@ public:
     bool isPointInTriangle(const glm::vec3& point, 
                 const std::array<glm::vec3, 3>& triangle,
                 const glm::vec3& normal) const;
+
+    void startAsyncUpdates();
+    void stopAsyncUpdates();
+
+    const std::vector<Ball>& getSnapshotBalls() const;
+    std::atomic<int> effectiveStepsPerSecond{0};
+    std::atomic<float> lastPhysicsUpdateTime{0.0f};
 private:
     float springConstant;
     Link* gravityLink;
@@ -87,6 +98,13 @@ private:
 
     mutable std::recursive_mutex simulationMutex;
     float impulseScaling = 1000.0f;
+
+    mutable std::mutex snapshotMutex;
+    std::vector<Ball> snapshotBalls;
+
+    std::atomic<bool> asyncRunning{ false };
+    std::thread asyncThread;
+    void asyncLoop();
 };
 
 #endif // SIMULATION_H

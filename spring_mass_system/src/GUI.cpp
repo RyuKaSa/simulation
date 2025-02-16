@@ -6,7 +6,7 @@
 GUI::GUI(SDL_Window* window, SDL_GLContext glContext)
     : springConstant(200.0f),
       dampingCoefficient(0.5f),
-      physicsSteps(200),
+      physicsSteps(1000),
       reset(false),
       throwBallRequested(false),
       impulseScaling(1000.0f)
@@ -28,25 +28,14 @@ void GUI::newFrame() {
 }
 
 void GUI::draw() {
-    // Draw the original parameter window.
     ImGui::Begin("Physics Parameters");
-    
-    ImGui::SliderFloat("Spring Constant", &springConstant, 0.0f, 1000.0f);
-    ImGui::SliderFloat("Damping Coefficient", &dampingCoefficient, 0.0f, 4.0f);
-    ImGui::SliderInt("Physics Steps", &physicsSteps, 180, 1000);
+    ImGui::SliderFloat("Spring Constant", &springConstant, 0.1f, 1000.0f);
+    ImGui::SliderFloat("Damping Coefficient", &dampingCoefficient, 0.0f, 20.0f);
     ImGui::SliderFloat("Impulse Scaling", &impulseScaling, 0.0f, 5000.0f);
-    
-    if (ImGui::Button("Reset")) {
-        reset = true;
-    }
-    
-    if (ImGui::Button("Throw Ball")) {
-        throwBallRequested = true;
-    }
-    
+    if (ImGui::Button("Reset")) { reset = true; }
+    if (ImGui::Button("Throw Ball")) { throwBallRequested = true; }
     ImGui::End();
 
-    // --- New window for performance metrics ---
     ImGui::Begin("Performance Metrics");
     ImGui::Text("Physics Step Time: %.3f ms", performancePhysicsStepTime * 1000.0f);
     ImGui::Text("Render Frame Time: %.3f ms", performanceRenderFrameTime * 1000.0f);
@@ -54,6 +43,7 @@ void GUI::draw() {
     ImGui::Text("FPS: %.1f", performanceFPS);
     ImGui::Text("Particles: %d", performanceNumParticles);
     ImGui::Text("Springs: %d", performanceNumSprings);
+    ImGui::Text("Physics Steps/sec: %d", performancePhysicsStepsPerSecond);
     ImGui::End();
 }
 
@@ -105,10 +95,10 @@ void GUI::clearResetFlag() {
     reset = false;
 }
 
-// New setter for performance metrics
 void GUI::setPerformanceMetrics(float physicsStepTime, float renderFrameTime,
                                 float totalFrameTime, float fps,
-                                int numParticles, int numSprings)
+                                int numParticles, int numSprings,
+                                int physicsStepsPerSecond)
 {
     performancePhysicsStepTime = physicsStepTime;
     performanceRenderFrameTime  = renderFrameTime;
@@ -116,4 +106,5 @@ void GUI::setPerformanceMetrics(float physicsStepTime, float renderFrameTime,
     performanceFPS              = fps;
     performanceNumParticles     = numParticles;
     performanceNumSprings       = numSprings;
+    performancePhysicsStepsPerSecond = physicsStepsPerSecond;
 }

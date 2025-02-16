@@ -33,11 +33,7 @@ public:
     float getMass() const;
 
     void addCorrection(const glm::vec3& correction);
-    glm ::vec3 getAverageVelocity() const;
     void reflectVelocity(const glm::vec3& newVel);
-
-    bool isDetectionZone = false;
-    bool getDetectionFlag() const;
 
     // Reset accumulated force (should be called after update)
     void resetForce();

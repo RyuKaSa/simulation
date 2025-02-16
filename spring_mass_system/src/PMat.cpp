@@ -35,18 +35,6 @@ void PMat::update(float dt) {
     }
 }
 
-glm::vec3 PMat::getAverageVelocity() const {
-    std::scoped_lock lock(mtx);
-    glm::vec3 sum(0.0f);
-    for (const auto& v : velocityHistory) {
-        sum += v;
-    }
-    // If history is empty (should only happen at the very start), return zero.
-    if (velocityHistory.empty())
-        return glm::vec3(0.0f);
-    return sum / static_cast<float>(velocityHistory.size());
-}
-
 void PMat::update_fixed(float dt) {
     // position et vitesse restent inchangées
     resetForce();

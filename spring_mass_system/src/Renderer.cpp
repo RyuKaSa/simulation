@@ -267,7 +267,7 @@ void Renderer::render(const Simulation& simulation) {
     }
     
     // --- Render Balls with Instanced Rendering ---
-    const auto& balls = simulation.getBalls();
+    const auto& balls = simulation.getSnapshotBalls();
     std::vector<glm::vec3> velocities = simulation.getParticleVelocities();
 
     float maxStructureSpeed = 0.01f;
@@ -364,9 +364,8 @@ void Renderer::adjustCameraToFit(const Simulation& simulation) {
     float maxExtent = glm::length(maxPos - minPos);
     float newDistance = maxExtent * 1.1f;  // Add some padding
 
-    const float minDistance = 5.0f;
-    const float maxDistance = 200.0f;
-    newDistance = glm::clamp(newDistance, minDistance, maxDistance);
+    // Use the member variables for clamping:
+    newDistance = glm::clamp(newDistance, minCameraDistance, maxCameraDistance);
 
     targetDistance = glm::mix(targetDistance, newDistance, lerpFactor);
     targetCenter = center;
@@ -388,15 +387,14 @@ void Renderer::cameraReset(const Simulation& simulation) {
     glm::vec3 center = sum / static_cast<float>(positions.size());
 
     float extent = glm::length(maxPos - minPos);
-    const float maxAllowedExtent = 200.0f;
-    extent = glm::min(extent, maxAllowedExtent);
+    // Limit the extent using the maximum allowed camera distance.
+    extent = glm::min(extent, maxCameraDistance);
 
-    const float minDistance = 5.0f;
-    float desiredDistance = glm::max(extent * 1.1f, minDistance);
+    float desiredDistance = glm::max(extent * 1.1f, minCameraDistance);
 
-    const float maxCenterDistance = 200.0f;
-    if (glm::length(center) > maxCenterDistance) {
-        center = glm::normalize(center) * maxCenterDistance;
+    // If the center is too far, limit its distance as well.
+    if (glm::length(center) > maxCameraDistance) {
+        center = glm::normalize(center) * maxCameraDistance;
     }
 
     cameraTarget = center;
