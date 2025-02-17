@@ -14,6 +14,7 @@
 #include <utility>
 #include <glm/gtc/matrix_transform.hpp>
 
+// Forward–declare our thread pool class.
 class ThreadPool;
 
 // Data used by the renderer
@@ -125,7 +126,7 @@ private:
     std::atomic<bool> asyncRunning { false };
     std::thread asyncThread;
 
-    // Add thread pool pointer for reusing worker threads
+    // Reusable thread pool for parallel work
     ThreadPool* threadPool = nullptr;
 
     std::vector<Ball> snapshotBalls;
