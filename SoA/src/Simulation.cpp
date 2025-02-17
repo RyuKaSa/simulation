@@ -15,9 +15,9 @@
 extern double getCurrentTime();
 
 // ====================
-// THREAD POOL CLASS
+// THREAD POOL CLASS (Nested within Simulation)
 // ====================
-class ThreadPool {
+class Simulation::ThreadPool {
 public:
     ThreadPool(size_t numThreads) : stop(false) {
         for (size_t i = 0; i < numThreads; ++i) {
@@ -78,9 +78,10 @@ private:
 
 Simulation::Simulation() {
     unsigned int numThreads = std::thread::hardware_concurrency();
-    if (numThreads == 0) numThreads = 2;
+    if (numThreads == 0)
+        numThreads = 2;
     threadPool = new ThreadPool(numThreads);
-    // Pre-allocate memory for particle data to reduce reallocations.
+    // Pre-allocate memory for particle data (SoA)
     soA.position.reserve(10000);
     soA.velocity.reserve(10000);
     soA.forceAccum.reserve(10000);
@@ -105,7 +106,7 @@ Simulation::~Simulation() {
 }
 
 void Simulation::Initialization() {
-    createHexGrid(60, 0.3f, 1.0f, false, 10.0f);
+    createHexGrid(60, 1.3f, 1.0f, false, 10.0f);
     // Gravity link
     if (gravityLink) { delete gravityLink; }
     gravityLink = new Link(soA, glm::vec3(40.0f, 0.0f, 0.0f));
@@ -115,8 +116,7 @@ void Simulation::reset() {
     std::lock_guard<std::recursive_mutex> lock(simulationMutex);
     std::cout << "RESET initialized" << std::endl;
     update(0.0f);
-    clearSimulation(); 
-    // Reinitialize
+    clearSimulation();
     Initialization();
 }
 
@@ -132,7 +132,6 @@ void Simulation::clearSimulation() {
     soA.dimensions.clear();
 
     springs.clear();
-    balls.clear();
     hexagonVertexLists.clear();
     hexagonIndices.clear();
     hexTriangles.clear();
@@ -161,17 +160,16 @@ void Simulation::setDampingCoefficient(float z) {
 void Simulation::update(float dt) {
     std::lock_guard<std::recursive_mutex> lock(simulationMutex);
     unsigned int numThreads = std::thread::hardware_concurrency();
-    if (numThreads == 0) numThreads = 2;
+    if (numThreads == 0)
+        numThreads = 2;
     
     // --- 1) Parallel Spring Update ---
     size_t totalSprings = springs.size();
     size_t chunkSize = (totalSprings + numThreads - 1) / numThreads;
     std::vector<std::future<void>> futures;
     
-    // Zero the force accumulation.
-    for (auto &f : soA.forceAccum) {
+    for (auto &f : soA.forceAccum)
         f = glm::vec3(0.0f);
-    }
     
     for (unsigned int t = 0; t < numThreads; t++) {
         size_t start = t * chunkSize;
@@ -188,7 +186,8 @@ void Simulation::update(float dt) {
                     glm::vec3 vel1 = soA.velocity[i1];
                     glm::vec3 vel2 = soA.velocity[i2];
                     float dist = glm::distance(pos1, pos2);
-                    if (dist < 1e-7f) continue;
+                    if (dist < 1e-7f)
+                        continue;
                     
                     glm::vec3 dir = (pos1 - pos2) / dist;
                     float k    = sp.springConstant;
@@ -216,7 +215,8 @@ void Simulation::update(float dt) {
             })
         );
     }
-    for (auto &f : futures) { f.get(); }
+    for (auto &f : futures)
+        f.get();
     futures.clear();
     
     // --- 2) Gravity Link Update (Serial) ---
@@ -229,10 +229,9 @@ void Simulation::update(float dt) {
     size_t chunkPart = (n + numThreads - 1) / numThreads;
     for (unsigned int t = 0; t < numThreads; t++) {
         size_t start = t * chunkPart;
-        size_t end   = std::min(start + chunkPart, n);
+        size_t end = std::min(start + chunkPart, n);
         futures.push_back(
             threadPool->enqueue([this, dt, start, end]() {
-                // The pragma below helps the compiler auto-vectorize this loop.
                 #pragma omp simd
                 for (size_t i = start; i < end; i++) {
                     if (soA.isStatic[i]) {
@@ -248,29 +247,16 @@ void Simulation::update(float dt) {
             })
         );
     }
-    for (auto &f : futures) { f.get(); }
+    for (auto &f : futures)
+        f.get();
     futures.clear();
-    
-    // --- 4) Update Legacy Ball Vector for Rendering (Serial) ---
-    balls.clear();
-    balls.resize(n);
-    for (size_t i = 0; i < n; i++) {
-        Ball b;
-        b.position = soA.position[i];
-        b.color    = (i < soA.color.size()) ? soA.color[i] : glm::vec3(1, 0, 0);
-        b.type     = soA.type[i];
-        b.dimensions = (i < soA.dimensions.size()) ? soA.dimensions[i] : glm::vec3(1.f);
-        balls[i] = b;
-    }
-    
-    // Optionally update hexagon triangles:
-    // updateHexTriangles();
+
+    updateHexTriangles();
 }
 
 void Simulation::applyGravityLink() {
-    if (gravityLink) {
+    if (gravityLink)
         gravityLink->applyGravity();
-    }
 }
 
 void Simulation::createCord(int numBalls, float length, float springRestLength, bool bothEndsStatic_) {
@@ -324,7 +310,7 @@ void Simulation::createHexGrid(int numHexagons, float hexagonSize, float springR
     
     auto rotationMatrix = glm::rotate(glm::mat4(1.0f),
                                       glm::radians(orientationDegrees),
-                                      glm::vec3(1.f,0.f,0.f));
+                                      glm::vec3(1.f, 0.f, 0.f));
     
     auto findOrAdd = [&](const glm::vec3 &pos) -> int {
         const float eps = 0.0001f;
@@ -365,7 +351,8 @@ void Simulation::createHexGrid(int numHexagons, float hexagonSize, float springR
             for (int i = 0; i < 6; i++) {
                 int idx1 = indices[i];
                 int idx2 = indices[(i+1)%6];
-                if (idx1 > idx2) std::swap(idx1, idx2);
+                if (idx1 > idx2)
+                    std::swap(idx1, idx2);
                 edgeSet.insert({idx1, idx2});
             }
         }
@@ -406,8 +393,7 @@ void Simulation::createHexGrid(int numHexagons, float hexagonSize, float springR
         springs.push_back(sp);
     }
     
-    // Optionally compute hexagon triangles:
-    // updateHexTriangles();
+    updateHexTriangles();
 }
 
 void Simulation::createSquareGridWithDiagonals(int gridSize, float spacing, float springRestLength) {
@@ -435,7 +421,7 @@ void Simulation::createSquareGridWithDiagonals(int gridSize, float spacing, floa
             soA.forceAccum.push_back(glm::vec3(0));
             soA.mass.push_back(10.f);
             soA.type.push_back(ParticleType::STRUCTURE);
-            bool sflag = (c == 0); 
+            bool sflag = (c == 0);
             soA.isStatic.push_back(sflag);
             soA.color.push_back(glm::vec3(1,0,0));
             soA.dimensions.push_back(glm::vec3(1.f));
@@ -498,110 +484,101 @@ void Simulation::createSquareGridWithDiagonals(int gridSize, float spacing, floa
     }
 }
 
-const std::vector<glm::vec3> Simulation::getParticleVelocities() const {
+void Simulation::updateHexTriangles()
+{
+    // Thread-safety for the SoA and internal vectors
     std::lock_guard<std::recursive_mutex> lock(simulationMutex);
-    return std::vector<glm::vec3>(soA.velocity.begin(), soA.velocity.end());
-}
 
-const std::vector<glm::vec3> Simulation::getStructureParticleVelocities() const {
-    std::lock_guard<std::recursive_mutex> lock(simulationMutex);
-    std::vector<glm::vec3> ret;
-    for (size_t i = 0; i < soA.velocity.size(); i++) {
-        if (soA.type[i] == ParticleType::STRUCTURE)
-            ret.push_back(soA.velocity[i]);
-    }
-    return ret;
-}
-
-std::vector<glm::vec3> Simulation::getParticlePositions() const {
-    std::lock_guard<std::recursive_mutex> lock(simulationMutex);
-    std::vector<glm::vec3> pos(soA.position.begin(), soA.position.end());
-    return pos;
-}
-
-std::vector<glm::vec3> Simulation::getStructureParticlePositions() const {
-    std::lock_guard<std::recursive_mutex> lock(simulationMutex);
-    std::vector<glm::vec3> ret;
-    for (size_t i = 0; i < soA.position.size(); i++) {
-        if (soA.type[i] == ParticleType::STRUCTURE)
-            ret.push_back(soA.position[i]);
-    }
-    return ret;
-}
-
-std::vector<glm::vec3> Simulation::getSpringEndpoints() const {
-    std::vector<glm::vec3> endpoints;
-    std::lock_guard<std::recursive_mutex> lock(simulationMutex);
-    endpoints.reserve(springs.size() * 2);
-    for (auto &sp : springs) {
-        endpoints.push_back(soA.position[sp.p1Index]);
-        endpoints.push_back(soA.position[sp.p2Index]);
-    }
-    return endpoints;
-}
-
-const std::vector<Ball>& Simulation::getBalls() const {
-    std::lock_guard<std::recursive_mutex> lock(simulationMutex);
-    return balls;
-}
-
-const std::vector<Ball>& Simulation::getSnapshotBalls() const {
-    std::lock_guard<std::mutex> lock(snapshotMutex);
-    return snapshotBalls;
-}
-
-BallSoA Simulation::getSnapshotSoA() const {
-    std::lock_guard<std::mutex> lock(snapshotMutex);
-    return snapshotSoA;
-}
-
-BallSoA Simulation::convertBallsToSoA(const std::vector<Ball>& inBalls) const {
-    BallSoA soa;
-    size_t n = inBalls.size();
-    soa.resize(n);
-    for (size_t i = 0; i < n; i++) {
-        soa.posX[i]   = inBalls[i].position.x;
-        soa.posY[i]   = inBalls[i].position.y;
-        soa.posZ[i]   = inBalls[i].position.z;
-        soa.colorR[i] = inBalls[i].color.r;
-        soa.colorG[i] = inBalls[i].color.g;
-        soa.colorB[i] = inBalls[i].color.b;
-        soa.types[i]  = (int)inBalls[i].type;
-        soa.dimsX[i]  = inBalls[i].dimensions.x;
-        soa.dimsY[i]  = inBalls[i].dimensions.y;
-        soa.dimsZ[i]  = inBalls[i].dimensions.z;
-    }
-    return soa;
-}
-
-const std::vector<HexTriangle>& Simulation::getHexTriangles() const {
-    return hexTriangles;
-}
-
-void Simulation::updateHexTriangles() {
+    // Clear old data
     hexTriangles.clear();
-    for (size_t h = 0; h < hexagonIndices.size(); h++) {
-        const std::vector<int>& indices = hexagonIndices[h];
-        if (indices.size() < 6) continue;
-        std::vector<glm::vec3> currentVerts;
-        currentVerts.reserve(indices.size());
-        for (int idx : indices) {
-            currentVerts.push_back(soA.position[idx]);
-        }
-        glm::vec3 center(0.0f);
-        for (const auto &v : currentVerts)
-            center += v;
-        center /= (float)currentVerts.size();
-        for (int i = 0; i < 6; i++) {
-            HexTriangle tri;
-            tri.vertices[0] = center;
-            tri.vertices[1] = currentVerts[i];
-            tri.vertices[2] = currentVerts[(i+1)%6];
-            glm::vec3 edge1 = tri.vertices[1] - center;
-            glm::vec3 edge2 = tri.vertices[2] - center;
-            tri.normal = glm::normalize(glm::cross(edge1, edge2));
-            hexTriangles.push_back(tri);
-        }
+
+    // If no hex data, no work
+    const size_t totalHexes = hexagonIndices.size();
+    if (totalHexes == 0)
+        return;
+
+    // Decide how many worker threads
+    unsigned int numThreads = std::thread::hardware_concurrency();
+    if (numThreads == 0) 
+        numThreads = 2;
+
+    // Plan the batch size per thread
+    size_t chunkSize = (totalHexes + numThreads - 1) / numThreads;
+
+    // We'll store partial results from each thread, then merge them
+    std::vector<std::future<std::vector<HexTriangle>>> futures;
+    futures.reserve(numThreads);
+
+    // Enqueue parallel tasks
+    for (unsigned int t = 0; t < numThreads; t++)
+    {
+        size_t start = t * chunkSize;
+        size_t end   = std::min(start + chunkSize, totalHexes);
+        if (start >= end)
+            break; // No more hexes to process for this thread
+
+        // Capture everything we need by [this] and by value
+        futures.push_back(threadPool->enqueue([this, start, end]() -> std::vector<HexTriangle>
+        {
+            std::vector<HexTriangle> localTris;
+            localTris.reserve((end - start) * 6); 
+            // Each hex -> 6 triangles in a fan around its center
+
+            for (size_t h = start; h < end; h++)
+            {
+                // Indices of the 6 corners for hex h
+                const std::vector<int>& inds = hexagonIndices[h];
+
+                // Collect the corner positions from the SoA
+                glm::vec3 corners[6];
+                for (int i = 0; i < 6; i++)
+                {
+                    corners[i] = soA.position[inds[i]];
+                }
+
+                // Compute the hex center
+                glm::vec3 center(0.0f);
+                for (int i = 0; i < 6; i++)
+                {
+                    center += corners[i];
+                }
+                center /= 6.0f;
+
+                // Build 6 triangles (a fan from the center)
+                for (int i = 0; i < 6; i++)
+                {
+                    HexTriangle tri;
+                    tri.vertices[0] = center;
+                    tri.vertices[1] = corners[i];
+                    tri.vertices[2] = corners[(i + 1) % 6];
+
+                    // Compute the normal via cross product
+                    glm::vec3 edge1 = tri.vertices[1] - tri.vertices[0];
+                    glm::vec3 edge2 = tri.vertices[2] - tri.vertices[0];
+                    tri.normal = glm::normalize(glm::cross(edge1, edge2));
+
+                    localTris.push_back(tri);
+                }
+            }
+            return localTris;
+        }));
+    }
+
+    // Gather partial results from each thread
+    size_t totalTriCount = 0;
+    std::vector<std::vector<HexTriangle>> partials(numThreads);
+    for (size_t i = 0; i < futures.size(); i++)
+    {
+        std::vector<HexTriangle> threadOutput = futures[i].get();
+        totalTriCount += threadOutput.size();
+        partials[i] = std::move(threadOutput);
+    }
+
+    // Reserve once, then append all partial vectors
+    hexTriangles.reserve(totalTriCount);
+    for (auto& part : partials)
+    {
+        hexTriangles.insert(hexTriangles.end(), part.begin(), part.end());
     }
 }
 
@@ -629,11 +606,6 @@ void Simulation::asyncLoop() {
             update((float)dt);
         }
         stepsCount++;
-        {
-            std::lock_guard<std::mutex> snapLock(snapshotMutex);
-            snapshotBalls = balls;
-            snapshotSoA = convertBallsToSoA(balls);
-        }
         lastPhysicsUpdateTime.store((float)dt);
         if (now - lastMeasure >= 1.0) {
             effectiveStepsPerSecond.store(stepsCount);
@@ -642,4 +614,36 @@ void Simulation::asyncLoop() {
         }
         std::this_thread::sleep_for(std::chrono::milliseconds(1));
     }
+}
+
+const ParticleSoA& Simulation::getSoA() const {
+    std::lock_guard<std::recursive_mutex> lock(simulationMutex);
+    return soA;
+}
+
+// Convenience getter for hexagon triangles.
+const std::vector<HexTriangle>& Simulation::getHexTriangles() const {
+    std::lock_guard<std::recursive_mutex> lock(simulationMutex);
+    return hexTriangles;
+}
+
+// Convenience getter for structure particle positions.
+std::vector<glm::vec3> Simulation::getStructureParticlePositions() const {
+    std::lock_guard<std::recursive_mutex> lock(simulationMutex);
+    std::vector<glm::vec3> ret;
+    for (size_t i = 0; i < soA.position.size(); i++) {
+        if (soA.type[i] == ParticleType::STRUCTURE)
+            ret.push_back(soA.position[i]);
+    }
+    return ret;
+}
+
+size_t Simulation::getSpringCount() const {
+    std::lock_guard<std::recursive_mutex> lock(simulationMutex);
+    return springs.size();
+}
+
+const std::vector<SpringData>& Simulation::getSprings() const {
+    std::lock_guard<std::recursive_mutex> lock(simulationMutex);
+    return springs;
 }

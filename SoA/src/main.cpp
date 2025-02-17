@@ -73,8 +73,8 @@ int main(int argc, char* argv[]) {
         simulation.setDampingCoefficient(gui.getDampingCoefficient());
         simulation.setImpulseScaling(gui.getImpulseScaling());
 
-        int numParticles = simulation.getSnapshotBalls().size();
-        int numSprings = simulation.getSpringEndpoints().size() / 2;
+        int numParticles = simulation.getSoA().position.size();
+        int numSprings = simulation.getSpringCount();  // New getter for springs
 
         gui.newFrame();
         gui.draw();

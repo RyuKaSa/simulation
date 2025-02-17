@@ -56,7 +56,9 @@ Renderer::~Renderer() {
     glDeleteProgram(shaderProgram);
     glDeleteVertexArrays(1, &vao);
     glDeleteBuffers(1, &vbo);
-    glDeleteBuffers(1, &instanceVBO);
+    glDeleteBuffers(1, &instancePosVBO);
+    glDeleteBuffers(1, &instanceColorVBO);
+    glDeleteBuffers(1, &instanceScaleVBO);
     glDeleteVertexArrays(1, &gridVAO);
     glDeleteBuffers(1, &gridVBO);
     glDeleteVertexArrays(1, &springVAO);
@@ -67,7 +69,6 @@ Renderer::~Renderer() {
 
 void Renderer::init() {
     initShaders();
-    
     // Create ball geometry (a circle)
     float radius = 0.1f;
     float vertices[(numSegments + 2) * 3];
@@ -86,38 +87,42 @@ void Renderer::init() {
     glBufferData(GL_ARRAY_BUFFER, sizeof(vertices), vertices, GL_STATIC_DRAW);
     glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, 3 * sizeof(float), (void*)0);
     glEnableVertexAttribArray(0);
-    
-    glGenBuffers(1, &instanceVBO);
-    glBindBuffer(GL_ARRAY_BUFFER, instanceVBO);
-    const GLsizeiptr instanceBufferSize = maxInstances * 7 * sizeof(float);
-    glBufferData(GL_ARRAY_BUFFER, instanceBufferSize, nullptr, GL_DYNAMIC_DRAW);
-    
-    const GLsizei stride = 7 * sizeof(float);
-    glVertexAttribPointer(1, 3, GL_FLOAT, GL_FALSE, stride, (void*)0);
+
+    // Generate separate instance VBOs:
+    glGenBuffers(1, &instancePosVBO);
+    glGenBuffers(1, &instanceColorVBO);
+    glGenBuffers(1, &instanceScaleVBO);
+    // Attribute location 1: position (offset)
+    glBindBuffer(GL_ARRAY_BUFFER, instancePosVBO);
+    glBufferData(GL_ARRAY_BUFFER, maxInstances * sizeof(glm::vec3), nullptr, GL_DYNAMIC_DRAW);
+    glVertexAttribPointer(1, 3, GL_FLOAT, GL_FALSE, sizeof(glm::vec3), (void*)0);
     glEnableVertexAttribArray(1);
     glVertexAttribDivisor(1, 1);
-    
-    glVertexAttribPointer(2, 3, GL_FLOAT, GL_FALSE, stride, (void*)(3 * sizeof(float)));
+    // Attribute location 2: color
+    glBindBuffer(GL_ARRAY_BUFFER, instanceColorVBO);
+    glBufferData(GL_ARRAY_BUFFER, maxInstances * sizeof(glm::vec3), nullptr, GL_DYNAMIC_DRAW);
+    glVertexAttribPointer(2, 3, GL_FLOAT, GL_FALSE, sizeof(glm::vec3), (void*)0);
     glEnableVertexAttribArray(2);
     glVertexAttribDivisor(2, 1);
-    
-    glVertexAttribPointer(3, 1, GL_FLOAT, GL_FALSE, stride, (void*)(6 * sizeof(float)));
+    // Attribute location 3: scale (using dimensions.x)
+    glBindBuffer(GL_ARRAY_BUFFER, instanceScaleVBO);
+    glBufferData(GL_ARRAY_BUFFER, maxInstances * sizeof(glm::vec3), nullptr, GL_DYNAMIC_DRAW);
+    glVertexAttribPointer(3, 1, GL_FLOAT, GL_FALSE, sizeof(glm::vec3), (void*)0);
     glEnableVertexAttribArray(3);
     glVertexAttribDivisor(3, 1);
-    
+
     glBindVertexArray(0);
-    
+
     initGrid();
-    
+
     glGenVertexArrays(1, &springVAO);
     glGenBuffers(1, &springVBO);
-    
+
     // Initialize hexagon triangles VAO/VBO (for batched rendering)
     glGenVertexArrays(1, &hexTriVAO);
     glGenBuffers(1, &hexTriVBO);
     glBindVertexArray(hexTriVAO);
     glBindBuffer(GL_ARRAY_BUFFER, hexTriVBO);
-    // Preallocate buffer space (will update every frame)
     glBufferData(GL_ARRAY_BUFFER, 0, nullptr, GL_DYNAMIC_DRAW);
     glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, 3 * sizeof(float), (void*)0);
     glEnableVertexAttribArray(0);
@@ -221,122 +226,172 @@ void Renderer::render(const Simulation& simulation) {
     glEnable(GL_DEPTH_TEST);
     glDepthFunc(GL_LESS);
     
-    // Render grid (non-instanced)
-    glUniform1i(useInstanceLoc, 0);
-    {
-        glm::mat4 model = glm::mat4(1.0f);
-        glUniformMatrix4fv(modelLoc, 1, GL_FALSE, glm::value_ptr(model));
-        glm::mat4 mvp = projection * view * model;
-        glUniformMatrix4fv(mvpLoc, 1, GL_FALSE, glm::value_ptr(mvp));
-        renderGrid(projection, view);
-    }
-    
-    // Render springs (batched)
-    std::vector<glm::vec3> springEndpoints = simulation.getSpringEndpoints();
-    if (!springEndpoints.empty()) {
-        glm::vec3 camDir = glm::normalize(cameraPosition - cameraTarget);
-        glm::vec3 offset = 0.01f * camDir;
-        for (auto &pt : springEndpoints) {
-            pt += offset;
-        }
-        
-        glBindVertexArray(springVAO);
-        glBindBuffer(GL_ARRAY_BUFFER, springVBO);
-        glBufferData(GL_ARRAY_BUFFER, springEndpoints.size() * sizeof(glm::vec3),
-                     springEndpoints.data(), GL_DYNAMIC_DRAW);
-        glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, 3 * sizeof(float), (void*)0);
-        glEnableVertexAttribArray(0);
-        
-        glUniform1i(useInstanceLoc, 0);
-        glUniform3f(colorLoc, 0.0f, 0.0f, 1.0f);
-        glm::mat4 model = glm::mat4(1.0f);
-        glUniformMatrix4fv(modelLoc, 1, GL_FALSE, glm::value_ptr(model));
-        glm::mat4 mvp = projection * view * model;
-        glUniformMatrix4fv(mvpLoc, 1, GL_FALSE, glm::value_ptr(mvp));
-        glDrawArrays(GL_LINES, 0, springEndpoints.size());
-        glBindVertexArray(0);
-    }
-    
-    // Render hexagon triangles (batched)
+    renderGrid(projection, view);
+    // Render springs and hexagon triangles as before:
+    renderSprings(simulation, projection, view);
     renderHexTriangles(simulation, projection, view);
     
-    // Render Balls with instanced rendering using SoA
-    BallSoA soa = simulation.getSnapshotSoA();
-    size_t instanceCount = soa.posX.size();
+    // Render Balls with instanced rendering using the SoA directly.
+    renderBalls(simulation, projection, view);
+}
+
+void Renderer::renderBalls(const Simulation& simulation, const glm::mat4& projection, const glm::mat4& view) {
+    // Retrieve particle data from the SoA.
+    const ParticleSoA& soa = simulation.getSoA();
+    size_t instanceCount = soa.position.size();
     if (instanceCount > maxInstances)
         instanceCount = maxInstances;
-    
-    std::vector<glm::vec3> velocities = simulation.getParticleVelocities();
-    float maxStructureSpeed = 0.01f;
-    for (size_t i = 0; i < instanceCount; i++) {
-        if (soa.types[i] == static_cast<int>(ParticleType::STRUCTURE)) {
-            float speed = glm::length(velocities[i]);
-            if (speed > maxStructureSpeed)
-                maxStructureSpeed = speed;
-        }
+
+    // Update instance positions using buffer mapping for speed.
+    glBindBuffer(GL_ARRAY_BUFFER, instancePosVBO);
+    void* posPtr = glMapBufferRange(GL_ARRAY_BUFFER, 0, instanceCount * sizeof(glm::vec3),
+                                     GL_MAP_WRITE_BIT | GL_MAP_INVALIDATE_BUFFER_BIT);
+    if (posPtr) {
+        memcpy(posPtr, soa.position.data(), instanceCount * sizeof(glm::vec3));
+        glUnmapBuffer(GL_ARRAY_BUFFER);
+    } else {
+        glBufferSubData(GL_ARRAY_BUFFER, 0, instanceCount * sizeof(glm::vec3), soa.position.data());
     }
-    
-    std::vector<float> instanceData;
-    instanceData.reserve(instanceCount * 7);
-    for (size_t i = 0; i < instanceCount; i++) {
-        instanceData.push_back(soa.posX[i]);
-        instanceData.push_back(soa.posY[i]);
-        instanceData.push_back(soa.posZ[i]);
-        instanceData.push_back(soa.colorR[i]);
-        instanceData.push_back(soa.colorG[i]);
-        instanceData.push_back(soa.colorB[i]);
-        instanceData.push_back(soa.dimsX[i]);
+
+    // Update instance colors.
+    glBindBuffer(GL_ARRAY_BUFFER, instanceColorVBO);
+    void* colorPtr = glMapBufferRange(GL_ARRAY_BUFFER, 0, instanceCount * sizeof(glm::vec3),
+                                       GL_MAP_WRITE_BIT | GL_MAP_INVALIDATE_BUFFER_BIT);
+    if (colorPtr) {
+        memcpy(colorPtr, soa.color.data(), instanceCount * sizeof(glm::vec3));
+        glUnmapBuffer(GL_ARRAY_BUFFER);
+    } else {
+        glBufferSubData(GL_ARRAY_BUFFER, 0, instanceCount * sizeof(glm::vec3), soa.color.data());
     }
-    
-    glBindBuffer(GL_ARRAY_BUFFER, instanceVBO);
-    glBufferData(GL_ARRAY_BUFFER, instanceData.size() * sizeof(float),
-                 instanceData.data(), GL_DYNAMIC_DRAW);
-    
+
+    // Update instance scales (dimensions).
+    glBindBuffer(GL_ARRAY_BUFFER, instanceScaleVBO);
+    void* scalePtr = glMapBufferRange(GL_ARRAY_BUFFER, 0, instanceCount * sizeof(glm::vec3),
+                                       GL_MAP_WRITE_BIT | GL_MAP_INVALIDATE_BUFFER_BIT);
+    if (scalePtr) {
+        memcpy(scalePtr, soa.dimensions.data(), instanceCount * sizeof(glm::vec3));
+        glUnmapBuffer(GL_ARRAY_BUFFER);
+    } else {
+        glBufferSubData(GL_ARRAY_BUFFER, 0, instanceCount * sizeof(glm::vec3), soa.dimensions.data());
+    }
+
+    // Set shader state for instanced ball rendering.
     glUniform1i(useInstanceLoc, 1);
-    {
-        glm::mat4 model = glm::mat4(1.0f);
-        glUniformMatrix4fv(modelLoc, 1, GL_FALSE, glm::value_ptr(model));
-        glm::mat4 mvp = projection * view * model;
-        glUniformMatrix4fv(mvpLoc, 1, GL_FALSE, glm::value_ptr(mvp));
-    }
+    glm::mat4 model = glm::mat4(1.0f);
+    glUniformMatrix4fv(modelLoc, 1, GL_FALSE, glm::value_ptr(model));
+    glm::mat4 mvp = projection * view * model;
+    glUniformMatrix4fv(mvpLoc, 1, GL_FALSE, glm::value_ptr(mvp));
+
+    // Bind the ball VAO (created in init()) and draw all instances in one call.
     glBindVertexArray(vao);
-    glDrawArraysInstanced(GL_TRIANGLE_FAN, 0, numSegments + 2, instanceCount);
+    glDrawArraysInstanced(GL_TRIANGLE_FAN, 0, numSegments + 2, static_cast<GLsizei>(instanceCount));
     glBindVertexArray(0);
 }
 
-void Renderer::renderHexTriangles(const Simulation& simulation, const glm::mat4& projection, const glm::mat4& view) {
-    const std::vector<HexTriangle>& tris = simulation.getHexTriangles();
-    if (tris.empty()) return;
+void Renderer::renderSprings(const Simulation& simulation, const glm::mat4& projection, const glm::mat4& view) {
+    // Retrieve the particle data from the simulation
+    const ParticleSoA& soa = simulation.getSoA();
     
-    // Build a contiguous vertex array: 3 vertices per triangle.
-    std::vector<glm::vec3> triVertices;
-    triVertices.reserve(tris.size() * 3);
-    for (const auto &tri : tris) {
-        for (int i = 0; i < 3; i++) {
-            triVertices.push_back(tri.vertices[i]);
-        }
+    // Retrieve the spring data.
+    // (Assuming Simulation exposes a getter like getSprings(). If not, you could add one.)
+    const std::vector<SpringData>& springs = simulation.getSprings();
+    
+    // Reserve space for two vertices per spring (one for each endpoint)
+    std::vector<glm::vec3> springVertices;
+    springVertices.reserve(springs.size() * 2);
+    
+    // For each spring, add both endpoints from the SoA.
+    for (const SpringData& spring : springs) {
+        // Using the spring's particle indices, get the positions
+        springVertices.push_back(soa.position[spring.p1Index]);
+        springVertices.push_back(soa.position[spring.p2Index]);
     }
     
-    glBindVertexArray(hexTriVAO);
-    glBindBuffer(GL_ARRAY_BUFFER, hexTriVBO);
-    glBufferData(GL_ARRAY_BUFFER, triVertices.size() * sizeof(glm::vec3), triVertices.data(), GL_DYNAMIC_DRAW);
-    
+    // Set up the shader state for non-instanced (simple line) drawing.
     glUniform1i(useInstanceLoc, 0);
-    glUniform3f(colorLoc, 0.68f, 0.85f, 0.90f); // light blue color, adjust as needed
+    // Set the color to blue for springs.
+    glUniform3f(colorLoc, 0.0f, 0.0f, 1.0f);
     
+    // Setup the model and MVP matrices.
     glm::mat4 model = glm::mat4(1.0f);
     glUniformMatrix4fv(modelLoc, 1, GL_FALSE, glm::value_ptr(model));
     glm::mat4 mvp = projection * view * model;
     glUniformMatrix4fv(mvpLoc, 1, GL_FALSE, glm::value_ptr(mvp));
     
-    glDrawArrays(GL_TRIANGLES, 0, static_cast<GLsizei>(triVertices.size()));
+    // Bind the spring VAO and update its VBO with the batch of vertices.
+    glBindVertexArray(springVAO);
+    glBindBuffer(GL_ARRAY_BUFFER, springVBO);
+    // Upload the spring vertex data in one batch.
+    glBufferData(GL_ARRAY_BUFFER, springVertices.size() * sizeof(glm::vec3),
+                 springVertices.data(), GL_DYNAMIC_DRAW);
+    glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, sizeof(glm::vec3), (void*)0);
+    glEnableVertexAttribArray(0);
     
+    // Draw all spring lines in one call
+    glDrawArrays(GL_LINES, 0, static_cast<GLsizei>(springVertices.size()));
+    
+    // Unbind the VAO to clean up state.
+    glBindVertexArray(0);
+}
+
+void Renderer::renderHexTriangles(const Simulation& simulation, const glm::mat4& projection, const glm::mat4& view) {
+    // Retrieve the precomputed hexagon triangles from the simulation.
+    const std::vector<HexTriangle>& tris = simulation.getHexTriangles();
+    if (tris.empty())
+        return;
+
+    // Calculate total vertex count (3 vertices per triangle) and total size in bytes.
+    const size_t vertexCount = tris.size() * 3;
+    const size_t totalBytes = vertexCount * sizeof(glm::vec3);
+
+    // Bind the VAO and allocate buffer memory (using DYNAMIC_DRAW for frequent updates).
+    glBindVertexArray(hexTriVAO);
+    glBindBuffer(GL_ARRAY_BUFFER, hexTriVBO);
+    glBufferData(GL_ARRAY_BUFFER, totalBytes, nullptr, GL_DYNAMIC_DRAW);
+
+    // Map the buffer and copy the triangle vertices in one batch.
+    glm::vec3* bufferData = static_cast<glm::vec3*>(glMapBuffer(GL_ARRAY_BUFFER, GL_WRITE_ONLY));
+    if (bufferData) {
+        for (const auto& tri : tris) {
+            // Since the vertices are stored consecutively in the triangle, copy all three.
+            memcpy(bufferData, tri.vertices, 3 * sizeof(glm::vec3));
+            bufferData += 3;
+        }
+        glUnmapBuffer(GL_ARRAY_BUFFER);
+    } else {
+        // Fallback in case mapping fails (should be rare).
+        std::vector<glm::vec3> triVertices;
+        triVertices.reserve(vertexCount);
+        for (const auto& tri : tris) {
+            for (int i = 0; i < 3; i++) {
+                triVertices.push_back(tri.vertices[i]);
+            }
+        }
+        glBufferSubData(GL_ARRAY_BUFFER, 0, triVertices.size() * sizeof(glm::vec3), triVertices.data());
+    }
+
+    // Set shader state:
+    // Disable instancing and set the triangle color to medium grey.
+    glUniform1i(useInstanceLoc, 0);
+    glUniform3f(colorLoc, 0.5f, 0.5f, 0.5f);
+
+    // Set up the model and MVP matrices.
+    glm::mat4 model = glm::mat4(1.0f);
+    glUniformMatrix4fv(modelLoc, 1, GL_FALSE, glm::value_ptr(model));
+    glm::mat4 mvp = projection * view * model;
+    glUniformMatrix4fv(mvpLoc, 1, GL_FALSE, glm::value_ptr(mvp));
+
+    // Render all triangles in one batched call.
+    glDrawArrays(GL_TRIANGLES, 0, static_cast<GLsizei>(vertexCount));
+
     glBindVertexArray(0);
 }
 
 void Renderer::adjustCameraToFit(const Simulation& simulation) {
+    // Use the new convenience getter for structure particle positions.
     std::vector<glm::vec3> positions = simulation.getStructureParticlePositions();
-    if (positions.empty()) return;
+    if (positions.empty())
+        return;
 
     glm::vec3 minPos = positions[0];
     glm::vec3 maxPos = positions[0];
@@ -360,7 +415,8 @@ void Renderer::adjustCameraToFit(const Simulation& simulation) {
 
 void Renderer::cameraReset(const Simulation& simulation) {
     std::vector<glm::vec3> positions = simulation.getStructureParticlePositions();
-    if (positions.empty()) return;
+    if (positions.empty())
+        return;
 
     glm::vec3 minPos = positions[0];
     glm::vec3 maxPos = positions[0];

@@ -13,18 +13,21 @@ public:
     void adjustCameraToFit(const Simulation& simulation);
     void cameraReset(const Simulation& simulation);
 
-    // getters for camera position and target
+    // Getters for camera position and target
     glm::vec3 getCameraPosition() const { return cameraPosition; }
     glm::vec3 getCameraTarget() const { return cameraTarget; }
 
-    // New: render hexagon triangles
+    // New: Render hexagon triangles
+    void renderBalls(const Simulation& simulation, const glm::mat4& projection, const glm::mat4& view);
     void renderHexTriangles(const Simulation& simulation, const glm::mat4& projection, const glm::mat4& view);
+    void renderSprings(const Simulation& simulation, const glm::mat4& projection, const glm::mat4& view);
 
 private:
     unsigned int shaderProgram;
     unsigned int vao, vbo;
-    unsigned int instanceVBO;
-    
+    // Remove the old instanceVBO and add separate buffers:
+    unsigned int instancePosVBO, instanceColorVBO, instanceScaleVBO;
+
     void init();
     void initShaders();
     int numSegments = 32;
@@ -34,7 +37,7 @@ private:
 
     // Camera properties
     glm::vec3 cameraPosition;
-    glm::vec3 cameraTarget;  
+    glm::vec3 cameraTarget;
     glm::vec3 targetPosition;
     glm::vec3 targetCenter;
     float targetDistance;
@@ -52,7 +55,7 @@ private:
     // Spring geometry
     unsigned int springVAO, springVBO;
 
-    // New: Hexagon triangles geometry for rendering
+    // Hexagon triangles geometry for rendering
     unsigned int hexTriVAO, hexTriVBO;
 
     // Maximum number of instances to support
