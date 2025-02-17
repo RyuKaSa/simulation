@@ -1,0 +1,1011 @@
+// !$*UTF8*$!
+{
+	archiveVersion = 1;
+	classes = {
+	};
+	objectVersion = 46;
+	objects = {
+
+/* Begin PBXAggregateTarget section */
+		8539BA4900F76315F71E35DB /* ZERO_CHECK */ = {
+			isa = PBXAggregateTarget;
+			buildConfigurationList = 0E243F85EE0F4E1D96695FDA /* Build configuration list for PBXAggregateTarget "ZERO_CHECK" */;
+			buildPhases = (
+				C0B2A17904F075F5A921BE02 /* Generate CMakeFiles/ZERO_CHECK */,
+			);
+			dependencies = (
+			);
+			name = ZERO_CHECK;
+			productName = ZERO_CHECK;
+		};
+		D75014E4317DB050E1011050 /* ALL_BUILD */ = {
+			isa = PBXAggregateTarget;
+			buildConfigurationList = F543B384B33A48379A4FA17D /* Build configuration list for PBXAggregateTarget "ALL_BUILD" */;
+			buildPhases = (
+				6D080BD9C166046B380C5E62 /* Generate CMakeFiles/ALL_BUILD */,
+			);
+			dependencies = (
+				EBE94D33B9FF4C79BA3F3D63 /* PBXTargetDependency */,
+				7C23ECA3C0374313992025C9 /* PBXTargetDependency */,
+				9CCFE1E10B45447FBE3C42DD /* PBXTargetDependency */,
+			);
+			name = ALL_BUILD;
+			productName = ALL_BUILD;
+		};
+/* End PBXAggregateTarget section */
+
+/* Begin PBXBuildFile section */
+		10D73AFAE22D4697A77D2B49 /* /Users/williambogdanovic/Desktop/simulations/SoA/external/imgui/imgui_draw.cpp */ = {isa = PBXBuildFile; fileRef = 83B3CBC8C9384214930B67F4 /* /Users/williambogdanovic/Desktop/simulations/SoA/external/imgui/imgui_draw.cpp */; };
+		231560CDF0254D0CAA40A896 /* /Users/williambogdanovic/Desktop/simulations/SoA/src/main.cpp */ = {isa = PBXBuildFile; fileRef = 600CB14E9E8D426BB4BC1FB8 /* /Users/williambogdanovic/Desktop/simulations/SoA/src/main.cpp */; };
+		3737AB8D50CB47978257A0DB /* /Users/williambogdanovic/Desktop/simulations/SoA/src/Renderer.cpp */ = {isa = PBXBuildFile; fileRef = 9B1657400C30493DA8DBFB23 /* /Users/williambogdanovic/Desktop/simulations/SoA/src/Renderer.cpp */; };
+		43B4982AC2CE4CF0BFE54234 /* /Users/williambogdanovic/Desktop/simulations/SoA/CMakeLists.txt */ = {isa = PBXBuildFile; fileRef = 4DAE5BCD0074490B9AED6852 /* /Users/williambogdanovic/Desktop/simulations/SoA/CMakeLists.txt */; };
+		43C412A4283242E4B174A3CE /* /Users/williambogdanovic/Desktop/simulations/SoA/CMakeLists.txt */ = {isa = PBXBuildFile; fileRef = 711BBD9EFB0441FAB895B28E /* /Users/williambogdanovic/Desktop/simulations/SoA/CMakeLists.txt */; };
+		64691993D4D44770848B8FB1 /* /Users/williambogdanovic/Desktop/simulations/SoA/external/imgui/backends/imgui_impl_sdl2.cpp */ = {isa = PBXBuildFile; fileRef = AE3B968D993D4981A45FD9A6 /* /Users/williambogdanovic/Desktop/simulations/SoA/external/imgui/backends/imgui_impl_sdl2.cpp */; };
+		75B594E5DDF94D54B8B005F3 /* /Users/williambogdanovic/Desktop/simulations/SoA/external/imgui/imgui_widgets.cpp */ = {isa = PBXBuildFile; fileRef = 3B09D2FD8E1F465083881D2F /* /Users/williambogdanovic/Desktop/simulations/SoA/external/imgui/imgui_widgets.cpp */; };
+		850893666F414847A3FB802A /* /Users/williambogdanovic/Desktop/simulations/SoA/src/Simulation.cpp */ = {isa = PBXBuildFile; fileRef = 124D9C7BD09444D09218B66A /* /Users/williambogdanovic/Desktop/simulations/SoA/src/Simulation.cpp */; };
+		920FAD1C11E04C18B40570FD /* /Users/williambogdanovic/Desktop/simulations/SoA/external/imgui/imgui_demo.cpp */ = {isa = PBXBuildFile; fileRef = 76E8964E15AD4474BD1C1E2A /* /Users/williambogdanovic/Desktop/simulations/SoA/external/imgui/imgui_demo.cpp */; };
+		979B4431619C49C19A9D3BC7 /* /Users/williambogdanovic/Desktop/simulations/SoA/external/imgui/imgui_tables.cpp */ = {isa = PBXBuildFile; fileRef = 7FD5891492E04192A27D0110 /* /Users/williambogdanovic/Desktop/simulations/SoA/external/imgui/imgui_tables.cpp */; };
+		A8C232284E7D4D21B5FC605A /* /Users/williambogdanovic/Desktop/simulations/SoA/src/Link.cpp */ = {isa = PBXBuildFile; fileRef = 9BD98F7A9FD74B76B9D2FEDD /* /Users/williambogdanovic/Desktop/simulations/SoA/src/Link.cpp */; };
+		BE0137B8B6274CD286324C5E /* /Users/williambogdanovic/Desktop/simulations/SoA/glimac/third-party/glad/src/glad.c */ = {isa = PBXBuildFile; fileRef = 09D32DA8B40F4C9D876078E1 /* /Users/williambogdanovic/Desktop/simulations/SoA/glimac/third-party/glad/src/glad.c */; };
+		CD15EC792ED447E5A5A3B843 /* /Users/williambogdanovic/Desktop/simulations/SoA/src/GUI.cpp */ = {isa = PBXBuildFile; fileRef = AD9AB006CAB04CDF847570FA /* /Users/williambogdanovic/Desktop/simulations/SoA/src/GUI.cpp */; };
+		E4B97BD4CDE24EDCB03B221B /* /Users/williambogdanovic/Desktop/simulations/SoA/external/imgui/backends/imgui_impl_opengl3.cpp */ = {isa = PBXBuildFile; fileRef = E9200FAAEB574D88BCA57721 /* /Users/williambogdanovic/Desktop/simulations/SoA/external/imgui/backends/imgui_impl_opengl3.cpp */; };
+		FE6C8500250849E18A4A9467 /* /Users/williambogdanovic/Desktop/simulations/SoA/external/imgui/imgui.cpp */ = {isa = PBXBuildFile; fileRef = DD7106F015854E8B83E6E2E8 /* /Users/williambogdanovic/Desktop/simulations/SoA/external/imgui/imgui.cpp */; };
+/* End PBXBuildFile section */
+
+/* Begin PBXBuildStyle section */
+		7AAFAC65C36348F080691AA6 /* Release */ = {
+			isa = PBXBuildStyle;
+			buildSettings = {
+				COPY_PHASE_STRIP = NO;
+			};
+			name = Release;
+		};
+		7B847BE899744F9FABA310E2 /* MinSizeRel */ = {
+			isa = PBXBuildStyle;
+			buildSettings = {
+				COPY_PHASE_STRIP = NO;
+			};
+			name = MinSizeRel;
+		};
+		7E6ADB3A69B5434BAC6CA458 /* Debug */ = {
+			isa = PBXBuildStyle;
+			buildSettings = {
+				COPY_PHASE_STRIP = NO;
+			};
+			name = Debug;
+		};
+		A1BF1676982444408D841C08 /* RelWithDebInfo */ = {
+			isa = PBXBuildStyle;
+			buildSettings = {
+				COPY_PHASE_STRIP = NO;
+			};
+			name = RelWithDebInfo;
+		};
+/* End PBXBuildStyle section */
+
+/* Begin PBXContainerItemProxy section */
+		192651EBB5974E478A3C87B6 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = A1EFF2D6A0F1422882AE07D9 /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = 9731CA41C57C5728ACF7EF0F;
+			remoteInfo = BallsSimulation;
+		};
+		354022A26A7043A4A751F16D /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = A1EFF2D6A0F1422882AE07D9 /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = 8539BA4900F76315F71E35DB;
+			remoteInfo = ZERO_CHECK;
+		};
+		68D0852E133143A0A0FDF466 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = A1EFF2D6A0F1422882AE07D9 /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = 8539BA4900F76315F71E35DB;
+			remoteInfo = ZERO_CHECK;
+		};
+		6AC683CD83D94F11A419B4BF /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = A1EFF2D6A0F1422882AE07D9 /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = D2E288B82FA5CF409098D949;
+			remoteInfo = glad;
+		};
+		AE81A0D2B9D74B029811B643 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = A1EFF2D6A0F1422882AE07D9 /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = 8539BA4900F76315F71E35DB;
+			remoteInfo = ZERO_CHECK;
+		};
+		EF20578DD7E14BF2B763BA10 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = A1EFF2D6A0F1422882AE07D9 /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = D2E288B82FA5CF409098D949;
+			remoteInfo = glad;
+		};
+/* End PBXContainerItemProxy section */
+
+/* Begin PBXFileReference section */
+		042C85A819DC4086ABB33D04 /* /Users/williambogdanovic/Desktop/simulations/SoA/CMakeLists.txt */ = {isa = PBXFileReference; explicitFileType = sourcecode.text; fileEncoding = 4; name = CMakeLists.txt; path = CMakeLists.txt; sourceTree = SOURCE_ROOT; };
+		09D32DA8B40F4C9D876078E1 /* /Users/williambogdanovic/Desktop/simulations/SoA/glimac/third-party/glad/src/glad.c */ = {isa = PBXFileReference; explicitFileType = sourcecode.c.c; fileEncoding = 4; name = glad.c; path = "glimac/third-party/glad/src/glad.c"; sourceTree = SOURCE_ROOT; };
+		124D9C7BD09444D09218B66A /* /Users/williambogdanovic/Desktop/simulations/SoA/src/Simulation.cpp */ = {isa = PBXFileReference; explicitFileType = sourcecode.cpp.cpp; fileEncoding = 4; name = Simulation.cpp; path = src/Simulation.cpp; sourceTree = SOURCE_ROOT; };
+		3B09D2FD8E1F465083881D2F /* /Users/williambogdanovic/Desktop/simulations/SoA/external/imgui/imgui_widgets.cpp */ = {isa = PBXFileReference; explicitFileType = sourcecode.cpp.cpp; fileEncoding = 4; name = imgui_widgets.cpp; path = external/imgui/imgui_widgets.cpp; sourceTree = SOURCE_ROOT; };
+		4DAE5BCD0074490B9AED6852 /* /Users/williambogdanovic/Desktop/simulations/SoA/CMakeLists.txt */ = {isa = PBXFileReference; explicitFileType = sourcecode.text; fileEncoding = 4; name = CMakeLists.txt; path = CMakeLists.txt; sourceTree = SOURCE_ROOT; };
+		5C3CCFE050FD4CFE9733919C /* glad */ = {isa = PBXFileReference; explicitFileType = archive.ar; path = libglad.a; sourceTree = BUILT_PRODUCTS_DIR; };
+		600CB14E9E8D426BB4BC1FB8 /* /Users/williambogdanovic/Desktop/simulations/SoA/src/main.cpp */ = {isa = PBXFileReference; explicitFileType = sourcecode.cpp.cpp; fileEncoding = 4; name = main.cpp; path = src/main.cpp; sourceTree = SOURCE_ROOT; };
+		711BBD9EFB0441FAB895B28E /* /Users/williambogdanovic/Desktop/simulations/SoA/CMakeLists.txt */ = {isa = PBXFileReference; explicitFileType = sourcecode.text; fileEncoding = 4; name = CMakeLists.txt; path = CMakeLists.txt; sourceTree = SOURCE_ROOT; };
+		76E8964E15AD4474BD1C1E2A /* /Users/williambogdanovic/Desktop/simulations/SoA/external/imgui/imgui_demo.cpp */ = {isa = PBXFileReference; explicitFileType = sourcecode.cpp.cpp; fileEncoding = 4; name = imgui_demo.cpp; path = external/imgui/imgui_demo.cpp; sourceTree = SOURCE_ROOT; };
+		7FD5891492E04192A27D0110 /* /Users/williambogdanovic/Desktop/simulations/SoA/external/imgui/imgui_tables.cpp */ = {isa = PBXFileReference; explicitFileType = sourcecode.cpp.cpp; fileEncoding = 4; name = imgui_tables.cpp; path = external/imgui/imgui_tables.cpp; sourceTree = SOURCE_ROOT; };
+		83B3CBC8C9384214930B67F4 /* /Users/williambogdanovic/Desktop/simulations/SoA/external/imgui/imgui_draw.cpp */ = {isa = PBXFileReference; explicitFileType = sourcecode.cpp.cpp; fileEncoding = 4; name = imgui_draw.cpp; path = external/imgui/imgui_draw.cpp; sourceTree = SOURCE_ROOT; };
+		86EEB740B3D548E0A9CD3BA3 /* BallsSimulation */ = {isa = PBXFileReference; explicitFileType = "compiled.mach-o.executable"; path = BallsSimulation; sourceTree = BUILT_PRODUCTS_DIR; };
+		9B1657400C30493DA8DBFB23 /* /Users/williambogdanovic/Desktop/simulations/SoA/src/Renderer.cpp */ = {isa = PBXFileReference; explicitFileType = sourcecode.cpp.cpp; fileEncoding = 4; name = Renderer.cpp; path = src/Renderer.cpp; sourceTree = SOURCE_ROOT; };
+		9BD98F7A9FD74B76B9D2FEDD /* /Users/williambogdanovic/Desktop/simulations/SoA/src/Link.cpp */ = {isa = PBXFileReference; explicitFileType = sourcecode.cpp.cpp; fileEncoding = 4; name = Link.cpp; path = src/Link.cpp; sourceTree = SOURCE_ROOT; };
+		AD9AB006CAB04CDF847570FA /* /Users/williambogdanovic/Desktop/simulations/SoA/src/GUI.cpp */ = {isa = PBXFileReference; explicitFileType = sourcecode.cpp.cpp; fileEncoding = 4; name = GUI.cpp; path = src/GUI.cpp; sourceTree = SOURCE_ROOT; };
+		AE3B968D993D4981A45FD9A6 /* /Users/williambogdanovic/Desktop/simulations/SoA/external/imgui/backends/imgui_impl_sdl2.cpp */ = {isa = PBXFileReference; explicitFileType = sourcecode.cpp.cpp; fileEncoding = 4; name = imgui_impl_sdl2.cpp; path = external/imgui/backends/imgui_impl_sdl2.cpp; sourceTree = SOURCE_ROOT; };
+		DD7106F015854E8B83E6E2E8 /* /Users/williambogdanovic/Desktop/simulations/SoA/external/imgui/imgui.cpp */ = {isa = PBXFileReference; explicitFileType = sourcecode.cpp.cpp; fileEncoding = 4; name = imgui.cpp; path = external/imgui/imgui.cpp; sourceTree = SOURCE_ROOT; };
+		E9200FAAEB574D88BCA57721 /* /Users/williambogdanovic/Desktop/simulations/SoA/external/imgui/backends/imgui_impl_opengl3.cpp */ = {isa = PBXFileReference; explicitFileType = sourcecode.cpp.cpp; fileEncoding = 4; name = imgui_impl_opengl3.cpp; path = external/imgui/backends/imgui_impl_opengl3.cpp; sourceTree = SOURCE_ROOT; };
+/* End PBXFileReference section */
+
+/* Begin PBXFrameworksBuildPhase section */
+		A8AAE83D79E64BFF895A8A86 /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		DE8AA4ADD4554C6AAF51913E /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXFrameworksBuildPhase section */
+
+/* Begin PBXGroup section */
+		019EF278F9A84CF6BDAC8BCE /* Source Files */ = {
+			isa = PBXGroup;
+			children = (
+				09D32DA8B40F4C9D876078E1 /* /Users/williambogdanovic/Desktop/simulations/SoA/glimac/third-party/glad/src/glad.c */,
+			);
+			name = "Source Files";
+			sourceTree = "<group>";
+		};
+		09DC63E7E6C84B3B816286D0 /* glad */ = {
+			isa = PBXGroup;
+			children = (
+				019EF278F9A84CF6BDAC8BCE /* Source Files */,
+				4DAE5BCD0074490B9AED6852 /* /Users/williambogdanovic/Desktop/simulations/SoA/CMakeLists.txt */,
+			);
+			name = glad;
+			sourceTree = "<group>";
+		};
+		1DDE2F71849C4220B85EB21B /* Resources */ = {
+			isa = PBXGroup;
+			children = (
+			);
+			name = Resources;
+			sourceTree = "<group>";
+		};
+		32EC7962C9C4489CAB9878F7 /* BallsSimulation */ = {
+			isa = PBXGroup;
+			children = (
+				A578789A275E427B92CA8110 /* Source Files */,
+				711BBD9EFB0441FAB895B28E /* /Users/williambogdanovic/Desktop/simulations/SoA/CMakeLists.txt */,
+			);
+			name = BallsSimulation;
+			sourceTree = "<group>";
+		};
+		384F394845BE445898F63AE5 /* CMake Rules */ = {
+			isa = PBXGroup;
+			children = (
+			);
+			name = "CMake Rules";
+			sourceTree = "<group>";
+		};
+		4C34C6EE50F34D2BA9EFFAD8 /* Frameworks */ = {
+			isa = PBXGroup;
+			children = (
+			);
+			name = Frameworks;
+			sourceTree = "<group>";
+		};
+		A578789A275E427B92CA8110 /* Source Files */ = {
+			isa = PBXGroup;
+			children = (
+				E9200FAAEB574D88BCA57721 /* /Users/williambogdanovic/Desktop/simulations/SoA/external/imgui/backends/imgui_impl_opengl3.cpp */,
+				AE3B968D993D4981A45FD9A6 /* /Users/williambogdanovic/Desktop/simulations/SoA/external/imgui/backends/imgui_impl_sdl2.cpp */,
+				DD7106F015854E8B83E6E2E8 /* /Users/williambogdanovic/Desktop/simulations/SoA/external/imgui/imgui.cpp */,
+				76E8964E15AD4474BD1C1E2A /* /Users/williambogdanovic/Desktop/simulations/SoA/external/imgui/imgui_demo.cpp */,
+				83B3CBC8C9384214930B67F4 /* /Users/williambogdanovic/Desktop/simulations/SoA/external/imgui/imgui_draw.cpp */,
+				7FD5891492E04192A27D0110 /* /Users/williambogdanovic/Desktop/simulations/SoA/external/imgui/imgui_tables.cpp */,
+				3B09D2FD8E1F465083881D2F /* /Users/williambogdanovic/Desktop/simulations/SoA/external/imgui/imgui_widgets.cpp */,
+				AD9AB006CAB04CDF847570FA /* /Users/williambogdanovic/Desktop/simulations/SoA/src/GUI.cpp */,
+				9BD98F7A9FD74B76B9D2FEDD /* /Users/williambogdanovic/Desktop/simulations/SoA/src/Link.cpp */,
+				9B1657400C30493DA8DBFB23 /* /Users/williambogdanovic/Desktop/simulations/SoA/src/Renderer.cpp */,
+				124D9C7BD09444D09218B66A /* /Users/williambogdanovic/Desktop/simulations/SoA/src/Simulation.cpp */,
+				600CB14E9E8D426BB4BC1FB8 /* /Users/williambogdanovic/Desktop/simulations/SoA/src/main.cpp */,
+			);
+			name = "Source Files";
+			sourceTree = "<group>";
+		};
+		A743680E31714E5E818FE0DC /* ALL_BUILD */ = {
+			isa = PBXGroup;
+			children = (
+				384F394845BE445898F63AE5 /* CMake Rules */,
+				042C85A819DC4086ABB33D04 /* /Users/williambogdanovic/Desktop/simulations/SoA/CMakeLists.txt */,
+			);
+			name = ALL_BUILD;
+			sourceTree = "<group>";
+		};
+		E45A7DE21E5C4A4DA2DBDCAC = {
+			isa = PBXGroup;
+			children = (
+				32EC7962C9C4489CAB9878F7 /* BallsSimulation */,
+				09DC63E7E6C84B3B816286D0 /* glad */,
+				A743680E31714E5E818FE0DC /* ALL_BUILD */,
+				FB3984D16B53485886A3DDDB /* Products */,
+				4C34C6EE50F34D2BA9EFFAD8 /* Frameworks */,
+				1DDE2F71849C4220B85EB21B /* Resources */,
+			);
+			sourceTree = "<group>";
+		};
+		FB3984D16B53485886A3DDDB /* Products */ = {
+			isa = PBXGroup;
+			children = (
+				86EEB740B3D548E0A9CD3BA3 /* BallsSimulation */,
+				5C3CCFE050FD4CFE9733919C /* glad */,
+			);
+			name = Products;
+			sourceTree = "<group>";
+		};
+/* End PBXGroup section */
+
+/* Begin PBXNativeTarget section */
+		9731CA41C57C5728ACF7EF0F /* BallsSimulation */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = F2B2DDBA8232417BAA5069B8 /* Build configuration list for PBXNativeTarget "BallsSimulation" */;
+			buildPhases = (
+				A31A6F2A9A4F4583A40D48B8 /* Sources */,
+				DE8AA4ADD4554C6AAF51913E /* Frameworks */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+				0A56E3318BBD49BB864E442E /* PBXTargetDependency */,
+				0864F8F4038D4D5BA6030698 /* PBXTargetDependency */,
+			);
+			name = BallsSimulation;
+			productName = BallsSimulation;
+			productReference = 86EEB740B3D548E0A9CD3BA3 /* BallsSimulation */;
+			productType = "com.apple.product-type.tool";
+		};
+		D2E288B82FA5CF409098D949 /* glad */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = 1325023DA0C84BCBBC281F4B /* Build configuration list for PBXNativeTarget "glad" */;
+			buildPhases = (
+				C1EFCDDA7A3D4799B053A474 /* Sources */,
+				A8AAE83D79E64BFF895A8A86 /* Frameworks */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+				066BB1B8C83A428795A31496 /* PBXTargetDependency */,
+			);
+			name = glad;
+			productName = glad;
+			productReference = 5C3CCFE050FD4CFE9733919C /* glad */;
+			productType = "com.apple.product-type.library.static";
+		};
+/* End PBXNativeTarget section */
+
+/* Begin PBXProject section */
+		A1EFF2D6A0F1422882AE07D9 /* Project object */ = {
+			isa = PBXProject;
+			attributes = {
+				BuildIndependentTargetsInParallel = YES;
+				LastUpgradeCheck = 1620;
+			};
+			buildConfigurationList = A5497611BEDE45A48B441CBF /* Build configuration list for PBXProject "BallsSimulation" */;
+			buildSettings = {
+			};
+			buildStyles = (
+				7E6ADB3A69B5434BAC6CA458 /* Debug */,
+				7AAFAC65C36348F080691AA6 /* Release */,
+				7B847BE899744F9FABA310E2 /* MinSizeRel */,
+				A1BF1676982444408D841C08 /* RelWithDebInfo */,
+			);
+			compatibilityVersion = "Xcode 3.2";
+			hasScannedForEncodings = 0;
+			mainGroup = E45A7DE21E5C4A4DA2DBDCAC;
+			projectDirPath = /Users/williambogdanovic/Desktop/simulations/SoA;
+			projectRoot = "";
+			targets = (
+				D75014E4317DB050E1011050 /* ALL_BUILD */,
+				9731CA41C57C5728ACF7EF0F /* BallsSimulation */,
+				8539BA4900F76315F71E35DB /* ZERO_CHECK */,
+				D2E288B82FA5CF409098D949 /* glad */,
+			);
+		};
+/* End PBXProject section */
+
+/* Begin PBXShellScriptBuildPhase section */
+		3C0110FC8322DE7E50886E21 = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+			);
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "# shell script goes here
+exit 0";
+			showEnvVarsInLog = 0;
+		};
+		6D080BD9C166046B380C5E62 /* Generate CMakeFiles/ALL_BUILD */ = {
+			isa = PBXShellScriptBuildPhase;
+			alwaysOutOfDate = 1;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+			);
+			name = "Generate CMakeFiles/ALL_BUILD";
+			outputPaths = (
+/Users/williambogdanovic/Desktop/simulations/SoA/build_xcode/CMakeFiles/ALL_BUILD			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "set -e
+if test \"$CONFIGURATION\" = \"Debug\"; then :
+  cd /Users/williambogdanovic/Desktop/simulations/SoA/build_xcode
+  echo Build\\ all\\ projects
+fi
+if test \"$CONFIGURATION\" = \"Release\"; then :
+  cd /Users/williambogdanovic/Desktop/simulations/SoA/build_xcode
+  echo Build\\ all\\ projects
+fi
+if test \"$CONFIGURATION\" = \"MinSizeRel\"; then :
+  cd /Users/williambogdanovic/Desktop/simulations/SoA/build_xcode
+  echo Build\\ all\\ projects
+fi
+if test \"$CONFIGURATION\" = \"RelWithDebInfo\"; then :
+  cd /Users/williambogdanovic/Desktop/simulations/SoA/build_xcode
+  echo Build\\ all\\ projects
+fi
+";
+			showEnvVarsInLog = 0;
+		};
+		9B50530E35CC49C82C2FACCF = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+			);
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "# shell script goes here
+exit 0";
+			showEnvVarsInLog = 0;
+		};
+		C0B2A17904F075F5A921BE02 /* Generate CMakeFiles/ZERO_CHECK */ = {
+			isa = PBXShellScriptBuildPhase;
+			alwaysOutOfDate = 1;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+			);
+			name = "Generate CMakeFiles/ZERO_CHECK";
+			outputPaths = (
+/Users/williambogdanovic/Desktop/simulations/SoA/build_xcode/CMakeFiles/ZERO_CHECK			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "set -e
+if test \"$CONFIGURATION\" = \"Debug\"; then :
+  cd /Users/williambogdanovic/Desktop/simulations/SoA/build_xcode
+  make -f /Users/williambogdanovic/Desktop/simulations/SoA/build_xcode/CMakeScripts/ReRunCMake.make
+fi
+if test \"$CONFIGURATION\" = \"Release\"; then :
+  cd /Users/williambogdanovic/Desktop/simulations/SoA/build_xcode
+  make -f /Users/williambogdanovic/Desktop/simulations/SoA/build_xcode/CMakeScripts/ReRunCMake.make
+fi
+if test \"$CONFIGURATION\" = \"MinSizeRel\"; then :
+  cd /Users/williambogdanovic/Desktop/simulations/SoA/build_xcode
+  make -f /Users/williambogdanovic/Desktop/simulations/SoA/build_xcode/CMakeScripts/ReRunCMake.make
+fi
+if test \"$CONFIGURATION\" = \"RelWithDebInfo\"; then :
+  cd /Users/williambogdanovic/Desktop/simulations/SoA/build_xcode
+  make -f /Users/williambogdanovic/Desktop/simulations/SoA/build_xcode/CMakeScripts/ReRunCMake.make
+fi
+";
+			showEnvVarsInLog = 0;
+		};
+/* End PBXShellScriptBuildPhase section */
+
+/* Begin PBXSourcesBuildPhase section */
+		A31A6F2A9A4F4583A40D48B8 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				E4B97BD4CDE24EDCB03B221B /* /Users/williambogdanovic/Desktop/simulations/SoA/external/imgui/backends/imgui_impl_opengl3.cpp */,
+				64691993D4D44770848B8FB1 /* /Users/williambogdanovic/Desktop/simulations/SoA/external/imgui/backends/imgui_impl_sdl2.cpp */,
+				FE6C8500250849E18A4A9467 /* /Users/williambogdanovic/Desktop/simulations/SoA/external/imgui/imgui.cpp */,
+				920FAD1C11E04C18B40570FD /* /Users/williambogdanovic/Desktop/simulations/SoA/external/imgui/imgui_demo.cpp */,
+				10D73AFAE22D4697A77D2B49 /* /Users/williambogdanovic/Desktop/simulations/SoA/external/imgui/imgui_draw.cpp */,
+				979B4431619C49C19A9D3BC7 /* /Users/williambogdanovic/Desktop/simulations/SoA/external/imgui/imgui_tables.cpp */,
+				75B594E5DDF94D54B8B005F3 /* /Users/williambogdanovic/Desktop/simulations/SoA/external/imgui/imgui_widgets.cpp */,
+				CD15EC792ED447E5A5A3B843 /* /Users/williambogdanovic/Desktop/simulations/SoA/src/GUI.cpp */,
+				A8C232284E7D4D21B5FC605A /* /Users/williambogdanovic/Desktop/simulations/SoA/src/Link.cpp */,
+				3737AB8D50CB47978257A0DB /* /Users/williambogdanovic/Desktop/simulations/SoA/src/Renderer.cpp */,
+				850893666F414847A3FB802A /* /Users/williambogdanovic/Desktop/simulations/SoA/src/Simulation.cpp */,
+				231560CDF0254D0CAA40A896 /* /Users/williambogdanovic/Desktop/simulations/SoA/src/main.cpp */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		C1EFCDDA7A3D4799B053A474 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				BE0137B8B6274CD286324C5E /* /Users/williambogdanovic/Desktop/simulations/SoA/glimac/third-party/glad/src/glad.c */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXSourcesBuildPhase section */
+
+/* Begin PBXTargetDependency section */
+		066BB1B8C83A428795A31496 /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = 8539BA4900F76315F71E35DB /* ZERO_CHECK */;
+			targetProxy = AE81A0D2B9D74B029811B643 /* PBXContainerItemProxy */;
+		};
+		0864F8F4038D4D5BA6030698 /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = D2E288B82FA5CF409098D949 /* glad */;
+			targetProxy = 6AC683CD83D94F11A419B4BF /* PBXContainerItemProxy */;
+		};
+		0A56E3318BBD49BB864E442E /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = 8539BA4900F76315F71E35DB /* ZERO_CHECK */;
+			targetProxy = 68D0852E133143A0A0FDF466 /* PBXContainerItemProxy */;
+		};
+		7C23ECA3C0374313992025C9 /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = 9731CA41C57C5728ACF7EF0F /* BallsSimulation */;
+			targetProxy = 192651EBB5974E478A3C87B6 /* PBXContainerItemProxy */;
+		};
+		9CCFE1E10B45447FBE3C42DD /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = D2E288B82FA5CF409098D949 /* glad */;
+			targetProxy = EF20578DD7E14BF2B763BA10 /* PBXContainerItemProxy */;
+		};
+		EBE94D33B9FF4C79BA3F3D63 /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = 8539BA4900F76315F71E35DB /* ZERO_CHECK */;
+			targetProxy = 354022A26A7043A4A751F16D /* PBXContainerItemProxy */;
+		};
+/* End PBXTargetDependency section */
+
+/* Begin XCBuildConfiguration section */
+		0347C1E49B9548F9AA7CC1B9 /* RelWithDebInfo */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				ARCHS = arm64;
+				COMBINE_HIDPI_IMAGES = YES;
+				GCC_GENERATE_DEBUGGING_SYMBOLS = YES;
+				GCC_INLINES_ARE_PRIVATE_EXTERN = NO;
+				GCC_OPTIMIZATION_LEVEL = 0;
+				GCC_PREPROCESSOR_DEFINITIONS = ("'CMAKE_INTDIR=\"$(CONFIGURATION)$(EFFECTIVE_PLATFORM_NAME)\"'","$(inherited)");
+				GCC_SYMBOLS_PRIVATE_EXTERN = NO;
+				INSTALL_PATH = "";
+				ONLY_ACTIVE_ARCH = NO;
+				OTHER_LDFLAGS = ("","$(inherited)");
+				OTHER_REZFLAGS = "";
+				PRODUCT_NAME = ZERO_CHECK;
+				SECTORDER_FLAGS = "";
+				USE_HEADERMAP = NO;
+				WARNING_CFLAGS = ("$(inherited)");
+			};
+			name = RelWithDebInfo;
+		};
+		0D7C60A0A5294904A0631A54 /* RelWithDebInfo */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				ARCHS = arm64;
+				COMBINE_HIDPI_IMAGES = YES;
+				CONFIGURATION_BUILD_DIR = /Users/williambogdanovic/Desktop/simulations/SoA/build_xcode/RelWithDebInfo;
+				EXECUTABLE_PREFIX = lib;
+				EXECUTABLE_SUFFIX = .a;
+				GCC_GENERATE_DEBUGGING_SYMBOLS = NO;
+				GCC_INLINES_ARE_PRIVATE_EXTERN = NO;
+				GCC_OPTIMIZATION_LEVEL = 2;
+				GCC_PREPROCESSOR_DEFINITIONS = ("'CMAKE_INTDIR=\"$(CONFIGURATION)$(EFFECTIVE_PLATFORM_NAME)\"'","$(inherited)");
+				GCC_SYMBOLS_PRIVATE_EXTERN = NO;
+				HEADER_SEARCH_PATHS = ("/Users/williambogdanovic/Desktop/simulations/SoA/glimac/third-party/glad/include",/Users/williambogdanovic/Desktop/simulations/SoA/glimac,/Users/williambogdanovic/Desktop/simulations/SoA/external/imgui,/Users/williambogdanovic/Desktop/simulations/SoA/external/imgui/backends,/opt/homebrew/include,"$(inherited)");
+				INSTALL_PATH = "";
+				LIBRARY_STYLE = STATIC;
+				ONLY_ACTIVE_ARCH = NO;
+				OTHER_CFLAGS = ("-ftree-vectorize -fPIC -fstack-protector-strong     -pipe -isystem /Applications/miniconda3/include ","$(inherited)");
+				OTHER_LIBTOOLFLAGS = ("");
+				OTHER_REZFLAGS = "";
+				PRODUCT_NAME = glad;
+				SECTORDER_FLAGS = "";
+				TARGET_TEMP_DIR = "/Users/williambogdanovic/Desktop/simulations/SoA/build_xcode/build/glad.build/$(CONFIGURATION)$(EFFECTIVE_PLATFORM_NAME)";
+				USE_HEADERMAP = NO;
+				WARNING_CFLAGS = ("$(inherited)");
+			};
+			name = RelWithDebInfo;
+		};
+		1C9CABE6F81943D888199914 /* MinSizeRel */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				ARCHS = arm64;
+				COMBINE_HIDPI_IMAGES = YES;
+				CONFIGURATION_BUILD_DIR = /Users/williambogdanovic/Desktop/simulations/SoA/build_xcode/MinSizeRel;
+				EXECUTABLE_PREFIX = lib;
+				EXECUTABLE_SUFFIX = .a;
+				GCC_GENERATE_DEBUGGING_SYMBOLS = NO;
+				GCC_INLINES_ARE_PRIVATE_EXTERN = NO;
+				GCC_OPTIMIZATION_LEVEL = 2;
+				GCC_PREPROCESSOR_DEFINITIONS = ("'CMAKE_INTDIR=\"$(CONFIGURATION)$(EFFECTIVE_PLATFORM_NAME)\"'","$(inherited)");
+				GCC_SYMBOLS_PRIVATE_EXTERN = NO;
+				HEADER_SEARCH_PATHS = ("/Users/williambogdanovic/Desktop/simulations/SoA/glimac/third-party/glad/include",/Users/williambogdanovic/Desktop/simulations/SoA/glimac,/Users/williambogdanovic/Desktop/simulations/SoA/external/imgui,/Users/williambogdanovic/Desktop/simulations/SoA/external/imgui/backends,/opt/homebrew/include,"$(inherited)");
+				INSTALL_PATH = "";
+				LIBRARY_STYLE = STATIC;
+				ONLY_ACTIVE_ARCH = NO;
+				OTHER_CFLAGS = ("-ftree-vectorize -fPIC -fstack-protector-strong     -pipe -isystem /Applications/miniconda3/include ","$(inherited)");
+				OTHER_LIBTOOLFLAGS = ("");
+				OTHER_REZFLAGS = "";
+				PRODUCT_NAME = glad;
+				SECTORDER_FLAGS = "";
+				TARGET_TEMP_DIR = "/Users/williambogdanovic/Desktop/simulations/SoA/build_xcode/build/glad.build/$(CONFIGURATION)$(EFFECTIVE_PLATFORM_NAME)";
+				USE_HEADERMAP = NO;
+				WARNING_CFLAGS = ("$(inherited)");
+			};
+			name = MinSizeRel;
+		};
+		2FE30187A99C4FBA81E1515D /* MinSizeRel */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				ARCHS = arm64;
+				COMBINE_HIDPI_IMAGES = YES;
+				CONFIGURATION_BUILD_DIR = /Users/williambogdanovic/Desktop/simulations/SoA/build_xcode/MinSizeRel;
+				EXECUTABLE_PREFIX = "";
+				EXECUTABLE_SUFFIX = "";
+				GCC_GENERATE_DEBUGGING_SYMBOLS = NO;
+				GCC_INLINES_ARE_PRIVATE_EXTERN = NO;
+				GCC_OPTIMIZATION_LEVEL = s;
+				GCC_PREPROCESSOR_DEFINITIONS = ("'CMAKE_INTDIR=\"$(CONFIGURATION)$(EFFECTIVE_PLATFORM_NAME)\"'","$(inherited)");
+				GCC_SYMBOLS_PRIVATE_EXTERN = NO;
+				HEADER_SEARCH_PATHS = ("/Users/williambogdanovic/Desktop/simulations/SoA/glimac/third-party/glad/include",/Users/williambogdanovic/Desktop/simulations/SoA/glimac,/Users/williambogdanovic/Desktop/simulations/SoA/external/imgui,/Users/williambogdanovic/Desktop/simulations/SoA/external/imgui/backends,/opt/homebrew/include,/opt/homebrew/include/SDL2,"$(inherited)");
+				INSTALL_PATH = "";
+				LD_RUNPATH_SEARCH_PATHS = (/opt/homebrew/lib,"$(inherited)");
+				LIBRARY_SEARCH_PATHS = ("/opt/homebrew/lib/$(CONFIGURATION)$(EFFECTIVE_PLATFORM_NAME)",/opt/homebrew/lib,"$(inherited)");
+				ONLY_ACTIVE_ARCH = NO;
+				OTHER_CPLUSPLUSFLAGS = "    -DNDEBUG '-std=gnu++17' -D_THREAD_SAFE ";
+				OTHER_LDFLAGS = ("-Wl,-headerpad_max_install_names -Wl,-dead_strip_dylibs -Wl,-rpath,/Applications/miniconda3/lib -L/Applications/miniconda3/lib -Wl,-search_paths_first -Wl,-headerpad_max_install_names","-lSDL2",/Users/williambogdanovic/Desktop/simulations/SoA/build_xcode/MinSizeRel/libglad.a,"$(inherited)");
+				OTHER_REZFLAGS = "";
+				PRODUCT_NAME = BallsSimulation;
+				SECTORDER_FLAGS = "";
+				TARGET_TEMP_DIR = "/Users/williambogdanovic/Desktop/simulations/SoA/build_xcode/build/BallsSimulation.build/$(CONFIGURATION)$(EFFECTIVE_PLATFORM_NAME)";
+				USE_HEADERMAP = NO;
+				WARNING_CFLAGS = ("$(inherited)");
+			};
+			name = MinSizeRel;
+		};
+		30EDC045073D4A928D9DF2B9 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				ARCHS = arm64;
+				COMBINE_HIDPI_IMAGES = YES;
+				GCC_GENERATE_DEBUGGING_SYMBOLS = YES;
+				GCC_INLINES_ARE_PRIVATE_EXTERN = NO;
+				GCC_OPTIMIZATION_LEVEL = 0;
+				GCC_PREPROCESSOR_DEFINITIONS = ("'CMAKE_INTDIR=\"$(CONFIGURATION)$(EFFECTIVE_PLATFORM_NAME)\"'","$(inherited)");
+				GCC_SYMBOLS_PRIVATE_EXTERN = NO;
+				INSTALL_PATH = "";
+				ONLY_ACTIVE_ARCH = NO;
+				OTHER_LDFLAGS = ("","$(inherited)");
+				OTHER_REZFLAGS = "";
+				PRODUCT_NAME = ZERO_CHECK;
+				SECTORDER_FLAGS = "";
+				USE_HEADERMAP = NO;
+				WARNING_CFLAGS = ("$(inherited)");
+			};
+			name = Release;
+		};
+		3BC0D7B8861D49DBA9F51DBA /* MinSizeRel */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				ARCHS = arm64;
+				COMBINE_HIDPI_IMAGES = YES;
+				GCC_GENERATE_DEBUGGING_SYMBOLS = YES;
+				GCC_INLINES_ARE_PRIVATE_EXTERN = NO;
+				GCC_OPTIMIZATION_LEVEL = 0;
+				GCC_PREPROCESSOR_DEFINITIONS = ("'CMAKE_INTDIR=\"$(CONFIGURATION)$(EFFECTIVE_PLATFORM_NAME)\"'","$(inherited)");
+				GCC_SYMBOLS_PRIVATE_EXTERN = NO;
+				INSTALL_PATH = "";
+				ONLY_ACTIVE_ARCH = NO;
+				OTHER_LDFLAGS = ("","$(inherited)");
+				OTHER_REZFLAGS = "";
+				PRODUCT_NAME = ALL_BUILD;
+				SECTORDER_FLAGS = "";
+				USE_HEADERMAP = NO;
+				WARNING_CFLAGS = ("$(inherited)");
+			};
+			name = MinSizeRel;
+		};
+		5E0852B9CDDB4D3CAE215451 /* RelWithDebInfo */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				ARCHS = arm64;
+				COMBINE_HIDPI_IMAGES = YES;
+				GCC_GENERATE_DEBUGGING_SYMBOLS = YES;
+				GCC_INLINES_ARE_PRIVATE_EXTERN = NO;
+				GCC_OPTIMIZATION_LEVEL = 0;
+				GCC_PREPROCESSOR_DEFINITIONS = ("'CMAKE_INTDIR=\"$(CONFIGURATION)$(EFFECTIVE_PLATFORM_NAME)\"'","$(inherited)");
+				GCC_SYMBOLS_PRIVATE_EXTERN = NO;
+				INSTALL_PATH = "";
+				ONLY_ACTIVE_ARCH = NO;
+				OTHER_LDFLAGS = ("","$(inherited)");
+				OTHER_REZFLAGS = "";
+				PRODUCT_NAME = ALL_BUILD;
+				SECTORDER_FLAGS = "";
+				USE_HEADERMAP = NO;
+				WARNING_CFLAGS = ("$(inherited)");
+			};
+			name = RelWithDebInfo;
+		};
+		624A860CAEAC4E38B6B824F1 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				ARCHS = arm64;
+				COMBINE_HIDPI_IMAGES = YES;
+				CONFIGURATION_BUILD_DIR = /Users/williambogdanovic/Desktop/simulations/SoA/build_xcode/Release;
+				EXECUTABLE_PREFIX = "";
+				EXECUTABLE_SUFFIX = "";
+				GCC_GENERATE_DEBUGGING_SYMBOLS = NO;
+				GCC_INLINES_ARE_PRIVATE_EXTERN = NO;
+				GCC_OPTIMIZATION_LEVEL = 3;
+				GCC_PREPROCESSOR_DEFINITIONS = ("'CMAKE_INTDIR=\"$(CONFIGURATION)$(EFFECTIVE_PLATFORM_NAME)\"'","$(inherited)");
+				GCC_SYMBOLS_PRIVATE_EXTERN = NO;
+				HEADER_SEARCH_PATHS = ("/Users/williambogdanovic/Desktop/simulations/SoA/glimac/third-party/glad/include",/Users/williambogdanovic/Desktop/simulations/SoA/glimac,/Users/williambogdanovic/Desktop/simulations/SoA/external/imgui,/Users/williambogdanovic/Desktop/simulations/SoA/external/imgui/backends,/opt/homebrew/include,/opt/homebrew/include/SDL2,"$(inherited)");
+				INSTALL_PATH = "";
+				LD_RUNPATH_SEARCH_PATHS = (/opt/homebrew/lib,"$(inherited)");
+				LIBRARY_SEARCH_PATHS = ("/opt/homebrew/lib/$(CONFIGURATION)$(EFFECTIVE_PLATFORM_NAME)",/opt/homebrew/lib,"$(inherited)");
+				ONLY_ACTIVE_ARCH = NO;
+				OTHER_CPLUSPLUSFLAGS = "    -DNDEBUG '-std=gnu++17' -D_THREAD_SAFE ";
+				OTHER_LDFLAGS = ("-Wl,-headerpad_max_install_names -Wl,-dead_strip_dylibs -Wl,-rpath,/Applications/miniconda3/lib -L/Applications/miniconda3/lib -Wl,-search_paths_first -Wl,-headerpad_max_install_names","-lSDL2",/Users/williambogdanovic/Desktop/simulations/SoA/build_xcode/Release/libglad.a,"$(inherited)");
+				OTHER_REZFLAGS = "";
+				PRODUCT_NAME = BallsSimulation;
+				SECTORDER_FLAGS = "";
+				TARGET_TEMP_DIR = "/Users/williambogdanovic/Desktop/simulations/SoA/build_xcode/build/BallsSimulation.build/$(CONFIGURATION)$(EFFECTIVE_PLATFORM_NAME)";
+				USE_HEADERMAP = NO;
+				WARNING_CFLAGS = ("$(inherited)");
+			};
+			name = Release;
+		};
+		62A668D5CF0947B18A89C4B8 /* MinSizeRel */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				ARCHS = arm64;
+				COMBINE_HIDPI_IMAGES = YES;
+				GCC_GENERATE_DEBUGGING_SYMBOLS = YES;
+				GCC_INLINES_ARE_PRIVATE_EXTERN = NO;
+				GCC_OPTIMIZATION_LEVEL = 0;
+				GCC_PREPROCESSOR_DEFINITIONS = ("'CMAKE_INTDIR=\"$(CONFIGURATION)$(EFFECTIVE_PLATFORM_NAME)\"'","$(inherited)");
+				GCC_SYMBOLS_PRIVATE_EXTERN = NO;
+				INSTALL_PATH = "";
+				ONLY_ACTIVE_ARCH = NO;
+				OTHER_LDFLAGS = ("","$(inherited)");
+				OTHER_REZFLAGS = "";
+				PRODUCT_NAME = ZERO_CHECK;
+				SECTORDER_FLAGS = "";
+				USE_HEADERMAP = NO;
+				WARNING_CFLAGS = ("$(inherited)");
+			};
+			name = MinSizeRel;
+		};
+		658FA8D91BAF45B6908B43D4 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				ARCHS = arm64;
+				COMBINE_HIDPI_IMAGES = YES;
+				GCC_GENERATE_DEBUGGING_SYMBOLS = YES;
+				GCC_INLINES_ARE_PRIVATE_EXTERN = NO;
+				GCC_OPTIMIZATION_LEVEL = 0;
+				GCC_PREPROCESSOR_DEFINITIONS = ("'CMAKE_INTDIR=\"$(CONFIGURATION)$(EFFECTIVE_PLATFORM_NAME)\"'","$(inherited)");
+				GCC_SYMBOLS_PRIVATE_EXTERN = NO;
+				INSTALL_PATH = "";
+				ONLY_ACTIVE_ARCH = NO;
+				OTHER_LDFLAGS = ("","$(inherited)");
+				OTHER_REZFLAGS = "";
+				PRODUCT_NAME = ALL_BUILD;
+				SECTORDER_FLAGS = "";
+				USE_HEADERMAP = NO;
+				WARNING_CFLAGS = ("$(inherited)");
+			};
+			name = Release;
+		};
+		7CE210F6E4E147B6A4BBF816 /* RelWithDebInfo */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ARCHS = arm64;
+				SDKROOT = /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX.sdk;
+				SWIFT_COMPILATION_MODE = wholemodule;
+				SYMROOT = /Users/williambogdanovic/Desktop/simulations/SoA/build_xcode/build;
+			};
+			name = RelWithDebInfo;
+		};
+		833659C7911240E8BA6EB4FB /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				ARCHS = arm64;
+				COMBINE_HIDPI_IMAGES = YES;
+				GCC_GENERATE_DEBUGGING_SYMBOLS = YES;
+				GCC_INLINES_ARE_PRIVATE_EXTERN = NO;
+				GCC_OPTIMIZATION_LEVEL = 0;
+				GCC_PREPROCESSOR_DEFINITIONS = ("'CMAKE_INTDIR=\"$(CONFIGURATION)$(EFFECTIVE_PLATFORM_NAME)\"'","$(inherited)");
+				GCC_SYMBOLS_PRIVATE_EXTERN = NO;
+				INSTALL_PATH = "";
+				ONLY_ACTIVE_ARCH = NO;
+				OTHER_LDFLAGS = ("","$(inherited)");
+				OTHER_REZFLAGS = "";
+				PRODUCT_NAME = ZERO_CHECK;
+				SECTORDER_FLAGS = "";
+				USE_HEADERMAP = NO;
+				WARNING_CFLAGS = ("$(inherited)");
+			};
+			name = Debug;
+		};
+		875FA2363F754CE5B0D58A89 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ARCHS = arm64;
+				SDKROOT = /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX.sdk;
+				SYMROOT = /Users/williambogdanovic/Desktop/simulations/SoA/build_xcode/build;
+			};
+			name = Debug;
+		};
+		967E10F5E2DF4E6D8E9AF4CF /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				ARCHS = arm64;
+				COMBINE_HIDPI_IMAGES = YES;
+				CONFIGURATION_BUILD_DIR = /Users/williambogdanovic/Desktop/simulations/SoA/build_xcode/Debug;
+				EXECUTABLE_PREFIX = lib;
+				EXECUTABLE_SUFFIX = .a;
+				GCC_GENERATE_DEBUGGING_SYMBOLS = NO;
+				GCC_INLINES_ARE_PRIVATE_EXTERN = NO;
+				GCC_OPTIMIZATION_LEVEL = 2;
+				GCC_PREPROCESSOR_DEFINITIONS = ("'CMAKE_INTDIR=\"$(CONFIGURATION)$(EFFECTIVE_PLATFORM_NAME)\"'","$(inherited)");
+				GCC_SYMBOLS_PRIVATE_EXTERN = NO;
+				HEADER_SEARCH_PATHS = ("/Users/williambogdanovic/Desktop/simulations/SoA/glimac/third-party/glad/include",/Users/williambogdanovic/Desktop/simulations/SoA/glimac,/Users/williambogdanovic/Desktop/simulations/SoA/external/imgui,/Users/williambogdanovic/Desktop/simulations/SoA/external/imgui/backends,/opt/homebrew/include,"$(inherited)");
+				INSTALL_PATH = "";
+				LIBRARY_STYLE = STATIC;
+				ONLY_ACTIVE_ARCH = NO;
+				OTHER_CFLAGS = ("-ftree-vectorize -fPIC -fstack-protector-strong     -pipe -isystem /Applications/miniconda3/include ","$(inherited)");
+				OTHER_LIBTOOLFLAGS = ("");
+				OTHER_REZFLAGS = "";
+				PRODUCT_NAME = glad;
+				SECTORDER_FLAGS = "";
+				TARGET_TEMP_DIR = "/Users/williambogdanovic/Desktop/simulations/SoA/build_xcode/build/glad.build/$(CONFIGURATION)$(EFFECTIVE_PLATFORM_NAME)";
+				USE_HEADERMAP = NO;
+				WARNING_CFLAGS = ("$(inherited)");
+			};
+			name = Debug;
+		};
+		BAE9C5564BFA4B83BE8AC7A6 /* MinSizeRel */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ARCHS = arm64;
+				SDKROOT = /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX.sdk;
+				SWIFT_COMPILATION_MODE = wholemodule;
+				SYMROOT = /Users/williambogdanovic/Desktop/simulations/SoA/build_xcode/build;
+			};
+			name = MinSizeRel;
+		};
+		C7163E10FCBC4C2FAD7D21BC /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				ARCHS = arm64;
+				COMBINE_HIDPI_IMAGES = YES;
+				GCC_GENERATE_DEBUGGING_SYMBOLS = YES;
+				GCC_INLINES_ARE_PRIVATE_EXTERN = NO;
+				GCC_OPTIMIZATION_LEVEL = 0;
+				GCC_PREPROCESSOR_DEFINITIONS = ("'CMAKE_INTDIR=\"$(CONFIGURATION)$(EFFECTIVE_PLATFORM_NAME)\"'","$(inherited)");
+				GCC_SYMBOLS_PRIVATE_EXTERN = NO;
+				INSTALL_PATH = "";
+				ONLY_ACTIVE_ARCH = NO;
+				OTHER_LDFLAGS = ("","$(inherited)");
+				OTHER_REZFLAGS = "";
+				PRODUCT_NAME = ALL_BUILD;
+				SECTORDER_FLAGS = "";
+				USE_HEADERMAP = NO;
+				WARNING_CFLAGS = ("$(inherited)");
+			};
+			name = Debug;
+		};
+		DA6A302DCB9540E2B6CBED9C /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				ARCHS = arm64;
+				COMBINE_HIDPI_IMAGES = YES;
+				CONFIGURATION_BUILD_DIR = /Users/williambogdanovic/Desktop/simulations/SoA/build_xcode/Release;
+				EXECUTABLE_PREFIX = lib;
+				EXECUTABLE_SUFFIX = .a;
+				GCC_GENERATE_DEBUGGING_SYMBOLS = NO;
+				GCC_INLINES_ARE_PRIVATE_EXTERN = NO;
+				GCC_OPTIMIZATION_LEVEL = 2;
+				GCC_PREPROCESSOR_DEFINITIONS = ("'CMAKE_INTDIR=\"$(CONFIGURATION)$(EFFECTIVE_PLATFORM_NAME)\"'","$(inherited)");
+				GCC_SYMBOLS_PRIVATE_EXTERN = NO;
+				HEADER_SEARCH_PATHS = ("/Users/williambogdanovic/Desktop/simulations/SoA/glimac/third-party/glad/include",/Users/williambogdanovic/Desktop/simulations/SoA/glimac,/Users/williambogdanovic/Desktop/simulations/SoA/external/imgui,/Users/williambogdanovic/Desktop/simulations/SoA/external/imgui/backends,/opt/homebrew/include,"$(inherited)");
+				INSTALL_PATH = "";
+				LIBRARY_STYLE = STATIC;
+				ONLY_ACTIVE_ARCH = NO;
+				OTHER_CFLAGS = ("-ftree-vectorize -fPIC -fstack-protector-strong     -pipe -isystem /Applications/miniconda3/include ","$(inherited)");
+				OTHER_LIBTOOLFLAGS = ("");
+				OTHER_REZFLAGS = "";
+				PRODUCT_NAME = glad;
+				SECTORDER_FLAGS = "";
+				TARGET_TEMP_DIR = "/Users/williambogdanovic/Desktop/simulations/SoA/build_xcode/build/glad.build/$(CONFIGURATION)$(EFFECTIVE_PLATFORM_NAME)";
+				USE_HEADERMAP = NO;
+				WARNING_CFLAGS = ("$(inherited)");
+			};
+			name = Release;
+		};
+		E33EDEB7097344E2B71D98D1 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				ARCHS = arm64;
+				COMBINE_HIDPI_IMAGES = YES;
+				CONFIGURATION_BUILD_DIR = /Users/williambogdanovic/Desktop/simulations/SoA/build_xcode/Debug;
+				EXECUTABLE_PREFIX = "";
+				EXECUTABLE_SUFFIX = "";
+				GCC_GENERATE_DEBUGGING_SYMBOLS = YES;
+				GCC_INLINES_ARE_PRIVATE_EXTERN = NO;
+				GCC_OPTIMIZATION_LEVEL = 0;
+				GCC_PREPROCESSOR_DEFINITIONS = ("'CMAKE_INTDIR=\"$(CONFIGURATION)$(EFFECTIVE_PLATFORM_NAME)\"'","$(inherited)");
+				GCC_SYMBOLS_PRIVATE_EXTERN = NO;
+				HEADER_SEARCH_PATHS = ("/Users/williambogdanovic/Desktop/simulations/SoA/glimac/third-party/glad/include",/Users/williambogdanovic/Desktop/simulations/SoA/glimac,/Users/williambogdanovic/Desktop/simulations/SoA/external/imgui,/Users/williambogdanovic/Desktop/simulations/SoA/external/imgui/backends,/opt/homebrew/include,/opt/homebrew/include/SDL2,"$(inherited)");
+				INSTALL_PATH = "";
+				LD_RUNPATH_SEARCH_PATHS = (/opt/homebrew/lib,"$(inherited)");
+				LIBRARY_SEARCH_PATHS = ("/opt/homebrew/lib/$(CONFIGURATION)$(EFFECTIVE_PLATFORM_NAME)",/opt/homebrew/lib,"$(inherited)");
+				ONLY_ACTIVE_ARCH = NO;
+				OTHER_CPLUSPLUSFLAGS = "   '-std=gnu++17' -D_THREAD_SAFE ";
+				OTHER_LDFLAGS = ("-Wl,-headerpad_max_install_names -Wl,-dead_strip_dylibs -Wl,-rpath,/Applications/miniconda3/lib -L/Applications/miniconda3/lib -Wl,-search_paths_first -Wl,-headerpad_max_install_names","-lSDL2",/Users/williambogdanovic/Desktop/simulations/SoA/build_xcode/Debug/libglad.a,"$(inherited)");
+				OTHER_REZFLAGS = "";
+				PRODUCT_NAME = BallsSimulation;
+				SECTORDER_FLAGS = "";
+				TARGET_TEMP_DIR = "/Users/williambogdanovic/Desktop/simulations/SoA/build_xcode/build/BallsSimulation.build/$(CONFIGURATION)$(EFFECTIVE_PLATFORM_NAME)";
+				USE_HEADERMAP = NO;
+				WARNING_CFLAGS = ("$(inherited)");
+			};
+			name = Debug;
+		};
+		F334946096334D2E8EF79505 /* RelWithDebInfo */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				ARCHS = arm64;
+				COMBINE_HIDPI_IMAGES = YES;
+				CONFIGURATION_BUILD_DIR = /Users/williambogdanovic/Desktop/simulations/SoA/build_xcode/RelWithDebInfo;
+				EXECUTABLE_PREFIX = "";
+				EXECUTABLE_SUFFIX = "";
+				GCC_GENERATE_DEBUGGING_SYMBOLS = YES;
+				GCC_INLINES_ARE_PRIVATE_EXTERN = NO;
+				GCC_OPTIMIZATION_LEVEL = 2;
+				GCC_PREPROCESSOR_DEFINITIONS = ("'CMAKE_INTDIR=\"$(CONFIGURATION)$(EFFECTIVE_PLATFORM_NAME)\"'","$(inherited)");
+				GCC_SYMBOLS_PRIVATE_EXTERN = NO;
+				HEADER_SEARCH_PATHS = ("/Users/williambogdanovic/Desktop/simulations/SoA/glimac/third-party/glad/include",/Users/williambogdanovic/Desktop/simulations/SoA/glimac,/Users/williambogdanovic/Desktop/simulations/SoA/external/imgui,/Users/williambogdanovic/Desktop/simulations/SoA/external/imgui/backends,/opt/homebrew/include,/opt/homebrew/include/SDL2,"$(inherited)");
+				INSTALL_PATH = "";
+				LD_RUNPATH_SEARCH_PATHS = (/opt/homebrew/lib,"$(inherited)");
+				LIBRARY_SEARCH_PATHS = ("/opt/homebrew/lib/$(CONFIGURATION)$(EFFECTIVE_PLATFORM_NAME)",/opt/homebrew/lib,"$(inherited)");
+				ONLY_ACTIVE_ARCH = NO;
+				OTHER_CPLUSPLUSFLAGS = "       -DNDEBUG '-std=gnu++17' -D_THREAD_SAFE ";
+				OTHER_LDFLAGS = ("-Wl,-headerpad_max_install_names -Wl,-dead_strip_dylibs -Wl,-rpath,/Applications/miniconda3/lib -L/Applications/miniconda3/lib -Wl,-search_paths_first -Wl,-headerpad_max_install_names","-lSDL2",/Users/williambogdanovic/Desktop/simulations/SoA/build_xcode/RelWithDebInfo/libglad.a,"$(inherited)");
+				OTHER_REZFLAGS = "";
+				PRODUCT_NAME = BallsSimulation;
+				SECTORDER_FLAGS = "";
+				TARGET_TEMP_DIR = "/Users/williambogdanovic/Desktop/simulations/SoA/build_xcode/build/BallsSimulation.build/$(CONFIGURATION)$(EFFECTIVE_PLATFORM_NAME)";
+				USE_HEADERMAP = NO;
+				WARNING_CFLAGS = ("$(inherited)");
+			};
+			name = RelWithDebInfo;
+		};
+		FAE4BE692056488DA6C16327 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ARCHS = arm64;
+				SDKROOT = /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX.sdk;
+				SWIFT_COMPILATION_MODE = wholemodule;
+				SYMROOT = /Users/williambogdanovic/Desktop/simulations/SoA/build_xcode/build;
+			};
+			name = Release;
+		};
+/* End XCBuildConfiguration section */
+
+/* Begin XCConfigurationList section */
+		0E243F85EE0F4E1D96695FDA /* Build configuration list for PBXAggregateTarget "ZERO_CHECK" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				833659C7911240E8BA6EB4FB /* Debug */,
+				30EDC045073D4A928D9DF2B9 /* Release */,
+				62A668D5CF0947B18A89C4B8 /* MinSizeRel */,
+				0347C1E49B9548F9AA7CC1B9 /* RelWithDebInfo */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Debug;
+		};
+		1325023DA0C84BCBBC281F4B /* Build configuration list for PBXNativeTarget "glad" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				967E10F5E2DF4E6D8E9AF4CF /* Debug */,
+				DA6A302DCB9540E2B6CBED9C /* Release */,
+				1C9CABE6F81943D888199914 /* MinSizeRel */,
+				0D7C60A0A5294904A0631A54 /* RelWithDebInfo */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Debug;
+		};
+		A5497611BEDE45A48B441CBF /* Build configuration list for PBXProject "BallsSimulation" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				875FA2363F754CE5B0D58A89 /* Debug */,
+				FAE4BE692056488DA6C16327 /* Release */,
+				BAE9C5564BFA4B83BE8AC7A6 /* MinSizeRel */,
+				7CE210F6E4E147B6A4BBF816 /* RelWithDebInfo */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Debug;
+		};
+		F2B2DDBA8232417BAA5069B8 /* Build configuration list for PBXNativeTarget "BallsSimulation" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				E33EDEB7097344E2B71D98D1 /* Debug */,
+				624A860CAEAC4E38B6B824F1 /* Release */,
+				2FE30187A99C4FBA81E1515D /* MinSizeRel */,
+				F334946096334D2E8EF79505 /* RelWithDebInfo */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Debug;
+		};
+		F543B384B33A48379A4FA17D /* Build configuration list for PBXAggregateTarget "ALL_BUILD" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				C7163E10FCBC4C2FAD7D21BC /* Debug */,
+				658FA8D91BAF45B6908B43D4 /* Release */,
+				3BC0D7B8861D49DBA9F51DBA /* MinSizeRel */,
+				5E0852B9CDDB4D3CAE215451 /* RelWithDebInfo */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Debug;
+		};
+/* End XCConfigurationList section */
+	};
+	rootObject = A1EFF2D6A0F1422882AE07D9 /* Project object */;
+}

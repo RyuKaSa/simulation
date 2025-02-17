@@ -1,0 +1,4 @@
+/Users/williambogdanovic/Desktop/simulations/SoA/build_xcode/CMakeFiles/BallsSimulation.dir
+/Users/williambogdanovic/Desktop/simulations/SoA/build_xcode/CMakeFiles/glad.dir
+/Users/williambogdanovic/Desktop/simulations/SoA/build_xcode/CMakeFiles/ALL_BUILD.dir
+/Users/williambogdanovic/Desktop/simulations/SoA/build_xcode/CMakeFiles/ZERO_CHECK.dir

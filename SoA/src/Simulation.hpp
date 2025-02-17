@@ -14,6 +14,8 @@
 #include <utility>
 #include <glm/gtc/matrix_transform.hpp>
 
+class ThreadPool;
+
 // Data used by the renderer
 struct Ball {
     glm::vec3 position;
@@ -122,6 +124,9 @@ private:
     mutable std::mutex snapshotMutex;
     std::atomic<bool> asyncRunning { false };
     std::thread asyncThread;
+
+    // Add thread pool pointer for reusing worker threads
+    ThreadPool* threadPool = nullptr;
 
     std::vector<Ball> snapshotBalls;
     BallSoA snapshotSoA;

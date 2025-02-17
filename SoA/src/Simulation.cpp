@@ -4,10 +4,79 @@
 #include <cmath>
 #include <algorithm>
 #include <iostream>
+#include <queue>
+#include <condition_variable>
+#include <future>
+#include <stdexcept>
+#ifdef _OPENMP
+#include <omp.h>
+#endif
 
 extern double getCurrentTime();
 
+// ===== SIMPLE THREAD POOL IMPLEMENTATION ===== //
+class ThreadPool {
+public:
+    ThreadPool(size_t numThreads) : stop(false) {
+        for (size_t i = 0; i < numThreads; ++i) {
+            workers.emplace_back([this](){
+                for (;;) {
+                    std::function<void()> task;
+                    {
+                        std::unique_lock<std::mutex> lock(this->queueMutex);
+                        this->condition.wait(lock, [this]{ return stop || !tasks.empty(); });
+                        if (stop && tasks.empty())
+                            return;
+                        task = std::move(tasks.front());
+                        tasks.pop();
+                    }
+                    task();
+                }
+            });
+        }
+    }
+    
+    template<typename F>
+    auto enqueue(F&& f) -> std::future<decltype(f())> {
+        using return_type = decltype(f());
+        auto task = std::make_shared<std::packaged_task<return_type()>>(std::forward<F>(f));
+        std::future<return_type> res = task->get_future();
+        {
+            std::unique_lock<std::mutex> lock(queueMutex);
+            if (stop)
+                throw std::runtime_error("enqueue on stopped ThreadPool");
+            tasks.emplace([task](){ (*task)(); });
+        }
+        condition.notify_one();
+        return res;
+    }
+    
+    ~ThreadPool() {
+        {
+            std::unique_lock<std::mutex> lock(queueMutex);
+            stop = true;
+        }
+        condition.notify_all();
+        for (auto &worker : workers)
+            worker.join();
+    }
+    
+private:
+    std::vector<std::thread> workers;
+    std::queue<std::function<void()>> tasks;
+    
+    std::mutex queueMutex;
+    std::condition_variable condition;
+    bool stop;
+};
+
+// ===== Simulation Class Implementation ===== //
+
 Simulation::Simulation() {
+    // Create a thread pool once (reuse threads across updates)
+    unsigned int numThreads = std::thread::hardware_concurrency();
+    if (numThreads == 0) numThreads = 2;
+    threadPool = new ThreadPool(numThreads);
     Initialization();
 }
 
@@ -17,11 +86,14 @@ Simulation::~Simulation() {
         delete gravityLink;
         gravityLink = nullptr;
     }
+    if (threadPool) {
+        delete threadPool;
+        threadPool = nullptr;
+    }
 }
 
 void Simulation::Initialization() {
-    // Example: create a default hex grid (adjust count/size as desired)
-    createHexGrid(60, 1.0f, 1.0f, false, 10.0f);
+    createHexGrid(60, 0.3f, 1.0f, false, 10.0f);
     // Gravity link
     if (gravityLink) { delete gravityLink; }
     gravityLink = new Link(soA, glm::vec3(40.0f, 0.0f, 0.0f));
@@ -31,7 +103,7 @@ void Simulation::reset() {
     std::lock_guard<std::recursive_mutex> lock(simulationMutex);
     std::cout << "RESET initialized" << std::endl;
 
-    update(0.0f); // Force an update cycle
+    update(0.0f);
     clearSimulation(); 
     // Reinitialize
     Initialization();
@@ -78,110 +150,112 @@ void Simulation::setDampingCoefficient(float z) {
 void Simulation::update(float dt) {
     std::lock_guard<std::recursive_mutex> lock(simulationMutex);
 
-    // 1) Parallel spring update
     unsigned int numThreads = std::thread::hardware_concurrency();
     if (numThreads == 0) numThreads = 2;
+    
+    // --- 1) Parallel Spring Update using thread pool ---
     size_t totalSprings = springs.size();
     size_t chunkSize = (totalSprings + numThreads - 1) / numThreads;
-
-    std::vector<std::thread> threads;
-    threads.reserve(numThreads);
+    std::vector<std::future<void>> futures;
 
     // Zero the force accumulation.
     for (auto &f : soA.forceAccum) {
         f = glm::vec3(0.0f);
     }
 
-    auto springWorker = [this](size_t start, size_t end) {
-        for (size_t i = start; i < end; i++) {
-            auto &sp = springs[i];
-            int i1 = sp.p1Index;
-            int i2 = sp.p2Index;
-
-            glm::vec3 pos1 = soA.position[i1];
-            glm::vec3 pos2 = soA.position[i2];
-            glm::vec3 vel1 = soA.velocity[i1];
-            glm::vec3 vel2 = soA.velocity[i2];
-            float dist = glm::distance(pos1, pos2);
-            if (dist < 1e-7f) continue;
-
-            glm::vec3 dir = (pos1 - pos2) / dist;
-            float k    = sp.springConstant;
-            float z    = sp.damping;
-            float rest = sp.restLength;
-
-            float maxLength = 1.1f * rest;
-            float m_eff = (soA.mass[i1] + soA.mass[i2]) * 0.5f;
-            float adjustedDamping = 2.0f * z * sqrt(m_eff * k);
-            glm::vec3 dampingForce = adjustedDamping * (vel2 - vel1);
-
-            glm::vec3 totalForce;
-            if (dist > maxLength) {
-                float extraStretch = dist - maxLength;
-                float k_extra = k * 100.0f;
-                glm::vec3 normalForce = -k * (maxLength - rest) * dir;
-                glm::vec3 extraForce  = -k_extra * extraStretch * dir;
-                totalForce = normalForce + extraForce + dampingForce;
-            } else {
-                totalForce = -k * (dist - rest) * dir + dampingForce;
-            }
-            soA.forceAccum[i1] += totalForce;
-            soA.forceAccum[i2] -= totalForce;
-        }
-    };
-
     for (unsigned int t = 0; t < numThreads; t++) {
         size_t start = t * chunkSize;
         size_t end   = std::min(start + chunkSize, totalSprings);
-        threads.emplace_back(springWorker, start, end);
-    }
-    for (auto &th : threads) { th.join(); }
-    threads.clear();
+        futures.push_back(
+            threadPool->enqueue([this, start, end]() {
+                for (size_t i = start; i < end; i++) {
+                    auto &sp = springs[i];
+                    int i1 = sp.p1Index;
+                    int i2 = sp.p2Index;
 
-    // 2) Gravity link update
+                    glm::vec3 pos1 = soA.position[i1];
+                    glm::vec3 pos2 = soA.position[i2];
+                    glm::vec3 vel1 = soA.velocity[i1];
+                    glm::vec3 vel2 = soA.velocity[i2];
+                    float dist = glm::distance(pos1, pos2);
+                    if (dist < 1e-7f) continue;
+
+                    glm::vec3 dir = (pos1 - pos2) / dist;
+                    float k    = sp.springConstant;
+                    float z    = sp.damping;
+                    float rest = sp.restLength;
+
+                    float maxLength = 1.1f * rest;
+                    float m_eff = (soA.mass[i1] + soA.mass[i2]) * 0.5f;
+                    float adjustedDamping = 2.0f * z * sqrt(m_eff * k);
+                    glm::vec3 dampingForce = adjustedDamping * (vel2 - vel1);
+
+                    glm::vec3 totalForce;
+                    if (dist > maxLength) {
+                        float extraStretch = dist - maxLength;
+                        float k_extra = k * 100.0f;
+                        glm::vec3 normalForce = -k * (maxLength - rest) * dir;
+                        glm::vec3 extraForce  = -k_extra * extraStretch * dir;
+                        totalForce = normalForce + extraForce + dampingForce;
+                    } else {
+                        totalForce = -k * (dist - rest) * dir + dampingForce;
+                    }
+                    // Note: non-atomic update; assuming no data races on distinct indices.
+                    soA.forceAccum[i1] += totalForce;
+                    soA.forceAccum[i2] -= totalForce;
+                }
+            })
+        );
+    }
+    for (auto &f : futures) { f.get(); }
+    futures.clear();
+
+    // --- 2) Gravity Link Update (serial) ---
     if (gravityLink) {
         applyGravityLink();
     }
 
-    // 3) Parallel particle integration
+    // --- 3) Parallel Particle Integration using thread pool and SIMD hint ---
     size_t n = soA.position.size();
     size_t chunkPart = (n + numThreads - 1) / numThreads;
-
-    auto particleWorker = [this, dt](size_t start, size_t end) {
-        for (size_t i = start; i < end; i++) {
-            if (soA.isStatic[i]) {
-                soA.forceAccum[i] = glm::vec3(0);
-            } else {
-                float m = soA.mass[i];
-                glm::vec3 accel = soA.forceAccum[i] / m;
-                soA.velocity[i] += accel * dt;
-                soA.position[i] += soA.velocity[i] * dt;
-                soA.forceAccum[i] = glm::vec3(0.0f);
-            }
-        }
-    };
-
     for (unsigned int t = 0; t < numThreads; t++) {
         size_t start = t * chunkPart;
         size_t end   = std::min(start + chunkPart, n);
-        threads.emplace_back(particleWorker, start, end);
+        futures.push_back(
+            threadPool->enqueue([this, dt, start, end]() {
+                // Hint to the compiler to auto-vectorize the following loop.
+                #pragma omp simd
+                for (size_t i = start; i < end; i++) {
+                    if (soA.isStatic[i]) {
+                        soA.forceAccum[i] = glm::vec3(0.0f);
+                    } else {
+                        float m = soA.mass[i];
+                        glm::vec3 accel = soA.forceAccum[i] / m;
+                        soA.velocity[i] += accel * dt;
+                        soA.position[i] += soA.velocity[i] * dt;
+                        soA.forceAccum[i] = glm::vec3(0.0f);
+                    }
+                }
+            })
+        );
     }
-    for (auto &th : threads) { th.join(); }
+    for (auto &f : futures) { f.get(); }
+    futures.clear();
 
-    // 4) Update legacy Ball vector for rendering queries.
+    // --- 4) Update legacy Ball vector for rendering queries (serial) ---
     balls.clear();
     balls.resize(n);
     for (size_t i = 0; i < n; i++) {
         Ball b;
         b.position = soA.position[i];
-        b.color    = (i < soA.color.size()) ? soA.color[i] : glm::vec3(1,0,0);
+        b.color    = (i < soA.color.size()) ? soA.color[i] : glm::vec3(1, 0, 0);
         b.type     = soA.type[i];
         b.dimensions = (i < soA.dimensions.size()) ? soA.dimensions[i] : glm::vec3(1.f);
         balls[i]   = b;
     }
     
-    // 5) Update hexagon triangles from the current particle positions.
-    updateHexTriangles();
+    // --- 5) (Optionally) Update hexagon triangles from the current particle positions ---
+    // updateHexTriangles();
 }
 
 void Simulation::applyGravityLink() {
@@ -213,9 +287,9 @@ void Simulation::createCord(int numBalls, float length,
         soA.forceAccum.push_back(glm::vec3(0));
         soA.mass.push_back(10.f);
         soA.type.push_back(ParticleType::STRUCTURE);
-        bool sflag = (bothEndsStatic_) ? (i==0 || i==(numBalls-1)) : (i==0);
+        bool sflag = (bothEndsStatic_) ? (i == 0 || i == (numBalls - 1)) : (i == 0);
         soA.isStatic.push_back(sflag);
-        soA.color.push_back(glm::vec3(1,0,0));
+        soA.color.push_back(glm::vec3(1, 0, 0));
         soA.dimensions.push_back(glm::vec3(3.f));
     }
 
@@ -243,7 +317,7 @@ void Simulation::createHexGrid(int numHexagons, float hexagonSize, float springR
 
     auto rotationMatrix = glm::rotate(glm::mat4(1.0f),
                                       glm::radians(orientationDegrees),
-                                      glm::vec3(1.f,0.f,0.f));
+                                      glm::vec3(1.f, 0.f, 0.f));
 
     auto findOrAdd = [&](const glm::vec3 &pos) -> int {
         const float eps = 0.0001f;
@@ -300,7 +374,7 @@ void Simulation::createHexGrid(int numHexagons, float hexagonSize, float springR
     soA.mass.resize(n, 10.f);
     soA.type.resize(n, ParticleType::STRUCTURE);
     soA.isStatic.resize(n, false);
-    soA.color.resize(n, glm::vec3(1,0,0));
+    soA.color.resize(n, glm::vec3(1, 0, 0));
     soA.dimensions.resize(n, glm::vec3(3.f));
 
     float minX = 1e9f, maxX = -1e9f;
@@ -329,7 +403,7 @@ void Simulation::createHexGrid(int numHexagons, float hexagonSize, float springR
     }
     
     // Initially compute hexagon triangles.
-    updateHexTriangles();
+    // updateHexTriangles();
 }
 
 void Simulation::createSquareGridWithDiagonals(int gridSize, float spacing, float springRestLength) {
