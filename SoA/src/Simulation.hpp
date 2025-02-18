@@ -34,6 +34,7 @@ public:
     void setImpulseScaling(float scaling) { impulseScaling = scaling; }
 
     // Create structures
+    void addStaticCubeUnderGrid();
     void createCord(int numBalls, float length, float springRestLength, bool bothEndsStatic);
     void createHexGrid(int hexCount, float hexagonSize, float springRestLength, 
                        bool bothEndsStatic, float orientationDegrees);

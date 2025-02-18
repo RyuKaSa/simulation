@@ -114,10 +114,24 @@ CMakeFiles/BallsSimulation.dir/src/Renderer.cpp.s: cmake_force
 	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green "Compiling CXX source to assembly CMakeFiles/BallsSimulation.dir/src/Renderer.cpp.s"
 	/Applications/miniconda3/bin/arm64-apple-darwin20.0.0-clang++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -S /Users/williambogdanovic/Desktop/simulations/SoA/src/Renderer.cpp -o CMakeFiles/BallsSimulation.dir/src/Renderer.cpp.s
 
+CMakeFiles/BallsSimulation.dir/src/Shader.cpp.o: CMakeFiles/BallsSimulation.dir/flags.make
+CMakeFiles/BallsSimulation.dir/src/Shader.cpp.o: /Users/williambogdanovic/Desktop/simulations/SoA/src/Shader.cpp
+CMakeFiles/BallsSimulation.dir/src/Shader.cpp.o: CMakeFiles/BallsSimulation.dir/compiler_depend.ts
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green --progress-dir=/Users/williambogdanovic/Desktop/simulations/SoA/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_4) "Building CXX object CMakeFiles/BallsSimulation.dir/src/Shader.cpp.o"
+	/Applications/miniconda3/bin/arm64-apple-darwin20.0.0-clang++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -MD -MT CMakeFiles/BallsSimulation.dir/src/Shader.cpp.o -MF CMakeFiles/BallsSimulation.dir/src/Shader.cpp.o.d -o CMakeFiles/BallsSimulation.dir/src/Shader.cpp.o -c /Users/williambogdanovic/Desktop/simulations/SoA/src/Shader.cpp
+
+CMakeFiles/BallsSimulation.dir/src/Shader.cpp.i: cmake_force
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green "Preprocessing CXX source to CMakeFiles/BallsSimulation.dir/src/Shader.cpp.i"
+	/Applications/miniconda3/bin/arm64-apple-darwin20.0.0-clang++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -E /Users/williambogdanovic/Desktop/simulations/SoA/src/Shader.cpp > CMakeFiles/BallsSimulation.dir/src/Shader.cpp.i
+
+CMakeFiles/BallsSimulation.dir/src/Shader.cpp.s: cmake_force
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green "Compiling CXX source to assembly CMakeFiles/BallsSimulation.dir/src/Shader.cpp.s"
+	/Applications/miniconda3/bin/arm64-apple-darwin20.0.0-clang++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -S /Users/williambogdanovic/Desktop/simulations/SoA/src/Shader.cpp -o CMakeFiles/BallsSimulation.dir/src/Shader.cpp.s
+
 CMakeFiles/BallsSimulation.dir/src/Simulation.cpp.o: CMakeFiles/BallsSimulation.dir/flags.make
 CMakeFiles/BallsSimulation.dir/src/Simulation.cpp.o: /Users/williambogdanovic/Desktop/simulations/SoA/src/Simulation.cpp
 CMakeFiles/BallsSimulation.dir/src/Simulation.cpp.o: CMakeFiles/BallsSimulation.dir/compiler_depend.ts
-	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green --progress-dir=/Users/williambogdanovic/Desktop/simulations/SoA/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_4) "Building CXX object CMakeFiles/BallsSimulation.dir/src/Simulation.cpp.o"
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green --progress-dir=/Users/williambogdanovic/Desktop/simulations/SoA/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_5) "Building CXX object CMakeFiles/BallsSimulation.dir/src/Simulation.cpp.o"
 	/Applications/miniconda3/bin/arm64-apple-darwin20.0.0-clang++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -MD -MT CMakeFiles/BallsSimulation.dir/src/Simulation.cpp.o -MF CMakeFiles/BallsSimulation.dir/src/Simulation.cpp.o.d -o CMakeFiles/BallsSimulation.dir/src/Simulation.cpp.o -c /Users/williambogdanovic/Desktop/simulations/SoA/src/Simulation.cpp
 
 CMakeFiles/BallsSimulation.dir/src/Simulation.cpp.i: cmake_force
@@ -131,7 +145,7 @@ CMakeFiles/BallsSimulation.dir/src/Simulation.cpp.s: cmake_force
 CMakeFiles/BallsSimulation.dir/src/main.cpp.o: CMakeFiles/BallsSimulation.dir/flags.make
 CMakeFiles/BallsSimulation.dir/src/main.cpp.o: /Users/williambogdanovic/Desktop/simulations/SoA/src/main.cpp
 CMakeFiles/BallsSimulation.dir/src/main.cpp.o: CMakeFiles/BallsSimulation.dir/compiler_depend.ts
-	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green --progress-dir=/Users/williambogdanovic/Desktop/simulations/SoA/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_5) "Building CXX object CMakeFiles/BallsSimulation.dir/src/main.cpp.o"
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green --progress-dir=/Users/williambogdanovic/Desktop/simulations/SoA/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_6) "Building CXX object CMakeFiles/BallsSimulation.dir/src/main.cpp.o"
 	/Applications/miniconda3/bin/arm64-apple-darwin20.0.0-clang++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -MD -MT CMakeFiles/BallsSimulation.dir/src/main.cpp.o -MF CMakeFiles/BallsSimulation.dir/src/main.cpp.o.d -o CMakeFiles/BallsSimulation.dir/src/main.cpp.o -c /Users/williambogdanovic/Desktop/simulations/SoA/src/main.cpp
 
 CMakeFiles/BallsSimulation.dir/src/main.cpp.i: cmake_force
@@ -145,7 +159,7 @@ CMakeFiles/BallsSimulation.dir/src/main.cpp.s: cmake_force
 CMakeFiles/BallsSimulation.dir/external/imgui/backends/imgui_impl_opengl3.cpp.o: CMakeFiles/BallsSimulation.dir/flags.make
 CMakeFiles/BallsSimulation.dir/external/imgui/backends/imgui_impl_opengl3.cpp.o: /Users/williambogdanovic/Desktop/simulations/SoA/external/imgui/backends/imgui_impl_opengl3.cpp
 CMakeFiles/BallsSimulation.dir/external/imgui/backends/imgui_impl_opengl3.cpp.o: CMakeFiles/BallsSimulation.dir/compiler_depend.ts
-	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green --progress-dir=/Users/williambogdanovic/Desktop/simulations/SoA/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_6) "Building CXX object CMakeFiles/BallsSimulation.dir/external/imgui/backends/imgui_impl_opengl3.cpp.o"
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green --progress-dir=/Users/williambogdanovic/Desktop/simulations/SoA/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_7) "Building CXX object CMakeFiles/BallsSimulation.dir/external/imgui/backends/imgui_impl_opengl3.cpp.o"
 	/Applications/miniconda3/bin/arm64-apple-darwin20.0.0-clang++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -MD -MT CMakeFiles/BallsSimulation.dir/external/imgui/backends/imgui_impl_opengl3.cpp.o -MF CMakeFiles/BallsSimulation.dir/external/imgui/backends/imgui_impl_opengl3.cpp.o.d -o CMakeFiles/BallsSimulation.dir/external/imgui/backends/imgui_impl_opengl3.cpp.o -c /Users/williambogdanovic/Desktop/simulations/SoA/external/imgui/backends/imgui_impl_opengl3.cpp
 
 CMakeFiles/BallsSimulation.dir/external/imgui/backends/imgui_impl_opengl3.cpp.i: cmake_force
@@ -159,7 +173,7 @@ CMakeFiles/BallsSimulation.dir/external/imgui/backends/imgui_impl_opengl3.cpp.s:
 CMakeFiles/BallsSimulation.dir/external/imgui/backends/imgui_impl_sdl2.cpp.o: CMakeFiles/BallsSimulation.dir/flags.make
 CMakeFiles/BallsSimulation.dir/external/imgui/backends/imgui_impl_sdl2.cpp.o: /Users/williambogdanovic/Desktop/simulations/SoA/external/imgui/backends/imgui_impl_sdl2.cpp
 CMakeFiles/BallsSimulation.dir/external/imgui/backends/imgui_impl_sdl2.cpp.o: CMakeFiles/BallsSimulation.dir/compiler_depend.ts
-	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green --progress-dir=/Users/williambogdanovic/Desktop/simulations/SoA/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_7) "Building CXX object CMakeFiles/BallsSimulation.dir/external/imgui/backends/imgui_impl_sdl2.cpp.o"
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green --progress-dir=/Users/williambogdanovic/Desktop/simulations/SoA/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_8) "Building CXX object CMakeFiles/BallsSimulation.dir/external/imgui/backends/imgui_impl_sdl2.cpp.o"
 	/Applications/miniconda3/bin/arm64-apple-darwin20.0.0-clang++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -MD -MT CMakeFiles/BallsSimulation.dir/external/imgui/backends/imgui_impl_sdl2.cpp.o -MF CMakeFiles/BallsSimulation.dir/external/imgui/backends/imgui_impl_sdl2.cpp.o.d -o CMakeFiles/BallsSimulation.dir/external/imgui/backends/imgui_impl_sdl2.cpp.o -c /Users/williambogdanovic/Desktop/simulations/SoA/external/imgui/backends/imgui_impl_sdl2.cpp
 
 CMakeFiles/BallsSimulation.dir/external/imgui/backends/imgui_impl_sdl2.cpp.i: cmake_force
@@ -173,7 +187,7 @@ CMakeFiles/BallsSimulation.dir/external/imgui/backends/imgui_impl_sdl2.cpp.s: cm
 CMakeFiles/BallsSimulation.dir/external/imgui/imgui.cpp.o: CMakeFiles/BallsSimulation.dir/flags.make
 CMakeFiles/BallsSimulation.dir/external/imgui/imgui.cpp.o: /Users/williambogdanovic/Desktop/simulations/SoA/external/imgui/imgui.cpp
 CMakeFiles/BallsSimulation.dir/external/imgui/imgui.cpp.o: CMakeFiles/BallsSimulation.dir/compiler_depend.ts
-	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green --progress-dir=/Users/williambogdanovic/Desktop/simulations/SoA/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_8) "Building CXX object CMakeFiles/BallsSimulation.dir/external/imgui/imgui.cpp.o"
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green --progress-dir=/Users/williambogdanovic/Desktop/simulations/SoA/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_9) "Building CXX object CMakeFiles/BallsSimulation.dir/external/imgui/imgui.cpp.o"
 	/Applications/miniconda3/bin/arm64-apple-darwin20.0.0-clang++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -MD -MT CMakeFiles/BallsSimulation.dir/external/imgui/imgui.cpp.o -MF CMakeFiles/BallsSimulation.dir/external/imgui/imgui.cpp.o.d -o CMakeFiles/BallsSimulation.dir/external/imgui/imgui.cpp.o -c /Users/williambogdanovic/Desktop/simulations/SoA/external/imgui/imgui.cpp
 
 CMakeFiles/BallsSimulation.dir/external/imgui/imgui.cpp.i: cmake_force
@@ -187,7 +201,7 @@ CMakeFiles/BallsSimulation.dir/external/imgui/imgui.cpp.s: cmake_force
 CMakeFiles/BallsSimulation.dir/external/imgui/imgui_demo.cpp.o: CMakeFiles/BallsSimulation.dir/flags.make
 CMakeFiles/BallsSimulation.dir/external/imgui/imgui_demo.cpp.o: /Users/williambogdanovic/Desktop/simulations/SoA/external/imgui/imgui_demo.cpp
 CMakeFiles/BallsSimulation.dir/external/imgui/imgui_demo.cpp.o: CMakeFiles/BallsSimulation.dir/compiler_depend.ts
-	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green --progress-dir=/Users/williambogdanovic/Desktop/simulations/SoA/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_9) "Building CXX object CMakeFiles/BallsSimulation.dir/external/imgui/imgui_demo.cpp.o"
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green --progress-dir=/Users/williambogdanovic/Desktop/simulations/SoA/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_10) "Building CXX object CMakeFiles/BallsSimulation.dir/external/imgui/imgui_demo.cpp.o"
 	/Applications/miniconda3/bin/arm64-apple-darwin20.0.0-clang++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -MD -MT CMakeFiles/BallsSimulation.dir/external/imgui/imgui_demo.cpp.o -MF CMakeFiles/BallsSimulation.dir/external/imgui/imgui_demo.cpp.o.d -o CMakeFiles/BallsSimulation.dir/external/imgui/imgui_demo.cpp.o -c /Users/williambogdanovic/Desktop/simulations/SoA/external/imgui/imgui_demo.cpp
 
 CMakeFiles/BallsSimulation.dir/external/imgui/imgui_demo.cpp.i: cmake_force
@@ -201,7 +215,7 @@ CMakeFiles/BallsSimulation.dir/external/imgui/imgui_demo.cpp.s: cmake_force
 CMakeFiles/BallsSimulation.dir/external/imgui/imgui_draw.cpp.o: CMakeFiles/BallsSimulation.dir/flags.make
 CMakeFiles/BallsSimulation.dir/external/imgui/imgui_draw.cpp.o: /Users/williambogdanovic/Desktop/simulations/SoA/external/imgui/imgui_draw.cpp
 CMakeFiles/BallsSimulation.dir/external/imgui/imgui_draw.cpp.o: CMakeFiles/BallsSimulation.dir/compiler_depend.ts
-	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green --progress-dir=/Users/williambogdanovic/Desktop/simulations/SoA/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_10) "Building CXX object CMakeFiles/BallsSimulation.dir/external/imgui/imgui_draw.cpp.o"
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green --progress-dir=/Users/williambogdanovic/Desktop/simulations/SoA/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_11) "Building CXX object CMakeFiles/BallsSimulation.dir/external/imgui/imgui_draw.cpp.o"
 	/Applications/miniconda3/bin/arm64-apple-darwin20.0.0-clang++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -MD -MT CMakeFiles/BallsSimulation.dir/external/imgui/imgui_draw.cpp.o -MF CMakeFiles/BallsSimulation.dir/external/imgui/imgui_draw.cpp.o.d -o CMakeFiles/BallsSimulation.dir/external/imgui/imgui_draw.cpp.o -c /Users/williambogdanovic/Desktop/simulations/SoA/external/imgui/imgui_draw.cpp
 
 CMakeFiles/BallsSimulation.dir/external/imgui/imgui_draw.cpp.i: cmake_force
@@ -215,7 +229,7 @@ CMakeFiles/BallsSimulation.dir/external/imgui/imgui_draw.cpp.s: cmake_force
 CMakeFiles/BallsSimulation.dir/external/imgui/imgui_tables.cpp.o: CMakeFiles/BallsSimulation.dir/flags.make
 CMakeFiles/BallsSimulation.dir/external/imgui/imgui_tables.cpp.o: /Users/williambogdanovic/Desktop/simulations/SoA/external/imgui/imgui_tables.cpp
 CMakeFiles/BallsSimulation.dir/external/imgui/imgui_tables.cpp.o: CMakeFiles/BallsSimulation.dir/compiler_depend.ts
-	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green --progress-dir=/Users/williambogdanovic/Desktop/simulations/SoA/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_11) "Building CXX object CMakeFiles/BallsSimulation.dir/external/imgui/imgui_tables.cpp.o"
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green --progress-dir=/Users/williambogdanovic/Desktop/simulations/SoA/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_12) "Building CXX object CMakeFiles/BallsSimulation.dir/external/imgui/imgui_tables.cpp.o"
 	/Applications/miniconda3/bin/arm64-apple-darwin20.0.0-clang++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -MD -MT CMakeFiles/BallsSimulation.dir/external/imgui/imgui_tables.cpp.o -MF CMakeFiles/BallsSimulation.dir/external/imgui/imgui_tables.cpp.o.d -o CMakeFiles/BallsSimulation.dir/external/imgui/imgui_tables.cpp.o -c /Users/williambogdanovic/Desktop/simulations/SoA/external/imgui/imgui_tables.cpp
 
 CMakeFiles/BallsSimulation.dir/external/imgui/imgui_tables.cpp.i: cmake_force
@@ -229,7 +243,7 @@ CMakeFiles/BallsSimulation.dir/external/imgui/imgui_tables.cpp.s: cmake_force
 CMakeFiles/BallsSimulation.dir/external/imgui/imgui_widgets.cpp.o: CMakeFiles/BallsSimulation.dir/flags.make
 CMakeFiles/BallsSimulation.dir/external/imgui/imgui_widgets.cpp.o: /Users/williambogdanovic/Desktop/simulations/SoA/external/imgui/imgui_widgets.cpp
 CMakeFiles/BallsSimulation.dir/external/imgui/imgui_widgets.cpp.o: CMakeFiles/BallsSimulation.dir/compiler_depend.ts
-	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green --progress-dir=/Users/williambogdanovic/Desktop/simulations/SoA/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_12) "Building CXX object CMakeFiles/BallsSimulation.dir/external/imgui/imgui_widgets.cpp.o"
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green --progress-dir=/Users/williambogdanovic/Desktop/simulations/SoA/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_13) "Building CXX object CMakeFiles/BallsSimulation.dir/external/imgui/imgui_widgets.cpp.o"
 	/Applications/miniconda3/bin/arm64-apple-darwin20.0.0-clang++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -MD -MT CMakeFiles/BallsSimulation.dir/external/imgui/imgui_widgets.cpp.o -MF CMakeFiles/BallsSimulation.dir/external/imgui/imgui_widgets.cpp.o.d -o CMakeFiles/BallsSimulation.dir/external/imgui/imgui_widgets.cpp.o -c /Users/williambogdanovic/Desktop/simulations/SoA/external/imgui/imgui_widgets.cpp
 
 CMakeFiles/BallsSimulation.dir/external/imgui/imgui_widgets.cpp.i: cmake_force
@@ -245,6 +259,7 @@ BallsSimulation_OBJECTS = \
 "CMakeFiles/BallsSimulation.dir/src/GUI.cpp.o" \
 "CMakeFiles/BallsSimulation.dir/src/Link.cpp.o" \
 "CMakeFiles/BallsSimulation.dir/src/Renderer.cpp.o" \
+"CMakeFiles/BallsSimulation.dir/src/Shader.cpp.o" \
 "CMakeFiles/BallsSimulation.dir/src/Simulation.cpp.o" \
 "CMakeFiles/BallsSimulation.dir/src/main.cpp.o" \
 "CMakeFiles/BallsSimulation.dir/external/imgui/backends/imgui_impl_opengl3.cpp.o" \
@@ -261,6 +276,7 @@ BallsSimulation_EXTERNAL_OBJECTS =
 BallsSimulation: CMakeFiles/BallsSimulation.dir/src/GUI.cpp.o
 BallsSimulation: CMakeFiles/BallsSimulation.dir/src/Link.cpp.o
 BallsSimulation: CMakeFiles/BallsSimulation.dir/src/Renderer.cpp.o
+BallsSimulation: CMakeFiles/BallsSimulation.dir/src/Shader.cpp.o
 BallsSimulation: CMakeFiles/BallsSimulation.dir/src/Simulation.cpp.o
 BallsSimulation: CMakeFiles/BallsSimulation.dir/src/main.cpp.o
 BallsSimulation: CMakeFiles/BallsSimulation.dir/external/imgui/backends/imgui_impl_opengl3.cpp.o
@@ -273,7 +289,7 @@ BallsSimulation: CMakeFiles/BallsSimulation.dir/external/imgui/imgui_widgets.cpp
 BallsSimulation: CMakeFiles/BallsSimulation.dir/build.make
 BallsSimulation: libglad.a
 BallsSimulation: CMakeFiles/BallsSimulation.dir/link.txt
-	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green --bold --progress-dir=/Users/williambogdanovic/Desktop/simulations/SoA/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_13) "Linking CXX executable BallsSimulation"
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green --bold --progress-dir=/Users/williambogdanovic/Desktop/simulations/SoA/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_14) "Linking CXX executable BallsSimulation"
 	$(CMAKE_COMMAND) -E cmake_link_script CMakeFiles/BallsSimulation.dir/link.txt --verbose=$(VERBOSE)
 
 # Rule to build all files generated by this target.

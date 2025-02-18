@@ -4,38 +4,57 @@
 #include "Simulation.hpp"
 #include "PMat.hpp"
 #include <glm/glm.hpp>
+#include "Shader.hpp"   // New: our shader management class
 
 class Renderer {
 public:
     Renderer();
     ~Renderer();
+    
+    // Main render call.
     void render(const Simulation& simulation);
+    
+    // Camera adjustments.
     void adjustCameraToFit(const Simulation& simulation);
     void cameraReset(const Simulation& simulation);
 
-    // Getters for camera position and target
+    // Getters for camera position and target.
     glm::vec3 getCameraPosition() const { return cameraPosition; }
     glm::vec3 getCameraTarget() const { return cameraTarget; }
 
-    // New: Render hexagon triangles
+    // Rendering functions for various elements.
     void renderBalls(const Simulation& simulation, const glm::mat4& projection, const glm::mat4& view);
     void renderHexTriangles(const Simulation& simulation, const glm::mat4& projection, const glm::mat4& view);
     void renderSprings(const Simulation& simulation, const glm::mat4& projection, const glm::mat4& view);
+    void renderExternalCubes(const Simulation& simulation, const glm::mat4& projection, const glm::mat4& view);
 
 private:
-    unsigned int shaderProgram;
+    // Instead of raw shader program IDs, we now use Shader objects.
+    Shader ballShader;  // For instanced ball, grid, springs, and hexagon triangles.
+    Shader cubeShader;  // For external cubes (wireframe).
+
+    // Geometry for the instanced balls.
     unsigned int vao, vbo;
-    // Remove the old instanceVBO and add separate buffers:
     unsigned int instancePosVBO, instanceColorVBO, instanceScaleVBO;
 
-    void init();
-    void initShaders();
+    void init();      // Initializes ball geometry, instance buffers, etc.
+    void initGrid();  // Initializes grid geometry.
+
+    // Grid geometry.
+    unsigned int gridVAO, gridVBO;
+    int gridVertexCount;
+    void renderGrid(const glm::mat4& projection, const glm::mat4& view);
+
+    // Spring geometry.
+    unsigned int springVAO, springVBO;
+
+    // Hexagon triangles geometry.
+    unsigned int hexTriVAO, hexTriVBO;
+
+    // Ball geometry parameters.
     int numSegments = 32;
 
-    // Cached uniform locations
-    int mvpLoc, modelLoc, colorLoc, useInstanceLoc, gridSpacingLoc;
-
-    // Camera properties
+    // Camera properties.
     glm::vec3 cameraPosition;
     glm::vec3 cameraTarget;
     glm::vec3 targetPosition;
@@ -46,20 +65,8 @@ private:
     float minCameraDistance = 5.0f;
     float maxCameraDistance = 1000.0f;
 
-    // Grid geometry
-    unsigned int gridVAO, gridVBO;
-    int gridVertexCount;
-    void initGrid();
-    void renderGrid(const glm::mat4& projection, const glm::mat4& view);
-
-    // Spring geometry
-    unsigned int springVAO, springVBO;
-
-    // Hexagon triangles geometry for rendering
-    unsigned int hexTriVAO, hexTriVBO;
-
-    // Maximum number of instances to support
-    static const size_t maxInstances = 10000;
+    // Maximum number of instances.
+    static const size_t maxInstances = 100000;
 };
 
 #endif // RENDERER_H

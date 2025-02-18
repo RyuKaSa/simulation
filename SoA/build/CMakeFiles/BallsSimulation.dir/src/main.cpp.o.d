@@ -1053,5 +1053,6 @@ CMakeFiles/BallsSimulation.dir/src/main.cpp.o: \
   /opt/homebrew/include/glm/gtc/../geometric.hpp \
   /opt/homebrew/include/glm/gtc/../trigonometric.hpp \
   /opt/homebrew/include/glm/gtc/../matrix.hpp \
+  /Users/williambogdanovic/Desktop/simulations/SoA/src/Shader.hpp \
   /Users/williambogdanovic/Desktop/simulations/SoA/src/GUI.hpp \
   /opt/homebrew/include/SDL2/SDL_opengl.h

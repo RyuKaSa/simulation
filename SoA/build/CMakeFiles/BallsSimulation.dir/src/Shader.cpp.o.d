@@ -1,33 +1,20 @@
-CMakeFiles/BallsSimulation.dir/src/Renderer.cpp.o: \
-  /Users/williambogdanovic/Desktop/simulations/SoA/src/Renderer.cpp \
-  /Users/williambogdanovic/Desktop/simulations/SoA/src/Renderer.hpp \
-  /Users/williambogdanovic/Desktop/simulations/SoA/src/Simulation.hpp \
-  /Applications/miniconda3/bin/../include/c++/v1/vector \
-  /Applications/miniconda3/bin/../include/c++/v1/__algorithm/copy.h \
-  /Applications/miniconda3/bin/../include/c++/v1/__algorithm/copy_move_common.h \
-  /Applications/miniconda3/bin/../include/c++/v1/__algorithm/iterator_operations.h \
-  /Applications/miniconda3/bin/../include/c++/v1/__algorithm/iter_swap.h \
+CMakeFiles/BallsSimulation.dir/src/Shader.cpp.o: \
+  /Users/williambogdanovic/Desktop/simulations/SoA/src/Shader.cpp \
+  /Users/williambogdanovic/Desktop/simulations/SoA/src/Shader.hpp \
+  /Applications/miniconda3/bin/../include/c++/v1/string \
+  /Applications/miniconda3/bin/../include/c++/v1/__algorithm/max.h \
+  /Applications/miniconda3/bin/../include/c++/v1/__algorithm/comp.h \
   /Applications/miniconda3/bin/../include/c++/v1/__config \
   /Applications/miniconda3/bin/../include/c++/v1/__config_site \
-  /Applications/miniconda3/bin/../include/c++/v1/__utility/declval.h \
-  /Applications/miniconda3/bin/../include/c++/v1/__utility/swap.h \
-  /Applications/miniconda3/bin/../include/c++/v1/__type_traits/is_move_assignable.h \
-  /Applications/miniconda3/bin/../include/c++/v1/__type_traits/add_lvalue_reference.h \
-  /Applications/miniconda3/bin/../include/c++/v1/__type_traits/is_referenceable.h \
-  /Applications/miniconda3/bin/../include/c++/v1/__type_traits/integral_constant.h \
-  /Applications/miniconda3/bin/../include/c++/v1/__type_traits/is_same.h \
-  /Applications/miniconda3/bin/../include/c++/v1/__type_traits/add_rvalue_reference.h \
-  /Applications/miniconda3/bin/../include/c++/v1/__type_traits/is_move_constructible.h \
-  /Applications/miniconda3/bin/../include/c++/v1/__type_traits/is_nothrow_move_assignable.h \
-  /Applications/miniconda3/bin/../include/c++/v1/__type_traits/is_nothrow_move_constructible.h \
-  /Applications/miniconda3/bin/../include/c++/v1/__type_traits/is_nothrow_constructible.h \
-  /Applications/miniconda3/bin/../include/c++/v1/__type_traits/is_constructible.h \
-  /Applications/miniconda3/bin/../include/c++/v1/__type_traits/is_reference.h \
-  /Applications/miniconda3/bin/../include/c++/v1/cstddef \
+  /Applications/miniconda3/bin/../include/c++/v1/__algorithm/comp_ref_type.h \
+  /Applications/miniconda3/bin/../include/c++/v1/__debug \
   /Applications/miniconda3/bin/../include/c++/v1/__assert \
   /Applications/miniconda3/bin/../include/c++/v1/__verbose_abort \
   /Applications/miniconda3/bin/../include/c++/v1/__availability \
+  /Applications/miniconda3/bin/../include/c++/v1/__type_traits/is_constant_evaluated.h \
+  /Applications/miniconda3/bin/../include/c++/v1/cstddef \
   /Applications/miniconda3/bin/../include/c++/v1/__type_traits/enable_if.h \
+  /Applications/miniconda3/bin/../include/c++/v1/__type_traits/integral_constant.h \
   /Applications/miniconda3/bin/../include/c++/v1/__type_traits/is_integral.h \
   /Applications/miniconda3/bin/../include/c++/v1/__type_traits/remove_cv.h \
   /Applications/miniconda3/bin/../include/c++/v1/__type_traits/remove_const.h \
@@ -36,44 +23,25 @@ CMakeFiles/BallsSimulation.dir/src/Renderer.cpp.o: \
   /Applications/miniconda3/bin/../include/c++/v1/stddef.h \
   /Applications/miniconda3/lib/clang/16/include/stddef.h \
   /Applications/miniconda3/lib/clang/16/include/__stddef_max_align_t.h \
-  /Applications/miniconda3/bin/../include/c++/v1/__type_traits/is_swappable.h \
-  /Applications/miniconda3/bin/../include/c++/v1/__type_traits/conditional.h \
-  /Applications/miniconda3/bin/../include/c++/v1/__type_traits/is_void.h \
-  /Applications/miniconda3/bin/../include/c++/v1/__type_traits/nat.h \
-  /Applications/miniconda3/bin/../include/c++/v1/__utility/move.h \
-  /Applications/miniconda3/bin/../include/c++/v1/__type_traits/is_copy_constructible.h \
-  /Applications/miniconda3/bin/../include/c++/v1/__type_traits/add_const.h \
-  /Applications/miniconda3/bin/../include/c++/v1/__type_traits/remove_reference.h \
-  /Applications/miniconda3/bin/../include/c++/v1/__algorithm/ranges_iterator_concept.h \
-  /Applications/miniconda3/bin/../include/c++/v1/__iterator/concepts.h \
+  /Applications/miniconda3/bin/../include/c++/v1/__utility/declval.h \
+  /Applications/miniconda3/bin/../include/c++/v1/__algorithm/max_element.h \
+  /Applications/miniconda3/bin/../include/c++/v1/__iterator/iterator_traits.h \
   /Applications/miniconda3/bin/../include/c++/v1/__concepts/arithmetic.h \
   /Applications/miniconda3/bin/../include/c++/v1/__type_traits/is_floating_point.h \
   /Applications/miniconda3/bin/../include/c++/v1/__type_traits/is_signed.h \
   /Applications/miniconda3/bin/../include/c++/v1/__type_traits/is_arithmetic.h \
   /Applications/miniconda3/bin/../include/c++/v1/__type_traits/is_signed_integer.h \
   /Applications/miniconda3/bin/../include/c++/v1/__type_traits/is_unsigned_integer.h \
-  /Applications/miniconda3/bin/../include/c++/v1/__concepts/assignable.h \
-  /Applications/miniconda3/bin/../include/c++/v1/__concepts/common_reference_with.h \
+  /Applications/miniconda3/bin/../include/c++/v1/__concepts/constructible.h \
   /Applications/miniconda3/bin/../include/c++/v1/__concepts/convertible_to.h \
   /Applications/miniconda3/bin/../include/c++/v1/__type_traits/is_convertible.h \
   /Applications/miniconda3/bin/../include/c++/v1/__type_traits/is_array.h \
   /Applications/miniconda3/bin/../include/c++/v1/__type_traits/is_function.h \
   /Applications/miniconda3/bin/../include/c++/v1/__type_traits/is_const.h \
-  /Applications/miniconda3/bin/../include/c++/v1/__concepts/same_as.h \
-  /Applications/miniconda3/bin/../include/c++/v1/__type_traits/common_reference.h \
-  /Applications/miniconda3/bin/../include/c++/v1/__type_traits/common_type.h \
-  /Applications/miniconda3/bin/../include/c++/v1/__type_traits/decay.h \
-  /Applications/miniconda3/bin/../include/c++/v1/__type_traits/add_pointer.h \
-  /Applications/miniconda3/bin/../include/c++/v1/__type_traits/remove_extent.h \
-  /Applications/miniconda3/bin/../include/c++/v1/__type_traits/remove_cvref.h \
-  /Applications/miniconda3/bin/../include/c++/v1/__type_traits/void_t.h \
-  /Applications/miniconda3/bin/../include/c++/v1/__type_traits/copy_cv.h \
-  /Applications/miniconda3/bin/../include/c++/v1/__type_traits/add_cv.h \
-  /Applications/miniconda3/bin/../include/c++/v1/__type_traits/add_volatile.h \
-  /Applications/miniconda3/bin/../include/c++/v1/__type_traits/copy_cvref.h \
-  /Applications/miniconda3/bin/../include/c++/v1/__type_traits/make_const_lvalue_ref.h \
-  /Applications/miniconda3/bin/../include/c++/v1/__utility/forward.h \
-  /Applications/miniconda3/bin/../include/c++/v1/__concepts/constructible.h \
+  /Applications/miniconda3/bin/../include/c++/v1/__type_traits/is_reference.h \
+  /Applications/miniconda3/bin/../include/c++/v1/__type_traits/is_void.h \
+  /Applications/miniconda3/bin/../include/c++/v1/__type_traits/is_same.h \
+  /Applications/miniconda3/bin/../include/c++/v1/__type_traits/remove_reference.h \
   /Applications/miniconda3/bin/../include/c++/v1/__concepts/destructible.h \
   /Applications/miniconda3/bin/../include/c++/v1/__type_traits/is_nothrow_destructible.h \
   /Applications/miniconda3/bin/../include/c++/v1/__type_traits/is_destructible.h \
@@ -84,158 +52,176 @@ CMakeFiles/BallsSimulation.dir/src/Renderer.cpp.o: \
   /Applications/miniconda3/bin/../include/c++/v1/__type_traits/is_member_function_pointer.h \
   /Applications/miniconda3/bin/../include/c++/v1/__type_traits/is_null_pointer.h \
   /Applications/miniconda3/bin/../include/c++/v1/__type_traits/is_pointer.h \
+  /Applications/miniconda3/bin/../include/c++/v1/__type_traits/is_constructible.h \
   /Applications/miniconda3/bin/../include/c++/v1/__concepts/copyable.h \
+  /Applications/miniconda3/bin/../include/c++/v1/__concepts/assignable.h \
+  /Applications/miniconda3/bin/../include/c++/v1/__concepts/common_reference_with.h \
+  /Applications/miniconda3/bin/../include/c++/v1/__concepts/same_as.h \
+  /Applications/miniconda3/bin/../include/c++/v1/__type_traits/common_reference.h \
+  /Applications/miniconda3/bin/../include/c++/v1/__type_traits/common_type.h \
+  /Applications/miniconda3/bin/../include/c++/v1/__type_traits/conditional.h \
+  /Applications/miniconda3/bin/../include/c++/v1/__type_traits/decay.h \
+  /Applications/miniconda3/bin/../include/c++/v1/__type_traits/add_pointer.h \
+  /Applications/miniconda3/bin/../include/c++/v1/__type_traits/is_referenceable.h \
+  /Applications/miniconda3/bin/../include/c++/v1/__type_traits/remove_extent.h \
+  /Applications/miniconda3/bin/../include/c++/v1/__type_traits/remove_cvref.h \
+  /Applications/miniconda3/bin/../include/c++/v1/__type_traits/void_t.h \
+  /Applications/miniconda3/bin/../include/c++/v1/__type_traits/copy_cv.h \
+  /Applications/miniconda3/bin/../include/c++/v1/__type_traits/add_const.h \
+  /Applications/miniconda3/bin/../include/c++/v1/__type_traits/add_cv.h \
+  /Applications/miniconda3/bin/../include/c++/v1/__type_traits/add_volatile.h \
+  /Applications/miniconda3/bin/../include/c++/v1/__type_traits/copy_cvref.h \
+  /Applications/miniconda3/bin/../include/c++/v1/__type_traits/add_lvalue_reference.h \
+  /Applications/miniconda3/bin/../include/c++/v1/__type_traits/add_rvalue_reference.h \
+  /Applications/miniconda3/bin/../include/c++/v1/__type_traits/make_const_lvalue_ref.h \
+  /Applications/miniconda3/bin/../include/c++/v1/__utility/forward.h \
   /Applications/miniconda3/bin/../include/c++/v1/__concepts/movable.h \
   /Applications/miniconda3/bin/../include/c++/v1/__concepts/swappable.h \
   /Applications/miniconda3/bin/../include/c++/v1/__concepts/class_or_enum.h \
   /Applications/miniconda3/bin/../include/c++/v1/__type_traits/is_class.h \
   /Applications/miniconda3/bin/../include/c++/v1/__type_traits/is_union.h \
   /Applications/miniconda3/bin/../include/c++/v1/__type_traits/extent.h \
+  /Applications/miniconda3/bin/../include/c++/v1/__type_traits/is_nothrow_move_assignable.h \
+  /Applications/miniconda3/bin/../include/c++/v1/__type_traits/is_nothrow_move_constructible.h \
+  /Applications/miniconda3/bin/../include/c++/v1/__type_traits/is_nothrow_constructible.h \
   /Applications/miniconda3/bin/../include/c++/v1/__utility/exchange.h \
   /Applications/miniconda3/bin/../include/c++/v1/__type_traits/is_nothrow_assignable.h \
+  /Applications/miniconda3/bin/../include/c++/v1/__utility/move.h \
+  /Applications/miniconda3/bin/../include/c++/v1/__type_traits/is_copy_constructible.h \
+  /Applications/miniconda3/bin/../include/c++/v1/__utility/swap.h \
+  /Applications/miniconda3/bin/../include/c++/v1/__type_traits/is_move_assignable.h \
+  /Applications/miniconda3/bin/../include/c++/v1/__type_traits/is_move_constructible.h \
+  /Applications/miniconda3/bin/../include/c++/v1/__type_traits/is_swappable.h \
+  /Applications/miniconda3/bin/../include/c++/v1/__type_traits/nat.h \
   /Applications/miniconda3/bin/../include/c++/v1/__type_traits/is_object.h \
-  /Applications/miniconda3/bin/../include/c++/v1/__concepts/derived_from.h \
-  /Applications/miniconda3/bin/../include/c++/v1/__type_traits/is_base_of.h \
   /Applications/miniconda3/bin/../include/c++/v1/__concepts/equality_comparable.h \
   /Applications/miniconda3/bin/../include/c++/v1/__concepts/boolean_testable.h \
-  /Applications/miniconda3/bin/../include/c++/v1/__concepts/invocable.h \
-  /Applications/miniconda3/bin/../include/c++/v1/__functional/invoke.h \
-  /Applications/miniconda3/bin/../include/c++/v1/__type_traits/apply_cv.h \
-  /Applications/miniconda3/bin/../include/c++/v1/__type_traits/is_volatile.h \
-  /Applications/miniconda3/bin/../include/c++/v1/__type_traits/is_core_convertible.h \
-  /Applications/miniconda3/bin/../include/c++/v1/__type_traits/is_member_object_pointer.h \
-  /Applications/miniconda3/bin/../include/c++/v1/__type_traits/is_reference_wrapper.h \
-  /Applications/miniconda3/bin/../include/c++/v1/__concepts/predicate.h \
-  /Applications/miniconda3/bin/../include/c++/v1/__concepts/regular.h \
-  /Applications/miniconda3/bin/../include/c++/v1/__concepts/semiregular.h \
-  /Applications/miniconda3/bin/../include/c++/v1/__concepts/relation.h \
   /Applications/miniconda3/bin/../include/c++/v1/__concepts/totally_ordered.h \
+  /Applications/miniconda3/bin/../include/c++/v1/__fwd/pair.h \
   /Applications/miniconda3/bin/../include/c++/v1/__iterator/incrementable_traits.h \
   /Applications/miniconda3/bin/../include/c++/v1/__type_traits/is_primary_template.h \
   /Applications/miniconda3/bin/../include/c++/v1/__type_traits/is_valid_expansion.h \
   /Applications/miniconda3/bin/../include/c++/v1/__type_traits/make_signed.h \
+  /Applications/miniconda3/bin/../include/c++/v1/__type_traits/apply_cv.h \
+  /Applications/miniconda3/bin/../include/c++/v1/__type_traits/is_volatile.h \
   /Applications/miniconda3/bin/../include/c++/v1/__type_traits/type_list.h \
-  /Applications/miniconda3/bin/../include/c++/v1/__iterator/iter_move.h \
-  /Applications/miniconda3/bin/../include/c++/v1/__iterator/iterator_traits.h \
-  /Applications/miniconda3/bin/../include/c++/v1/__fwd/pair.h \
   /Applications/miniconda3/bin/../include/c++/v1/__iterator/readable_traits.h \
   /Applications/miniconda3/bin/../include/c++/v1/__type_traits/disjunction.h \
-  /Applications/miniconda3/bin/../include/c++/v1/__memory/pointer_traits.h \
-  /Applications/miniconda3/bin/../include/c++/v1/__memory/addressof.h \
-  /Applications/miniconda3/bin/../include/c++/v1/__type_traits/conjunction.h \
-  /Applications/miniconda3/bin/../include/c++/v1/__iterator/advance.h \
-  /Applications/miniconda3/bin/../include/c++/v1/__utility/convert_to_integral.h \
+  /Applications/miniconda3/bin/../include/c++/v1/initializer_list \
+  /Applications/miniconda3/bin/../include/c++/v1/__undef_macros \
+  /Applications/miniconda3/bin/../include/c++/v1/__algorithm/min.h \
+  /Applications/miniconda3/bin/../include/c++/v1/__algorithm/min_element.h \
+  /Applications/miniconda3/bin/../include/c++/v1/__functional/identity.h \
+  /Applications/miniconda3/bin/../include/c++/v1/__functional/invoke.h \
+  /Applications/miniconda3/bin/../include/c++/v1/__type_traits/is_base_of.h \
+  /Applications/miniconda3/bin/../include/c++/v1/__type_traits/is_core_convertible.h \
+  /Applications/miniconda3/bin/../include/c++/v1/__type_traits/is_member_object_pointer.h \
+  /Applications/miniconda3/bin/../include/c++/v1/__type_traits/is_reference_wrapper.h \
+  /Applications/miniconda3/bin/../include/c++/v1/__type_traits/is_callable.h \
+  /Applications/miniconda3/bin/../include/c++/v1/__algorithm/remove.h \
+  /Applications/miniconda3/bin/../include/c++/v1/__algorithm/find.h \
+  /Applications/miniconda3/bin/../include/c++/v1/__algorithm/find_if.h \
+  /Applications/miniconda3/bin/../include/c++/v1/__algorithm/remove_if.h \
+  /Applications/miniconda3/bin/../include/c++/v1/__format/enable_insertable.h \
+  /Applications/miniconda3/bin/../include/c++/v1/__functional/hash.h \
+  /Applications/miniconda3/bin/../include/c++/v1/__functional/unary_function.h \
+  /Applications/miniconda3/bin/../include/c++/v1/__fwd/hash.h \
+  /Applications/miniconda3/bin/../include/c++/v1/__tuple_dir/sfinae_helpers.h \
+  /Applications/miniconda3/bin/../include/c++/v1/__fwd/tuple.h \
+  /Applications/miniconda3/bin/../include/c++/v1/__tuple_dir/make_tuple_types.h \
+  /Applications/miniconda3/bin/../include/c++/v1/__fwd/array.h \
+  /Applications/miniconda3/bin/../include/c++/v1/__tuple_dir/apply_cv.h \
+  /Applications/miniconda3/bin/../include/c++/v1/__tuple_dir/tuple_element.h \
+  /Applications/miniconda3/bin/../include/c++/v1/__tuple_dir/tuple_indices.h \
+  /Applications/miniconda3/bin/../include/c++/v1/__utility/integer_sequence.h \
+  /Applications/miniconda3/bin/../include/c++/v1/__tuple_dir/tuple_types.h \
+  /Applications/miniconda3/bin/../include/c++/v1/__tuple_dir/tuple_size.h \
+  /Applications/miniconda3/bin/../include/c++/v1/__tuple_dir/tuple_like_ext.h \
+  /Applications/miniconda3/bin/../include/c++/v1/__type_traits/is_assignable.h \
+  /Applications/miniconda3/bin/../include/c++/v1/__type_traits/is_default_constructible.h \
   /Applications/miniconda3/bin/../include/c++/v1/__type_traits/underlying_type.h \
-  /Applications/miniconda3/bin/../include/c++/v1/__utility/unreachable.h \
-  /Applications/miniconda3/bin/../include/c++/v1/cstdlib \
-  /Applications/miniconda3/bin/../include/c++/v1/stdlib.h \
-  /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX.sdk/usr/include/stdlib.h \
-  /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX.sdk/usr/include/_stdlib.h \
-  /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX.sdk/usr/include/Availability.h \
-  /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX.sdk/usr/include/AvailabilityVersions.h \
-  /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX.sdk/usr/include/AvailabilityInternal.h \
-  /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX.sdk/usr/include/AvailabilityInternalLegacy.h \
-  /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX.sdk/usr/include/sys/cdefs.h \
-  /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX.sdk/usr/include/sys/_symbol_aliasing.h \
-  /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX.sdk/usr/include/sys/_posix_availability.h \
-  /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX.sdk/usr/include/_types.h \
-  /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX.sdk/usr/include/sys/_types.h \
-  /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX.sdk/usr/include/machine/_types.h \
-  /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX.sdk/usr/include/arm/_types.h \
-  /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX.sdk/usr/include/sys/_pthread/_pthread_types.h \
-  /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX.sdk/usr/include/sys/wait.h \
-  /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX.sdk/usr/include/sys/_types/_pid_t.h \
-  /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX.sdk/usr/include/sys/_types/_id_t.h \
-  /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX.sdk/usr/include/sys/signal.h \
-  /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX.sdk/usr/include/sys/appleapiopts.h \
-  /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX.sdk/usr/include/machine/signal.h \
-  /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX.sdk/usr/include/arm/signal.h \
-  /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX.sdk/usr/include/machine/_mcontext.h \
-  /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX.sdk/usr/include/arm/_mcontext.h \
-  /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX.sdk/usr/include/mach/machine/_structs.h \
-  /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX.sdk/usr/include/mach/arm/_structs.h \
-  /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX.sdk/usr/include/machine/types.h \
-  /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX.sdk/usr/include/arm/types.h \
+  /Applications/miniconda3/bin/../include/c++/v1/__utility/pair.h \
+  /Applications/miniconda3/bin/../include/c++/v1/__compare/common_comparison_category.h \
+  /Applications/miniconda3/bin/../include/c++/v1/__compare/ordering.h \
+  /Applications/miniconda3/bin/../include/c++/v1/__compare/synth_three_way.h \
+  /Applications/miniconda3/bin/../include/c++/v1/__compare/three_way_comparable.h \
+  /Applications/miniconda3/bin/../include/c++/v1/__functional/unwrap_ref.h \
+  /Applications/miniconda3/bin/../include/c++/v1/__fwd/get.h \
+  /Applications/miniconda3/bin/../include/c++/v1/__fwd/subrange.h \
+  /Applications/miniconda3/bin/../include/c++/v1/__type_traits/is_copy_assignable.h \
+  /Applications/miniconda3/bin/../include/c++/v1/__type_traits/is_implicitly_default_constructible.h \
+  /Applications/miniconda3/bin/../include/c++/v1/__type_traits/is_nothrow_copy_assignable.h \
+  /Applications/miniconda3/bin/../include/c++/v1/__type_traits/is_nothrow_copy_constructible.h \
+  /Applications/miniconda3/bin/../include/c++/v1/__type_traits/is_nothrow_default_constructible.h \
+  /Applications/miniconda3/bin/../include/c++/v1/__utility/piecewise_construct.h \
+  /Applications/miniconda3/bin/../include/c++/v1/cstdint \
+  /Applications/miniconda3/bin/../include/c++/v1/stdint.h \
+  /Applications/miniconda3/lib/clang/16/include/stdint.h \
+  /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX.sdk/usr/include/stdint.h \
   /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX.sdk/usr/include/sys/_types/_int8_t.h \
   /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX.sdk/usr/include/sys/_types/_int16_t.h \
   /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX.sdk/usr/include/sys/_types/_int32_t.h \
   /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX.sdk/usr/include/sys/_types/_int64_t.h \
-  /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX.sdk/usr/include/sys/_types/_u_int8_t.h \
-  /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX.sdk/usr/include/sys/_types/_u_int16_t.h \
-  /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX.sdk/usr/include/sys/_types/_u_int32_t.h \
-  /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX.sdk/usr/include/sys/_types/_u_int64_t.h \
-  /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX.sdk/usr/include/sys/_types/_intptr_t.h \
-  /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX.sdk/usr/include/sys/_types/_uintptr_t.h \
-  /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX.sdk/usr/include/sys/_pthread/_pthread_attr_t.h \
-  /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX.sdk/usr/include/sys/_types/_sigaltstack.h \
-  /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX.sdk/usr/include/sys/_types/_ucontext.h \
-  /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX.sdk/usr/include/sys/_types/_sigset_t.h \
-  /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX.sdk/usr/include/sys/_types/_size_t.h \
-  /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX.sdk/usr/include/sys/_types/_uid_t.h \
-  /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX.sdk/usr/include/sys/resource.h \
-  /Applications/miniconda3/bin/../include/c++/v1/stdint.h \
-  /Applications/miniconda3/lib/clang/16/include/stdint.h \
-  /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX.sdk/usr/include/stdint.h \
   /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX.sdk/usr/include/_types/_uint8_t.h \
   /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX.sdk/usr/include/_types/_uint16_t.h \
   /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX.sdk/usr/include/_types/_uint32_t.h \
   /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX.sdk/usr/include/_types/_uint64_t.h \
+  /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX.sdk/usr/include/sys/_types.h \
+  /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX.sdk/usr/include/sys/cdefs.h \
+  /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX.sdk/usr/include/sys/_symbol_aliasing.h \
+  /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX.sdk/usr/include/sys/_posix_availability.h \
+  /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX.sdk/usr/include/machine/_types.h \
+  /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX.sdk/usr/include/arm/_types.h \
+  /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX.sdk/usr/include/sys/_pthread/_pthread_types.h \
+  /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX.sdk/usr/include/sys/_types/_intptr_t.h \
+  /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX.sdk/usr/include/sys/_types/_uintptr_t.h \
   /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX.sdk/usr/include/_types/_intmax_t.h \
   /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX.sdk/usr/include/_types/_uintmax_t.h \
-  /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX.sdk/usr/include/sys/_types/_timeval.h \
-  /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX.sdk/usr/include/machine/endian.h \
-  /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX.sdk/usr/include/arm/endian.h \
-  /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX.sdk/usr/include/sys/_endian.h \
-  /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX.sdk/usr/include/machine/_endian.h \
-  /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX.sdk/usr/include/arm/_endian.h \
-  /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX.sdk/usr/include/sys/__endian.h \
-  /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX.sdk/usr/include/libkern/_OSByteOrder.h \
-  /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX.sdk/usr/include/libkern/arm/_OSByteOrder.h \
-  /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX.sdk/usr/include/alloca.h \
-  /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX.sdk/usr/include/sys/_types/_ct_rune_t.h \
-  /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX.sdk/usr/include/sys/_types/_rune_t.h \
-  /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX.sdk/usr/include/sys/_types/_wchar_t.h \
+  /Applications/miniconda3/bin/../include/c++/v1/cstring \
+  /Applications/miniconda3/bin/../include/c++/v1/string.h \
+  /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX.sdk/usr/include/string.h \
+  /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX.sdk/usr/include/_string.h \
+  /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX.sdk/usr/include/_types.h \
+  /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX.sdk/usr/include/Availability.h \
+  /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX.sdk/usr/include/AvailabilityVersions.h \
+  /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX.sdk/usr/include/AvailabilityInternal.h \
+  /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX.sdk/usr/include/AvailabilityInternalLegacy.h \
+  /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX.sdk/usr/include/sys/_types/_size_t.h \
   /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX.sdk/usr/include/sys/_types/_null.h \
-  /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX.sdk/usr/include/malloc/_malloc.h \
-  /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX.sdk/usr/include/malloc/_malloc_type.h \
-  /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX.sdk/usr/include/malloc/_ptrcheck.h \
-  /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX.sdk/usr/include/_abort.h \
-  /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX.sdk/usr/include/sys/_types/_dev_t.h \
-  /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX.sdk/usr/include/sys/_types/_mode_t.h \
+  /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX.sdk/usr/include/sys/_types/_rsize_t.h \
+  /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX.sdk/usr/include/machine/types.h \
+  /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX.sdk/usr/include/arm/types.h \
+  /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX.sdk/usr/include/sys/_types/_u_int8_t.h \
+  /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX.sdk/usr/include/sys/_types/_u_int16_t.h \
+  /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX.sdk/usr/include/sys/_types/_u_int32_t.h \
+  /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX.sdk/usr/include/sys/_types/_u_int64_t.h \
+  /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX.sdk/usr/include/sys/_types/_errno_t.h \
+  /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX.sdk/usr/include/sys/_types/_ssize_t.h \
+  /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX.sdk/usr/include/_strings.h \
   /Applications/miniconda3/bin/../include/c++/v1/limits \
-  /Applications/miniconda3/bin/../include/c++/v1/__undef_macros \
   /Applications/miniconda3/bin/../include/c++/v1/type_traits \
-  /Applications/miniconda3/bin/../include/c++/v1/__fwd/hash.h \
   /Applications/miniconda3/bin/../include/c++/v1/__type_traits/aligned_storage.h \
   /Applications/miniconda3/bin/../include/c++/v1/__type_traits/aligned_union.h \
   /Applications/miniconda3/bin/../include/c++/v1/__type_traits/alignment_of.h \
   /Applications/miniconda3/bin/../include/c++/v1/__type_traits/can_extract_key.h \
   /Applications/miniconda3/bin/../include/c++/v1/__type_traits/remove_const_ref.h \
+  /Applications/miniconda3/bin/../include/c++/v1/__type_traits/conjunction.h \
   /Applications/miniconda3/bin/../include/c++/v1/__type_traits/dependent_type.h \
   /Applications/miniconda3/bin/../include/c++/v1/__type_traits/has_unique_object_representation.h \
   /Applications/miniconda3/bin/../include/c++/v1/__type_traits/has_virtual_destructor.h \
   /Applications/miniconda3/bin/../include/c++/v1/__type_traits/is_abstract.h \
   /Applications/miniconda3/bin/../include/c++/v1/__type_traits/is_aggregate.h \
-  /Applications/miniconda3/bin/../include/c++/v1/__type_traits/is_assignable.h \
   /Applications/miniconda3/bin/../include/c++/v1/__type_traits/is_bounded_array.h \
-  /Applications/miniconda3/bin/../include/c++/v1/__type_traits/is_callable.h \
   /Applications/miniconda3/bin/../include/c++/v1/__type_traits/is_char_like_type.h \
   /Applications/miniconda3/bin/../include/c++/v1/__type_traits/is_standard_layout.h \
   /Applications/miniconda3/bin/../include/c++/v1/__type_traits/is_trivial.h \
   /Applications/miniconda3/bin/../include/c++/v1/__type_traits/is_compound.h \
   /Applications/miniconda3/bin/../include/c++/v1/__type_traits/is_fundamental.h \
-  /Applications/miniconda3/bin/../include/c++/v1/__type_traits/is_constant_evaluated.h \
-  /Applications/miniconda3/bin/../include/c++/v1/__type_traits/is_copy_assignable.h \
-  /Applications/miniconda3/bin/../include/c++/v1/__type_traits/is_default_constructible.h \
   /Applications/miniconda3/bin/../include/c++/v1/__type_traits/is_empty.h \
   /Applications/miniconda3/bin/../include/c++/v1/__type_traits/is_final.h \
-  /Applications/miniconda3/bin/../include/c++/v1/__type_traits/is_implicitly_default_constructible.h \
   /Applications/miniconda3/bin/../include/c++/v1/__type_traits/is_literal_type.h \
   /Applications/miniconda3/bin/../include/c++/v1/__type_traits/is_nothrow_convertible.h \
   /Applications/miniconda3/bin/../include/c++/v1/__type_traits/lazy.h \
-  /Applications/miniconda3/bin/../include/c++/v1/__type_traits/is_nothrow_copy_assignable.h \
-  /Applications/miniconda3/bin/../include/c++/v1/__type_traits/is_nothrow_copy_constructible.h \
-  /Applications/miniconda3/bin/../include/c++/v1/__type_traits/is_nothrow_default_constructible.h \
   /Applications/miniconda3/bin/../include/c++/v1/__type_traits/is_pod.h \
   /Applications/miniconda3/bin/../include/c++/v1/__type_traits/is_polymorphic.h \
   /Applications/miniconda3/bin/../include/c++/v1/__type_traits/is_scoped_enum.h \
@@ -258,111 +244,18 @@ CMakeFiles/BallsSimulation.dir/src/Renderer.cpp.o: \
   /Applications/miniconda3/bin/../include/c++/v1/__type_traits/remove_pointer.h \
   /Applications/miniconda3/bin/../include/c++/v1/__type_traits/result_of.h \
   /Applications/miniconda3/bin/../include/c++/v1/__type_traits/type_identity.h \
-  /Applications/miniconda3/bin/../include/c++/v1/cstdint \
-  /Applications/miniconda3/bin/../include/c++/v1/__iterator/distance.h \
-  /Applications/miniconda3/bin/../include/c++/v1/__ranges/access.h \
-  /Applications/miniconda3/bin/../include/c++/v1/__ranges/enable_borrowed_range.h \
-  /Applications/miniconda3/bin/../include/c++/v1/__utility/auto_cast.h \
-  /Applications/miniconda3/bin/../include/c++/v1/__ranges/concepts.h \
-  /Applications/miniconda3/bin/../include/c++/v1/__ranges/data.h \
-  /Applications/miniconda3/bin/../include/c++/v1/__ranges/enable_view.h \
-  /Applications/miniconda3/bin/../include/c++/v1/__ranges/size.h \
-  /Applications/miniconda3/bin/../include/c++/v1/initializer_list \
-  /Applications/miniconda3/bin/../include/c++/v1/__iterator/iter_swap.h \
-  /Applications/miniconda3/bin/../include/c++/v1/__iterator/next.h \
-  /Applications/miniconda3/bin/../include/c++/v1/__iterator/prev.h \
-  /Applications/miniconda3/bin/../include/c++/v1/__algorithm/unwrap_iter.h \
-  /Applications/miniconda3/bin/../include/c++/v1/__algorithm/unwrap_range.h \
-  /Applications/miniconda3/bin/../include/c++/v1/__utility/pair.h \
-  /Applications/miniconda3/bin/../include/c++/v1/__compare/common_comparison_category.h \
-  /Applications/miniconda3/bin/../include/c++/v1/__compare/ordering.h \
-  /Applications/miniconda3/bin/../include/c++/v1/__compare/synth_three_way.h \
-  /Applications/miniconda3/bin/../include/c++/v1/__compare/three_way_comparable.h \
-  /Applications/miniconda3/bin/../include/c++/v1/__functional/unwrap_ref.h \
-  /Applications/miniconda3/bin/../include/c++/v1/__fwd/get.h \
-  /Applications/miniconda3/bin/../include/c++/v1/__fwd/array.h \
-  /Applications/miniconda3/bin/../include/c++/v1/__fwd/subrange.h \
-  /Applications/miniconda3/bin/../include/c++/v1/__fwd/tuple.h \
-  /Applications/miniconda3/bin/../include/c++/v1/__tuple_dir/tuple_element.h \
-  /Applications/miniconda3/bin/../include/c++/v1/__tuple_dir/tuple_indices.h \
-  /Applications/miniconda3/bin/../include/c++/v1/__utility/integer_sequence.h \
-  /Applications/miniconda3/bin/../include/c++/v1/__tuple_dir/tuple_types.h \
-  /Applications/miniconda3/bin/../include/c++/v1/__tuple_dir/sfinae_helpers.h \
-  /Applications/miniconda3/bin/../include/c++/v1/__tuple_dir/make_tuple_types.h \
-  /Applications/miniconda3/bin/../include/c++/v1/__tuple_dir/apply_cv.h \
-  /Applications/miniconda3/bin/../include/c++/v1/__tuple_dir/tuple_size.h \
-  /Applications/miniconda3/bin/../include/c++/v1/__tuple_dir/tuple_like_ext.h \
-  /Applications/miniconda3/bin/../include/c++/v1/__utility/piecewise_construct.h \
-  /Applications/miniconda3/bin/../include/c++/v1/__type_traits/is_always_bitcastable.h \
-  /Applications/miniconda3/bin/../include/c++/v1/__algorithm/min.h \
-  /Applications/miniconda3/bin/../include/c++/v1/__algorithm/comp.h \
-  /Applications/miniconda3/bin/../include/c++/v1/__algorithm/comp_ref_type.h \
-  /Applications/miniconda3/bin/../include/c++/v1/__debug \
-  /Applications/miniconda3/bin/../include/c++/v1/__algorithm/min_element.h \
-  /Applications/miniconda3/bin/../include/c++/v1/__functional/identity.h \
-  /Applications/miniconda3/bin/../include/c++/v1/__iterator/segmented_iterator.h \
-  /Applications/miniconda3/bin/../include/c++/v1/__algorithm/equal.h \
-  /Applications/miniconda3/bin/../include/c++/v1/__algorithm/fill_n.h \
-  /Applications/miniconda3/bin/../include/c++/v1/__algorithm/lexicographical_compare.h \
-  /Applications/miniconda3/bin/../include/c++/v1/__algorithm/remove.h \
-  /Applications/miniconda3/bin/../include/c++/v1/__algorithm/find.h \
-  /Applications/miniconda3/bin/../include/c++/v1/__algorithm/find_if.h \
-  /Applications/miniconda3/bin/../include/c++/v1/__algorithm/remove_if.h \
-  /Applications/miniconda3/bin/../include/c++/v1/__algorithm/rotate.h \
-  /Applications/miniconda3/bin/../include/c++/v1/__algorithm/move.h \
-  /Applications/miniconda3/bin/../include/c++/v1/__algorithm/move_backward.h \
-  /Applications/miniconda3/bin/../include/c++/v1/__algorithm/swap_ranges.h \
-  /Applications/miniconda3/bin/../include/c++/v1/__bit_reference \
-  /Applications/miniconda3/bin/../include/c++/v1/__algorithm/copy_n.h \
-  /Applications/miniconda3/bin/../include/c++/v1/__bit/countr.h \
-  /Applications/miniconda3/bin/../include/c++/v1/__bit/rotate.h \
-  /Applications/miniconda3/bin/../include/c++/v1/__bit/popcount.h \
-  /Applications/miniconda3/bin/../include/c++/v1/__memory/construct_at.h \
-  /Applications/miniconda3/bin/../include/c++/v1/__iterator/access.h \
-  /Applications/miniconda3/bin/../include/c++/v1/__memory/voidify.h \
-  /Applications/miniconda3/bin/../include/c++/v1/new \
-  /Applications/miniconda3/bin/../include/c++/v1/exception \
-  /Applications/miniconda3/bin/../include/c++/v1/cstring \
-  /Applications/miniconda3/bin/../include/c++/v1/string.h \
-  /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX.sdk/usr/include/string.h \
-  /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX.sdk/usr/include/_string.h \
-  /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX.sdk/usr/include/sys/_types/_rsize_t.h \
-  /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX.sdk/usr/include/sys/_types/_errno_t.h \
-  /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX.sdk/usr/include/sys/_types/_ssize_t.h \
-  /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX.sdk/usr/include/_strings.h \
-  /Applications/miniconda3/bin/../include/c++/v1/__format/enable_insertable.h \
-  /Applications/miniconda3/bin/../include/c++/v1/__format/formatter.h \
-  /Applications/miniconda3/bin/../include/c++/v1/__format/format_fwd.h \
-  /Applications/miniconda3/bin/../include/c++/v1/__functional/hash.h \
-  /Applications/miniconda3/bin/../include/c++/v1/__functional/unary_function.h \
-  /Applications/miniconda3/bin/../include/c++/v1/__iterator/reverse_iterator.h \
-  /Applications/miniconda3/bin/../include/c++/v1/__compare/compare_three_way_result.h \
-  /Applications/miniconda3/bin/../include/c++/v1/__iterator/iterator.h \
-  /Applications/miniconda3/bin/../include/c++/v1/__ranges/subrange.h \
-  /Applications/miniconda3/bin/../include/c++/v1/__concepts/different_from.h \
-  /Applications/miniconda3/bin/../include/c++/v1/__ranges/dangling.h \
-  /Applications/miniconda3/bin/../include/c++/v1/__ranges/view_interface.h \
-  /Applications/miniconda3/bin/../include/c++/v1/__ranges/empty.h \
-  /Applications/miniconda3/bin/../include/c++/v1/__tuple_dir/pair_like.h \
-  /Applications/miniconda3/bin/../include/c++/v1/__tuple_dir/tuple_like.h \
-  /Applications/miniconda3/bin/../include/c++/v1/__iterator/wrap_iter.h \
-  /Applications/miniconda3/bin/../include/c++/v1/__memory/allocate_at_least.h \
-  /Applications/miniconda3/bin/../include/c++/v1/__memory/allocator_traits.h \
-  /Applications/miniconda3/bin/../include/c++/v1/__memory/swap_allocator.h \
-  /Applications/miniconda3/bin/../include/c++/v1/__memory/temp_value.h \
-  /Applications/miniconda3/bin/../include/c++/v1/__memory/uninitialized_algorithms.h \
-  /Applications/miniconda3/bin/../include/c++/v1/__utility/exception_guard.h \
-  /Applications/miniconda3/bin/../include/c++/v1/__memory_resource/polymorphic_allocator.h \
-  /Applications/miniconda3/bin/../include/c++/v1/__memory_resource/memory_resource.h \
-  /Applications/miniconda3/bin/../include/c++/v1/stdexcept \
-  /Applications/miniconda3/bin/../include/c++/v1/iosfwd \
   /Applications/miniconda3/bin/../include/c++/v1/__fwd/string.h \
   /Applications/miniconda3/bin/../include/c++/v1/__fwd/memory_resource.h \
+  /Applications/miniconda3/bin/../include/c++/v1/__ios/fpos.h \
+  /Applications/miniconda3/bin/../include/c++/v1/iosfwd \
   /Applications/miniconda3/bin/../include/c++/v1/__mbstate_t.h \
   /Applications/miniconda3/bin/../include/c++/v1/wchar.h \
   /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX.sdk/usr/include/wchar.h \
   /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX.sdk/usr/include/_wchar.h \
   /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX.sdk/usr/include/sys/_types/_mbstate_t.h \
+  /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX.sdk/usr/include/sys/_types/_ct_rune_t.h \
+  /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX.sdk/usr/include/sys/_types/_rune_t.h \
+  /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX.sdk/usr/include/sys/_types/_wchar_t.h \
   /Applications/miniconda3/lib/clang/16/include/stdarg.h \
   /Applications/miniconda3/bin/../include/c++/v1/stdio.h \
   /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX.sdk/usr/include/stdio.h \
@@ -386,6 +279,94 @@ CMakeFiles/BallsSimulation.dir/src/Renderer.cpp.o: \
   /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX.sdk/usr/include/ctype.h \
   /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX.sdk/usr/include/_ctype.h \
   /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX.sdk/usr/include/runetype.h \
+  /Applications/miniconda3/bin/../include/c++/v1/__iterator/distance.h \
+  /Applications/miniconda3/bin/../include/c++/v1/__iterator/concepts.h \
+  /Applications/miniconda3/bin/../include/c++/v1/__concepts/derived_from.h \
+  /Applications/miniconda3/bin/../include/c++/v1/__concepts/invocable.h \
+  /Applications/miniconda3/bin/../include/c++/v1/__concepts/predicate.h \
+  /Applications/miniconda3/bin/../include/c++/v1/__concepts/regular.h \
+  /Applications/miniconda3/bin/../include/c++/v1/__concepts/semiregular.h \
+  /Applications/miniconda3/bin/../include/c++/v1/__concepts/relation.h \
+  /Applications/miniconda3/bin/../include/c++/v1/__iterator/iter_move.h \
+  /Applications/miniconda3/bin/../include/c++/v1/__memory/pointer_traits.h \
+  /Applications/miniconda3/bin/../include/c++/v1/__memory/addressof.h \
+  /Applications/miniconda3/bin/../include/c++/v1/__ranges/access.h \
+  /Applications/miniconda3/bin/../include/c++/v1/__ranges/enable_borrowed_range.h \
+  /Applications/miniconda3/bin/../include/c++/v1/__utility/auto_cast.h \
+  /Applications/miniconda3/bin/../include/c++/v1/__ranges/concepts.h \
+  /Applications/miniconda3/bin/../include/c++/v1/__ranges/data.h \
+  /Applications/miniconda3/bin/../include/c++/v1/__ranges/enable_view.h \
+  /Applications/miniconda3/bin/../include/c++/v1/__ranges/size.h \
+  /Applications/miniconda3/bin/../include/c++/v1/__iterator/reverse_iterator.h \
+  /Applications/miniconda3/bin/../include/c++/v1/__algorithm/unwrap_iter.h \
+  /Applications/miniconda3/bin/../include/c++/v1/__compare/compare_three_way_result.h \
+  /Applications/miniconda3/bin/../include/c++/v1/__iterator/advance.h \
+  /Applications/miniconda3/bin/../include/c++/v1/__utility/convert_to_integral.h \
+  /Applications/miniconda3/bin/../include/c++/v1/__utility/unreachable.h \
+  /Applications/miniconda3/bin/../include/c++/v1/cstdlib \
+  /Applications/miniconda3/bin/../include/c++/v1/stdlib.h \
+  /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX.sdk/usr/include/stdlib.h \
+  /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX.sdk/usr/include/_stdlib.h \
+  /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX.sdk/usr/include/sys/wait.h \
+  /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX.sdk/usr/include/sys/_types/_pid_t.h \
+  /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX.sdk/usr/include/sys/_types/_id_t.h \
+  /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX.sdk/usr/include/sys/signal.h \
+  /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX.sdk/usr/include/sys/appleapiopts.h \
+  /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX.sdk/usr/include/machine/signal.h \
+  /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX.sdk/usr/include/arm/signal.h \
+  /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX.sdk/usr/include/machine/_mcontext.h \
+  /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX.sdk/usr/include/arm/_mcontext.h \
+  /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX.sdk/usr/include/mach/machine/_structs.h \
+  /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX.sdk/usr/include/mach/arm/_structs.h \
+  /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX.sdk/usr/include/sys/_pthread/_pthread_attr_t.h \
+  /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX.sdk/usr/include/sys/_types/_sigaltstack.h \
+  /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX.sdk/usr/include/sys/_types/_ucontext.h \
+  /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX.sdk/usr/include/sys/_types/_sigset_t.h \
+  /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX.sdk/usr/include/sys/_types/_uid_t.h \
+  /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX.sdk/usr/include/sys/resource.h \
+  /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX.sdk/usr/include/sys/_types/_timeval.h \
+  /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX.sdk/usr/include/machine/endian.h \
+  /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX.sdk/usr/include/arm/endian.h \
+  /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX.sdk/usr/include/sys/_endian.h \
+  /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX.sdk/usr/include/machine/_endian.h \
+  /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX.sdk/usr/include/arm/_endian.h \
+  /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX.sdk/usr/include/sys/__endian.h \
+  /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX.sdk/usr/include/libkern/_OSByteOrder.h \
+  /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX.sdk/usr/include/libkern/arm/_OSByteOrder.h \
+  /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX.sdk/usr/include/alloca.h \
+  /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX.sdk/usr/include/malloc/_malloc.h \
+  /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX.sdk/usr/include/malloc/_malloc_type.h \
+  /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX.sdk/usr/include/malloc/_ptrcheck.h \
+  /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX.sdk/usr/include/_abort.h \
+  /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX.sdk/usr/include/sys/_types/_dev_t.h \
+  /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX.sdk/usr/include/sys/_types/_mode_t.h \
+  /Applications/miniconda3/bin/../include/c++/v1/__iterator/iter_swap.h \
+  /Applications/miniconda3/bin/../include/c++/v1/__iterator/iterator.h \
+  /Applications/miniconda3/bin/../include/c++/v1/__iterator/next.h \
+  /Applications/miniconda3/bin/../include/c++/v1/__iterator/prev.h \
+  /Applications/miniconda3/bin/../include/c++/v1/__iterator/segmented_iterator.h \
+  /Applications/miniconda3/bin/../include/c++/v1/__ranges/subrange.h \
+  /Applications/miniconda3/bin/../include/c++/v1/__concepts/different_from.h \
+  /Applications/miniconda3/bin/../include/c++/v1/__ranges/dangling.h \
+  /Applications/miniconda3/bin/../include/c++/v1/__ranges/view_interface.h \
+  /Applications/miniconda3/bin/../include/c++/v1/__ranges/empty.h \
+  /Applications/miniconda3/bin/../include/c++/v1/__tuple_dir/pair_like.h \
+  /Applications/miniconda3/bin/../include/c++/v1/__tuple_dir/tuple_like.h \
+  /Applications/miniconda3/bin/../include/c++/v1/__iterator/wrap_iter.h \
+  /Applications/miniconda3/bin/../include/c++/v1/__memory/allocate_at_least.h \
+  /Applications/miniconda3/bin/../include/c++/v1/__memory/allocator_traits.h \
+  /Applications/miniconda3/bin/../include/c++/v1/__memory/construct_at.h \
+  /Applications/miniconda3/bin/../include/c++/v1/__iterator/access.h \
+  /Applications/miniconda3/bin/../include/c++/v1/__memory/voidify.h \
+  /Applications/miniconda3/bin/../include/c++/v1/new \
+  /Applications/miniconda3/bin/../include/c++/v1/exception \
+  /Applications/miniconda3/bin/../include/c++/v1/__memory/allocator.h \
+  /Applications/miniconda3/bin/../include/c++/v1/stdexcept \
+  /Applications/miniconda3/bin/../include/c++/v1/__memory/compressed_pair.h \
+  /Applications/miniconda3/bin/../include/c++/v1/__memory/swap_allocator.h \
+  /Applications/miniconda3/bin/../include/c++/v1/__memory_resource/polymorphic_allocator.h \
+  /Applications/miniconda3/bin/../include/c++/v1/__memory_resource/memory_resource.h \
+  /Applications/miniconda3/bin/../include/c++/v1/__utility/exception_guard.h \
   /Applications/miniconda3/bin/../include/c++/v1/tuple \
   /Applications/miniconda3/bin/../include/c++/v1/__memory/allocator_arg_t.h \
   /Applications/miniconda3/bin/../include/c++/v1/__memory/uses_allocator.h \
@@ -412,13 +393,28 @@ CMakeFiles/BallsSimulation.dir/src/Renderer.cpp.o: \
   /Applications/miniconda3/bin/../include/c++/v1/__utility/in_place.h \
   /Applications/miniconda3/bin/../include/c++/v1/__utility/rel_ops.h \
   /Applications/miniconda3/bin/../include/c++/v1/__utility/to_underlying.h \
-  /Applications/miniconda3/bin/../include/c++/v1/__split_buffer \
-  /Applications/miniconda3/bin/../include/c++/v1/__algorithm/max.h \
-  /Applications/miniconda3/bin/../include/c++/v1/__algorithm/max_element.h \
-  /Applications/miniconda3/bin/../include/c++/v1/__iterator/move_iterator.h \
-  /Applications/miniconda3/bin/../include/c++/v1/__iterator/move_sentinel.h \
-  /Applications/miniconda3/bin/../include/c++/v1/__memory/allocator.h \
-  /Applications/miniconda3/bin/../include/c++/v1/__memory/compressed_pair.h \
+  /Applications/miniconda3/bin/../include/c++/v1/__string/char_traits.h \
+  /Applications/miniconda3/bin/../include/c++/v1/__algorithm/copy_n.h \
+  /Applications/miniconda3/bin/../include/c++/v1/__algorithm/copy.h \
+  /Applications/miniconda3/bin/../include/c++/v1/__algorithm/copy_move_common.h \
+  /Applications/miniconda3/bin/../include/c++/v1/__algorithm/iterator_operations.h \
+  /Applications/miniconda3/bin/../include/c++/v1/__algorithm/iter_swap.h \
+  /Applications/miniconda3/bin/../include/c++/v1/__algorithm/ranges_iterator_concept.h \
+  /Applications/miniconda3/bin/../include/c++/v1/__algorithm/unwrap_range.h \
+  /Applications/miniconda3/bin/../include/c++/v1/__type_traits/is_always_bitcastable.h \
+  /Applications/miniconda3/bin/../include/c++/v1/__algorithm/fill_n.h \
+  /Applications/miniconda3/bin/../include/c++/v1/__algorithm/find_end.h \
+  /Applications/miniconda3/bin/../include/c++/v1/__algorithm/search.h \
+  /Applications/miniconda3/bin/../include/c++/v1/__algorithm/find_first_of.h \
+  /Applications/miniconda3/bin/../include/c++/v1/cstdio \
+  /Applications/miniconda3/bin/../include/c++/v1/cwchar \
+  /Applications/miniconda3/bin/../include/c++/v1/cwctype \
+  /Applications/miniconda3/bin/../include/c++/v1/cctype \
+  /Applications/miniconda3/bin/../include/c++/v1/wctype.h \
+  /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX.sdk/usr/include/wctype.h \
+  /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX.sdk/usr/include/_wctype.h \
+  /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX.sdk/usr/include/_types/_wctrans_t.h \
+  /Applications/miniconda3/bin/../include/c++/v1/__string/extern_template_lists.h \
   /Applications/miniconda3/bin/../include/c++/v1/__type_traits/is_allocator.h \
   /Applications/miniconda3/bin/../include/c++/v1/__type_traits/noexcept_move_assign_container.h \
   /Applications/miniconda3/bin/../include/c++/v1/climits \
@@ -429,6 +425,8 @@ CMakeFiles/BallsSimulation.dir/src/Renderer.cpp.o: \
   /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX.sdk/usr/include/arm/limits.h \
   /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX.sdk/usr/include/arm/_limits.h \
   /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX.sdk/usr/include/sys/syslimits.h \
+  /Applications/miniconda3/bin/../include/c++/v1/string_view \
+  /Applications/miniconda3/bin/../include/c++/v1/__fwd/string_view.h \
   /Applications/miniconda3/bin/../include/c++/v1/__iterator/data.h \
   /Applications/miniconda3/bin/../include/c++/v1/__iterator/empty.h \
   /Applications/miniconda3/bin/../include/c++/v1/__iterator/reverse_access.h \
@@ -445,12 +443,10 @@ CMakeFiles/BallsSimulation.dir/src/Renderer.cpp.o: \
   /Applications/miniconda3/bin/../include/c++/v1/__algorithm/copy_if.h \
   /Applications/miniconda3/bin/../include/c++/v1/__algorithm/count.h \
   /Applications/miniconda3/bin/../include/c++/v1/__algorithm/count_if.h \
+  /Applications/miniconda3/bin/../include/c++/v1/__algorithm/equal.h \
   /Applications/miniconda3/bin/../include/c++/v1/__algorithm/equal_range.h \
   /Applications/miniconda3/bin/../include/c++/v1/__algorithm/upper_bound.h \
   /Applications/miniconda3/bin/../include/c++/v1/__algorithm/fill.h \
-  /Applications/miniconda3/bin/../include/c++/v1/__algorithm/find_end.h \
-  /Applications/miniconda3/bin/../include/c++/v1/__algorithm/search.h \
-  /Applications/miniconda3/bin/../include/c++/v1/__algorithm/find_first_of.h \
   /Applications/miniconda3/bin/../include/c++/v1/__algorithm/find_if_not.h \
   /Applications/miniconda3/bin/../include/c++/v1/__algorithm/for_each.h \
   /Applications/miniconda3/bin/../include/c++/v1/__algorithm/for_each_n.h \
@@ -464,6 +460,10 @@ CMakeFiles/BallsSimulation.dir/src/Renderer.cpp.o: \
   /Applications/miniconda3/bin/../include/c++/v1/__algorithm/in_out_result.h \
   /Applications/miniconda3/bin/../include/c++/v1/__algorithm/includes.h \
   /Applications/miniconda3/bin/../include/c++/v1/__algorithm/inplace_merge.h \
+  /Applications/miniconda3/bin/../include/c++/v1/__algorithm/move.h \
+  /Applications/miniconda3/bin/../include/c++/v1/__algorithm/rotate.h \
+  /Applications/miniconda3/bin/../include/c++/v1/__algorithm/move_backward.h \
+  /Applications/miniconda3/bin/../include/c++/v1/__algorithm/swap_ranges.h \
   /Applications/miniconda3/bin/../include/c++/v1/__memory/destruct_n.h \
   /Applications/miniconda3/bin/../include/c++/v1/__memory/temporary_buffer.h \
   /Applications/miniconda3/bin/../include/c++/v1/__memory/unique_ptr.h \
@@ -476,6 +476,7 @@ CMakeFiles/BallsSimulation.dir/src/Renderer.cpp.o: \
   /Applications/miniconda3/bin/../include/c++/v1/__algorithm/is_permutation.h \
   /Applications/miniconda3/bin/../include/c++/v1/__algorithm/is_sorted.h \
   /Applications/miniconda3/bin/../include/c++/v1/__algorithm/is_sorted_until.h \
+  /Applications/miniconda3/bin/../include/c++/v1/__algorithm/lexicographical_compare.h \
   /Applications/miniconda3/bin/../include/c++/v1/__algorithm/make_heap.h \
   /Applications/miniconda3/bin/../include/c++/v1/__algorithm/sift_down.h \
   /Applications/miniconda3/bin/../include/c++/v1/__algorithm/merge.h \
@@ -497,13 +498,16 @@ CMakeFiles/BallsSimulation.dir/src/Renderer.cpp.o: \
   /Applications/miniconda3/bin/../include/c++/v1/bit \
   /Applications/miniconda3/bin/../include/c++/v1/__bit/bit_ceil.h \
   /Applications/miniconda3/bin/../include/c++/v1/__bit/countl.h \
+  /Applications/miniconda3/bin/../include/c++/v1/__bit/rotate.h \
   /Applications/miniconda3/bin/../include/c++/v1/__bit/bit_floor.h \
   /Applications/miniconda3/bin/../include/c++/v1/__bit/bit_log2.h \
   /Applications/miniconda3/bin/../include/c++/v1/__bit/bit_width.h \
   /Applications/miniconda3/bin/../include/c++/v1/__bit/blsr.h \
   /Applications/miniconda3/bin/../include/c++/v1/__bit/byteswap.h \
+  /Applications/miniconda3/bin/../include/c++/v1/__bit/countr.h \
   /Applications/miniconda3/bin/../include/c++/v1/__bit/endian.h \
   /Applications/miniconda3/bin/../include/c++/v1/__bit/has_single_bit.h \
+  /Applications/miniconda3/bin/../include/c++/v1/__bit/popcount.h \
   /Applications/miniconda3/bin/../include/c++/v1/__algorithm/partial_sort_copy.h \
   /Applications/miniconda3/bin/../include/c++/v1/__algorithm/make_projected.h \
   /Applications/miniconda3/bin/../include/c++/v1/__algorithm/partition.h \
@@ -645,39 +649,21 @@ CMakeFiles/BallsSimulation.dir/src/Renderer.cpp.o: \
   /Applications/miniconda3/bin/../include/c++/v1/__chrono/monthday.h \
   /Applications/miniconda3/bin/../include/c++/v1/__chrono/statically_widen.h \
   /Applications/miniconda3/bin/../include/c++/v1/__format/concepts.h \
+  /Applications/miniconda3/bin/../include/c++/v1/__format/format_fwd.h \
   /Applications/miniconda3/bin/../include/c++/v1/__format/format_parse_context.h \
   /Applications/miniconda3/bin/../include/c++/v1/__format/format_error.h \
-  /Applications/miniconda3/bin/../include/c++/v1/string_view \
-  /Applications/miniconda3/bin/../include/c++/v1/__fwd/string_view.h \
-  /Applications/miniconda3/bin/../include/c++/v1/__string/char_traits.h \
-  /Applications/miniconda3/bin/../include/c++/v1/cstdio \
-  /Applications/miniconda3/bin/../include/c++/v1/cwchar \
-  /Applications/miniconda3/bin/../include/c++/v1/cwctype \
-  /Applications/miniconda3/bin/../include/c++/v1/cctype \
-  /Applications/miniconda3/bin/../include/c++/v1/wctype.h \
-  /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX.sdk/usr/include/wctype.h \
-  /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX.sdk/usr/include/_wctype.h \
-  /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX.sdk/usr/include/_types/_wctrans_t.h \
-  /Applications/miniconda3/bin/../include/c++/v1/concepts \
-  /Applications/miniconda3/bin/../include/c++/v1/__concepts/common_with.h \
-  /Applications/miniconda3/bin/../include/c++/v1/functional \
-  /Applications/miniconda3/bin/../include/c++/v1/__functional/binary_negate.h \
-  /Applications/miniconda3/bin/../include/c++/v1/__functional/bind.h \
-  /Applications/miniconda3/bin/../include/c++/v1/__functional/weak_result_type.h \
-  /Applications/miniconda3/bin/../include/c++/v1/__functional/bind_back.h \
-  /Applications/miniconda3/bin/../include/c++/v1/__functional/perfect_forward.h \
-  /Applications/miniconda3/bin/../include/c++/v1/__functional/bind_front.h \
-  /Applications/miniconda3/bin/../include/c++/v1/__functional/binder1st.h \
-  /Applications/miniconda3/bin/../include/c++/v1/__functional/binder2nd.h \
-  /Applications/miniconda3/bin/../include/c++/v1/__functional/boyer_moore_searcher.h \
-  /Applications/miniconda3/bin/../include/c++/v1/__memory/shared_ptr.h \
-  /Applications/miniconda3/bin/../include/c++/v1/__functional/reference_wrapper.h \
-  /Applications/miniconda3/bin/../include/c++/v1/__memory/allocation_guard.h \
-  /Applications/miniconda3/bin/../include/c++/v1/__memory/allocator_destructor.h \
-  /Applications/miniconda3/bin/../include/c++/v1/atomic \
-  /Applications/miniconda3/bin/../include/c++/v1/__thread/poll_with_backoff.h \
+  /Applications/miniconda3/bin/../include/c++/v1/__chrono/year.h \
+  /Applications/miniconda3/bin/../include/c++/v1/__chrono/year_month.h \
+  /Applications/miniconda3/bin/../include/c++/v1/__chrono/year_month_day.h \
+  /Applications/miniconda3/bin/../include/c++/v1/__chrono/year_month_weekday.h \
+  /Applications/miniconda3/bin/../include/c++/v1/__chrono/file_clock.h \
   /Applications/miniconda3/bin/../include/c++/v1/__chrono/high_resolution_clock.h \
   /Applications/miniconda3/bin/../include/c++/v1/__chrono/steady_clock.h \
+  /Applications/miniconda3/bin/../include/c++/v1/__chrono/literals.h \
+  /Applications/miniconda3/bin/../include/c++/v1/concepts \
+  /Applications/miniconda3/bin/../include/c++/v1/__concepts/common_with.h \
+  /Applications/miniconda3/bin/../include/c++/v1/atomic \
+  /Applications/miniconda3/bin/../include/c++/v1/__thread/poll_with_backoff.h \
   /Applications/miniconda3/bin/../include/c++/v1/__thread/timed_backoff_policy.h \
   /Applications/miniconda3/bin/../include/c++/v1/__threading_support \
   /Applications/miniconda3/bin/../include/c++/v1/errno.h \
@@ -699,7 +685,6 @@ CMakeFiles/BallsSimulation.dir/src/Renderer.cpp.o: \
   /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX.sdk/usr/include/sys/qos.h \
   /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX.sdk/usr/include/sys/_types/_mach_port_t.h \
   /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX.sdk/usr/include/sched.h \
-  /Applications/miniconda3/bin/../include/c++/v1/array \
   /Applications/miniconda3/bin/../include/c++/v1/iterator \
   /Applications/miniconda3/bin/../include/c++/v1/__iterator/back_insert_iterator.h \
   /Applications/miniconda3/bin/../include/c++/v1/__iterator/bounded_iter.h \
@@ -713,21 +698,44 @@ CMakeFiles/BallsSimulation.dir/src/Renderer.cpp.o: \
   /Applications/miniconda3/bin/../include/c++/v1/__iterator/insert_iterator.h \
   /Applications/miniconda3/bin/../include/c++/v1/__iterator/istream_iterator.h \
   /Applications/miniconda3/bin/../include/c++/v1/__iterator/istreambuf_iterator.h \
+  /Applications/miniconda3/bin/../include/c++/v1/__iterator/move_iterator.h \
+  /Applications/miniconda3/bin/../include/c++/v1/__iterator/move_sentinel.h \
   /Applications/miniconda3/bin/../include/c++/v1/__iterator/ostream_iterator.h \
   /Applications/miniconda3/bin/../include/c++/v1/__iterator/ostreambuf_iterator.h \
+  /Applications/miniconda3/bin/../include/c++/v1/memory \
+  /Applications/miniconda3/bin/../include/c++/v1/__memory/align.h \
+  /Applications/miniconda3/bin/../include/c++/v1/__memory/allocation_guard.h \
+  /Applications/miniconda3/bin/../include/c++/v1/__memory/assume_aligned.h \
+  /Applications/miniconda3/bin/../include/c++/v1/__memory/concepts.h \
+  /Applications/miniconda3/bin/../include/c++/v1/__memory/ranges_construct_at.h \
+  /Applications/miniconda3/bin/../include/c++/v1/__memory/ranges_uninitialized_algorithms.h \
+  /Applications/miniconda3/bin/../include/c++/v1/__memory/uninitialized_algorithms.h \
+  /Applications/miniconda3/bin/../include/c++/v1/__memory/raw_storage_iterator.h \
+  /Applications/miniconda3/bin/../include/c++/v1/__memory/shared_ptr.h \
+  /Applications/miniconda3/bin/../include/c++/v1/__functional/reference_wrapper.h \
+  /Applications/miniconda3/bin/../include/c++/v1/__functional/weak_result_type.h \
+  /Applications/miniconda3/bin/../include/c++/v1/__memory/allocator_destructor.h \
+  /Applications/miniconda3/bin/../include/c++/v1/__memory/uses_allocator_construction.h \
+  /Applications/miniconda3/bin/../include/c++/v1/functional \
+  /Applications/miniconda3/bin/../include/c++/v1/__functional/binary_negate.h \
+  /Applications/miniconda3/bin/../include/c++/v1/__functional/bind.h \
+  /Applications/miniconda3/bin/../include/c++/v1/__functional/bind_back.h \
+  /Applications/miniconda3/bin/../include/c++/v1/__functional/perfect_forward.h \
+  /Applications/miniconda3/bin/../include/c++/v1/__functional/bind_front.h \
+  /Applications/miniconda3/bin/../include/c++/v1/__functional/binder1st.h \
+  /Applications/miniconda3/bin/../include/c++/v1/__functional/binder2nd.h \
+  /Applications/miniconda3/bin/../include/c++/v1/__functional/boyer_moore_searcher.h \
+  /Applications/miniconda3/bin/../include/c++/v1/array \
   /Applications/miniconda3/bin/../include/c++/v1/unordered_map \
   /Applications/miniconda3/bin/../include/c++/v1/__functional/is_transparent.h \
   /Applications/miniconda3/bin/../include/c++/v1/__hash_table \
   /Applications/miniconda3/bin/../include/c++/v1/__node_handle \
   /Applications/miniconda3/bin/../include/c++/v1/optional \
-  /Applications/miniconda3/bin/../include/c++/v1/memory \
-  /Applications/miniconda3/bin/../include/c++/v1/__memory/align.h \
-  /Applications/miniconda3/bin/../include/c++/v1/__memory/assume_aligned.h \
-  /Applications/miniconda3/bin/../include/c++/v1/__memory/concepts.h \
-  /Applications/miniconda3/bin/../include/c++/v1/__memory/ranges_construct_at.h \
-  /Applications/miniconda3/bin/../include/c++/v1/__memory/ranges_uninitialized_algorithms.h \
-  /Applications/miniconda3/bin/../include/c++/v1/__memory/raw_storage_iterator.h \
-  /Applications/miniconda3/bin/../include/c++/v1/__memory/uses_allocator_construction.h \
+  /Applications/miniconda3/bin/../include/c++/v1/vector \
+  /Applications/miniconda3/bin/../include/c++/v1/__bit_reference \
+  /Applications/miniconda3/bin/../include/c++/v1/__format/formatter.h \
+  /Applications/miniconda3/bin/../include/c++/v1/__memory/temp_value.h \
+  /Applications/miniconda3/bin/../include/c++/v1/__split_buffer \
   /Applications/miniconda3/bin/../include/c++/v1/__functional/compose.h \
   /Applications/miniconda3/bin/../include/c++/v1/__functional/default_searcher.h \
   /Applications/miniconda3/bin/../include/c++/v1/__functional/function.h \
@@ -739,12 +747,6 @@ CMakeFiles/BallsSimulation.dir/src/Renderer.cpp.o: \
   /Applications/miniconda3/bin/../include/c++/v1/__functional/pointer_to_binary_function.h \
   /Applications/miniconda3/bin/../include/c++/v1/__functional/pointer_to_unary_function.h \
   /Applications/miniconda3/bin/../include/c++/v1/__functional/unary_negate.h \
-  /Applications/miniconda3/bin/../include/c++/v1/__chrono/year.h \
-  /Applications/miniconda3/bin/../include/c++/v1/__chrono/year_month.h \
-  /Applications/miniconda3/bin/../include/c++/v1/__chrono/year_month_day.h \
-  /Applications/miniconda3/bin/../include/c++/v1/__chrono/year_month_weekday.h \
-  /Applications/miniconda3/bin/../include/c++/v1/__chrono/file_clock.h \
-  /Applications/miniconda3/bin/../include/c++/v1/__chrono/literals.h \
   /opt/homebrew/include/glm/glm.hpp \
   /opt/homebrew/include/glm/detail/_fixes.hpp \
   /opt/homebrew/include/glm/detail/setup.hpp \
@@ -902,53 +904,16 @@ CMakeFiles/BallsSimulation.dir/src/Renderer.cpp.o: \
   /opt/homebrew/include/glm/vector_relational.hpp \
   /opt/homebrew/include/glm/integer.hpp \
   /opt/homebrew/include/glm/detail/func_integer.inl \
-  /Applications/miniconda3/bin/../include/c++/v1/thread \
-  /Applications/miniconda3/bin/../include/c++/v1/__mutex_base \
-  /Applications/miniconda3/bin/../include/c++/v1/system_error \
-  /Applications/miniconda3/bin/../include/c++/v1/__errc \
-  /Applications/miniconda3/bin/../include/c++/v1/cerrno \
-  /Applications/miniconda3/bin/../include/c++/v1/string \
-  /Applications/miniconda3/bin/../include/c++/v1/__ios/fpos.h \
-  /Applications/miniconda3/bin/../include/c++/v1/__string/extern_template_lists.h \
-  /Applications/miniconda3/bin/../include/c++/v1/mutex \
-  /Users/williambogdanovic/Desktop/simulations/SoA/src/PMat.hpp \
-  /Applications/miniconda3/bin/../include/c++/v1/deque \
-  /Users/williambogdanovic/Desktop/simulations/SoA/src/Link.hpp \
-  /Users/williambogdanovic/Desktop/simulations/SoA/src/SimulationSoAInternals.hpp \
-  /Applications/miniconda3/bin/../include/c++/v1/set \
-  /Applications/miniconda3/bin/../include/c++/v1/__tree \
-  /opt/homebrew/include/glm/gtc/matrix_transform.hpp \
-  /opt/homebrew/include/glm/gtc/../mat4x4.hpp \
-  /opt/homebrew/include/glm/gtc/../vec2.hpp \
-  /opt/homebrew/include/glm/gtc/../vec3.hpp \
-  /opt/homebrew/include/glm/gtc/../vec4.hpp \
-  /opt/homebrew/include/glm/gtc/../ext/matrix_projection.hpp \
-  /opt/homebrew/include/glm/./ext/../gtc/constants.hpp \
-  /opt/homebrew/include/glm/gtc/../ext/scalar_constants.hpp \
-  /opt/homebrew/include/glm/./ext/scalar_constants.inl \
-  /opt/homebrew/include/glm/gtc/constants.inl \
-  /opt/homebrew/include/glm/./ext/../geometric.hpp \
-  /opt/homebrew/include/glm/./ext/../trigonometric.hpp \
-  /opt/homebrew/include/glm/./ext/../matrix.hpp \
-  /opt/homebrew/include/glm/./ext/matrix_projection.inl \
-  /opt/homebrew/include/glm/gtc/../ext/matrix_clip_space.hpp \
-  /opt/homebrew/include/glm/./ext/../ext/scalar_constants.hpp \
-  /opt/homebrew/include/glm/./ext/matrix_clip_space.inl \
-  /opt/homebrew/include/glm/gtc/../ext/matrix_transform.hpp \
-  /opt/homebrew/include/glm/./ext/matrix_transform.inl \
-  /opt/homebrew/include/glm/gtc/matrix_transform.inl \
-  /opt/homebrew/include/glm/gtc/../geometric.hpp \
-  /opt/homebrew/include/glm/gtc/../trigonometric.hpp \
-  /opt/homebrew/include/glm/gtc/../matrix.hpp \
-  /Users/williambogdanovic/Desktop/simulations/SoA/src/Shader.hpp \
-  /Users/williambogdanovic/Desktop/simulations/SoA/glimac/third-party/glad/include/glad/glad.h \
-  /Users/williambogdanovic/Desktop/simulations/SoA/glimac/third-party/glad/include/KHR/khrplatform.h \
-  /Applications/miniconda3/bin/../include/c++/v1/iostream \
-  /Applications/miniconda3/bin/../include/c++/v1/ios \
+  /Applications/miniconda3/bin/../include/c++/v1/fstream \
   /Applications/miniconda3/bin/../include/c++/v1/__locale \
   /Applications/miniconda3/bin/../include/c++/v1/locale.h \
   /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX.sdk/usr/include/locale.h \
   /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX.sdk/usr/include/_locale.h \
+  /Applications/miniconda3/bin/../include/c++/v1/mutex \
+  /Applications/miniconda3/bin/../include/c++/v1/__mutex_base \
+  /Applications/miniconda3/bin/../include/c++/v1/system_error \
+  /Applications/miniconda3/bin/../include/c++/v1/__errc \
+  /Applications/miniconda3/bin/../include/c++/v1/cerrno \
   /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX.sdk/usr/include/xlocale.h \
   /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX.sdk/usr/include/_xlocale.h \
   /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX.sdk/usr/include/__xlocale.h \
@@ -964,6 +929,7 @@ CMakeFiles/BallsSimulation.dir/src/Renderer.cpp.o: \
   /Applications/miniconda3/bin/../include/c++/v1/istream \
   /Applications/miniconda3/bin/../include/c++/v1/ostream \
   /Applications/miniconda3/bin/../include/c++/v1/bitset \
+  /Applications/miniconda3/bin/../include/c++/v1/ios \
   /Applications/miniconda3/bin/../include/c++/v1/locale \
   /Applications/miniconda3/bin/../include/c++/v1/streambuf \
   /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX.sdk/usr/include/nl_types.h \
@@ -995,80 +961,25 @@ CMakeFiles/BallsSimulation.dir/src/Renderer.cpp.o: \
   /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX.sdk/usr/include/_types/_nl_item.h \
   /Applications/miniconda3/bin/../include/c++/v1/__bsd_locale_defaults.h \
   /Applications/miniconda3/bin/../include/c++/v1/cstdarg \
-  /opt/homebrew/include/glm/gtc/type_ptr.hpp \
-  /opt/homebrew/include/glm/gtc/../gtc/quaternion.hpp \
-  /opt/homebrew/include/glm/gtc/../gtc/constants.hpp \
-  /opt/homebrew/include/glm/gtc/../gtc/matrix_transform.hpp \
-  /opt/homebrew/include/glm/gtc/../ext/vector_relational.hpp \
-  /opt/homebrew/include/glm/./ext/../detail/qualifier.hpp \
-  /opt/homebrew/include/glm/./ext/vector_relational.inl \
-  /opt/homebrew/include/glm/./ext/../vector_relational.hpp \
-  /opt/homebrew/include/glm/./ext/../common.hpp \
-  /opt/homebrew/include/glm/./ext/../detail/type_float.hpp \
-  /opt/homebrew/include/glm/gtc/../ext/quaternion_common.hpp \
-  /opt/homebrew/include/glm/./ext/../ext/quaternion_geometric.hpp \
-  /opt/homebrew/include/glm/./ext/../exponential.hpp \
-  /opt/homebrew/include/glm/./ext/../ext/vector_relational.hpp \
-  /opt/homebrew/include/glm/./ext/quaternion_geometric.inl \
-  /opt/homebrew/include/glm/./ext/quaternion_common.inl \
-  /opt/homebrew/include/glm/gtc/../ext/quaternion_float.hpp \
-  /opt/homebrew/include/glm/./ext/../detail/type_quat.hpp \
-  /opt/homebrew/include/glm/detail/../detail/type_mat3x3.hpp \
-  /opt/homebrew/include/glm/detail/../detail/type_mat4x4.hpp \
-  /opt/homebrew/include/glm/detail/../detail/type_vec3.hpp \
-  /opt/homebrew/include/glm/detail/../detail/type_vec4.hpp \
-  /opt/homebrew/include/glm/detail/../ext/vector_relational.hpp \
-  /opt/homebrew/include/glm/detail/../ext/quaternion_relational.hpp \
-  /opt/homebrew/include/glm/./ext/quaternion_relational.inl \
-  /opt/homebrew/include/glm/detail/../gtc/constants.hpp \
-  /opt/homebrew/include/glm/detail/../gtc/matrix_transform.hpp \
-  /opt/homebrew/include/glm/detail/type_quat.inl \
-  /opt/homebrew/include/glm/detail/../trigonometric.hpp \
-  /opt/homebrew/include/glm/detail/../ext/quaternion_common.hpp \
-  /opt/homebrew/include/glm/detail/../ext/quaternion_geometric.hpp \
-  /opt/homebrew/include/glm/gtc/../ext/quaternion_float_precision.hpp \
-  /opt/homebrew/include/glm/gtc/../ext/quaternion_double.hpp \
-  /opt/homebrew/include/glm/gtc/../ext/quaternion_double_precision.hpp \
-  /opt/homebrew/include/glm/gtc/../ext/quaternion_relational.hpp \
-  /opt/homebrew/include/glm/gtc/../ext/quaternion_geometric.hpp \
-  /opt/homebrew/include/glm/gtc/../ext/quaternion_trigonometric.hpp \
-  /opt/homebrew/include/glm/./ext/scalar_constants.hpp \
-  /opt/homebrew/include/glm/./ext/vector_relational.hpp \
-  /opt/homebrew/include/glm/./ext/quaternion_trigonometric.inl \
-  /opt/homebrew/include/glm/gtc/../ext/quaternion_transform.hpp \
-  /opt/homebrew/include/glm/./ext/quaternion_transform.inl \
-  /opt/homebrew/include/glm/gtc/../detail/type_mat3x3.hpp \
-  /opt/homebrew/include/glm/gtc/../detail/type_mat4x4.hpp \
-  /opt/homebrew/include/glm/gtc/../detail/type_vec3.hpp \
-  /opt/homebrew/include/glm/gtc/../detail/type_vec4.hpp \
-  /opt/homebrew/include/glm/gtc/quaternion.inl \
-  /opt/homebrew/include/glm/gtc/../exponential.hpp \
-  /opt/homebrew/include/glm/gtc/epsilon.hpp \
-  /opt/homebrew/include/glm/gtc/../detail/setup.hpp \
-  /opt/homebrew/include/glm/gtc/../detail/qualifier.hpp \
-  /opt/homebrew/include/glm/gtc/epsilon.inl \
-  /opt/homebrew/include/glm/gtc/../vector_relational.hpp \
-  /opt/homebrew/include/glm/gtc/../common.hpp \
-  /opt/homebrew/include/glm/gtc/../gtc/vec1.hpp \
-  /opt/homebrew/include/glm/gtc/../ext/vector_bool1.hpp \
-  /opt/homebrew/include/glm/./ext/../detail/type_vec1.hpp \
-  /opt/homebrew/include/glm/gtc/../ext/vector_bool1_precision.hpp \
-  /opt/homebrew/include/glm/gtc/../ext/vector_float1.hpp \
-  /opt/homebrew/include/glm/gtc/../ext/vector_float1_precision.hpp \
-  /opt/homebrew/include/glm/gtc/../ext/vector_double1.hpp \
-  /opt/homebrew/include/glm/gtc/../ext/vector_double1_precision.hpp \
-  /opt/homebrew/include/glm/gtc/../ext/vector_int1.hpp \
-  /opt/homebrew/include/glm/gtc/../ext/vector_int1_sized.hpp \
-  /opt/homebrew/include/glm/./ext/../ext/vector_int1.hpp \
-  /opt/homebrew/include/glm/gtc/../ext/vector_uint1.hpp \
-  /opt/homebrew/include/glm/gtc/../ext/vector_uint1_sized.hpp \
-  /opt/homebrew/include/glm/./ext/../ext/vector_uint1.hpp \
-  /opt/homebrew/include/glm/gtc/../mat2x2.hpp \
-  /opt/homebrew/include/glm/gtc/../mat2x3.hpp \
-  /opt/homebrew/include/glm/gtc/../mat2x4.hpp \
-  /opt/homebrew/include/glm/gtc/../mat3x2.hpp \
-  /opt/homebrew/include/glm/gtc/../mat3x3.hpp \
-  /opt/homebrew/include/glm/gtc/../mat3x4.hpp \
-  /opt/homebrew/include/glm/gtc/../mat4x2.hpp \
-  /opt/homebrew/include/glm/gtc/../mat4x3.hpp \
-  /opt/homebrew/include/glm/gtc/type_ptr.inl
+  /Applications/miniconda3/bin/../include/c++/v1/filesystem \
+  /Applications/miniconda3/bin/../include/c++/v1/__filesystem/copy_options.h \
+  /Applications/miniconda3/bin/../include/c++/v1/__filesystem/directory_entry.h \
+  /Applications/miniconda3/bin/../include/c++/v1/__filesystem/file_status.h \
+  /Applications/miniconda3/bin/../include/c++/v1/__filesystem/file_type.h \
+  /Applications/miniconda3/bin/../include/c++/v1/__filesystem/perms.h \
+  /Applications/miniconda3/bin/../include/c++/v1/__filesystem/file_time_type.h \
+  /Applications/miniconda3/bin/../include/c++/v1/__filesystem/filesystem_error.h \
+  /Applications/miniconda3/bin/../include/c++/v1/__filesystem/path.h \
+  /Applications/miniconda3/bin/../include/c++/v1/iomanip \
+  /Applications/miniconda3/bin/../include/c++/v1/__filesystem/operations.h \
+  /Applications/miniconda3/bin/../include/c++/v1/__filesystem/perm_options.h \
+  /Applications/miniconda3/bin/../include/c++/v1/__filesystem/space_info.h \
+  /Applications/miniconda3/bin/../include/c++/v1/__filesystem/directory_iterator.h \
+  /Applications/miniconda3/bin/../include/c++/v1/__filesystem/directory_options.h \
+  /Applications/miniconda3/bin/../include/c++/v1/__filesystem/path_iterator.h \
+  /Applications/miniconda3/bin/../include/c++/v1/__filesystem/recursive_directory_iterator.h \
+  /Applications/miniconda3/bin/../include/c++/v1/__filesystem/u8path.h \
+  /Applications/miniconda3/bin/../include/c++/v1/sstream \
+  /Applications/miniconda3/bin/../include/c++/v1/iostream \
+  /Users/williambogdanovic/Desktop/simulations/SoA/glimac/third-party/glad/include/glad/glad.h \
+  /Users/williambogdanovic/Desktop/simulations/SoA/glimac/third-party/glad/include/KHR/khrplatform.h

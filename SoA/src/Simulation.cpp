@@ -81,6 +81,9 @@ Simulation::Simulation() {
     if (numThreads == 0)
         numThreads = 2;
     threadPool = new ThreadPool(numThreads);
+    // print number of threads
+    std::cout << "Number of threads: " << numThreads << std::endl;
+
     // Pre-allocate memory for particle data (SoA)
     soA.position.reserve(10000);
     soA.velocity.reserve(10000);
@@ -106,10 +109,11 @@ Simulation::~Simulation() {
 }
 
 void Simulation::Initialization() {
-    createHexGrid(60, 1.3f, 1.0f, false, 10.0f);
+    createHexGrid(60, 1.3f, 1.0f, true, 90.0f);
     // Gravity link
     if (gravityLink) { delete gravityLink; }
-    gravityLink = new Link(soA, glm::vec3(40.0f, 0.0f, 0.0f));
+    gravityLink = new Link(soA, glm::vec3(0.0f, -98.1f, 0.0f));
+    addStaticCubeUnderGrid();
 }
 
 void Simulation::reset() {
@@ -257,6 +261,40 @@ void Simulation::update(float dt) {
 void Simulation::applyGravityLink() {
     if (gravityLink)
         gravityLink->applyGravity();
+}
+
+void Simulation::addStaticCubeUnderGrid() {
+    std::lock_guard<std::recursive_mutex> lock(simulationMutex);
+    
+    // Compute the average center of all structure particles.
+    glm::vec3 center(0.0f);
+    int count = 0;
+    for (size_t i = 0; i < soA.position.size(); i++) {
+        if (soA.type[i] == ParticleType::STRUCTURE) {
+            center += soA.position[i];
+            count++;
+        }
+    }
+    if (count > 0)
+        center /= static_cast<float>(count);
+    else
+        center = glm::vec3(0.0f);  // Fallback
+    
+    // Define the cube's size and position it just under the structure.
+    const float cubeSize = 80.0f;  // Adjust as needed
+    glm::vec3 cubePos = center + glm::vec3(0.0f, -cubeSize - 0.5f, 0.0f);
+    
+    // Add a new particle representing the cube.
+    soA.position.push_back(cubePos);
+    soA.velocity.push_back(glm::vec3(0.0f));
+    soA.forceAccum.push_back(glm::vec3(0.0f));
+    soA.mass.push_back(1.0f);  // Mass is irrelevant for static particles.
+    soA.type.push_back(ParticleType::EXTERNAL);
+    soA.isStatic.push_back(true);
+    
+    // Use a contrasting color (red) so it stands out.
+    soA.color.push_back(glm::vec3(1.0f, 0.0f, 0.0f));
+    soA.dimensions.push_back(glm::vec3(cubeSize));
 }
 
 void Simulation::createCord(int numBalls, float length, float springRestLength, bool bothEndsStatic_) {
