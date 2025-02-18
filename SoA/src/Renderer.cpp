@@ -1,12 +1,4 @@
 #include "Renderer.hpp"
-#include "Shader.hpp"
-#include <glad/glad.h>
-#include <iostream>
-#include <glm/glm.hpp>
-#include <glm/gtc/matrix_transform.hpp>
-#include <glm/gtc/type_ptr.hpp>
-#include <vector>
-#include <cmath>
 
 // Maximum supported instances.
 const size_t Renderer::maxInstances;
@@ -19,7 +11,14 @@ Renderer::Renderer() {
     if (!cubeShader.load("src/shaders/cube.vs.glsl", "src/shaders/cube.fs.glsl")) {
         std::cerr << "Failed to load cube shaders." << std::endl;
     }
-    init();
+    
+    // Initialize each sub-component.
+    initBallGeometry();
+    initGrid();
+    initCube();
+    initSprings();
+    initHexTriangles();
+    
     targetDistance = 10.0f;
     cameraPosition = glm::vec3(0.0f, 0.0f, targetDistance);
     cameraTarget = glm::vec3(0.0f, 0.0f, 0.0f);
@@ -28,33 +27,45 @@ Renderer::Renderer() {
 Renderer::~Renderer() {
     glDeleteProgram(ballShader.getID());
     glDeleteProgram(cubeShader.getID());
-    
-    // Delete VAOs/VBOs for ball, grid, springs, hexagon triangles.
+
+    // Delete ball geometry.
     glDeleteVertexArrays(1, &vao);
     glDeleteBuffers(1, &vbo);
     glDeleteBuffers(1, &instancePosVBO);
     glDeleteBuffers(1, &instanceColorVBO);
     glDeleteBuffers(1, &instanceScaleVBO);
+
+    // Delete grid.
     glDeleteVertexArrays(1, &gridVAO);
     glDeleteBuffers(1, &gridVBO);
+
+    // Delete springs.
     glDeleteVertexArrays(1, &springVAO);
     glDeleteBuffers(1, &springVBO);
+
+    // Delete hexagon triangles.
     glDeleteVertexArrays(1, &hexTriVAO);
     glDeleteBuffers(1, &hexTriVBO);
+
+    // Delete cube geometry.
+    glDeleteVertexArrays(1, &cubeVAO);
+    glDeleteBuffers(1, &cubeVBO);
+    glDeleteBuffers(1, &cubeEBO);
 }
 
-void Renderer::init() {
-    // Initialize ball geometry (a circle) and instance buffers.
+void Renderer::initBallGeometry() {
     float radius = 0.1f;
     float vertices[(numSegments + 2) * 3];
+    // The center vertex:
     vertices[0] = 0.0f; vertices[1] = 0.0f; vertices[2] = 0.0f;
+    // Create a circle using a triangle fan.
     for (int i = 0; i <= numSegments; i++) {
         float angle = i * 2.0f * 3.1415926f / numSegments;
         vertices[(i + 1) * 3 + 0] = radius * cos(angle);
         vertices[(i + 1) * 3 + 1] = radius * sin(angle);
         vertices[(i + 1) * 3 + 2] = 0.0f;
     }
-    
+
     glGenVertexArrays(1, &vao);
     glGenBuffers(1, &vbo);
     glBindVertexArray(vao);
@@ -63,35 +74,77 @@ void Renderer::init() {
     glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, 3 * sizeof(float), (void*)0);
     glEnableVertexAttribArray(0);
 
-    // Instance buffers (positions, colors, scales).
+    // Create instance buffers for position, color, and scale.
     glGenBuffers(1, &instancePosVBO);
     glGenBuffers(1, &instanceColorVBO);
     glGenBuffers(1, &instanceScaleVBO);
-    // Attribute location 1: offset
+
+    // Instance attribute: offset (location 1)
     glBindBuffer(GL_ARRAY_BUFFER, instancePosVBO);
     glBufferData(GL_ARRAY_BUFFER, maxInstances * sizeof(glm::vec3), nullptr, GL_DYNAMIC_DRAW);
     glVertexAttribPointer(1, 3, GL_FLOAT, GL_FALSE, sizeof(glm::vec3), (void*)0);
     glEnableVertexAttribArray(1);
     glVertexAttribDivisor(1, 1);
-    // Attribute location 2: instColor
+
+    // Instance attribute: instColor (location 2)
     glBindBuffer(GL_ARRAY_BUFFER, instanceColorVBO);
     glBufferData(GL_ARRAY_BUFFER, maxInstances * sizeof(glm::vec3), nullptr, GL_DYNAMIC_DRAW);
     glVertexAttribPointer(2, 3, GL_FLOAT, GL_FALSE, sizeof(glm::vec3), (void*)0);
     glEnableVertexAttribArray(2);
     glVertexAttribDivisor(2, 1);
-    // Attribute location 3: scale
+
+    // Instance attribute: scale (location 3)
     glBindBuffer(GL_ARRAY_BUFFER, instanceScaleVBO);
     glBufferData(GL_ARRAY_BUFFER, maxInstances * sizeof(glm::vec3), nullptr, GL_DYNAMIC_DRAW);
     glVertexAttribPointer(3, 1, GL_FLOAT, GL_FALSE, sizeof(glm::vec3), (void*)0);
     glEnableVertexAttribArray(3);
     glVertexAttribDivisor(3, 1);
+
     glBindVertexArray(0);
+}
 
-    initGrid();
+void Renderer::initCube() {
+    // Define the cube vertices and indices (a unit cube centered at the origin).
+    float cubeVertices[] = {
+        -0.5f, -0.5f, -0.5f,  
+         0.5f, -0.5f, -0.5f,  
+         0.5f,  0.5f, -0.5f,  
+        -0.5f,  0.5f, -0.5f,  
+        -0.5f, -0.5f,  0.5f,  
+         0.5f, -0.5f,  0.5f,  
+         0.5f,  0.5f,  0.5f,  
+        -0.5f,  0.5f,  0.5f   
+    };
+    unsigned int cubeIndices[] = {
+        0,1, 1,2, 2,3, 3,0,
+        4,5, 5,6, 6,7, 7,4,
+        0,4, 1,5, 2,6, 3,7
+    };
 
+    glGenVertexArrays(1, &cubeVAO);
+    glGenBuffers(1, &cubeVBO);
+    glGenBuffers(1, &cubeEBO);
+
+    glBindVertexArray(cubeVAO);
+    
+    glBindBuffer(GL_ARRAY_BUFFER, cubeVBO);
+    glBufferData(GL_ARRAY_BUFFER, sizeof(cubeVertices), cubeVertices, GL_STATIC_DRAW);
+    
+    glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, cubeEBO);
+    glBufferData(GL_ELEMENT_ARRAY_BUFFER, sizeof(cubeIndices), cubeIndices, GL_STATIC_DRAW);
+    
+    glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, 3 * sizeof(float), (void*)0);
+    glEnableVertexAttribArray(0);
+    
+    glBindVertexArray(0);
+}
+
+void Renderer::initSprings() {
     glGenVertexArrays(1, &springVAO);
     glGenBuffers(1, &springVBO);
+}
 
+void Renderer::initHexTriangles() {
     glGenVertexArrays(1, &hexTriVAO);
     glGenBuffers(1, &hexTriVBO);
     glBindVertexArray(hexTriVAO);
@@ -105,7 +158,7 @@ void Renderer::init() {
 void Renderer::initGrid() {
     std::vector<float> gridVertices;
     float gridSize = 300.0f;
-    float spacing = 4.0f;
+    float spacing = 5.0f;
     
     for (float x = -gridSize; x <= gridSize; x += spacing) {
         gridVertices.push_back(x); gridVertices.push_back(-gridSize); gridVertices.push_back(0.0f);
@@ -172,46 +225,13 @@ void Renderer::renderExternalCubes(const Simulation& simulation, const glm::mat4
     if (positions.empty())
         return;
     
-    // Lazy initialization of cube VAO/VBO/EBO.
-    static bool cubeInitialized = false;
-    static GLuint cubeVAO = 0, cubeVBO = 0, cubeEBO = 0;
-    if (!cubeInitialized) {
-        float cubeVertices[] = {
-            -0.5f, -0.5f, -0.5f,  
-             0.5f, -0.5f, -0.5f,  
-             0.5f,  0.5f, -0.5f,  
-            -0.5f,  0.5f, -0.5f,  
-            -0.5f, -0.5f,  0.5f,  
-             0.5f, -0.5f,  0.5f,  
-             0.5f,  0.5f,  0.5f,  
-            -0.5f,  0.5f,  0.5f   
-        };
-        unsigned int cubeIndices[] = {
-            0,1, 1,2, 2,3, 3,0,
-            4,5, 5,6, 6,7, 7,4,
-            0,4, 1,5, 2,6, 3,7
-        };
-        glGenVertexArrays(1, &cubeVAO);
-        glGenBuffers(1, &cubeVBO);
-        glGenBuffers(1, &cubeEBO);
-        glBindVertexArray(cubeVAO);
-        glBindBuffer(GL_ARRAY_BUFFER, cubeVBO);
-        glBufferData(GL_ARRAY_BUFFER, sizeof(cubeVertices), cubeVertices, GL_STATIC_DRAW);
-        glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, cubeEBO);
-        glBufferData(GL_ELEMENT_ARRAY_BUFFER, sizeof(cubeIndices), cubeIndices, GL_STATIC_DRAW);
-        glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, 3 * sizeof(float), (void*)0);
-        glEnableVertexAttribArray(0);
-        glBindVertexArray(0);
-        cubeInitialized = true;
-    }
-    
     // Save polygon mode and line width.
     GLint prevPolygonMode;
     glGetIntegerv(GL_POLYGON_MODE, &prevPolygonMode);
     glPolygonMode(GL_FRONT_AND_BACK, GL_LINE);
     GLfloat prevLineWidth;
     glGetFloatv(GL_LINE_WIDTH, &prevLineWidth);
-    glLineWidth(2.5f);
+    glLineWidth(5.0f);
     
     // Use the cube shader.
     cubeShader.use();
@@ -223,6 +243,8 @@ void Renderer::renderExternalCubes(const Simulation& simulation, const glm::mat4
         glm::mat4 mvp = projection * view * model;
         cubeShader.setUniform("uMVP", mvp);
         cubeShader.setUniform("uColor", colors[i]);
+        
+        // Bind the pre-built cube geometry.
         glBindVertexArray(cubeVAO);
         glDrawElements(GL_LINES, 24, GL_UNSIGNED_INT, 0);
         glBindVertexArray(0);
@@ -300,7 +322,7 @@ void Renderer::renderSprings(const Simulation& simulation, const glm::mat4& proj
         springVertices.push_back(soa.position[spring.p2Index]);
     }
     ballShader.setUniform("useInstance", 0);
-    ballShader.setUniform("uColor", glm::vec3(0.0f, 0.0f, 1.0f));
+    ballShader.setUniform("uColor", glm::vec3(0.25f, 0.39f, 0.59f));
     glm::mat4 model = glm::mat4(1.0f);
     ballShader.setUniform("uModel", model);
     glm::mat4 mvp = projection * view * model;
@@ -347,7 +369,7 @@ void Renderer::renderHexTriangles(const Simulation& simulation, const glm::mat4&
     }
     
     ballShader.setUniform("useInstance", 0);
-    ballShader.setUniform("uColor", glm::vec3(0.5f, 0.5f, 0.5f));
+    ballShader.setUniform("uColor", glm::vec3(0.42f, 0.65f, 0.99f));
     glm::mat4 modelMat = glm::mat4(1.0f);
     ballShader.setUniform("uModel", modelMat);
     glm::mat4 mvpMat = projection * view * modelMat;

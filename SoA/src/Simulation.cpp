@@ -292,8 +292,8 @@ void Simulation::addStaticCubeUnderGrid() {
     soA.type.push_back(ParticleType::EXTERNAL);
     soA.isStatic.push_back(true);
     
-    // Use a contrasting color (red) so it stands out.
-    soA.color.push_back(glm::vec3(1.0f, 0.0f, 0.0f));
+    // set color and dimensions
+    soA.color.push_back(glm::vec3(0.56f, 1.0f, 0.4f));
     soA.dimensions.push_back(glm::vec3(cubeSize));
 }
 
@@ -403,8 +403,8 @@ void Simulation::createHexGrid(int numHexagons, float hexagonSize, float springR
     soA.mass.resize(n, 10.f);
     soA.type.resize(n, ParticleType::STRUCTURE);
     soA.isStatic.resize(n, false);
-    soA.color.resize(n, glm::vec3(1,0,0));
-    soA.dimensions.resize(n, glm::vec3(3.f));
+    soA.color.resize(n, glm::vec3(1.0f,0.4f,0.0f));
+    soA.dimensions.resize(n, glm::vec3(1.0f));
     
     float minX = 1e9f, maxX = -1e9f;
     for (auto &p : uniquePositions) {

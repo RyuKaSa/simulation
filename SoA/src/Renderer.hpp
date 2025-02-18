@@ -4,7 +4,15 @@
 #include "Simulation.hpp"
 #include "PMat.hpp"
 #include <glm/glm.hpp>
-#include "Shader.hpp"   // New: our shader management class
+#include "Shader.hpp"   // our shader management class
+#include "Renderer.hpp"
+#include <glad/glad.h>
+#include <iostream>
+#include <glm/glm.hpp>
+#include <glm/gtc/matrix_transform.hpp>
+#include <glm/gtc/type_ptr.hpp>
+#include <vector>
+#include <cmath>
 
 class Renderer {
 public:
@@ -29,16 +37,19 @@ public:
     void renderExternalCubes(const Simulation& simulation, const glm::mat4& projection, const glm::mat4& view);
 
 private:
-    // Instead of raw shader program IDs, we now use Shader objects.
-    Shader ballShader;  // For instanced ball, grid, springs, and hexagon triangles.
+    // Shader objects.
+    Shader ballShader;  // For instanced ball, grid, springs, hexagon triangles.
     Shader cubeShader;  // For external cubes (wireframe).
 
     // Geometry for the instanced balls.
     unsigned int vao, vbo;
     unsigned int instancePosVBO, instanceColorVBO, instanceScaleVBO;
 
-    void init();      // Initializes ball geometry, instance buffers, etc.
     void initGrid();  // Initializes grid geometry.
+    void initCube();  // NEW: Initializes cube geometry (VAO/VBO/EBO) for external cubes.
+    void initSprings();  // Initializes spring geometry.
+    void initHexTriangles();  // Initializes hexagon triangle geometry.
+    void initBallGeometry();  // Initializes ball geometry.
 
     // Grid geometry.
     unsigned int gridVAO, gridVBO;
@@ -50,6 +61,9 @@ private:
 
     // Hexagon triangles geometry.
     unsigned int hexTriVAO, hexTriVBO;
+
+    // Cube geometry (NEW).
+    unsigned int cubeVAO, cubeVBO, cubeEBO;
 
     // Ball geometry parameters.
     int numSegments = 32;
