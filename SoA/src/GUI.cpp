@@ -8,7 +8,8 @@ GUI::GUI(SDL_Window* window, SDL_GLContext glContext)
       dampingCoefficient(0.5f),
       physicsSteps(1000),
       reset(false),
-      impulseScaling(1000.0f)
+      impulseScaling(1000.0f),
+      dropStructureRequested(false) // new member initialization
 {
     IMGUI_CHECKVERSION();
     ImGui::CreateContext();
@@ -31,6 +32,7 @@ void GUI::draw() {
     ImGui::SliderFloat("Damping Coefficient", &dampingCoefficient, 0.0f, 20.0f);
     ImGui::SliderFloat("Impulse Scaling", &impulseScaling, 0.0f, 5000.0f);
     if (ImGui::Button("Reset")) { reset = true; }
+    if (ImGui::Button("Drop Structure")) { dropStructureRequested = true; } // new button
     ImGui::End();
 
     ImGui::Begin("Performance Metrics");
@@ -96,4 +98,13 @@ void GUI::setPerformanceMetrics(float physicsStepTime, float renderFrameTime,
     performanceNumParticles     = numParticles;
     performanceNumSprings       = numSprings;
     performancePhysicsStepsPerSecond = physicsStepsPerSecond;
+}
+
+// New methods for drop structure functionality
+bool GUI::isDropStructureRequested() const {
+    return dropStructureRequested;
+}
+
+void GUI::clearDropStructureFlag() {
+    dropStructureRequested = false;
 }

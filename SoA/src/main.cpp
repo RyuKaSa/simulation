@@ -68,6 +68,12 @@ int main(int argc, char* argv[]) {
             gui.clearResetFlag();
             simulation.startAsyncUpdates();
         }
+        
+        // New: Check if "Drop Structure" was requested.
+        if (gui.isDropStructureRequested()) {
+            simulation.dropStructure();
+            gui.clearDropStructureFlag();
+        }
 
         simulation.setSpringConstant(gui.getSpringConstant());
         simulation.setDampingCoefficient(gui.getDampingCoefficient());

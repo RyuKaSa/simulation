@@ -85,14 +85,14 @@ Simulation::Simulation() {
     std::cout << "Number of threads: " << numThreads << std::endl;
 
     // Pre-allocate memory for particle data (SoA)
-    soA.position.reserve(10000);
-    soA.velocity.reserve(10000);
-    soA.forceAccum.reserve(10000);
-    soA.mass.reserve(10000);
-    soA.type.reserve(10000);
-    soA.isStatic.reserve(10000);
-    soA.color.reserve(10000);
-    soA.dimensions.reserve(10000);
+    soA.position.reserve(100000);
+    soA.velocity.reserve(100000);
+    soA.forceAccum.reserve(100000);
+    soA.mass.reserve(100000);
+    soA.type.reserve(100000);
+    soA.isStatic.reserve(100000);
+    soA.color.reserve(100000);
+    soA.dimensions.reserve(100000);
     Initialization();
 }
 
@@ -110,10 +110,10 @@ Simulation::~Simulation() {
 
 void Simulation::Initialization() {
     // createHexGrid(60, 1.3f, 1.0f, true, 90.0f);
-    createMultiLayerHexGrid(30, 2.0f, 1.0f, true, 90.0f, 1.0f, 3.0f);
+    createMultiLayerHexGrid(60, 1.0f, 1.0f, true, 90.0f, 1.0f, 5.0f);
     // Gravity link
     if (gravityLink) { delete gravityLink; }
-    gravityLink = new Link(soA, glm::vec3(0.0f, -98.0f, 0.0f));
+    gravityLink = new Link(soA, glm::vec3(0.0f, -9.81f, 0.0f));
     addStaticCubeUnderGrid();
 }
 
@@ -159,6 +159,17 @@ void Simulation::setDampingCoefficient(float z) {
     std::lock_guard<std::recursive_mutex> lock(simulationMutex);
     for (auto &sp : springs) {
         sp.damping = z;
+    }
+}
+
+// New method: Drop Structure
+void Simulation::dropStructure() {
+    std::lock_guard<std::recursive_mutex> lock(simulationMutex);
+    std::cout << "Dropping structure: converting static particles to dynamic." << std::endl;
+    for (size_t i = 0; i < soA.isStatic.size(); i++) {
+        if (soA.type[i] == ParticleType::STRUCTURE && soA.isStatic[i]) {
+            soA.isStatic[i] = false;
+        }
     }
 }
 
@@ -255,8 +266,64 @@ void Simulation::update(float dt) {
     for (auto &f : futures)
         f.get();
     futures.clear();
+    
+    // --- 4) Particle-Cube Collision Resolution ---
+    // Now resolve collisions between dynamic structure particles and all external (cube) particles.
+    resolveExternalCollisions();
+}
 
-    // updateHexTriangles();
+void Simulation::resolveExternalCollisions() {
+    // Constants for collision resolution
+    const float restitution = 0.5f;
+    const float particleRadius = 0.1f;
+
+    // Loop over all external particles (cubes)
+    for (size_t cubeIndex = 0; cubeIndex < soA.position.size(); cubeIndex++) {
+        if (soA.type[cubeIndex] != ParticleType::EXTERNAL)
+            continue;
+        // Get cube data (assumed to be axis-aligned)
+        glm::vec3 cubeCenter = soA.position[cubeIndex];
+        glm::vec3 halfExtents = soA.dimensions[cubeIndex] * 0.5f;
+
+        // Check collision for each dynamic structure particle
+        for (size_t i = 0; i < soA.position.size(); i++) {
+            if (soA.type[i] != ParticleType::STRUCTURE)
+                continue;
+            if (soA.isStatic[i])
+                continue;
+
+            glm::vec3 pos = soA.position[i];
+            // Compute the closest point on the cube's AABB to the particle position
+            glm::vec3 closest;
+            for (int j = 0; j < 3; j++) {
+                float cubeMin = cubeCenter[j] - halfExtents[j];
+                float cubeMax = cubeCenter[j] + halfExtents[j];
+                if (pos[j] < cubeMin)
+                    closest[j] = cubeMin;
+                else if (pos[j] > cubeMax)
+                    closest[j] = cubeMax;
+                else
+                    closest[j] = pos[j];
+            }
+            glm::vec3 diff = pos - closest;
+            float dist = glm::length(diff);
+            // If penetration occurs, resolve collision
+            if (dist < particleRadius) {
+                float penetration = particleRadius - dist;
+                glm::vec3 normal;
+                if (dist > 1e-6f) {
+                    normal = diff / dist;
+                } else {
+                    normal = glm::vec3(0.0f, 1.0f, 0.0f);
+                }
+                soA.position[i] += normal * penetration;
+                float vn = glm::dot(soA.velocity[i], normal);
+                if (vn < 0) {
+                    soA.velocity[i] -= (1.0f + restitution) * vn * normal;
+                }
+            }
+        }
+    }
 }
 
 void Simulation::applyGravityLink() {
@@ -869,65 +936,61 @@ void Simulation::updateHexTriangles()
     futures.reserve(numThreads);
 
     // Enqueue parallel tasks
-    for (unsigned int t = 0; t < numThreads; t++)
-    {
+    for (unsigned int t = 0; t < numThreads; t++) {
         size_t start = t * chunkSize;
         size_t end   = std::min(start + chunkSize, totalHexes);
         if (start >= end)
             break; // No more hexes to process for this thread
 
         // Capture everything we need by [this] and by value
-        futures.push_back(threadPool->enqueue([this, start, end]() -> std::vector<HexTriangle>
-        {
-            std::vector<HexTriangle> localTris;
-            localTris.reserve((end - start) * 6); 
-            // Each hex -> 6 triangles in a fan around its center
-
-            for (size_t h = start; h < end; h++)
+        futures.push_back(
+            threadPool->enqueue([this, start, end]() -> std::vector<HexTriangle>
             {
-                // Indices of the 6 corners for hex h
-                const std::vector<int>& inds = hexagonIndices[h];
+                std::vector<HexTriangle> localTris;
+                localTris.reserve((end - start) * 6); 
+                // Each hex -> 6 triangles in a fan around its center
 
-                // Collect the corner positions from the SoA
-                glm::vec3 corners[6];
-                for (int i = 0; i < 6; i++)
-                {
-                    corners[i] = soA.position[inds[i]];
+                for (size_t h = start; h < end; h++) {
+                    // Indices of the 6 corners for hex h
+                    const std::vector<int>& inds = hexagonIndices[h];
+
+                    // Collect the corner positions from the SoA
+                    glm::vec3 corners[6];
+                    for (int i = 0; i < 6; i++) {
+                        corners[i] = soA.position[inds[i]];
+                    }
+
+                    // Compute the hex center
+                    glm::vec3 center(0.0f);
+                    for (int i = 0; i < 6; i++) {
+                        center += corners[i];
+                    }
+                    center /= 6.0f;
+
+                    // Build 6 triangles (a fan from the center)
+                    for (int i = 0; i < 6; i++) {
+                        HexTriangle tri;
+                        tri.vertices[0] = center;
+                        tri.vertices[1] = corners[i];
+                        tri.vertices[2] = corners[(i + 1) % 6];
+
+                        // Compute the normal via cross product
+                        glm::vec3 edge1 = tri.vertices[1] - tri.vertices[0];
+                        glm::vec3 edge2 = tri.vertices[2] - tri.vertices[0];
+                        tri.normal = glm::normalize(glm::cross(edge1, edge2));
+
+                        localTris.push_back(tri);
+                    }
                 }
-
-                // Compute the hex center
-                glm::vec3 center(0.0f);
-                for (int i = 0; i < 6; i++)
-                {
-                    center += corners[i];
-                }
-                center /= 6.0f;
-
-                // Build 6 triangles (a fan from the center)
-                for (int i = 0; i < 6; i++)
-                {
-                    HexTriangle tri;
-                    tri.vertices[0] = center;
-                    tri.vertices[1] = corners[i];
-                    tri.vertices[2] = corners[(i + 1) % 6];
-
-                    // Compute the normal via cross product
-                    glm::vec3 edge1 = tri.vertices[1] - tri.vertices[0];
-                    glm::vec3 edge2 = tri.vertices[2] - tri.vertices[0];
-                    tri.normal = glm::normalize(glm::cross(edge1, edge2));
-
-                    localTris.push_back(tri);
-                }
-            }
-            return localTris;
-        }));
+                return localTris;
+            })
+        );
     }
 
     // Gather partial results from each thread
     size_t totalTriCount = 0;
     std::vector<std::vector<HexTriangle>> partials(numThreads);
-    for (size_t i = 0; i < futures.size(); i++)
-    {
+    for (size_t i = 0; i < futures.size(); i++) {
         std::vector<HexTriangle> threadOutput = futures[i].get();
         totalTriCount += threadOutput.size();
         partials[i] = std::move(threadOutput);
@@ -935,8 +998,7 @@ void Simulation::updateHexTriangles()
 
     // Reserve once, then append all partial vectors
     hexTriangles.reserve(totalTriCount);
-    for (auto& part : partials)
-    {
+    for (auto& part : partials) {
         hexTriangles.insert(hexTriangles.end(), part.begin(), part.end());
     }
 }

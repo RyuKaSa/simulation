@@ -69,8 +69,11 @@ public:
     size_t getSpringCount() const;
     const std::vector<SpringData>& getSprings() const;
 
+    void dropStructure();
+
 private:
     void asyncLoop();
+    void resolveExternalCollisions();
 
     // SoA for all particles
     ParticleSoA soA;

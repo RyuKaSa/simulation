@@ -19,7 +19,10 @@ public:
     int getPhysicsSteps() const;
     float getImpulseScaling() const;
     bool isResetRequested();
+    bool isDropStructureRequested() const;
+
     void clearResetFlag();
+    void clearDropStructureFlag();
 
     void setPerformanceMetrics(float physicsStepTime, float renderFrameTime,
                                 float totalFrameTime, float fps,
@@ -31,6 +34,7 @@ private:
     int physicsSteps;
     float impulseScaling;
     bool reset;
+    bool dropStructureRequested;
 
     // Performance metrics variables:
     float performancePhysicsStepTime = 0.0f;
