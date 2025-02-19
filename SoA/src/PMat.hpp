@@ -11,29 +11,32 @@ enum class ParticleType {
     EXTERNAL
 };
 
+// Now using double instead of float
 class PMat {
 public:
-    PMat(float mass, const glm::vec3& position, ParticleType type = ParticleType::STRUCTURE, const glm::vec3& velocity = glm::vec3(0.0f));
+    PMat(double mass,
+         const glm::dvec3& position,
+         ParticleType type = ParticleType::STRUCTURE,
+         const glm::dvec3& velocity = glm::dvec3(0.0));
 
     // Apply an external force
-    void applyForce(const glm::vec3& force);
+    void applyForce(const glm::dvec3& force);
 
-    void applyForceThreadSafe(const glm::vec3& force);
-    
+    void applyForceThreadSafe(const glm::dvec3& force);
+
     // Update position and velocity
-    void update(float dt);
+    void update(double dt);
 
     // Update position and velocity without changing them
-    void update_fixed(float dt);
-    
-    // Getters
-    const glm::vec3& getPosition() const;
-    const glm::vec3& getVelocity() const;
-    // get mass
-    float getMass() const;
+    void update_fixed(double dt);
 
-    void addCorrection(const glm::vec3& correction);
-    void reflectVelocity(const glm::vec3& newVel);
+    // Getters
+    const glm::dvec3& getPosition() const;
+    const glm::dvec3& getVelocity() const;
+    double getMass() const;
+
+    void addCorrection(const glm::dvec3& correction);
+    void reflectVelocity(const glm::dvec3& newVel);
 
     // Reset accumulated force (should be called after update)
     void resetForce();
@@ -42,17 +45,19 @@ public:
 
     mutable std::mutex mtx;
 
-    unsigned int id;             // a unique id assigned at creation
-    ParticleType type;           // distinguishes structure vs. external
-    
-private:
-    float mass;
-    glm::vec3 pos;
-    glm::vec3 vel;
-    glm::vec3 forceAccum;
-    std::atomic<glm::vec3> forceAccumAtomic;
+    unsigned int id;
+    ParticleType type;
 
-    std::deque<glm::vec3> velocityHistory;
+private:
+    double mass;
+    glm::dvec3 pos;
+    glm::dvec3 vel;
+    glm::dvec3 forceAccum;
+    // If you truly need atomic force accum, you'd need a workaround, because
+    // there's no built-in atomic for dvec3. We'll remove or keep as stub:
+    std::atomic<double> dummyAtomic; // example placeholder
+
+    std::deque<glm::dvec3> velocityHistory;
 };
 
 #endif // PMAT_HPP

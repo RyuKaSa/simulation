@@ -4,7 +4,7 @@
 #include "Simulation.hpp"
 #include "PMat.hpp"
 #include <glm/glm.hpp>
-#include "Shader.hpp"   // our shader management class
+#include "Shader.hpp"
 #include "Renderer.hpp"
 #include <glad/glad.h>
 #include <iostream>
@@ -18,57 +18,64 @@ class Renderer {
 public:
     Renderer();
     ~Renderer();
-    
-    // Main render call.
+
+    // Main render call
     void render(const Simulation& simulation);
-    
-    // Camera adjustments.
+
+    // Camera adjustments
     void adjustCameraToFit(const Simulation& simulation);
     void cameraReset(const Simulation& simulation);
 
-    // Getters for camera position and target.
+    // Getters for camera position and target
     glm::vec3 getCameraPosition() const { return cameraPosition; }
-    glm::vec3 getCameraTarget() const { return cameraTarget; }
+    glm::vec3 getCameraTarget()   const { return cameraTarget; }
 
-    // Rendering functions for various elements.
-    void renderBalls(const Simulation& simulation, const glm::mat4& projection, const glm::mat4& view);
-    void renderHexTriangles(const Simulation& simulation, const glm::mat4& projection, const glm::mat4& view);
-    void renderSprings(const Simulation& simulation, const glm::mat4& projection, const glm::mat4& view);
-    void renderExternalCubes(const Simulation& simulation, const glm::mat4& projection, const glm::mat4& view);
+    // Rendering functions
+    void renderBalls(const Simulation& simulation,
+                     const glm::mat4& projection,
+                     const glm::mat4& view);
+    void renderHexTriangles(const Simulation& simulation,
+                            const glm::mat4& projection,
+                            const glm::mat4& view);
+    void renderSprings(const Simulation& simulation,
+                       const glm::mat4& projection,
+                       const glm::mat4& view);
+    void renderExternalCubes(const Simulation& simulation,
+                             const glm::mat4& projection,
+                             const glm::mat4& view);
 
 private:
-    // Shader objects.
-    Shader ballShader;  // For instanced ball, grid, springs, hexagon triangles.
-    Shader cubeShader;  // For external cubes (wireframe).
+    Shader ballShader;
+    Shader cubeShader;
 
-    // Geometry for the instanced balls.
+    // Geometry for instanced balls
     unsigned int vao, vbo;
     unsigned int instancePosVBO, instanceColorVBO, instanceScaleVBO;
 
-    void initGrid();  // Initializes grid geometry.
-    void initCube();  // NEW: Initializes cube geometry (VAO/VBO/EBO) for external cubes.
-    void initSprings();  // Initializes spring geometry.
-    void initHexTriangles();  // Initializes hexagon triangle geometry.
-    void initBallGeometry();  // Initializes ball geometry.
+    void initGrid();
+    void initCube();
+    void initSprings();
+    void initHexTriangles();
+    void initBallGeometry();
 
-    // Grid geometry.
+    // Grid geometry
     unsigned int gridVAO, gridVBO;
     int gridVertexCount;
     void renderGrid(const glm::mat4& projection, const glm::mat4& view);
 
-    // Spring geometry.
+    // Spring geometry
     unsigned int springVAO, springVBO;
 
-    // Hexagon triangles geometry.
+    // Hex geometry
     unsigned int hexTriVAO, hexTriVBO;
 
-    // Cube geometry (NEW).
+    // Cube geometry
     unsigned int cubeVAO, cubeVBO, cubeEBO;
 
-    // Ball geometry parameters.
+    // Ball geometry
     int numSegments = 32;
 
-    // Camera properties.
+    // Camera
     glm::vec3 cameraPosition;
     glm::vec3 cameraTarget;
     glm::vec3 targetPosition;
@@ -79,7 +86,6 @@ private:
     float minCameraDistance = 5.0f;
     float maxCameraDistance = 1000.0f;
 
-    // Maximum number of instances.
     static const size_t maxInstances = 100000;
 };
 

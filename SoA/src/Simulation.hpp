@@ -7,7 +7,7 @@
 #include <thread>
 #include <mutex>
 #include <array>
-#include "PMat.hpp"       // needed for ParticleType
+#include "PMat.hpp"
 #include "Link.hpp"
 #include "SimulationSoAInternals.hpp"
 #include <set>
@@ -26,45 +26,46 @@ public:
 
     void Initialization();
     void reset();
-    void update(float dt);
+    void update(double dt);
 
-    void setSpringConstant(float k);
-    void setDampingCoefficient(float z);
-    float getImpulseScaling() const { return impulseScaling; }
-    void setImpulseScaling(float scaling) { impulseScaling = scaling; }
+    void setSpringConstant(double k);
+    void setDampingCoefficient(double z);
+    double getImpulseScaling() const { return impulseScaling; }
+    void setImpulseScaling(double scaling) { impulseScaling = scaling; }
 
     // Create structures
     void addStaticCubeUnderGrid();
-    void createCord(int numBalls, float length, float springRestLength, bool bothEndsStatic);
-    void createHexGrid(int hexCount, float hexagonSize, float springRestLength, 
-                       bool bothEndsStatic, float orientationDegrees);
-    void createSquareGridWithDiagonals(int gridSize, float spacing, float springRestLength);
-    void createMultiLayerHexGrid(int numHexagons, float hexagonSize, float springRestLength,
-                                        bool bothEndsStatic, float orientationDegrees, float layerHeight, int nLayers);
+    void createCord(int numBalls, double length, double springRestLength, bool bothEndsStatic);
+    void createHexGrid(int hexCount, double hexagonSize, double springRestLength,
+                       bool bothEndsStatic, double orientationDegrees);
+    void createSquareGridWithDiagonals(int gridSize, double spacing, double springRestLength);
+    void createMultiLayerHexGrid(int numHexagons, double hexagonSize, double springRestLength,
+                                 bool bothEndsStatic, double orientationDegrees, double layerHeight, int nLayers);
 
-    // Gravity link usage
+    // Gravity link
     void applyGravityLink();
 
-    // Expose the simulation’s particle SoA directly.
+    // Expose SoA (with lock).
     const ParticleSoA& getSoA() const;
+    const ParticleSoA getSoACopy() const;
 
-    // Convenience getters for rendering:
+    // Triangles, structure positions
     const std::vector<HexTriangle>& getHexTriangles() const;
-    std::vector<glm::vec3> getStructureParticlePositions() const;
+    std::vector<glm::dvec3> getStructureParticlePositions() const;
 
-    // Clear the simulation (for reset/reinitialization)
+    // Clear the sim
     void clearSimulation();
 
-    // Async update methods
+    // Async
     void startAsyncUpdates();
     void stopAsyncUpdates();
 
-    // Update hexagon triangles
+    // Update hex triangles
     void updateHexTriangles();
 
-    // Concurrency info
+    // concurrency info
     std::atomic<int> effectiveStepsPerSecond { 0 };
-    std::atomic<float> lastPhysicsUpdateTime { 0.0f };
+    std::atomic<double> lastPhysicsUpdateTime { 0.0 };
 
     size_t getSpringCount() const;
     const std::vector<SpringData>& getSprings() const;
@@ -75,39 +76,35 @@ private:
     void asyncLoop();
     void resolveExternalCollisions();
 
-    // SoA for all particles
     ParticleSoA soA;
-    // Vector of all springs
     std::vector<SpringData> springs;
 
-    // Gravity link that references the SoA
     Link* gravityLink = nullptr;
 
-    // Settings
-    float springConstant = 0.5f;
-    bool bothEndsStatic  = false;
-    float impulseScaling = 1000.0f;
+    // Now double-based
+    double springConstant = 0.5;
+    bool bothEndsStatic   = false;
+    double impulseScaling = 1000.0;
 
-    // Concurrency
     mutable std::recursive_mutex simulationMutex;
     std::atomic<bool> asyncRunning { false };
     std::thread asyncThread;
 
-    // Reusable thread pool for parallel work
-    class ThreadPool; // Forward declaration; definition in Simulation.cpp.
+    // Thread pool
+    class ThreadPool;
     ThreadPool* threadPool = nullptr;
 
-    // New members to support hexagon triangles
+    // For hex
     std::vector<std::vector<glm::vec3>> hexagonVertexLists;
     std::vector<std::vector<int>> hexagonIndices;
     std::vector<HexTriangle> hexTriangles;
 
-    glm::mat4 createRotationMatrix(float orientationDegrees);
-    void generateHexagonCells(int numHexagons, float hexagonSize, const glm::mat4& rotationMatrix,
-                              std::vector<glm::vec3>& uniquePositions, 
+    glm::mat4 createRotationMatrix(double orientationDegrees);
+    void generateHexagonCells(int numHexagons, double hexagonSize, const glm::mat4& rotationMatrix,
+                              std::vector<glm::vec3>& uniquePositions,
                               std::set<std::pair<int,int>>& edgeSet);
     void assignUniquePositionsToSoA(const std::vector<glm::vec3>& uniquePositions, bool bothEndsStatic);
-    void createSpringsFromEdgeSet(const std::set<std::pair<int,int>>& edgeSet, float springRestLength);
+    void createSpringsFromEdgeSet(const std::set<std::pair<int,int>>& edgeSet, double springRestLength);
 };
 
 #endif

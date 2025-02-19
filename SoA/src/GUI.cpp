@@ -9,7 +9,7 @@ GUI::GUI(SDL_Window* window, SDL_GLContext glContext)
       physicsSteps(1000),
       reset(false),
       impulseScaling(1000.0f),
-      dropStructureRequested(false) // new member initialization
+      dropStructureRequested(false)
 {
     IMGUI_CHECKVERSION();
     ImGui::CreateContext();
@@ -32,13 +32,13 @@ void GUI::draw() {
     ImGui::SliderFloat("Damping Coefficient", &dampingCoefficient, 0.0f, 20.0f);
     ImGui::SliderFloat("Impulse Scaling", &impulseScaling, 0.0f, 5000.0f);
     if (ImGui::Button("Reset")) { reset = true; }
-    if (ImGui::Button("Drop Structure")) { dropStructureRequested = true; } // new button
+    if (ImGui::Button("Drop Structure")) { dropStructureRequested = true; }
     ImGui::End();
 
     ImGui::Begin("Performance Metrics");
-    ImGui::Text("Physics Step Time: %.3f ms", performancePhysicsStepTime * 1000.0f);
-    ImGui::Text("Render Frame Time: %.3f ms", performanceRenderFrameTime * 1000.0f);
-    ImGui::Text("Total Frame Time: %.3f ms", performanceTotalFrameTime * 1000.0f);
+    ImGui::Text("Physics Step Time: %.3f ms", performancePhysicsStepTime*1000.0f);
+    ImGui::Text("Render Frame Time: %.3f ms", performanceRenderFrameTime*1000.0f);
+    ImGui::Text("Total Frame Time: %.3f ms", performanceTotalFrameTime*1000.0f);
     ImGui::Text("FPS: %.1f", performanceFPS);
     ImGui::Text("Particles: %d", performanceNumParticles);
     ImGui::Text("Springs: %d", performanceNumSprings);
@@ -86,21 +86,23 @@ void GUI::clearResetFlag() {
     reset = false;
 }
 
-void GUI::setPerformanceMetrics(float physicsStepTime, float renderFrameTime,
-                                float totalFrameTime, float fps,
-                                int numParticles, int numSprings,
+void GUI::setPerformanceMetrics(float physicsStepTime,
+                                float renderFrameTime,
+                                float totalFrameTime,
+                                float fps,
+                                int numParticles,
+                                int numSprings,
                                 int physicsStepsPerSecond)
 {
     performancePhysicsStepTime = physicsStepTime;
-    performanceRenderFrameTime  = renderFrameTime;
-    performanceTotalFrameTime   = totalFrameTime;
-    performanceFPS              = fps;
-    performanceNumParticles     = numParticles;
-    performanceNumSprings       = numSprings;
+    performanceRenderFrameTime = renderFrameTime;
+    performanceTotalFrameTime  = totalFrameTime;
+    performanceFPS             = fps;
+    performanceNumParticles    = numParticles;
+    performanceNumSprings      = numSprings;
     performancePhysicsStepsPerSecond = physicsStepsPerSecond;
 }
 
-// New methods for drop structure functionality
 bool GUI::isDropStructureRequested() const {
     return dropStructureRequested;
 }

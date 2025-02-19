@@ -1,31 +1,28 @@
 #include "Link.hpp"
-
-// Forward-declared struct from the SoA-based Simulation
 #include <iostream>
 #include <mutex>
 
-// SoA that must match what's in Simulation
+// SoA must match what's in SimulationSoAInternals.hpp but for double-based:
 struct ParticleSoA {
-    std::vector<glm::vec3> position;
-    std::vector<glm::vec3> velocity;
-    std::vector<glm::vec3> forceAccum;
-    std::vector<float>      mass;
+    std::vector<glm::dvec3> position;
+    std::vector<glm::dvec3> velocity;
+    std::vector<glm::dvec3> forceAccum;
+    std::vector<double>      mass;
     std::vector<ParticleType> type;
     std::vector<bool>       isStatic;
-    // optional: color, dims...
+    // color, dims not needed here
 };
 
-Link::Link(ParticleSoA& soAref, const glm::vec3& force)
+Link::Link(ParticleSoA& soAref, const glm::dvec3& force)
     : soA(soAref), forceValue(force)
 {
 }
 
 void Link::applyGravity() {
-    // Apply 'forceValue' to all STRUCTURE-type particles in soA.
+    // Apply forceValue to all structure-type particles
     size_t n = soA.position.size();
     for (size_t i = 0; i < n; i++) {
         if (soA.type[i] == ParticleType::STRUCTURE) {
-            // Add force to forceAccum
             soA.forceAccum[i] += forceValue;
         }
     }

@@ -7,7 +7,7 @@
 #include "GUI.hpp"
 
 double getCurrentTime() {
-    return (double)SDL_GetPerformanceCounter() / (double)SDL_GetPerformanceFrequency();
+    return (double)SDL_GetPerformanceCounter()/ (double)SDL_GetPerformanceFrequency();
 }
 
 int main(int argc, char* argv[]) {
@@ -19,8 +19,13 @@ int main(int argc, char* argv[]) {
     SDL_GL_SetAttribute(SDL_GL_CONTEXT_MINOR_VERSION, 3);
     SDL_GL_SetAttribute(SDL_GL_CONTEXT_PROFILE_MASK, SDL_GL_CONTEXT_PROFILE_CORE);
 
-    SDL_Window* window = SDL_CreateWindow("Balls Simulation", SDL_WINDOWPOS_CENTERED,
-                          SDL_WINDOWPOS_CENTERED, 1600, 900, SDL_WINDOW_OPENGL);
+    SDL_Window* window = SDL_CreateWindow(
+        "Balls Simulation",
+        SDL_WINDOWPOS_CENTERED,
+        SDL_WINDOWPOS_CENTERED,
+        1600, 900,
+        SDL_WINDOW_OPENGL
+    );
     if (!window) {
         std::cerr << "SDL_CreateWindow Error: " << SDL_GetError() << std::endl;
         SDL_Quit();
@@ -68,8 +73,7 @@ int main(int argc, char* argv[]) {
             gui.clearResetFlag();
             simulation.startAsyncUpdates();
         }
-        
-        // New: Check if "Drop Structure" was requested.
+
         if (gui.isDropStructureRequested()) {
             simulation.dropStructure();
             gui.clearDropStructureFlag();
@@ -79,8 +83,8 @@ int main(int argc, char* argv[]) {
         simulation.setDampingCoefficient(gui.getDampingCoefficient());
         simulation.setImpulseScaling(gui.getImpulseScaling());
 
-        int numParticles = simulation.getSoA().position.size();
-        int numSprings = simulation.getSpringCount();  // New getter for springs
+        int numParticles = (int)simulation.getSoA().position.size();
+        int numSprings   = (int)simulation.getSpringCount();
 
         gui.newFrame();
         gui.draw();
@@ -90,16 +94,16 @@ int main(int argc, char* argv[]) {
         gui.render();
         SDL_GL_SwapWindow(window);
         double renderEnd = getCurrentTime();
-        double renderFrameTime = renderEnd - renderStart;
+        double renderFrameTime = (renderEnd - renderStart);
 
         double frameEnd = getCurrentTime();
-        double totalFrameTime = frameEnd - frameStart;
-        double fps = (totalFrameTime > 0.0) ? 1.0 / totalFrameTime : 0.0;
+        double totalFrameTime = (frameEnd - frameStart);
+        double fps = (totalFrameTime>0.0)? (1.0/totalFrameTime) : 0.0;
 
-        float physicsStepTime = simulation.lastPhysicsUpdateTime.load();
+        double physicsStepTime = simulation.lastPhysicsUpdateTime.load();
         int effectiveSteps = simulation.effectiveStepsPerSecond.load();
 
-        gui.setPerformanceMetrics(physicsStepTime,
+        gui.setPerformanceMetrics((float)physicsStepTime,
                                   (float)renderFrameTime,
                                   (float)totalFrameTime,
                                   (float)fps,

@@ -8,17 +8,15 @@
 // Forward declaration of SoA struct:
 struct ParticleSoA;
 
-// This Link class is used by Simulation to apply an external force
-// (like "gravity") to all STRUCTURE particles in the SoA.
+// Applies e.g. gravity (a dvec3 force) to all structure particles:
 class Link {
 public:
-    // Rewritten constructor to accept a reference to ParticleSoA instead of PMat* vector.
-    Link(ParticleSoA& soA, const glm::vec3& force);
+    Link(ParticleSoA& soA, const glm::dvec3& force);
     void applyGravity();
 
 private:
-    ParticleSoA& soA;    // reference to the SoA storing all particles
-    glm::vec3 forceValue;
+    ParticleSoA& soA;
+    glm::dvec3 forceValue;
 };
 
 #endif // LINK_HPP
