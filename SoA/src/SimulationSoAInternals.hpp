@@ -7,7 +7,6 @@
 #include <cstdlib>
 #include <new>
 
-// Custom aligned allocator (using posix_memalign)
 // Note: On Windows, you’d substitute with _aligned_malloc/_aligned_free.
 template <typename T, std::size_t Alignment>
 struct AlignedAllocator {
@@ -18,7 +17,6 @@ struct AlignedAllocator {
     template <typename U>
     AlignedAllocator(const AlignedAllocator<U, Alignment>&) noexcept {}
 
-    // REQUIRED: Implement the rebind template.
     template <typename U>
     struct rebind { 
         using other = AlignedAllocator<U, Alignment>; 
@@ -42,7 +40,6 @@ bool operator==(const AlignedAllocator<T, Alignment>&, const AlignedAllocator<U,
 template <typename T, typename U, std::size_t Alignment>
 bool operator!=(const AlignedAllocator<T, Alignment>&, const AlignedAllocator<U, Alignment>&) { return false; }
 
-// The main SoA struct – note that glm::vec3 is now stored in aligned vectors.
 struct ParticleSoA {
     std::vector<glm::vec3, AlignedAllocator<glm::vec3, 16>> position;
     std::vector<glm::vec3, AlignedAllocator<glm::vec3, 16>> velocity;

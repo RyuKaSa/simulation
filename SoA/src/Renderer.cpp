@@ -416,7 +416,7 @@ void Renderer::adjustCameraToFit(const Simulation& simulation) {
     float newDistance = glm::clamp(maxExtent * 0.8f, minCameraDistance, maxCameraDistance);
     targetDistance = glm::mix(targetDistance, newDistance, lerpFactor);
     targetCenter = center;
-    targetPosition = glm::vec3(maxPos.x, maxPos.y, center.z + targetDistance);
+    targetPosition = glm::vec3(maxPos.x, maxPos.y + 10.0f, center.z + targetDistance);
 }
 
 void Renderer::cameraReset(const Simulation& simulation) {

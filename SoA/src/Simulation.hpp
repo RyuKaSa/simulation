@@ -39,6 +39,8 @@ public:
     void createHexGrid(int hexCount, float hexagonSize, float springRestLength, 
                        bool bothEndsStatic, float orientationDegrees);
     void createSquareGridWithDiagonals(int gridSize, float spacing, float springRestLength);
+    void createMultiLayerHexGrid(int numHexagons, float hexagonSize, float springRestLength,
+                                        bool bothEndsStatic, float orientationDegrees, float layerHeight, int nLayers);
 
     // Gravity link usage
     void applyGravityLink();
@@ -96,6 +98,13 @@ private:
     std::vector<std::vector<glm::vec3>> hexagonVertexLists;
     std::vector<std::vector<int>> hexagonIndices;
     std::vector<HexTriangle> hexTriangles;
+
+    glm::mat4 createRotationMatrix(float orientationDegrees);
+    void generateHexagonCells(int numHexagons, float hexagonSize, const glm::mat4& rotationMatrix,
+                              std::vector<glm::vec3>& uniquePositions, 
+                              std::set<std::pair<int,int>>& edgeSet);
+    void assignUniquePositionsToSoA(const std::vector<glm::vec3>& uniquePositions, bool bothEndsStatic);
+    void createSpringsFromEdgeSet(const std::set<std::pair<int,int>>& edgeSet, float springRestLength);
 };
 
 #endif
