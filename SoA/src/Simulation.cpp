@@ -110,12 +110,12 @@ Simulation::~Simulation() {
 
 void Simulation::Initialization() {
     // Just an example usage
-    createMultiLayerHexGrid(60, 1.0, 1.0, true, 90.0, 1.0, 5);
+    createMultiLayerHexGrid(2, 1.0, 1.0, true, 90.0, 1.0, 2);
 
     if (gravityLink) {
         delete gravityLink;
     }
-    gravityLink = new Link(soA, glm::dvec3(0.0, -9.81, 0.0));
+    gravityLink = new Link(soA, glm::dvec3(0.0, 0.0, 0.0));
     addStaticCubeUnderGrid();
 }
 
@@ -397,9 +397,10 @@ void Simulation::createHexGrid(int numHexagons,
     hexagonIndices.clear();
     hexTriangles.clear();
 
-    glm::mat4 rotationMatrix = createRotationMatrix(orientationDegrees);
+    // Use double-based rotation matrix:
+    glm::dmat4 rotationMatrix = createRotationMatrix(orientationDegrees);
 
-    std::vector<glm::vec3> uniquePositions;
+    std::vector<glm::dvec3> uniquePositions;
     std::set<std::pair<int,int>> edgeSet;
     generateHexagonCells(numHexagons, hexagonSize, rotationMatrix,
                          uniquePositions, edgeSet);
@@ -408,29 +409,13 @@ void Simulation::createHexGrid(int numHexagons,
     // updateHexTriangles();
 }
 
-static bool approxEqualVec3_f(const glm::vec3& a, const glm::vec3& b,
-                              float epsilon=0.001f)
-{
-    return (fabs(a.x-b.x)<epsilon && fabs(a.y-b.y)<epsilon && fabs(a.z-b.z)<epsilon);
-}
-static int findApproxIndex_f(const std::vector<glm::vec3>& arr,
-                             const glm::vec3& target, float eps=0.001f)
-{
-    for (size_t i=0; i<arr.size(); i++) {
-        if (approxEqualVec3_f(arr[i], target, eps)) {
-            return (int)i;
-        }
-    }
-    return -1;
-}
-
 void Simulation::createMultiLayerHexGrid(int numHexagons,
-                                         double hexagonSize,
-                                         double springRestLength,
-                                         bool bothEndsStatic,
-                                         double orientationDegrees,
-                                         double layerHeight,
-                                         int nLayers)
+                                           double hexagonSize,
+                                           double springRestLength,
+                                           bool bothEndsStatic,
+                                           double orientationDegrees,
+                                           double layerHeight,
+                                           int nLayers)
 {
     clearSimulation();
     springs.clear();
@@ -438,39 +423,38 @@ void Simulation::createMultiLayerHexGrid(int numHexagons,
     hexagonIndices.clear();
     hexTriangles.clear();
 
-    glm::mat4 rotationMatrix = createRotationMatrix(orientationDegrees);
+    glm::dmat4 rotationMatrix = createRotationMatrix(orientationDegrees);
 
-    std::vector<glm::vec3> baseUniquePositions;
+    std::vector<glm::dvec3> baseUniquePositions;
     std::set<std::pair<int,int>> edgeSet;
     generateHexagonCells(numHexagons, hexagonSize, rotationMatrix,
                          baseUniquePositions, edgeSet);
     size_t baseCount = baseUniquePositions.size();
 
-    glm::vec3 minPos = baseUniquePositions[0];
-    glm::vec3 maxPos = baseUniquePositions[0];
-    for (size_t i=1; i<baseCount; i++) {
+    glm::dvec3 minPos = baseUniquePositions[0];
+    glm::dvec3 maxPos = baseUniquePositions[0];
+    for (size_t i = 1; i < baseCount; i++) {
         minPos = glm::min(minPos, baseUniquePositions[i]);
         maxPos = glm::max(maxPos, baseUniquePositions[i]);
     }
-    glm::vec3 diffs = maxPos - minPos;
-    glm::vec3 verticalAxis(0.0f);
-    if (diffs.x <= diffs.y && diffs.x<=diffs.z) {
-        verticalAxis = glm::vec3(1,0,0);
-    } else if (diffs.y<=diffs.x && diffs.y<=diffs.z) {
-        verticalAxis = glm::vec3(0,1,0);
+    glm::dvec3 diffs = maxPos - minPos;
+    glm::dvec3 verticalAxis(0.0);
+    if (diffs.x <= diffs.y && diffs.x <= diffs.z) {
+        verticalAxis = glm::dvec3(1.0, 0.0, 0.0);
+    } else if (diffs.y <= diffs.x && diffs.y <= diffs.z) {
+        verticalAxis = glm::dvec3(0.0, 1.0, 0.0);
     } else {
-        verticalAxis = glm::vec3(0,0,1);
+        verticalAxis = glm::dvec3(0.0, 0.0, 1.0);
     }
-    glm::vec3 arbitrary;
-    if (fabs(verticalAxis.z)<0.9f) {
-        arbitrary = glm::vec3(0,0,1);
-    } else {
-        arbitrary = glm::vec3(0,1,0);
-    }
-    glm::vec3 inPlaneAxis1 = glm::normalize(glm::cross(verticalAxis, arbitrary));
-    glm::vec3 inPlaneAxis2 = glm::normalize(glm::cross(verticalAxis, inPlaneAxis1));
+    glm::dvec3 arbitrary;
+    if (fabs(verticalAxis.z) < 0.9)
+        arbitrary = glm::dvec3(0.0, 0.0, 1.0);
+    else
+        arbitrary = glm::dvec3(0.0, 1.0, 0.0);
+    glm::dvec3 inPlaneAxis1 = glm::normalize(glm::cross(verticalAxis, arbitrary));
+    glm::dvec3 inPlaneAxis2 = glm::normalize(glm::cross(verticalAxis, inPlaneAxis1));
 
-    size_t totalParticles = nLayers*baseCount;
+    size_t totalParticles = nLayers * baseCount;
     soA.position.resize(totalParticles);
     soA.velocity.resize(totalParticles, glm::dvec3(0.0));
     soA.forceAccum.resize(totalParticles, glm::dvec3(0.0));
@@ -480,88 +464,85 @@ void Simulation::createMultiLayerHexGrid(int numHexagons,
     soA.color.resize(totalParticles, glm::dvec3(1.0));
     soA.dimensions.resize(totalParticles, glm::dvec3(2.0));
 
-    for (int layer=0; layer<nLayers; layer++) {
-        for (size_t i=0; i<baseCount; i++) {
-            size_t idx = layer*baseCount + i;
-            glm::vec3 pos = baseUniquePositions[i];
-            pos += verticalAxis*(float)(layerHeight*layer);
-            if (layer%2==1) {
-                pos += inPlaneAxis2*(float)hexagonSize;
+    for (int layer = 0; layer < nLayers; layer++) {
+        for (size_t i = 0; i < baseCount; i++) {
+            size_t idx = layer * baseCount + i;
+            glm::dvec3 pos = baseUniquePositions[i];
+            pos += verticalAxis * (layerHeight * layer);
+            if (layer % 2 == 1) {
+                pos += inPlaneAxis2 * hexagonSize;
             }
-            soA.position[idx] = glm::dvec3(pos.x, pos.y, pos.z);
+            soA.position[idx] = pos;
         }
     }
 
-    // Possibly color the hexes
     if (!hexagonVertexLists.empty()) {
-        for (int layer=0; layer<nLayers; layer++) {
+        for (int layer = 0; layer < nLayers; layer++) {
             for (const auto &hex : hexagonVertexLists) {
-                glm::vec3 center(0.0f);
+                glm::dvec3 center(0.0);
                 for (auto &v : hex) {
                     center += v;
                 }
-                center /= (float)hex.size();
-                std::vector<std::pair<float, glm::vec3>> angleVerts;
+                center /= static_cast<double>(hex.size());
+                std::vector<std::pair<double, glm::dvec3>> angleVerts;
                 for (auto &v : hex) {
-                    float a = atan2(v.y-center.y, v.x-center.x);
-                    angleVerts.push_back({a,v});
+                    double a = atan2(v.y - center.y, v.x - center.x);
+                    angleVerts.push_back({a, v});
                 }
                 std::sort(angleVerts.begin(), angleVerts.end(),
-                          [](auto &A, auto &B){
-                              return A.first>B.first;
+                          [](const auto &A, const auto &B) {
+                              return A.first > B.first;
                           });
-                for (size_t localIdx=0; localIdx<angleVerts.size(); localIdx++) {
-                    glm::vec3 vertex = angleVerts[localIdx].second;
-                    int baseIndex = findApproxIndex_f(baseUniquePositions, vertex);
-                    if (baseIndex!=-1) {
-                        size_t globalIdx = layer*baseCount+baseIndex;
-                        if (localIdx%2==0) {
-                            soA.color[globalIdx] = glm::dvec3(1.0,0.0,0.0);
+                for (size_t localIdx = 0; localIdx < angleVerts.size(); localIdx++) {
+                    glm::dvec3 vertex = angleVerts[localIdx].second;
+                    int baseIndex = findApproxVertexIndex(baseUniquePositions, vertex);
+                    if (baseIndex != -1) {
+                        size_t globalIdx = layer * baseCount + baseIndex;
+                        if (localIdx % 2 == 0) {
+                            soA.color[globalIdx] = glm::dvec3(1.0, 0.0, 0.0);
                         } else {
-                            soA.color[globalIdx] = glm::dvec3(0.0,1.0,0.0);
+                            soA.color[globalIdx] = glm::dvec3(0.0, 1.0, 0.0);
                         }
                     }
                 }
             }
         }
     } else {
-        for (size_t i=0; i<totalParticles; i++) {
-            if (i%2==0) {
-                soA.color[i] = glm::dvec3(1.0,0.0,0.0);
+        for (size_t i = 0; i < totalParticles; i++) {
+            if (i % 2 == 0) {
+                soA.color[i] = glm::dvec3(1.0, 0.0, 0.0);
             } else {
-                soA.color[i] = glm::dvec3(0.0,1.0,0.0);
+                soA.color[i] = glm::dvec3(0.0, 1.0, 0.0);
             }
         }
     }
 
-    // Mark edges as static if required
-    glm::vec3 globalX(1,0,0);
-    glm::vec3 horizontalAxis = globalX - (glm::dot(globalX, verticalAxis)*verticalAxis);
+    glm::dvec3 globalX(1.0, 0.0, 0.0);
+    glm::dvec3 horizontalAxis = globalX - (glm::dot(globalX, verticalAxis) * verticalAxis);
     double eps = 0.0001;
-    if (glm::length(horizontalAxis)<(float)eps) {
-        horizontalAxis = glm::vec3(0,1,0)
-                         -(glm::dot(glm::vec3(0,1,0), verticalAxis)*verticalAxis);
+    if (glm::length(horizontalAxis) < eps) {
+        horizontalAxis = glm::dvec3(0.0, 1.0, 0.0) - (glm::dot(glm::dvec3(0.0, 1.0, 0.0), verticalAxis) * verticalAxis);
     }
     horizontalAxis = glm::normalize(horizontalAxis);
     double edgeTolerance = 0.5;
 
-    for (int layer=0; layer<nLayers; layer++) {
-        size_t layerStart = layer*baseCount;
-        size_t layerEnd   = layerStart+baseCount;
+    for (int layer = 0; layer < nLayers; layer++) {
+        size_t layerStart = layer * baseCount;
+        size_t layerEnd   = layerStart + baseCount;
         double minProj = 1e9, maxProj = -1e9;
-        for (size_t i=layerStart; i<layerEnd; i++) {
+        for (size_t i = layerStart; i < layerEnd; i++) {
             glm::dvec3 pp = soA.position[i];
-            double proj = glm::dot(pp, glm::dvec3(horizontalAxis.x,horizontalAxis.y,horizontalAxis.z));
-            if (proj<minProj) minProj=proj;
-            if (proj>maxProj) maxProj=proj;
+            double proj = glm::dot(pp, horizontalAxis);
+            if (proj < minProj) minProj = proj;
+            if (proj > maxProj) maxProj = proj;
         }
-        for (size_t i=layerStart; i<layerEnd; i++) {
+        for (size_t i = layerStart; i < layerEnd; i++) {
             glm::dvec3 pp = soA.position[i];
-            double proj = glm::dot(pp, glm::dvec3(horizontalAxis.x,horizontalAxis.y,horizontalAxis.z));
-            if (fabs(proj-minProj)<edgeTolerance) {
+            double proj = glm::dot(pp, horizontalAxis);
+            if (fabs(proj - minProj) < edgeTolerance) {
                 soA.isStatic[i] = true;
             }
-            if (bothEndsStatic && fabs(proj-maxProj)<edgeTolerance) {
+            if (bothEndsStatic && fabs(proj - maxProj) < edgeTolerance) {
                 soA.isStatic[i] = true;
             }
         }
@@ -571,13 +552,13 @@ void Simulation::createMultiLayerHexGrid(int numHexagons,
         for (const auto &edge : edgeSet) {
             int i1 = layer * baseCount + edge.first;
             int i2 = layer * baseCount + edge.second;
-            float dist = glm::distance(soA.position[i1], soA.position[i2]);
+            double dist = glm::distance(soA.position[i1], soA.position[i2]);
             SpringData sp;
             sp.p1Index = i1;
             sp.p2Index = i2;
             sp.restLength = dist * springRestLength;
             sp.springConstant = springConstant;
-            sp.damping = 0.5f;
+            sp.damping = 0.5;
             springs.push_back(sp);
         }
     }
@@ -587,22 +568,22 @@ void Simulation::createMultiLayerHexGrid(int numHexagons,
         for (int layer = 0; layer < nLayers - 1; layer++) {
             for (const auto &hex : hexagonVertexLists) {
                 std::vector<size_t> lowerGreenIndices;
-                std::vector<glm::vec3> lowerGreenPositions;
+                std::vector<glm::dvec3> lowerGreenPositions;
                 std::vector<size_t> upperRedIndices;
-                std::vector<glm::vec3> upperRedPositions;
+                std::vector<glm::dvec3> upperRedPositions;
                 
-                for (const glm::vec3 &baseVertex : hex) {
+                for (const glm::dvec3 &baseVertex : hex) {
                     int baseIndex = findApproxVertexIndex(baseUniquePositions, baseVertex);
                     if (baseIndex == -1)
                         continue;
                     size_t lowerGlobalIndex = layer * baseCount + baseIndex;
                     size_t upperGlobalIndex = (layer + 1) * baseCount + baseIndex;
                     
-                    if (approxEqualVec3(soA.color[lowerGlobalIndex], glm::vec3(0.0f, 1.0f, 0.0f))) {
+                    if (approxEqualVec3(soA.color[lowerGlobalIndex], glm::dvec3(0.0, 1.0, 0.0))) {
                         lowerGreenIndices.push_back(lowerGlobalIndex);
                         lowerGreenPositions.push_back(soA.position[lowerGlobalIndex]);
                     }
-                    if (approxEqualVec3(soA.color[upperGlobalIndex], glm::vec3(1.0f, 0.0f, 0.0f))) {
+                    if (approxEqualVec3(soA.color[upperGlobalIndex], glm::dvec3(1.0, 0.0, 0.0))) {
                         upperRedIndices.push_back(upperGlobalIndex);
                         upperRedPositions.push_back(soA.position[upperGlobalIndex]);
                     }
@@ -610,15 +591,15 @@ void Simulation::createMultiLayerHexGrid(int numHexagons,
                 
                 // --- Bottom-up pass ---
                 if (!lowerGreenPositions.empty() && !upperRedPositions.empty()) {
-                    glm::vec3 avgLowerGreen(0.0f);
+                    glm::dvec3 avgLowerGreen(0.0);
                     for (const auto &p : lowerGreenPositions)
                         avgLowerGreen += p;
-                    avgLowerGreen /= static_cast<float>(lowerGreenPositions.size());
+                    avgLowerGreen /= static_cast<double>(lowerGreenPositions.size());
                     
                     size_t chosenUpperRed = 0;
-                    float bestDistance = std::numeric_limits<float>::max();
+                    double bestDistance = std::numeric_limits<double>::max();
                     for (size_t i = 0; i < upperRedPositions.size(); i++) {
-                        float d = glm::distance(upperRedPositions[i], avgLowerGreen);
+                        double d = glm::distance(upperRedPositions[i], avgLowerGreen);
                         if (d < bestDistance) {
                             bestDistance = d;
                             chosenUpperRed = upperRedIndices[i];
@@ -629,25 +610,25 @@ void Simulation::createMultiLayerHexGrid(int numHexagons,
                         SpringData sp;
                         sp.p1Index = lowerGreenIndices[i];
                         sp.p2Index = chosenUpperRed;
-                        float dist = glm::distance(soA.position[sp.p1Index], soA.position[sp.p2Index]);
+                        double dist = glm::distance(soA.position[sp.p1Index], soA.position[sp.p2Index]);
                         sp.restLength = dist * springRestLength;
                         sp.springConstant = springConstant;
-                        sp.damping = 0.5f;
+                        sp.damping = 0.5;
                         springs.push_back(sp);
                     }
                 }
                 
                 // --- Top-down pass ---
                 if (!lowerGreenPositions.empty() && !upperRedPositions.empty()) {
-                    glm::vec3 avgUpperRed(0.0f);
+                    glm::dvec3 avgUpperRed(0.0);
                     for (const auto &p : upperRedPositions)
                         avgUpperRed += p;
-                    avgUpperRed /= static_cast<float>(upperRedPositions.size());
+                    avgUpperRed /= static_cast<double>(upperRedPositions.size());
                     
                     size_t chosenLowerGreen = 0;
-                    float bestDistance = std::numeric_limits<float>::max();
+                    double bestDistance = std::numeric_limits<double>::max();
                     for (size_t i = 0; i < lowerGreenPositions.size(); i++) {
-                        float d = glm::distance(lowerGreenPositions[i], avgUpperRed);
+                        double d = glm::distance(lowerGreenPositions[i], avgUpperRed);
                         if (d < bestDistance) {
                             bestDistance = d;
                             chosenLowerGreen = lowerGreenIndices[i];
@@ -658,10 +639,10 @@ void Simulation::createMultiLayerHexGrid(int numHexagons,
                         SpringData sp;
                         sp.p1Index = chosenLowerGreen;
                         sp.p2Index = upperRedIndices[i];
-                        float dist = glm::distance(soA.position[sp.p1Index], soA.position[sp.p2Index]);
+                        double dist = glm::distance(soA.position[sp.p1Index], soA.position[sp.p2Index]);
                         sp.restLength = dist * springRestLength;
                         sp.springConstant = springConstant;
-                        sp.damping = 0.5f;
+                        sp.damping = 0.5;
                         springs.push_back(sp);
                     }
                 }
@@ -670,23 +651,36 @@ void Simulation::createMultiLayerHexGrid(int numHexagons,
     }
 }
 
-glm::mat4 Simulation::createRotationMatrix(double orientationDegrees) {
-    return glm::rotate(glm::mat4(1.0f),
-                       (float)glm::radians(orientationDegrees),
-                       glm::vec3(1.0f,0.0f,0.0f));
+bool Simulation::approxEqualVec3(const glm::dvec3& a, const glm::dvec3& b, double epsilon) {
+    return (fabs(a.x - b.x) < epsilon) &&
+           (fabs(a.y - b.y) < epsilon) &&
+           (fabs(a.z - b.z) < epsilon);
+}
+
+int Simulation::findApproxVertexIndex(const std::vector<glm::dvec3>& vertices, const glm::dvec3& target, double epsilon) {
+    for (size_t i = 0; i < vertices.size(); ++i) {
+        if (approxEqualVec3(vertices[i], target, epsilon)) {
+            return static_cast<int>(i);
+        }
+    }
+    return -1; // Not found.
+}
+
+glm::dmat4 Simulation::createRotationMatrix(double orientationDegrees) {
+    return glm::rotate(glm::dmat4(1.0), glm::radians(orientationDegrees), glm::dvec3(1.0, 0.0, 0.0));
 }
 
 void Simulation::generateHexagonCells(int numHexagons,
                                       double hexagonSize,
-                                      const glm::mat4& rotationMatrix,
-                                      std::vector<glm::vec3>& uniquePositions,
+                                      const glm::dmat4& rotationMatrix,
+                                      std::vector<glm::dvec3>& uniquePositions,
                                       std::set<std::pair<int,int>>& edgeSet)
 {
-    auto findOrAdd = [&](const glm::vec3 &pos)->int {
-        float eps = 0.0001f;
-        for (int i=0; i<(int)uniquePositions.size(); i++) {
-            glm::vec3 diff = uniquePositions[i]-pos;
-            if (glm::length(diff)<eps) {
+    auto findOrAdd = [&](const glm::dvec3 &pos) -> int {
+        double eps = 0.0001;
+        for (int i = 0; i < (int)uniquePositions.size(); i++) {
+            glm::dvec3 diff = uniquePositions[i] - pos;
+            if (glm::length(diff) < eps) {
                 return i;
             }
         }
@@ -694,44 +688,43 @@ void Simulation::generateHexagonCells(int numHexagons,
         return (int)uniquePositions.size()-1;
     };
 
-    for (int r=0; r<numHexagons; r++) {
-        for (int c=0; c<numHexagons; c++) {
-            glm::vec3 center;
-            center.x = sqrt(3.0f)*(float)hexagonSize*(c+(r%2)*0.5f);
-            center.y = 1.5f*(float)hexagonSize*r;
-            center.z = 0.f;
-            center = glm::vec3(rotationMatrix*glm::vec4(center,1.f));
-            std::vector<glm::vec3> currVerts;
+    for (int r = 0; r < numHexagons; r++) {
+        for (int c = 0; c < numHexagons; c++) {
+            glm::dvec3 center;
+            center.x = sqrt(3.0) * hexagonSize * (c + (r % 2) * 0.5);
+            center.y = 1.5 * hexagonSize * r;
+            center.z = 0.0;
+            center = glm::dvec3(rotationMatrix * glm::dvec4(center, 1.0));
+            std::vector<glm::dvec3> currVerts;
             std::vector<int> indices;
             currVerts.reserve(6);
             indices.reserve(6);
-            for (int i=0; i<6; i++) {
-                float ang = glm::radians(60.f*i+90.f);
-                glm::vec3 offset(
-                    (float)hexagonSize* cos(ang),
-                    (float)hexagonSize* sin(ang),
-                    0.f
+            for (int i = 0; i < 6; i++) {
+                double ang = glm::radians(60.0 * i + 90.0);
+                glm::dvec3 offset(
+                    hexagonSize * cos(ang),
+                    hexagonSize * sin(ang),
+                    0.0
                 );
-                offset = glm::vec3(rotationMatrix*glm::vec4(offset,0.f));
-                glm::vec3 vertex = center + offset;
+                offset = glm::dvec3(rotationMatrix * glm::dvec4(offset, 0.0));
+                glm::dvec3 vertex = center + offset;
                 currVerts.push_back(vertex);
                 indices.push_back(findOrAdd(vertex));
             }
             hexagonVertexLists.push_back(currVerts);
             hexagonIndices.push_back(indices);
-
-            for (int i=0; i<6; i++) {
+            for (int i = 0; i < 6; i++) {
                 int idx1 = indices[i];
-                int idx2 = indices[(i+1)%6];
-                if (idx1>idx2) std::swap(idx1, idx2);
-                edgeSet.insert({idx1, idx2});
+                int idx2 = indices[(i + 1) % 6];
+                if (idx1 > idx2) std::swap(idx1, idx2);
+                edgeSet.insert({ idx1, idx2 });
             }
         }
     }
 }
 
-void Simulation::assignUniquePositionsToSoA(const std::vector<glm::vec3>& uniquePositions,
-                                            bool bothEndsStatic)
+void Simulation::assignUniquePositionsToSoA(const std::vector<glm::dvec3>& uniquePositions,
+                                              bool bothEndsStatic)
 {
     size_t n = uniquePositions.size();
     soA.position.resize(n);
@@ -745,18 +738,19 @@ void Simulation::assignUniquePositionsToSoA(const std::vector<glm::vec3>& unique
 
     double minX = 1e9, maxX = -1e9;
     for (auto &p : uniquePositions) {
-        if (p.x< (float)minX) minX = p.x;
-        if (p.x> (float)maxX) maxX = p.x;
+        if (p.x < minX) minX = p.x;
+        if (p.x > maxX) maxX = p.x;
     }
-    for (size_t i=0; i<n; i++) {
-        const glm::vec3 &v = uniquePositions[i];
-        soA.position[i] = glm::dvec3(v.x,v.y,v.z);
+    for (size_t i = 0; i < n; i++) {
+        // Use the proper type here:
+        const glm::dvec3 &v = uniquePositions[i];
+        soA.position[i] = v;
     }
-    for (size_t i=0; i<n; i++) {
+    for (size_t i = 0; i < n; i++) {
         double px = soA.position[i].x;
-        bool leftStatic  = (px<= minX+0.001);
-        bool rightStatic = (bothEndsStatic && px>= maxX-0.001);
-        soA.isStatic[i] = (leftStatic||rightStatic);
+        bool leftStatic  = (px <= minX + 0.001);
+        bool rightStatic = (bothEndsStatic && px >= maxX - 0.001);
+        soA.isStatic[i] = (leftStatic || rightStatic);
     }
 }
 

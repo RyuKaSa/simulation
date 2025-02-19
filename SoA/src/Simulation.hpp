@@ -41,7 +41,7 @@ public:
     void createSquareGridWithDiagonals(int gridSize, double spacing, double springRestLength);
     void createMultiLayerHexGrid(int numHexagons, double hexagonSize, double springRestLength,
                                  bool bothEndsStatic, double orientationDegrees, double layerHeight, int nLayers);
-
+    
     // Gravity link
     void applyGravityLink();
 
@@ -94,17 +94,24 @@ private:
     class ThreadPool;
     ThreadPool* threadPool = nullptr;
 
-    // For hex
-    std::vector<std::vector<glm::vec3>> hexagonVertexLists;
+    // For hex: use double-based vectors everywhere
+    std::vector<std::vector<glm::dvec3>> hexagonVertexLists;
     std::vector<std::vector<int>> hexagonIndices;
     std::vector<HexTriangle> hexTriangles;
 
-    glm::mat4 createRotationMatrix(double orientationDegrees);
-    void generateHexagonCells(int numHexagons, double hexagonSize, const glm::mat4& rotationMatrix,
-                              std::vector<glm::vec3>& uniquePositions,
+    // Change the rotation matrix function to return a double-based matrix.
+    glm::dmat4 createRotationMatrix(double orientationDegrees);
+
+    void generateHexagonCells(int numHexagons,
+                              double hexagonSize,
+                              const glm::dmat4& rotationMatrix,
+                              std::vector<glm::dvec3>& uniquePositions,
                               std::set<std::pair<int,int>>& edgeSet);
-    void assignUniquePositionsToSoA(const std::vector<glm::vec3>& uniquePositions, bool bothEndsStatic);
+    void assignUniquePositionsToSoA(const std::vector<glm::dvec3>& uniquePositions, bool bothEndsStatic);
     void createSpringsFromEdgeSet(const std::set<std::pair<int,int>>& edgeSet, double springRestLength);
+
+    bool approxEqualVec3(const glm::dvec3& a, const glm::dvec3& b, double epsilon = 0.00001);
+    int findApproxVertexIndex(const std::vector<glm::dvec3>& vertices, const glm::dvec3& target, double epsilon = 0.00001);
 };
 
 #endif
