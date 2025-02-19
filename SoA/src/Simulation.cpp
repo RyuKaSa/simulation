@@ -567,24 +567,107 @@ void Simulation::createMultiLayerHexGrid(int numHexagons,
         }
     }
 
-    // Intra-layer springs
-    for (int layer=0; layer<nLayers; layer++) {
-        for (auto &e : edgeSet) {
-            int i1 = layer*baseCount+ e.first;
-            int i2 = layer*baseCount+ e.second;
-            double dist = glm::distance(soA.position[i1], soA.position[i2]);
+    for (int layer = 0; layer < nLayers; layer++) {
+        for (const auto &edge : edgeSet) {
+            int i1 = layer * baseCount + edge.first;
+            int i2 = layer * baseCount + edge.second;
+            float dist = glm::distance(soA.position[i1], soA.position[i2]);
             SpringData sp;
             sp.p1Index = i1;
             sp.p2Index = i2;
-            sp.restLength = dist*springRestLength;
+            sp.restLength = dist * springRestLength;
             sp.springConstant = springConstant;
-            sp.damping = 0.5;
+            sp.damping = 0.5f;
             springs.push_back(sp);
         }
     }
 
-    // Inter-layer connections: omitted for brevity or keep as your code
-    // ...
+    // --- Inter-layer Springs ---
+    if (!hexagonVertexLists.empty()) {
+        for (int layer = 0; layer < nLayers - 1; layer++) {
+            for (const auto &hex : hexagonVertexLists) {
+                std::vector<size_t> lowerGreenIndices;
+                std::vector<glm::vec3> lowerGreenPositions;
+                std::vector<size_t> upperRedIndices;
+                std::vector<glm::vec3> upperRedPositions;
+                
+                for (const glm::vec3 &baseVertex : hex) {
+                    int baseIndex = findApproxVertexIndex(baseUniquePositions, baseVertex);
+                    if (baseIndex == -1)
+                        continue;
+                    size_t lowerGlobalIndex = layer * baseCount + baseIndex;
+                    size_t upperGlobalIndex = (layer + 1) * baseCount + baseIndex;
+                    
+                    if (approxEqualVec3(soA.color[lowerGlobalIndex], glm::vec3(0.0f, 1.0f, 0.0f))) {
+                        lowerGreenIndices.push_back(lowerGlobalIndex);
+                        lowerGreenPositions.push_back(soA.position[lowerGlobalIndex]);
+                    }
+                    if (approxEqualVec3(soA.color[upperGlobalIndex], glm::vec3(1.0f, 0.0f, 0.0f))) {
+                        upperRedIndices.push_back(upperGlobalIndex);
+                        upperRedPositions.push_back(soA.position[upperGlobalIndex]);
+                    }
+                }
+                
+                // --- Bottom-up pass ---
+                if (!lowerGreenPositions.empty() && !upperRedPositions.empty()) {
+                    glm::vec3 avgLowerGreen(0.0f);
+                    for (const auto &p : lowerGreenPositions)
+                        avgLowerGreen += p;
+                    avgLowerGreen /= static_cast<float>(lowerGreenPositions.size());
+                    
+                    size_t chosenUpperRed = 0;
+                    float bestDistance = std::numeric_limits<float>::max();
+                    for (size_t i = 0; i < upperRedPositions.size(); i++) {
+                        float d = glm::distance(upperRedPositions[i], avgLowerGreen);
+                        if (d < bestDistance) {
+                            bestDistance = d;
+                            chosenUpperRed = upperRedIndices[i];
+                        }
+                    }
+                    
+                    for (size_t i = 0; i < lowerGreenIndices.size(); i++) {
+                        SpringData sp;
+                        sp.p1Index = lowerGreenIndices[i];
+                        sp.p2Index = chosenUpperRed;
+                        float dist = glm::distance(soA.position[sp.p1Index], soA.position[sp.p2Index]);
+                        sp.restLength = dist * springRestLength;
+                        sp.springConstant = springConstant;
+                        sp.damping = 0.5f;
+                        springs.push_back(sp);
+                    }
+                }
+                
+                // --- Top-down pass ---
+                if (!lowerGreenPositions.empty() && !upperRedPositions.empty()) {
+                    glm::vec3 avgUpperRed(0.0f);
+                    for (const auto &p : upperRedPositions)
+                        avgUpperRed += p;
+                    avgUpperRed /= static_cast<float>(upperRedPositions.size());
+                    
+                    size_t chosenLowerGreen = 0;
+                    float bestDistance = std::numeric_limits<float>::max();
+                    for (size_t i = 0; i < lowerGreenPositions.size(); i++) {
+                        float d = glm::distance(lowerGreenPositions[i], avgUpperRed);
+                        if (d < bestDistance) {
+                            bestDistance = d;
+                            chosenLowerGreen = lowerGreenIndices[i];
+                        }
+                    }
+                    
+                    for (size_t i = 0; i < upperRedIndices.size(); i++) {
+                        SpringData sp;
+                        sp.p1Index = chosenLowerGreen;
+                        sp.p2Index = upperRedIndices[i];
+                        float dist = glm::distance(soA.position[sp.p1Index], soA.position[sp.p2Index]);
+                        sp.restLength = dist * springRestLength;
+                        sp.springConstant = springConstant;
+                        sp.damping = 0.5f;
+                        springs.push_back(sp);
+                    }
+                }
+            }
+        }
+    }
 }
 
 glm::mat4 Simulation::createRotationMatrix(double orientationDegrees) {
