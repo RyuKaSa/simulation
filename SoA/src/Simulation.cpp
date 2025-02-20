@@ -110,12 +110,12 @@ Simulation::~Simulation() {
 
 void Simulation::Initialization() {
     // Just an example usage
-    createMultiLayerHexGrid(2, 1.0, 1.0, true, 90.0, 1.0, 2);
+    createMultiLayerHexGrid(50, 1.0, 1.0, true, 90.0, 1.0, 3);
 
     if (gravityLink) {
         delete gravityLink;
     }
-    gravityLink = new Link(soA, glm::dvec3(0.0, 0.0, 0.0));
+    gravityLink = new Link(soA, glm::dvec3(0.0, -9.81, 0.0));
     addStaticCubeUnderGrid();
 }
 
@@ -334,7 +334,7 @@ void Simulation::addStaticCubeUnderGrid() {
     soA.position.push_back(cubePos);
     soA.velocity.push_back(glm::dvec3(0.0));
     soA.forceAccum.push_back(glm::dvec3(0.0));
-    soA.mass.push_back(1.0);
+    soA.mass.push_back(100.0);
     soA.type.push_back(ParticleType::EXTERNAL);
     soA.isStatic.push_back(true);
     soA.color.push_back(glm::dvec3(0.56,1.0,0.4));
@@ -458,7 +458,7 @@ void Simulation::createMultiLayerHexGrid(int numHexagons,
     soA.position.resize(totalParticles);
     soA.velocity.resize(totalParticles, glm::dvec3(0.0));
     soA.forceAccum.resize(totalParticles, glm::dvec3(0.0));
-    soA.mass.resize(totalParticles, 10.0);
+    soA.mass.resize(totalParticles, 1.0);
     soA.type.resize(totalParticles, ParticleType::STRUCTURE);
     soA.isStatic.resize(totalParticles, false);
     soA.color.resize(totalParticles, glm::dvec3(1.0));
@@ -583,12 +583,12 @@ void Simulation::createMultiLayerHexGrid(int numHexagons,
                     
                     // Convert color to float and compare as in Code 1.
                     if (approxEqualVec3(glm::vec3(soA.color[lowerGlobalIndex]),
-                                        glm::vec3(0.0f, 1.0f, 0.0f))) {
+                                        glm::vec3(1.0f, 0.0f, 0.0f))) {
                         lowerGreenIndices.push_back(lowerGlobalIndex);
                         lowerGreenPositions.push_back(glm::vec3(soA.position[lowerGlobalIndex]));
                     }
                     if (approxEqualVec3(glm::vec3(soA.color[upperGlobalIndex]),
-                                        glm::vec3(1.0f, 0.0f, 0.0f))) {
+                                        glm::vec3(0.0f, 1.0f, 0.0f))) {
                         upperRedIndices.push_back(upperGlobalIndex);
                         upperRedPositions.push_back(glm::vec3(soA.position[upperGlobalIndex]));
                     }
