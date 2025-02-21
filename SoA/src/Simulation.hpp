@@ -39,6 +39,7 @@ public:
     void createHexGrid(int hexCount, double hexagonSize, double springRestLength,
                        bool bothEndsStatic, double orientationDegrees);
     void createSquareGridWithDiagonals(int gridSize, double spacing, double springRestLength);
+    void createMultiLayerSquareGridWithDiagonals(int gridSize, int nLayers, double cellSize, double layerSpacing, double springRestLength);
     void createMultiLayerHexGrid(int numHexagons, double hexagonSize, double springRestLength,
                                  bool bothEndsStatic, double orientationDegrees, double layerHeight, int nLayers);
     

@@ -214,26 +214,26 @@ void Renderer::render(const Simulation& simulation) {
     renderHexTriangles(simulation, projection, view);
     renderBalls(simulation, projection, view);
 
-    std::cout << "Rendering complete 1" << std::endl;
+    // std::cout << "Rendering complete 1" << std::endl;
     renderExternalCubes(simulation, projection, view);
-    std::cout << "Rendering complete 2" << std::endl;
+    // std::cout << "Rendering complete 2" << std::endl;
 }
 
 void Renderer::renderExternalCubes(const Simulation& simulation,
                                    const glm::mat4& projection,
                                    const glm::mat4& view)
 {
-    std::cout << "Rendering external cubes START" << std::endl;
+    // std::cout << "Rendering external cubes START" << std::endl;
     
     // We'll do the minimal double->float conversion
     const ParticleSoA soa = simulation.getSoACopy();
-    std::cout << "after simulation.getSoA()" << std::endl;
+    // std::cout << "after simulation.getSoA()" << std::endl;
     std::vector<glm::vec3> positions, scales, colors;
-    std::cout << "after vector init" << std::endl;
+    // std::cout << "after vector init" << std::endl;
     positions.reserve(soa.position.size());
     scales.reserve(soa.dimensions.size());
     colors.reserve(soa.color.size());
-    std::cout << "after reserve" << std::endl;
+    // std::cout << "after reserve" << std::endl;
 
     for (size_t i = 0; i < soa.position.size(); i++) {
         if (soa.type[i] == ParticleType::EXTERNAL) {
@@ -270,10 +270,11 @@ void Renderer::renderExternalCubes(const Simulation& simulation,
         }
     }
 
-    std::cout << "colors.size() AFTER filling = " << colors.size() << std::endl;
-    std::cout << "after for loop" << std::endl;
+    // std::cout << "colors.size() AFTER filling = " << colors.size() << std::endl;
+    volatile size_t dummy = colors.size();
+    // std::cout << "after for loop" << std::endl;
     if (positions.empty()) return;
-    std::cout << "after if" << std::endl;
+    // std::cout << "after if" << std::endl;
 
     GLint prevPolygonMode;
     glGetIntegerv(GL_POLYGON_MODE, &prevPolygonMode);
@@ -281,14 +282,14 @@ void Renderer::renderExternalCubes(const Simulation& simulation,
     GLfloat prevLineWidth;
     glGetFloatv(GL_LINE_WIDTH, &prevLineWidth);
     glLineWidth(5.0f);
-    std::cout << "before cubeShader.use()" << std::endl;
+    // std::cout << "before cubeShader.use()" << std::endl;
 
     cubeShader.use();
-    std::cout << "after cubeShader.use()" << std::endl;
-    std::cout << "cubeShader is valid? " << &cubeShader << std::endl;
+    // std::cout << "after cubeShader.use()" << std::endl;
+    // std::cout << "cubeShader is valid? " << &cubeShader << std::endl;
 
     for (size_t i = 0; i < positions.size(); i++) {
-        std::cout << "in for loop" << std::endl;
+        // std::cout << "in for loop" << std::endl;
         glm::mat4 model(1.0f);
         model = glm::translate(model, positions[i]);
         float s = scales[i].x;
@@ -297,43 +298,43 @@ void Renderer::renderExternalCubes(const Simulation& simulation,
             return;
         }
         model = glm::scale(model, glm::vec3(s));
-        std::cout << "after model" << std::endl;
+        // std::cout << "after model" << std::endl;
 
-        std::cout << "scales.size() = " << scales.size() << ", i = " << i << std::endl;
+        // std::cout << "scales.size() = " << scales.size() << ", i = " << i << std::endl;
         if (i >= scales.size()) {
             std::cerr << "ERROR: Index out of bounds in scales!" << std::endl;
             return;
         }
 
         glm::mat4 mvp = projection * view * model;
-        std::cout << "after mvp" << std::endl;
+        // std::cout << "after mvp" << std::endl;
         cubeShader.setUniform("uMVP", mvp);
-        std::cout << "after setUniform mvp" << std::endl;
-        std::cout << "colors.size() = " << colors.size() << std::endl;
+        // std::cout << "after setUniform mvp" << std::endl;
+        // std::cout << "colors.size() = " << colors.size() << std::endl;
         if (colors.empty()) {
             std::cerr << "ERROR: colors vector is empty!" << std::endl;
             return;
         }
-        std::cout << "Color: " << colors[i].r << ", " << colors[i].g << ", " << colors[i].b << std::endl;
+        // std::cout << "Color: " << colors[i].r << ", " << colors[i].g << ", " << colors[i].b << std::endl;
         if (std::isnan(colors[i].r) || std::isnan(colors[i].g) || std::isnan(colors[i].b) ||
             std::isinf(colors[i].r) || std::isinf(colors[i].g) || std::isinf(colors[i].b)) {
             std::cerr << "ERROR: Invalid color values!" << std::endl;
             return;
         }
         cubeShader.setUniform("uColor", colors[i]);
-        std::cout << "after setUniform color" << std::endl;
+        // std::cout << "after setUniform color" << std::endl;
 
         glBindVertexArray(cubeVAO);
         glDrawElements(GL_LINES, 24, GL_UNSIGNED_INT, 0);
         glBindVertexArray(0);
     }
-    std::cout << "after for loop" << std::endl;
+    // std::cout << "after for loop" << std::endl;
 
     glPolygonMode(GL_FRONT_AND_BACK, prevPolygonMode);
     glLineWidth(prevLineWidth);
 
     ballShader.use();
-    std::cout << "Rendering external cubes END" << std::endl;
+    // std::cout << "Rendering external cubes END" << std::endl;
 }
 
 void Renderer::renderBalls(const Simulation& simulation,
