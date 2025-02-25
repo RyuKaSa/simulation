@@ -81,7 +81,8 @@ void Simulation::createSquareGridWithDiagonals(int gridSize, double cellSize, do
     soA.position.resize(numParticles);
     soA.velocity.resize(numParticles, glm::dvec3(0.0));
     soA.forceAccum.resize(numParticles, glm::dvec3(0.0));
-    soA.mass.resize(numParticles, 10.0);
+    double massValue = guiInstance ? guiInstance->getParticleMass() : 1.0;
+    soA.mass.resize(numParticles, massValue);
     soA.type.resize(numParticles, ParticleType::STRUCTURE);
     soA.isStatic.resize(numParticles, false);
     soA.color.resize(numParticles, glm::dvec3(1.0, 0.0, 0.0));
@@ -161,7 +162,10 @@ void Simulation::createMultiLayerSquareGridWithDiagonals(int gridSize, int nLaye
     soA.position.resize(totalParticles);
     soA.velocity.resize(totalParticles, glm::dvec3(0.0));
     soA.forceAccum.resize(totalParticles, glm::dvec3(0.0));
-    soA.mass.resize(totalParticles, 10.0);
+    double massValue = guiInstance ? guiInstance->getParticleMass() : 1.0;
+    // check with std if gui instance is not null
+    std::cout << "massValue: " << massValue << std::endl;
+    soA.mass.resize(totalParticles, massValue);
     soA.type.resize(totalParticles, ParticleType::STRUCTURE);
     soA.isStatic.resize(totalParticles, false);
     soA.color.resize(totalParticles, glm::dvec3(1.0, 0.0, 0.0));
@@ -328,7 +332,8 @@ void Simulation::createMultiLayerHexGrid(int numHexagons, double hexagonSize, do
     soA.position.resize(totalParticles);
     soA.velocity.resize(totalParticles, glm::dvec3(0.0));
     soA.forceAccum.resize(totalParticles, glm::dvec3(0.0));
-    soA.mass.resize(totalParticles, 1.0);
+    double massValue = guiInstance ? guiInstance->getParticleMass() : 1.0;
+    soA.mass.resize(totalParticles, massValue);
     soA.type.resize(totalParticles, ParticleType::STRUCTURE);
     soA.isStatic.resize(totalParticles, false);
     soA.color.resize(totalParticles, glm::dvec3(1.0));
@@ -569,7 +574,8 @@ void Simulation::assignUniquePositionsToSoA(const std::vector<glm::dvec3>& uniqu
     soA.position.resize(n);
     soA.velocity.resize(n, glm::dvec3(0.0));
     soA.forceAccum.resize(n, glm::dvec3(0.0));
-    soA.mass.resize(n, 10.0);
+    double massValue = guiInstance ? guiInstance->getParticleMass() : 1.0;
+    soA.mass.resize(n, massValue);
     soA.type.resize(n, ParticleType::STRUCTURE);
     soA.isStatic.resize(n, false);
     soA.color.resize(n, glm::dvec3(1.0, 0.4, 0.0));

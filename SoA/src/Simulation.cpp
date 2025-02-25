@@ -14,6 +14,10 @@
 
 extern double getCurrentTime();
 
+void Simulation::setGUIInstance(GUI* guiInstance) {
+    this->guiInstance = guiInstance;
+}
+
 // --------------------
 // ThreadPool Implementation
 // --------------------
@@ -114,12 +118,29 @@ void Simulation::Initialization() {
     // createCord(10, 10.0, 1.0, true);
     // createHexGrid(5, 1.0, 1.0, true, 90.0);
     // createSquareGridWithDiagonals(10, 1.0, 1.0);
-    createMultiLayerSquareGridWithDiagonals(200, 3, 1.0, 1.0, 1.0);
+    // createMultiLayerSquareGridWithDiagonals(200, 3, 1.0, 1.0, 1.0);
 
+    if (!guiInstance) {
+        std::cerr << "Error: GUI instance is not available!" << std::endl;
+        return;
+    }
+    
+    // Get the simulation parameters from the GUI instance.
+    int gridSizeParam    = guiInstance->getGridSize();
+    double springRestParam  = guiInstance->getSpringRestLength();
+    double gravityParam     = guiInstance->getGravityStrength();
+
+    // Create the grid using the GUI parameters.
+    createMultiLayerSquareGridWithDiagonals(gridSizeParam, 2, 1.0, 1.0, springRestParam);
+
+    // Re-create the gravity link based on the GUI gravity value.
     if (gravityLink) {
         delete gravityLink;
+        gravityLink = nullptr;
     }
-    gravityLink = new Link(soA, glm::dvec3(0.0, -9.81, 0.0));
+    gravityLink = new Link(soA, glm::dvec3(0.0, -gravityParam, 0.0));
+
+    // Optionally add a static cube under the grid.
     addStaticCubeUnderGrid();
 }
 

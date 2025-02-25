@@ -8,7 +8,18 @@ GUI::GUI(SDL_Window* window, SDL_GLContext glContext)
       dampingCoefficient(70.0f),
       physicsSteps(1000),
       reset(false),
-      dropStructureRequested(false)
+      dropStructureRequested(false),
+      performancePhysicsStepTime(0.0f),
+      performanceRenderFrameTime(0.0f),
+      performanceTotalFrameTime(0.0f),
+      performanceFPS(0.0f),
+      performanceNumParticles(0),
+      performanceNumSprings(0),
+      performancePhysicsStepsPerSecond(0),
+      gridSize(200),           // default grid size parameter
+      springRestLength(1.0f),  // default spring rest length multiplier
+      gravityStrength(9.81f),  // default gravity magnitude
+      particleMass(5.0f)      // default particle mass
 {
     IMGUI_CHECKVERSION();
     ImGui::CreateContext();
@@ -26,18 +37,42 @@ void GUI::newFrame() {
 }
 
 void GUI::draw() {
-    ImGui::Begin("Physics Parameters");
-    ImGui::SliderFloat("Spring Constant", &springConstant, 10.0f, 10000.0f);
-    ImGui::SliderFloat("Damping Coefficient", &dampingCoefficient, 0.0f, 100.0f);
-    if (ImGui::Button("Reset")) { reset = true; }
-    if (ImGui::Button("Drop Structure")) { dropStructureRequested = true; }
+    // --- Simulation Control Window ---
+    ImGui::Begin("Simulation Controls");
+
+    // Top-level action buttons
+    if (ImGui::Button("Reset")) { 
+        reset = true; 
+    }
+    ImGui::SameLine();
+    if (ImGui::Button("Drop Structure")) { 
+        dropStructureRequested = true; 
+    }
+    ImGui::Separator();
+
+    // Physics settings
+    if (ImGui::CollapsingHeader("Physics Settings", ImGuiTreeNodeFlags_DefaultOpen)) {
+        ImGui::SliderFloat("Spring Constant", &springConstant, 10.0f, 10000.0f);
+        ImGui::SliderFloat("Damping Coefficient", &dampingCoefficient, 0.0f, 100.0f);
+    }
+
+    // Grid and structure parameters
+    if (ImGui::CollapsingHeader("Grid & Structure", ImGuiTreeNodeFlags_DefaultOpen)) {
+        ImGui::SliderInt("Grid Size", &gridSize, 10, 500);
+        ImGui::SliderFloat("Spring Rest Length", &springRestLength, 0.1f, 5.0f);
+        ImGui::SliderFloat("Gravity Strength", &gravityStrength, 0.0f, 20.0f);
+        ImGui::SliderFloat("Particle Mass", &particleMass, 1.0f, 100.0f);
+    }
+
     ImGui::End();
 
+    // --- Performance Metrics Window ---
     ImGui::Begin("Performance Metrics");
-    ImGui::Text("Physics Step Time: %.3f ms", performancePhysicsStepTime*1000.0f);
-    ImGui::Text("Render Frame Time: %.3f ms", performanceRenderFrameTime*1000.0f);
-    ImGui::Text("Total Frame Time: %.3f ms", performanceTotalFrameTime*1000.0f);
+    ImGui::Text("Physics Step Time: %.3f ms", performancePhysicsStepTime * 1000.0f);
+    ImGui::Text("Render Frame Time: %.3f ms", performanceRenderFrameTime * 1000.0f);
+    ImGui::Text("Total Frame Time: %.3f ms", performanceTotalFrameTime * 1000.0f);
     ImGui::Text("FPS: %.1f", performanceFPS);
+    ImGui::Separator();
     ImGui::Text("Particles: %d", performanceNumParticles);
     ImGui::Text("Springs: %d", performanceNumSprings);
     ImGui::Text("Physics Steps/sec: %d", performancePhysicsStepsPerSecond);
@@ -59,21 +94,11 @@ void GUI::cleanup() {
     ImGui::DestroyContext();
 }
 
-float GUI::getSpringConstant() const {
-    return springConstant;
-}
-
-float GUI::getDampingCoefficient() const {
-    return dampingCoefficient;
-}
-
-int GUI::getPhysicsSteps() const {
-    return physicsSteps;
-}
-
-bool GUI::isResetRequested() {
-    return reset;
-}
+float GUI::getSpringConstant() const { return springConstant; }
+float GUI::getDampingCoefficient() const { return dampingCoefficient; }
+int   GUI::getPhysicsSteps() const { return physicsSteps; }
+bool  GUI::isResetRequested() { return reset; }
+bool  GUI::isDropStructureRequested() const { return dropStructureRequested; }
 
 void GUI::clearResetFlag() {
     std::cout << "reset cleared" << std::endl;
@@ -95,10 +120,6 @@ void GUI::setPerformanceMetrics(float physicsStepTime,
     performanceNumParticles    = numParticles;
     performanceNumSprings      = numSprings;
     performancePhysicsStepsPerSecond = physicsStepsPerSecond;
-}
-
-bool GUI::isDropStructureRequested() const {
-    return dropStructureRequested;
 }
 
 void GUI::clearDropStructureFlag() {

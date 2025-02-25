@@ -1,3 +1,5 @@
+#include <glad/glad.h>
+#include <SDL_opengl.h>
 #include "Renderer.hpp"
 
 // Maximum supported instances

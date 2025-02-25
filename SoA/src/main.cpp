@@ -48,9 +48,11 @@ int main(int argc, char* argv[]) {
     SDL_GL_SetSwapInterval(1);
 
     Renderer renderer;
-    Simulation simulation;
     GUI gui(window, glContext);
+    Simulation simulation;
 
+    simulation.setGUIInstance(&gui);
+    simulation.reset();
     simulation.startAsyncUpdates();
 
     bool running = true;

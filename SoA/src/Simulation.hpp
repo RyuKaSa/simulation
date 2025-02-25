@@ -16,6 +16,8 @@
 #include "Link.hpp"
 #include "SimulationSoAInternals.hpp"
 
+#include "GUI.hpp" 
+
 // For manual SIMD logic
 #if defined(__AVX__) || defined(__AVX2__) || defined(__AVX512F__)
 #include <immintrin.h> // AVX intrinsics
@@ -79,6 +81,8 @@ public:
     double getLastPhysicsUpdateTime() const { return lastPhysicsUpdateTime.load(); }
     int getEffectiveStepsPerSecond() const { return effectiveStepsPerSecond.load(); }
 
+    void setGUIInstance(GUI* guiInstance);
+
 private:
     // ------------------- Internal Helper Functions -------------------
     void asyncLoop();
@@ -117,6 +121,8 @@ private:
     std::vector<std::vector<glm::dvec3>> hexagonVertexLists;
     std::vector<std::vector<int>> hexagonIndices;
     std::vector<HexTriangle> hexTriangles;
+
+    GUI* guiInstance = nullptr;  // pointer to the GUI instance
 };
 
 #endif // SIMULATION_HPP

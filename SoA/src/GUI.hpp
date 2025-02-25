@@ -16,17 +16,25 @@ public:
     void cleanup();
     float getSpringConstant() const;
     float getDampingCoefficient() const;
-    int getPhysicsSteps() const;
+    int   getPhysicsSteps() const;
     bool isResetRequested();
     bool isDropStructureRequested() const;
 
     void clearResetFlag();
     void clearDropStructureFlag();
 
+    // Set performance metrics (existing)
     void setPerformanceMetrics(float physicsStepTime, float renderFrameTime,
                                float totalFrameTime, float fps,
                                int numParticles, int numSprings,
                                int physicsStepsPerSecond);
+
+    // New getters so that the simulation code can pick up the new parameters on reset
+    int   getGridSize() const { return gridSize; }
+    float getSpringRestLength() const { return springRestLength; }
+    float getGravityStrength() const { return gravityStrength; }
+    float getParticleMass() const { return particleMass; }
+
 private:
     float springConstant;
     float dampingCoefficient;
@@ -34,13 +42,20 @@ private:
     bool reset;
     bool dropStructureRequested;
 
-    float performancePhysicsStepTime = 0.0f;
-    float performanceRenderFrameTime = 0.0f;
-    float performanceTotalFrameTime  = 0.0f;
-    float performanceFPS             = 0.0f;
-    int   performanceNumParticles    = 0;
-    int   performanceNumSprings      = 0;
-    int   performancePhysicsStepsPerSecond = 0;
+    // Performance metrics (existing)
+    float performancePhysicsStepTime;
+    float performanceRenderFrameTime;
+    float performanceTotalFrameTime;
+    float performanceFPS;
+    int   performanceNumParticles;
+    int   performanceNumSprings;
+    int   performancePhysicsStepsPerSecond;
+
+    // simulation parameters (affecting reset/creation)
+    int   gridSize;            // e.g. number of cells in the grid
+    float springRestLength;    // spring rest length multiplier
+    float gravityStrength;     // gravity magnitude
+    float particleMass;        // mass for new particles
 };
 
 #endif // GUI_H

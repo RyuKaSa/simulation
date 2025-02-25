@@ -939,32 +939,15 @@ CMakeFiles/BallsSimulation.dir/src/SimulationCreation.cpp.o: \
   /Applications/miniconda3/bin/../include/c++/v1/deque \
   /Users/williambogdanovic/Desktop/simulations/SoA/src/Link.hpp \
   /Users/williambogdanovic/Desktop/simulations/SoA/src/SimulationSoAInternals.hpp \
-  /Applications/miniconda3/lib/clang/16/include/arm_neon.h \
-  /Applications/miniconda3/lib/clang/16/include/arm_bf16.h \
-  /Applications/miniconda3/bin/../include/c++/v1/iostream \
-  /Applications/miniconda3/bin/../include/c++/v1/ios \
-  /Applications/miniconda3/bin/../include/c++/v1/__locale \
-  /Applications/miniconda3/bin/../include/c++/v1/locale.h \
-  /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX.sdk/usr/include/locale.h \
-  /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX.sdk/usr/include/_locale.h \
-  /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX.sdk/usr/include/xlocale.h \
-  /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX.sdk/usr/include/_xlocale.h \
-  /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX.sdk/usr/include/__xlocale.h \
-  /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX.sdk/usr/include/_mb_cur_max.h \
-  /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX.sdk/usr/include/xlocale/_ctype.h \
-  /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX.sdk/usr/include/xlocale/___wctype.h \
-  /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX.sdk/usr/include/xlocale/_stdio.h \
-  /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX.sdk/usr/include/xlocale/_stdlib.h \
-  /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX.sdk/usr/include/xlocale/_string.h \
-  /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX.sdk/usr/include/xlocale/_time.h \
-  /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX.sdk/usr/include/xlocale/_wchar.h \
-  /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX.sdk/usr/include/xlocale/_wctype.h \
-  /Applications/miniconda3/bin/../include/c++/v1/istream \
-  /Applications/miniconda3/bin/../include/c++/v1/ostream \
-  /Applications/miniconda3/bin/../include/c++/v1/bitset \
-  /Applications/miniconda3/bin/../include/c++/v1/locale \
-  /Applications/miniconda3/bin/../include/c++/v1/streambuf \
-  /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX.sdk/usr/include/nl_types.h \
+  /Users/williambogdanovic/Desktop/simulations/SoA/src/GUI.hpp \
+  /opt/homebrew/include/SDL2/SDL.h /opt/homebrew/include/SDL2/SDL_main.h \
+  /opt/homebrew/include/SDL2/SDL_stdinc.h \
+  /opt/homebrew/include/SDL2/SDL_config.h \
+  /opt/homebrew/include/SDL2/SDL_platform.h \
+  /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX.sdk/usr/include/AvailabilityMacros.h \
+  /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX.sdk/usr/include/TargetConditionals.h \
+  /opt/homebrew/include/SDL2/begin_code.h \
+  /opt/homebrew/include/SDL2/close_code.h \
   /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX.sdk/usr/include/sys/types.h \
   /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX.sdk/usr/include/sys/_types/_u_char.h \
   /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX.sdk/usr/include/sys/_types/_u_short.h \
@@ -990,6 +973,83 @@ CMakeFiles/BallsSimulation.dir/src/SimulationCreation.cpp.o: \
   /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX.sdk/usr/include/sys/_types/_fd_copy.h \
   /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX.sdk/usr/include/sys/_types/_fsblkcnt_t.h \
   /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX.sdk/usr/include/sys/_types/_fsfilcnt_t.h \
+  /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX.sdk/usr/include/strings.h \
+  /Applications/miniconda3/bin/../include/c++/v1/inttypes.h \
+  /Applications/miniconda3/lib/clang/16/include/inttypes.h \
+  /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX.sdk/usr/include/inttypes.h \
+  /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX.sdk/usr/include/_inttypes.h \
+  /opt/homebrew/include/SDL2/SDL_assert.h \
+  /opt/homebrew/include/SDL2/SDL_atomic.h \
+  /opt/homebrew/include/SDL2/SDL_audio.h \
+  /opt/homebrew/include/SDL2/SDL_error.h \
+  /opt/homebrew/include/SDL2/SDL_endian.h \
+  /opt/homebrew/include/SDL2/SDL_mutex.h \
+  /opt/homebrew/include/SDL2/SDL_thread.h \
+  /opt/homebrew/include/SDL2/SDL_rwops.h \
+  /opt/homebrew/include/SDL2/SDL_clipboard.h \
+  /opt/homebrew/include/SDL2/SDL_cpuinfo.h \
+  /Applications/miniconda3/lib/clang/16/include/arm_neon.h \
+  /Applications/miniconda3/lib/clang/16/include/arm_bf16.h \
+  /opt/homebrew/include/SDL2/SDL_events.h \
+  /opt/homebrew/include/SDL2/SDL_video.h \
+  /opt/homebrew/include/SDL2/SDL_pixels.h \
+  /opt/homebrew/include/SDL2/SDL_rect.h \
+  /opt/homebrew/include/SDL2/SDL_surface.h \
+  /opt/homebrew/include/SDL2/SDL_blendmode.h \
+  /opt/homebrew/include/SDL2/SDL_keyboard.h \
+  /opt/homebrew/include/SDL2/SDL_keycode.h \
+  /opt/homebrew/include/SDL2/SDL_scancode.h \
+  /opt/homebrew/include/SDL2/SDL_mouse.h \
+  /opt/homebrew/include/SDL2/SDL_joystick.h \
+  /opt/homebrew/include/SDL2/SDL_guid.h \
+  /opt/homebrew/include/SDL2/SDL_gamecontroller.h \
+  /opt/homebrew/include/SDL2/SDL_sensor.h \
+  /opt/homebrew/include/SDL2/SDL_quit.h \
+  /opt/homebrew/include/SDL2/SDL_gesture.h \
+  /opt/homebrew/include/SDL2/SDL_touch.h \
+  /opt/homebrew/include/SDL2/SDL_filesystem.h \
+  /opt/homebrew/include/SDL2/SDL_haptic.h \
+  /opt/homebrew/include/SDL2/SDL_hidapi.h \
+  /opt/homebrew/include/SDL2/SDL_hints.h \
+  /opt/homebrew/include/SDL2/SDL_loadso.h \
+  /opt/homebrew/include/SDL2/SDL_log.h \
+  /opt/homebrew/include/SDL2/SDL_messagebox.h \
+  /opt/homebrew/include/SDL2/SDL_metal.h \
+  /opt/homebrew/include/SDL2/SDL_power.h \
+  /opt/homebrew/include/SDL2/SDL_render.h \
+  /opt/homebrew/include/SDL2/SDL_shape.h \
+  /opt/homebrew/include/SDL2/SDL_system.h \
+  /opt/homebrew/include/SDL2/SDL_timer.h \
+  /opt/homebrew/include/SDL2/SDL_version.h \
+  /opt/homebrew/include/SDL2/SDL_locale.h \
+  /opt/homebrew/include/SDL2/SDL_misc.h \
+  /opt/homebrew/include/SDL2/SDL_opengl.h \
+  /opt/homebrew/include/SDL2/SDL_opengl_glext.h \
+  /Applications/miniconda3/bin/../include/c++/v1/iostream \
+  /Applications/miniconda3/bin/../include/c++/v1/ios \
+  /Applications/miniconda3/bin/../include/c++/v1/__locale \
+  /Applications/miniconda3/bin/../include/c++/v1/locale.h \
+  /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX.sdk/usr/include/locale.h \
+  /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX.sdk/usr/include/_locale.h \
+  /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX.sdk/usr/include/xlocale.h \
+  /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX.sdk/usr/include/_xlocale.h \
+  /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX.sdk/usr/include/__xlocale.h \
+  /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX.sdk/usr/include/_mb_cur_max.h \
+  /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX.sdk/usr/include/xlocale/_ctype.h \
+  /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX.sdk/usr/include/xlocale/___wctype.h \
+  /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX.sdk/usr/include/xlocale/_inttypes.h \
+  /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX.sdk/usr/include/xlocale/_stdio.h \
+  /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX.sdk/usr/include/xlocale/_stdlib.h \
+  /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX.sdk/usr/include/xlocale/_string.h \
+  /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX.sdk/usr/include/xlocale/_time.h \
+  /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX.sdk/usr/include/xlocale/_wchar.h \
+  /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX.sdk/usr/include/xlocale/_wctype.h \
+  /Applications/miniconda3/bin/../include/c++/v1/istream \
+  /Applications/miniconda3/bin/../include/c++/v1/ostream \
+  /Applications/miniconda3/bin/../include/c++/v1/bitset \
+  /Applications/miniconda3/bin/../include/c++/v1/locale \
+  /Applications/miniconda3/bin/../include/c++/v1/streambuf \
+  /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX.sdk/usr/include/nl_types.h \
   /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX.sdk/usr/include/_types/_nl_item.h \
   /Applications/miniconda3/bin/../include/c++/v1/__bsd_locale_defaults.h \
   /Applications/miniconda3/bin/../include/c++/v1/cstdarg
