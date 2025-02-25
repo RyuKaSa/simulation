@@ -81,7 +81,6 @@ int main(int argc, char* argv[]) {
 
         simulation.setSpringConstant(gui.getSpringConstant());
         simulation.setDampingCoefficient(gui.getDampingCoefficient());
-        simulation.setImpulseScaling(gui.getImpulseScaling());
 
         int numParticles = (int)simulation.getSoA().position.size();
         int numSprings   = (int)simulation.getSpringCount();
@@ -100,8 +99,8 @@ int main(int argc, char* argv[]) {
         double totalFrameTime = (frameEnd - frameStart);
         double fps = (totalFrameTime>0.0)? (1.0/totalFrameTime) : 0.0;
 
-        double physicsStepTime = simulation.lastPhysicsUpdateTime.load();
-        int effectiveSteps = simulation.effectiveStepsPerSecond.load();
+        double physicsStepTime = simulation.getLastPhysicsUpdateTime();
+        int effectiveSteps = simulation.getEffectiveStepsPerSecond();
 
         gui.setPerformanceMetrics((float)physicsStepTime,
                                   (float)renderFrameTime,

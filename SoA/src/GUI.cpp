@@ -4,11 +4,10 @@
 #include "imgui_impl_opengl3.h"
 
 GUI::GUI(SDL_Window* window, SDL_GLContext glContext)
-    : springConstant(200.0f),
-      dampingCoefficient(0.5f),
+    : springConstant(3000.0f),
+      dampingCoefficient(70.0f),
       physicsSteps(1000),
       reset(false),
-      impulseScaling(1000.0f),
       dropStructureRequested(false)
 {
     IMGUI_CHECKVERSION();
@@ -28,9 +27,8 @@ void GUI::newFrame() {
 
 void GUI::draw() {
     ImGui::Begin("Physics Parameters");
-    ImGui::SliderFloat("Spring Constant", &springConstant, 0.1f, 1000.0f);
-    ImGui::SliderFloat("Damping Coefficient", &dampingCoefficient, 0.0f, 20.0f);
-    ImGui::SliderFloat("Impulse Scaling", &impulseScaling, 0.0f, 5000.0f);
+    ImGui::SliderFloat("Spring Constant", &springConstant, 10.0f, 10000.0f);
+    ImGui::SliderFloat("Damping Coefficient", &dampingCoefficient, 0.0f, 100.0f);
     if (ImGui::Button("Reset")) { reset = true; }
     if (ImGui::Button("Drop Structure")) { dropStructureRequested = true; }
     ImGui::End();
@@ -71,10 +69,6 @@ float GUI::getDampingCoefficient() const {
 
 int GUI::getPhysicsSteps() const {
     return physicsSteps;
-}
-
-float GUI::getImpulseScaling() const {
-    return impulseScaling;
 }
 
 bool GUI::isResetRequested() {
