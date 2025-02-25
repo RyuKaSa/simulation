@@ -7,7 +7,7 @@
 #include "GUI.hpp"
 
 double getCurrentTime() {
-    return (double)SDL_GetPerformanceCounter()/ (double)SDL_GetPerformanceFrequency();
+    return (double)SDL_GetPerformanceCounter() / (double)SDL_GetPerformanceFrequency();
 }
 
 int main(int argc, char* argv[]) {
@@ -47,13 +47,14 @@ int main(int argc, char* argv[]) {
     }
     SDL_GL_SetSwapInterval(1);
 
-    Renderer renderer;
-    GUI gui(window, glContext);
     Simulation simulation;
-
+    GUI gui(window, glContext);
     simulation.setGUIInstance(&gui);
     simulation.reset();
     simulation.startAsyncUpdates();
+
+    Renderer renderer(simulation);
+
 
     bool running = true;
     SDL_Event event;
@@ -99,7 +100,7 @@ int main(int argc, char* argv[]) {
 
         double frameEnd = getCurrentTime();
         double totalFrameTime = (frameEnd - frameStart);
-        double fps = (totalFrameTime>0.0)? (1.0/totalFrameTime) : 0.0;
+        double fps = (totalFrameTime > 0.0) ? (1.0 / totalFrameTime) : 0.0;
 
         double physicsStepTime = simulation.getLastPhysicsUpdateTime();
         int effectiveSteps = simulation.getEffectiveStepsPerSecond();

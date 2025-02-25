@@ -5,19 +5,29 @@
 // Maximum supported instances
 const size_t Renderer::maxInstances;
 
-Renderer::Renderer() {
+Renderer::Renderer(const Simulation& simulation) {
     if (!ballShader.load("src/shaders/ball.vs.glsl", "src/shaders/ball.fs.glsl")) {
         std::cerr << "Failed to load ball shaders." << std::endl;
     }
     if (!cubeShader.load("src/shaders/cube.vs.glsl", "src/shaders/cube.fs.glsl")) {
         std::cerr << "Failed to load cube shaders." << std::endl;
     }
+    if (!springShader.load("src/shaders/spring.vs.glsl", "src/shaders/spring.fs.glsl")) {
+        std::cerr << "Failed to load spring shaders." << std::endl;
+    }
+    if (!meshShader.load("src/shaders/mesh.vs.glsl", "src/shaders/mesh.fs.glsl")) {
+        std::cerr << "Failed to load mesh shaders." << std::endl;
+    }
+    if (!gridShader.load("src/shaders/grid.vs.glsl", "src/shaders/grid.fs.glsl")) {
+        std::cerr << "Failed to load grid shaders." << std::endl;
+    }
 
     initBallGeometry();
-    initGrid();
+    // initGrid();
     initCube();
     initSprings();
-    initHexTriangles();
+    // initHexTriangles();
+    initTripleGrid(simulation);
 
     targetDistance = 10.0f;
     cameraPosition = glm::vec3(0.0f, 0.0f, targetDistance);
@@ -27,6 +37,10 @@ Renderer::Renderer() {
 Renderer::~Renderer() {
     glDeleteProgram(ballShader.getID());
     glDeleteProgram(cubeShader.getID());
+    glDeleteProgram(springShader.getID());
+    glDeleteProgram(meshShader.getID());
+    glDeleteProgram(gridShader.getID());
+    
 
     // Delete ball geometry
     glDeleteVertexArrays(1, &vao);
@@ -213,7 +227,7 @@ void Renderer::render(const Simulation& simulation) {
 
     renderGrid(projection, view);
     renderSprings(simulation, projection, view);
-    renderHexTriangles(simulation, projection, view);
+    // renderHexTriangles(simulation, projection, view);
     renderBalls(simulation, projection, view);
 
     // std::cout << "Rendering complete 1" << std::endl;
@@ -339,50 +353,162 @@ void Renderer::renderExternalCubes(const Simulation& simulation,
     // std::cout << "Rendering external cubes END" << std::endl;
 }
 
+void Renderer::initTripleGrid(const Simulation &simulation)
+{
+    // 1) Compute bounding box by skipping every 3 positions
+    const ParticleSoA &soa = simulation.getSoA();
+    if (soa.position.empty()) {
+        // If no particles, just do nothing
+        gridVertexCount = 0;
+        std::cerr << "No particles to create grid for!" << std::endl;
+        return;
+    }
+
+    glm::dvec3 minPos(DBL_MAX), maxPos(-DBL_MAX);
+    // We'll also ensure we read the first and last elements
+    // so that we definitely include the extremes
+    minPos = glm::min(minPos, soa.position.front());
+    maxPos = glm::max(maxPos, soa.position.front());
+    minPos = glm::min(minPos, soa.position.back());
+    maxPos = glm::max(maxPos, soa.position.back());
+
+    // skip ~ every 3rd to quickly get bounding box
+    for (size_t i = 0; i < soa.position.size(); i += 3) {
+        minPos = glm::min(minPos, soa.position[i]);
+        maxPos = glm::max(maxPos, soa.position[i]);
+    }
+
+    // Expand the bounding box a bit so the planes are "just outside"
+    double margin = 0.1 * glm::length(maxPos - minPos);  // 10% margin
+    if (margin < 0.5) margin = 0.5; // minimal margin
+    glm::dvec3 expand(margin, margin, margin);
+    minPos -= expand;
+    maxPos += expand;
+
+    // For clarity, convert to floats now
+    float minX = (float)minPos.x;
+    float minY = (float)minPos.y;
+    float minZ = (float)minPos.z;
+    float maxX = (float)maxPos.x;
+    float maxY = (float)maxPos.y;
+    float maxZ = (float)maxPos.z;
+
+    // 2) Decide the plane positions
+    // We'll do XY-plane at z = minZ
+    // XZ-plane at y = minY
+    // YZ-plane at x = minX
+
+    // We'll define a spacing. You can choose how dense you want it
+    float spacing = 2.0f;  // or pick your own step
+    // (You can also base spacing on the bounding box size if you want.)
+
+    std::vector<float> gridVertices;
+    gridVertices.reserve(100000); // Just a guess
+
+    // Helper lambda to build line pairs
+    auto addLine = [&](float x1, float y1, float z1,
+                       float x2, float y2, float z2)
+    {
+        gridVertices.push_back(x1);
+        gridVertices.push_back(y1);
+        gridVertices.push_back(z1);
+
+        gridVertices.push_back(x2);
+        gridVertices.push_back(y2);
+        gridVertices.push_back(z2);
+    };
+
+    // ============ PLANE 1: XY-plane at z = minZ ============
+    // We'll draw lines parallel to X and parallel to Y
+    for (float x = minX; x <= maxX; x += spacing) {
+        addLine(x, minY, minZ, x, maxY, minZ);
+    }
+    for (float y = minY; y <= maxY; y += spacing) {
+        addLine(minX, y, minZ, maxX, y, minZ);
+    }
+
+    // ============ PLANE 2: XZ-plane at y = minY ============
+    for (float x = minX; x <= maxX; x += spacing) {
+        addLine(x, minY, minZ, x, minY, maxZ);
+    }
+    for (float z = minZ; z <= maxZ; z += spacing) {
+        addLine(minX, minY, z, maxX, minY, z);
+    }
+
+    // ============ PLANE 3: YZ-plane at x = minX ============
+    for (float y = minY; y <= maxY; y += spacing) {
+        addLine(minX, y, minZ, minX, y, maxZ);
+    }
+    for (float z = minZ; z <= maxZ; z += spacing) {
+        addLine(minX, minY, z, minX, maxY, z);
+    }
+
+    // Now we know how many vertices we have
+    gridVertexCount = (int)(gridVertices.size() / 3);
+    std::cout << "Grid vertex count: " << gridVertexCount << std::endl;
+
+    // 3) Create and upload to the VBO/VAO
+    glGenVertexArrays(1, &gridVAO);
+    glGenBuffers(1, &gridVBO);
+
+    glBindVertexArray(gridVAO);
+    glBindBuffer(GL_ARRAY_BUFFER, gridVBO);
+    glBufferData(GL_ARRAY_BUFFER,
+                 gridVertices.size() * sizeof(float),
+                 gridVertices.data(),
+                 GL_STATIC_DRAW);
+
+    // Simple position attribute
+    glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, 3 * sizeof(float), (void*)0);
+    glEnableVertexAttribArray(0);
+
+    glBindVertexArray(0);
+}
+
 void Renderer::renderBalls(const Simulation& simulation,
                            const glm::mat4& projection,
                            const glm::mat4& view)
 {
+    // --- Use the ball shader first! ---
+    ballShader.use();
+    
     const ParticleSoA& soa = simulation.getSoA();
     std::vector<glm::vec3> positions, colors, scales;
     positions.reserve(soa.position.size());
     colors.reserve(soa.color.size());
     scales.reserve(soa.dimensions.size());
 
+    // Filter out EXTERNAL particles so we only see the 'balls'
     for (size_t i = 0; i < soa.position.size(); i++) {
         if (soa.type[i] != ParticleType::EXTERNAL) {
-            // Double->float
-            positions.push_back(glm::vec3(
-                (float)soa.position[i].x,
-                (float)soa.position[i].y,
-                (float)soa.position[i].z
-            ));
-            colors.push_back(glm::vec3(
-                (float)soa.color[i].x,
-                (float)soa.color[i].y,
-                (float)soa.color[i].z
-            ));
-            scales.push_back(glm::vec3(
-                (float)soa.dimensions[i].x,
-                (float)soa.dimensions[i].y,
-                (float)soa.dimensions[i].z
-            ));
+            positions.emplace_back((float)soa.position[i].x,
+                                   (float)soa.position[i].y,
+                                   (float)soa.position[i].z);
+            colors.emplace_back((float)soa.color[i].x,
+                                (float)soa.color[i].y,
+                                (float)soa.color[i].z);
+            scales.emplace_back((float)soa.dimensions[i].x,
+                                (float)soa.dimensions[i].y,
+                                (float)soa.dimensions[i].z);
         }
     }
 
+    // Clamp instance count if needed
     size_t instanceCount = positions.size();
     if (instanceCount > maxInstances) {
         instanceCount = maxInstances;
     }
 
+    // -- Upload instance data (positions, colors, scales) to the VBOs -- //
     glBindBuffer(GL_ARRAY_BUFFER, instancePosVBO);
     void* posPtr = glMapBufferRange(GL_ARRAY_BUFFER, 0,
                                     instanceCount*sizeof(glm::vec3),
-                                    GL_MAP_WRITE_BIT|GL_MAP_INVALIDATE_BUFFER_BIT);
+                                    GL_MAP_WRITE_BIT | GL_MAP_INVALIDATE_BUFFER_BIT);
     if (posPtr) {
         memcpy(posPtr, positions.data(), instanceCount*sizeof(glm::vec3));
         glUnmapBuffer(GL_ARRAY_BUFFER);
     } else {
+        // Fallback if mapping fails
         glBufferSubData(GL_ARRAY_BUFFER, 0,
                         instanceCount*sizeof(glm::vec3),
                         positions.data());
@@ -391,7 +517,7 @@ void Renderer::renderBalls(const Simulation& simulation,
     glBindBuffer(GL_ARRAY_BUFFER, instanceColorVBO);
     void* colorPtr = glMapBufferRange(GL_ARRAY_BUFFER, 0,
                                       instanceCount*sizeof(glm::vec3),
-                                      GL_MAP_WRITE_BIT|GL_MAP_INVALIDATE_BUFFER_BIT);
+                                      GL_MAP_WRITE_BIT | GL_MAP_INVALIDATE_BUFFER_BIT);
     if (colorPtr) {
         memcpy(colorPtr, colors.data(), instanceCount*sizeof(glm::vec3));
         glUnmapBuffer(GL_ARRAY_BUFFER);
@@ -404,7 +530,7 @@ void Renderer::renderBalls(const Simulation& simulation,
     glBindBuffer(GL_ARRAY_BUFFER, instanceScaleVBO);
     void* scalePtr = glMapBufferRange(GL_ARRAY_BUFFER, 0,
                                       instanceCount*sizeof(glm::vec3),
-                                      GL_MAP_WRITE_BIT|GL_MAP_INVALIDATE_BUFFER_BIT);
+                                      GL_MAP_WRITE_BIT | GL_MAP_INVALIDATE_BUFFER_BIT);
     if (scalePtr) {
         memcpy(scalePtr, scales.data(), instanceCount*sizeof(glm::vec3));
         glUnmapBuffer(GL_ARRAY_BUFFER);
@@ -414,15 +540,17 @@ void Renderer::renderBalls(const Simulation& simulation,
                         scales.data());
     }
 
+    // Set uniforms
     ballShader.setUniform("useInstance", 1);
+    
     glm::mat4 model(1.0f);
     ballShader.setUniform("uModel", model);
     glm::mat4 mvp = projection * view * model;
     ballShader.setUniform("uMVP", mvp);
 
+    // Draw as instanced triangles
     glBindVertexArray(vao);
-    glDrawArraysInstanced(GL_TRIANGLE_FAN, 0, numSegments+2,
-                          (GLsizei)instanceCount);
+    glDrawArraysInstanced(GL_TRIANGLE_FAN, 0, numSegments + 2, (GLsizei)instanceCount);
     glBindVertexArray(0);
 }
 
@@ -437,13 +565,12 @@ void Renderer::renderSprings(const Simulation& simulation,
     springVertices.reserve(springs.size()*2);
 
     for (const SpringData& spring : springs) {
-        // Convert dvec3 -> vec3
-        glm::vec3 p1(
+        glm::vec3 p1 = glm::vec3(
             (float)soa.position[spring.p1Index].x,
             (float)soa.position[spring.p1Index].y,
             (float)soa.position[spring.p1Index].z
         );
-        glm::vec3 p2(
+        glm::vec3 p2 = glm::vec3(
             (float)soa.position[spring.p2Index].x,
             (float)soa.position[spring.p2Index].y,
             (float)soa.position[spring.p2Index].z
@@ -452,14 +579,13 @@ void Renderer::renderSprings(const Simulation& simulation,
         springVertices.push_back(p2);
     }
 
-    ballShader.setUniform("useInstance", 0);
-    ballShader.setUniform("uColor", glm::vec3(0.25f, 0.39f, 0.59f));
-
+    springShader.use();
     glm::mat4 model(1.0f);
-    ballShader.setUniform("uModel", model);
     glm::mat4 mvp = projection * view * model;
-    ballShader.setUniform("uMVP", mvp);
+    springShader.setUniform("uMVP", mvp);
+    springShader.setUniform("uColor", glm::vec3(0.25f, 0.39f, 0.59f));
 
+    // Upload the vertex data
     glBindVertexArray(springVAO);
     glBindBuffer(GL_ARRAY_BUFFER, springVBO);
     glBufferData(GL_ARRAY_BUFFER,
@@ -467,9 +593,10 @@ void Renderer::renderSprings(const Simulation& simulation,
                  springVertices.data(),
                  GL_DYNAMIC_DRAW);
 
-    glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE,
-                          sizeof(glm::vec3), (void*)0);
+    // Setup the vertex attrib again
+    glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, sizeof(glm::vec3), (void*)0);
     glEnableVertexAttribArray(0);
+
     glDrawArrays(GL_LINES, 0, (GLsizei)springVertices.size());
     glBindVertexArray(0);
 }
@@ -478,12 +605,10 @@ void Renderer::renderHexTriangles(const Simulation& simulation,
                                   const glm::mat4& projection,
                                   const glm::mat4& view)
 {
-    // The HexTriangle now uses glm::vec3. If you changed it to dvec3 in the struct,
-    // you'd do a cast here. We'll assume it's already float per your new definition.
     const std::vector<HexTriangle>& tris = simulation.getHexTriangles();
     if (tris.empty()) return;
 
-    size_t vertexCount = tris.size()*3;
+    size_t vertexCount = tris.size() * 3;
     size_t totalBytes  = vertexCount*sizeof(glm::vec3);
 
     glBindVertexArray(hexTriVAO);
@@ -497,26 +622,15 @@ void Renderer::renderHexTriangles(const Simulation& simulation,
             bufferData += 3;
         }
         glUnmapBuffer(GL_ARRAY_BUFFER);
-    } else {
-        std::vector<glm::vec3> triVertices;
-        triVertices.reserve(vertexCount);
-        for (const auto& tri : tris) {
-            for (int i=0; i<3; i++) {
-                triVertices.push_back(tri.vertices[i]);
-            }
-        }
-        glBufferSubData(GL_ARRAY_BUFFER, 0,
-                        triVertices.size()*sizeof(glm::vec3),
-                        triVertices.data());
     }
 
-    ballShader.setUniform("useInstance", 0);
-    ballShader.setUniform("uColor", glm::vec3(0.42f, 0.65f, 0.99f));
+    meshShader.use();
     glm::mat4 modelMat(1.0f);
-    ballShader.setUniform("uModel", modelMat);
-    glm::mat4 mvpMat = projection*view*modelMat;
-    ballShader.setUniform("uMVP", mvpMat);
+    glm::mat4 mvpMat = projection * view * modelMat;
+    meshShader.setUniform("uMVP", mvpMat);
+    meshShader.setUniform("uColor", glm::vec3(0.42f, 0.65f, 0.99f));
 
+    // Draw
     glDrawArrays(GL_TRIANGLES, 0, (GLsizei)vertexCount);
     glBindVertexArray(0);
 }
@@ -526,9 +640,10 @@ void Renderer::renderGrid(const glm::mat4& projection, const glm::mat4& view)
     glm::mat4 model(1.0f);
     glm::mat4 mvp  = projection*view*model;
 
-    ballShader.use();
-    ballShader.setUniform("uModel", model);
-    ballShader.setUniform("uMVP", mvp);
+    gridShader.use();
+    gridShader.setUniform("uModel", model);
+    gridShader.setUniform("uMVP", mvp);
+    gridShader.setUniform("uColor", glm::vec3(0.3f, 0.3f, 0.3f));
 
     glBindVertexArray(gridVAO);
     glDrawArrays(GL_LINES, 0, gridVertexCount);
@@ -537,7 +652,6 @@ void Renderer::renderGrid(const glm::mat4& projection, const glm::mat4& view)
 
 void Renderer::adjustCameraToFit(const Simulation& simulation)
 {
-    // We do not change the lock usage. We do the same as before, converting from dvec3 to float.
     std::vector<glm::dvec3> positions = simulation.getStructureParticlePositions();
     if (positions.empty()) return;
 
@@ -545,7 +659,6 @@ void Renderer::adjustCameraToFit(const Simulation& simulation)
     glm::dvec3 minPos = positions[0];
     glm::dvec3 maxPos = positions[0];
 
-    // Step by 3 logic is your custom approach
     for (size_t i = 0; i < n; i += 3) {
         minPos = glm::min(minPos, positions[i]);
         maxPos = glm::max(maxPos, positions[i]);

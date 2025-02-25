@@ -5,7 +5,6 @@
 #include "PMat.hpp"
 #include <glm/glm.hpp>
 #include "Shader.hpp"
-#include "Renderer.hpp"
 #include <glad/glad.h>
 #include <iostream>
 #include <glm/glm.hpp>
@@ -16,7 +15,7 @@
 
 class Renderer {
 public:
-    Renderer();
+    Renderer(const Simulation& simulation);
     ~Renderer();
 
     // Main render call
@@ -47,12 +46,16 @@ public:
 private:
     Shader ballShader;
     Shader cubeShader;
+    Shader springShader;
+    Shader meshShader;
+    Shader gridShader;
 
     // Geometry for instanced balls
     unsigned int vao, vbo;
     unsigned int instancePosVBO, instanceColorVBO, instanceScaleVBO;
 
     void initGrid();
+    void initTripleGrid(const Simulation& simulation);
     void initCube();
     void initSprings();
     void initHexTriangles();
