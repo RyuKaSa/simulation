@@ -29,7 +29,10 @@ Renderer::Renderer(const SimulationBase& simulation) {
     // initHexTriangles();
     initTripleGrid(simulation);
 
-    targetDistance = 10.0f;
+    // print status of simulation
+    std::cout << "Simulation has " << simulation.getSoA().position.size() << " particles.\n";
+
+    targetDistance = 0.0f;
     cameraPosition = glm::vec3(0.0f, 0.0f, targetDistance);
     cameraTarget   = glm::vec3(0.0f, 0.0f, 0.0f);
 }
@@ -403,7 +406,7 @@ void Renderer::initTripleGrid(const SimulationBase& simulation)
     // (You can also base spacing on the bounding box size if you want.)
 
     std::vector<float> gridVertices;
-    gridVertices.reserve(100000); // Just a guess
+    gridVertices.reserve(100000);
 
     // Helper lambda to build line pairs
     auto addLine = [&](float x1, float y1, float z1,
@@ -644,7 +647,7 @@ void Renderer::renderGrid(const glm::mat4& projection, const glm::mat4& view)
     gridShader.setUniform("uModel", model);
     gridShader.setUniform("uMVP", mvp);
     gridShader.setUniform("uColor", glm::vec3(0.3f, 0.3f, 0.3f));
-
+    // std::cout << "Rendering grid with vertex count: " << gridVertexCount << std::endl;
     glBindVertexArray(gridVAO);
     glDrawArrays(GL_LINES, 0, gridVertexCount);
     glBindVertexArray(0);

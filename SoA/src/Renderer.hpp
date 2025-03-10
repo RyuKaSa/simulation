@@ -86,7 +86,7 @@ private:
     float targetDistance;
     float lerpFactor = 0.03f;
 
-    float minCameraDistance = 5.0f;
+    float minCameraDistance = 0.0f;
     float maxCameraDistance = 1000.0f;
 
     static const size_t maxInstances = 100000;

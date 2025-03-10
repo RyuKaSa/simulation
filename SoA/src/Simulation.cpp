@@ -911,7 +911,7 @@ void EnvironmentSimulation::Initialization() {
     sharedParams.springConstant = guiInstance->getSpringConstant();
     sharedParams.dampingCoefficient = guiInstance->getDampingCoefficient();
 
-    createHexGrid(sharedParams.gridSize, 0.03, sharedParams.springRestLength, false, 0.0);
+    createHexGrid(sharedParams.gridSize, 0.03, sharedParams.springRestLength, true, 0.0);
 
     if (gravityLink) {
         delete gravityLink;

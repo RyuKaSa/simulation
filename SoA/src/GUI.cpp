@@ -69,8 +69,8 @@ void GUI::draw() {
     // --- Performance Metrics Window ---
     ImGui::Begin("Performance Metrics");
     ImGui::Text("Physics Step Time: %.3f ms", performancePhysicsStepTime * 1000.0f);
-    ImGui::Text("Render Frame Time: %.3f ms", performanceRenderFrameTime * 1000.0f);
-    ImGui::Text("Total Frame Time: %.3f ms", performanceTotalFrameTime * 1000.0f);
+    ImGui::Text("Render Frame Time: %.3f ms", performanceRenderFrameTime);
+    ImGui::Text("Total Frame Time: %.3f ms", performanceTotalFrameTime);
     ImGui::Text("FPS: %.1f", performanceFPS);
     ImGui::Separator();
     ImGui::Text("Particles: %d", performanceNumParticles);
