@@ -5,7 +5,7 @@
 // Maximum supported instances
 const size_t Renderer::maxInstances;
 
-Renderer::Renderer(const Simulation& simulation) {
+Renderer::Renderer(const SimulationBase& simulation) {
     if (!ballShader.load("src/shaders/ball.vs.glsl", "src/shaders/ball.fs.glsl")) {
         std::cerr << "Failed to load ball shaders." << std::endl;
     }
@@ -201,7 +201,7 @@ void Renderer::initGrid() {
     glBindVertexArray(0);
 }
 
-void Renderer::render(const Simulation& simulation) {
+void Renderer::render(const SimulationBase& simulation) {
     adjustCameraToFit(simulation);
 
     cameraPosition = glm::mix(cameraPosition, targetPosition, lerpFactor);
@@ -228,14 +228,14 @@ void Renderer::render(const Simulation& simulation) {
     renderGrid(projection, view);
     renderSprings(simulation, projection, view);
     // renderHexTriangles(simulation, projection, view);
-    renderBalls(simulation, projection, view);
+    // renderBalls(simulation, projection, view);
 
     // std::cout << "Rendering complete 1" << std::endl;
     renderExternalCubes(simulation, projection, view);
     // std::cout << "Rendering complete 2" << std::endl;
 }
 
-void Renderer::renderExternalCubes(const Simulation& simulation,
+void Renderer::renderExternalCubes(const SimulationBase& simulation,
                                    const glm::mat4& projection,
                                    const glm::mat4& view)
 {
@@ -353,7 +353,7 @@ void Renderer::renderExternalCubes(const Simulation& simulation,
     // std::cout << "Rendering external cubes END" << std::endl;
 }
 
-void Renderer::initTripleGrid(const Simulation &simulation)
+void Renderer::initTripleGrid(const SimulationBase& simulation)
 {
     // 1) Compute bounding box by skipping every 3 positions
     const ParticleSoA &soa = simulation.getSoA();
@@ -465,7 +465,7 @@ void Renderer::initTripleGrid(const Simulation &simulation)
     glBindVertexArray(0);
 }
 
-void Renderer::renderBalls(const Simulation& simulation,
+void Renderer::renderBalls(const SimulationBase& simulation,
                            const glm::mat4& projection,
                            const glm::mat4& view)
 {
@@ -554,7 +554,7 @@ void Renderer::renderBalls(const Simulation& simulation,
     glBindVertexArray(0);
 }
 
-void Renderer::renderSprings(const Simulation& simulation,
+void Renderer::renderSprings(const SimulationBase& simulation,
                              const glm::mat4& projection,
                              const glm::mat4& view)
 {
@@ -601,7 +601,7 @@ void Renderer::renderSprings(const Simulation& simulation,
     glBindVertexArray(0);
 }
 
-void Renderer::renderHexTriangles(const Simulation& simulation,
+void Renderer::renderHexTriangles(const SimulationBase& simulation,
                                   const glm::mat4& projection,
                                   const glm::mat4& view)
 {
@@ -650,7 +650,7 @@ void Renderer::renderGrid(const glm::mat4& projection, const glm::mat4& view)
     glBindVertexArray(0);
 }
 
-void Renderer::adjustCameraToFit(const Simulation& simulation)
+void Renderer::adjustCameraToFit(const SimulationBase& simulation)
 {
     std::vector<glm::dvec3> positions = simulation.getStructureParticlePositions();
     if (positions.empty()) return;
@@ -674,11 +674,11 @@ void Renderer::adjustCameraToFit(const Simulation& simulation)
 
     targetCenter = glm::vec3((float)center.x, (float)center.y, (float)center.z);
     targetPosition = glm::vec3((float)maxPos.x,
-                               (float)(maxPos.y + 10.0),
+                               (float)(maxPos.y + 0.3),
                                (float)(center.z + targetDistance));
 }
 
-void Renderer::cameraReset(const Simulation& simulation)
+void Renderer::cameraReset(const SimulationBase& simulation)
 {
     std::vector<glm::dvec3> positions = simulation.getStructureParticlePositions();
     if (positions.empty()) return;

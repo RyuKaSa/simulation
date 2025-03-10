@@ -15,31 +15,31 @@
 
 class Renderer {
 public:
-    Renderer(const Simulation& simulation);
+    Renderer(const SimulationBase& simulation);
     ~Renderer();
 
     // Main render call
-    void render(const Simulation& simulation);
+    void render(const SimulationBase& simulation);
 
     // Camera adjustments
-    void adjustCameraToFit(const Simulation& simulation);
-    void cameraReset(const Simulation& simulation);
+    void adjustCameraToFit(const SimulationBase& simulation);
+    void cameraReset(const SimulationBase& simulation);
 
     // Getters for camera position and target
     glm::vec3 getCameraPosition() const { return cameraPosition; }
     glm::vec3 getCameraTarget()   const { return cameraTarget; }
 
     // Rendering functions
-    void renderBalls(const Simulation& simulation,
+    void renderBalls(const SimulationBase& simulation,
                      const glm::mat4& projection,
                      const glm::mat4& view);
-    void renderHexTriangles(const Simulation& simulation,
+    void renderHexTriangles(const SimulationBase& simulation,
                             const glm::mat4& projection,
                             const glm::mat4& view);
-    void renderSprings(const Simulation& simulation,
+    void renderSprings(const SimulationBase& simulation,
                        const glm::mat4& projection,
                        const glm::mat4& view);
-    void renderExternalCubes(const Simulation& simulation,
+    void renderExternalCubes(const SimulationBase& simulation,
                              const glm::mat4& projection,
                              const glm::mat4& view);
 
@@ -55,7 +55,7 @@ private:
     unsigned int instancePosVBO, instanceColorVBO, instanceScaleVBO;
 
     void initGrid();
-    void initTripleGrid(const Simulation& simulation);
+    void initTripleGrid(const SimulationBase& simulation);
     void initCube();
     void initSprings();
     void initHexTriangles();

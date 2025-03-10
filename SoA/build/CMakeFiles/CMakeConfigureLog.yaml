@@ -18,7 +18,7 @@ events:
     message: |
       Compiling the C compiler identification source file "CMakeCCompilerId.c" succeeded.
       Compiler: /Applications/miniconda3/bin/arm64-apple-darwin20.0.0-clang 
-      Build flags: -I/opt/homebrew/include
+      Build flags: -ftree-vectorize;-fPIC;-fstack-protector-strong;-O2;-pipe;-isystem;/Applications/miniconda3/include
       Id flags:  
       
       The output was:
@@ -61,13 +61,13 @@ events:
     checks:
       - "Detecting C compiler ABI info"
     directories:
-      source: "/Users/williambogdanovic/Desktop/simulations/SoA/build/CMakeFiles/CMakeScratch/TryCompile-YBZYIR"
-      binary: "/Users/williambogdanovic/Desktop/simulations/SoA/build/CMakeFiles/CMakeScratch/TryCompile-YBZYIR"
+      source: "/Users/williambogdanovic/Desktop/simulations/SoA/build/CMakeFiles/CMakeScratch/TryCompile-DprMk5"
+      binary: "/Users/williambogdanovic/Desktop/simulations/SoA/build/CMakeFiles/CMakeScratch/TryCompile-DprMk5"
     cmakeVariables:
       CMAKE_CXX_COMPILER_CLANG_SCAN_DEPS: "CMAKE_CXX_COMPILER_CLANG_SCAN_DEPS-NOTFOUND"
-      CMAKE_C_FLAGS: "-I/opt/homebrew/include"
+      CMAKE_C_FLAGS: "-ftree-vectorize -fPIC -fstack-protector-strong -O2 -pipe -isystem /Applications/miniconda3/include"
       CMAKE_C_FLAGS_DEBUG: "-g"
-      CMAKE_EXE_LINKER_FLAGS: "-L/opt/homebrew/lib"
+      CMAKE_EXE_LINKER_FLAGS: "-Wl,-headerpad_max_install_names -Wl,-dead_strip_dylibs -Wl,-rpath,/Applications/miniconda3/lib -L/Applications/miniconda3/lib"
       CMAKE_OSX_ARCHITECTURES: ""
       CMAKE_OSX_DEPLOYMENT_TARGET: ""
       CMAKE_OSX_SYSROOT: "/Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX.sdk"
@@ -75,48 +75,47 @@ events:
       variable: "CMAKE_C_ABI_COMPILED"
       cached: true
       stdout: |
-        Change Dir: '/Users/williambogdanovic/Desktop/simulations/SoA/build/CMakeFiles/CMakeScratch/TryCompile-YBZYIR'
+        Change Dir: '/Users/williambogdanovic/Desktop/simulations/SoA/build/CMakeFiles/CMakeScratch/TryCompile-DprMk5'
         
-        Run Build Command(s): /opt/homebrew/bin/cmake -E env VERBOSE=1 /opt/homebrew/bin/gmake -f Makefile cmTC_dfd30/fast
-        /opt/homebrew/bin/gmake  -f CMakeFiles/cmTC_dfd30.dir/build.make CMakeFiles/cmTC_dfd30.dir/build
-        gmake[1]: Entering directory '/Users/williambogdanovic/Desktop/simulations/SoA/build/CMakeFiles/CMakeScratch/TryCompile-YBZYIR'
-        Building C object CMakeFiles/cmTC_dfd30.dir/CMakeCCompilerABI.c.o
-        /Applications/miniconda3/bin/arm64-apple-darwin20.0.0-clang   -I/opt/homebrew/include  -arch arm64 -isysroot /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX.sdk   -v -Wl,-v -MD -MT CMakeFiles/cmTC_dfd30.dir/CMakeCCompilerABI.c.o -MF CMakeFiles/cmTC_dfd30.dir/CMakeCCompilerABI.c.o.d -o CMakeFiles/cmTC_dfd30.dir/CMakeCCompilerABI.c.o -c /opt/homebrew/share/cmake/Modules/CMakeCCompilerABI.c
+        Run Build Command(s): /opt/homebrew/bin/cmake -E env VERBOSE=1 /opt/homebrew/bin/gmake -f Makefile cmTC_afc8f/fast
+        /opt/homebrew/bin/gmake  -f CMakeFiles/cmTC_afc8f.dir/build.make CMakeFiles/cmTC_afc8f.dir/build
+        gmake[1]: Entering directory '/Users/williambogdanovic/Desktop/simulations/SoA/build/CMakeFiles/CMakeScratch/TryCompile-DprMk5'
+        Building C object CMakeFiles/cmTC_afc8f.dir/CMakeCCompilerABI.c.o
+        /Applications/miniconda3/bin/arm64-apple-darwin20.0.0-clang   -ftree-vectorize -fPIC -fstack-protector-strong -O2 -pipe -isystem /Applications/miniconda3/include  -arch arm64 -isysroot /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX.sdk   -v -Wl,-v -MD -MT CMakeFiles/cmTC_afc8f.dir/CMakeCCompilerABI.c.o -MF CMakeFiles/cmTC_afc8f.dir/CMakeCCompilerABI.c.o.d -o CMakeFiles/cmTC_afc8f.dir/CMakeCCompilerABI.c.o -c /opt/homebrew/share/cmake/Modules/CMakeCCompilerABI.c
         clang version 16.0.6
         Target: arm64-apple-darwin20.0.0
         Thread model: posix
         InstalledDir: /Applications/miniconda3/bin
         clang-16: warning: -Wl,-v: 'linker' input unused [-Wunused-command-line-argument]
          (in-process)
-         "/Applications/miniconda3/bin/clang-16" -cc1 -triple arm64-apple-macosx15.0.0 -Wundef-prefix=TARGET_OS_ -Werror=undef-prefix -Wdeprecated-objc-isa-usage -Werror=deprecated-objc-isa-usage -emit-obj -mrelax-all -disable-free -clear-ast-before-backend -disable-llvm-verifier -discard-value-names -main-file-name CMakeCCompilerABI.c -mrelocation-model pic -pic-level 2 -pic-is-pie -mframe-pointer=non-leaf -ffp-contract=on -fno-rounding-math -funwind-tables=1 -target-sdk-version=15.2 -fcompatibility-qualified-id-block-type-checking -fvisibility-inlines-hidden-static-local-var -target-cpu apple-m1 -target-feature +v8.5a -target-feature +crc -target-feature +crypto -target-feature +dotprod -target-feature +fp-armv8 -target-feature +fp16fml -target-feature +lse -target-feature +ras -target-feature +rcpc -target-feature +rdm -target-feature +neon -target-feature +zcm -target-feature +zcz -target-feature +fullfp16 -target-feature +sm4 -target-feature +sha3 -target-feature +sha2 -target-feature +aes -target-abi darwinpcs -mllvm -treat-scalable-fixed-error-as-warning -debugger-tuning=lldb -target-linker-version 711 -v -fcoverage-compilation-dir=/Users/williambogdanovic/Desktop/simulations/SoA/build/CMakeFiles/CMakeScratch/TryCompile-YBZYIR -resource-dir /Applications/miniconda3/lib/clang/16 -dependency-file CMakeFiles/cmTC_dfd30.dir/CMakeCCompilerABI.c.o.d -MT CMakeFiles/cmTC_dfd30.dir/CMakeCCompilerABI.c.o -sys-header-deps -isysroot /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX.sdk -I /opt/homebrew/include -internal-isystem /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX.sdk/usr/local/include -internal-isystem /Applications/miniconda3/lib/clang/16/include -internal-externc-isystem /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX.sdk/usr/include -fdebug-compilation-dir=/Users/williambogdanovic/Desktop/simulations/SoA/build/CMakeFiles/CMakeScratch/TryCompile-YBZYIR -ferror-limit 19 -stack-protector 1 -fblocks -fencode-extended-block-signature -fregister-global-dtors-with-atexit -fgnuc-version=4.2.1 -fmax-type-align=16 -D__GCC_HAVE_DWARF2_CFI_ASM=1 -o CMakeFiles/cmTC_dfd30.dir/CMakeCCompilerABI.c.o -x c /opt/homebrew/share/cmake/Modules/CMakeCCompilerABI.c
+         "/Applications/miniconda3/bin/clang-16" -cc1 -triple arm64-apple-macosx15.0.0 -Wundef-prefix=TARGET_OS_ -Werror=undef-prefix -Wdeprecated-objc-isa-usage -Werror=deprecated-objc-isa-usage -emit-obj -disable-free -clear-ast-before-backend -disable-llvm-verifier -discard-value-names -main-file-name CMakeCCompilerABI.c -mrelocation-model pic -pic-level 2 -pic-is-pie -mframe-pointer=non-leaf -ffp-contract=on -fno-rounding-math -funwind-tables=1 -target-sdk-version=15.2 -fcompatibility-qualified-id-block-type-checking -fvisibility-inlines-hidden-static-local-var -target-cpu apple-m1 -target-feature +v8.5a -target-feature +crc -target-feature +crypto -target-feature +dotprod -target-feature +fp-armv8 -target-feature +fp16fml -target-feature +lse -target-feature +ras -target-feature +rcpc -target-feature +rdm -target-feature +neon -target-feature +zcm -target-feature +zcz -target-feature +fullfp16 -target-feature +sm4 -target-feature +sha3 -target-feature +sha2 -target-feature +aes -target-abi darwinpcs -mllvm -treat-scalable-fixed-error-as-warning -debugger-tuning=lldb -target-linker-version 711 -v -fcoverage-compilation-dir=/Users/williambogdanovic/Desktop/simulations/SoA/build/CMakeFiles/CMakeScratch/TryCompile-DprMk5 -resource-dir /Applications/miniconda3/lib/clang/16 -dependency-file CMakeFiles/cmTC_afc8f.dir/CMakeCCompilerABI.c.o.d -MT CMakeFiles/cmTC_afc8f.dir/CMakeCCompilerABI.c.o -sys-header-deps -isystem /Applications/miniconda3/include -isysroot /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX.sdk -internal-isystem /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX.sdk/usr/local/include -internal-isystem /Applications/miniconda3/lib/clang/16/include -internal-externc-isystem /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX.sdk/usr/include -O2 -fdebug-compilation-dir=/Users/williambogdanovic/Desktop/simulations/SoA/build/CMakeFiles/CMakeScratch/TryCompile-DprMk5 -ferror-limit 19 -stack-protector 2 -fblocks -fencode-extended-block-signature -fregister-global-dtors-with-atexit -fgnuc-version=4.2.1 -fmax-type-align=16 -vectorize-loops -vectorize-slp -D__GCC_HAVE_DWARF2_CFI_ASM=1 -o CMakeFiles/cmTC_afc8f.dir/CMakeCCompilerABI.c.o -x c /opt/homebrew/share/cmake/Modules/CMakeCCompilerABI.c
         clang -cc1 version 16.0.6 based upon LLVM 16.0.6 default target arm64-apple-darwin24.3.0
         ignoring nonexistent directory "/Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX.sdk/usr/local/include"
         ignoring nonexistent directory "/Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX.sdk/Library/Frameworks"
         #include "..." search starts here:
         #include <...> search starts here:
-         /opt/homebrew/include
+         /Applications/miniconda3/include
          /Applications/miniconda3/lib/clang/16/include
          /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX.sdk/usr/include
          /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX.sdk/System/Library/Frameworks (framework directory)
         End of search list.
-        Linking C executable cmTC_dfd30
-        /opt/homebrew/bin/cmake -E cmake_link_script CMakeFiles/cmTC_dfd30.dir/link.txt --verbose=1
+        Linking C executable cmTC_afc8f
+        /opt/homebrew/bin/cmake -E cmake_link_script CMakeFiles/cmTC_afc8f.dir/link.txt --verbose=1
         clang version 16.0.6
         Target: arm64-apple-darwin20.0.0
         Thread model: posix
         InstalledDir: /Applications/miniconda3/bin
-         "/Applications/miniconda3/bin/arm64-apple-darwin20.0.0-ld" -demangle -lto_library /Applications/miniconda3/lib/libLTO.16.dylib -dynamic -arch arm64 -platform_version macos 15.0.0 15.2 -syslibroot /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX.sdk -o cmTC_dfd30 -L/opt/homebrew/lib -L/opt/homebrew/lib -search_paths_first -headerpad_max_install_names -v CMakeFiles/cmTC_dfd30.dir/CMakeCCompilerABI.c.o -lSystem /Applications/miniconda3/lib/clang/16/lib/darwin/libclang_rt.osx.a
+         "/Applications/miniconda3/bin/arm64-apple-darwin20.0.0-ld" -demangle -lto_library /Applications/miniconda3/lib/libLTO.16.dylib -dynamic -arch arm64 -platform_version macos 15.0.0 15.2 -syslibroot /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX.sdk -o cmTC_afc8f -L/Applications/miniconda3/lib -search_paths_first -headerpad_max_install_names -headerpad_max_install_names -dead_strip_dylibs -rpath /Applications/miniconda3/lib -v CMakeFiles/cmTC_afc8f.dir/CMakeCCompilerABI.c.o -lSystem /Applications/miniconda3/lib/clang/16/lib/darwin/libclang_rt.osx.a
         @(#)PROGRAM:ld  PROJECT:ld64-711
         BUILD 01:34:15 Mar 15 2024
         configured to support archs: armv6 armv7 armv7s arm64 arm64e arm64_32 i386 x86_64 x86_64h armv6m armv7k armv7m armv7em (tvOS)
         Library search paths:
-        	/opt/homebrew/lib
-        	/opt/homebrew/lib
+        	/Applications/miniconda3/lib
         	/Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX.sdk/usr/lib
         Framework search paths:
         	/Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX.sdk/System/Library/Frameworks/
-        /Applications/miniconda3/bin/arm64-apple-darwin20.0.0-clang -I/opt/homebrew/include  -arch arm64 -isysroot /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX.sdk -Wl,-search_paths_first -Wl,-headerpad_max_install_names -L/opt/homebrew/lib -v -Wl,-v CMakeFiles/cmTC_dfd30.dir/CMakeCCompilerABI.c.o -o cmTC_dfd30
-        gmake[1]: Leaving directory '/Users/williambogdanovic/Desktop/simulations/SoA/build/CMakeFiles/CMakeScratch/TryCompile-YBZYIR'
+        /Applications/miniconda3/bin/arm64-apple-darwin20.0.0-clang -ftree-vectorize -fPIC -fstack-protector-strong -O2 -pipe -isystem /Applications/miniconda3/include  -arch arm64 -isysroot /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX.sdk -Wl,-search_paths_first -Wl,-headerpad_max_install_names -Wl,-headerpad_max_install_names -Wl,-dead_strip_dylibs -Wl,-rpath,/Applications/miniconda3/lib -L/Applications/miniconda3/lib -v -Wl,-v CMakeFiles/cmTC_afc8f.dir/CMakeCCompilerABI.c.o -o cmTC_afc8f
+        gmake[1]: Leaving directory '/Users/williambogdanovic/Desktop/simulations/SoA/build/CMakeFiles/CMakeScratch/TryCompile-DprMk5'
         
       exitCode: 0
   -
@@ -138,14 +137,14 @@ events:
       Parsed C implicit include dir info: rv=done
         found start of include info
         found start of implicit include info
-          add: [/opt/homebrew/include]
+          add: [/Applications/miniconda3/include]
           add: [/Applications/miniconda3/lib/clang/16/include]
           add: [/Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX.sdk/usr/include]
         end of search list found
-        collapse include dir [/opt/homebrew/include] ==> [/opt/homebrew/include]
+        collapse include dir [/Applications/miniconda3/include] ==> [/Applications/miniconda3/include]
         collapse include dir [/Applications/miniconda3/lib/clang/16/include] ==> [/Applications/miniconda3/lib/clang/16/include]
         collapse include dir [/Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX.sdk/usr/include] ==> [/Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX.sdk/usr/include]
-        implicit include dirs: [/opt/homebrew/include;/Applications/miniconda3/lib/clang/16/include;/Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX.sdk/usr/include]
+        implicit include dirs: [/Applications/miniconda3/include;/Applications/miniconda3/lib/clang/16/include;/Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX.sdk/usr/include]
       
       
   -
@@ -158,37 +157,37 @@ events:
       Parsed C implicit link information:
         link line regex: [^( *|.*[/\\])(ld[0-9]*(\\.[a-z]+)?|CMAKE_LINK_STARTFILE-NOTFOUND|([^/\\]+-)?ld|collect2)[^/\\]*( |$)]
         linker tool regex: [^[ 	]*(->|")?[ 	]*(([^"]*[/\\])?(ld[0-9]*(\\.[a-z]+)?))("|,| |$)]
-        ignore line: [Change Dir: '/Users/williambogdanovic/Desktop/simulations/SoA/build/CMakeFiles/CMakeScratch/TryCompile-YBZYIR']
+        ignore line: [Change Dir: '/Users/williambogdanovic/Desktop/simulations/SoA/build/CMakeFiles/CMakeScratch/TryCompile-DprMk5']
         ignore line: []
-        ignore line: [Run Build Command(s): /opt/homebrew/bin/cmake -E env VERBOSE=1 /opt/homebrew/bin/gmake -f Makefile cmTC_dfd30/fast]
-        ignore line: [/opt/homebrew/bin/gmake  -f CMakeFiles/cmTC_dfd30.dir/build.make CMakeFiles/cmTC_dfd30.dir/build]
-        ignore line: [gmake[1]: Entering directory '/Users/williambogdanovic/Desktop/simulations/SoA/build/CMakeFiles/CMakeScratch/TryCompile-YBZYIR']
-        ignore line: [Building C object CMakeFiles/cmTC_dfd30.dir/CMakeCCompilerABI.c.o]
-        ignore line: [/Applications/miniconda3/bin/arm64-apple-darwin20.0.0-clang   -I/opt/homebrew/include  -arch arm64 -isysroot /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX.sdk   -v -Wl -v -MD -MT CMakeFiles/cmTC_dfd30.dir/CMakeCCompilerABI.c.o -MF CMakeFiles/cmTC_dfd30.dir/CMakeCCompilerABI.c.o.d -o CMakeFiles/cmTC_dfd30.dir/CMakeCCompilerABI.c.o -c /opt/homebrew/share/cmake/Modules/CMakeCCompilerABI.c]
+        ignore line: [Run Build Command(s): /opt/homebrew/bin/cmake -E env VERBOSE=1 /opt/homebrew/bin/gmake -f Makefile cmTC_afc8f/fast]
+        ignore line: [/opt/homebrew/bin/gmake  -f CMakeFiles/cmTC_afc8f.dir/build.make CMakeFiles/cmTC_afc8f.dir/build]
+        ignore line: [gmake[1]: Entering directory '/Users/williambogdanovic/Desktop/simulations/SoA/build/CMakeFiles/CMakeScratch/TryCompile-DprMk5']
+        ignore line: [Building C object CMakeFiles/cmTC_afc8f.dir/CMakeCCompilerABI.c.o]
+        ignore line: [/Applications/miniconda3/bin/arm64-apple-darwin20.0.0-clang   -ftree-vectorize -fPIC -fstack-protector-strong -O2 -pipe -isystem /Applications/miniconda3/include  -arch arm64 -isysroot /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX.sdk   -v -Wl -v -MD -MT CMakeFiles/cmTC_afc8f.dir/CMakeCCompilerABI.c.o -MF CMakeFiles/cmTC_afc8f.dir/CMakeCCompilerABI.c.o.d -o CMakeFiles/cmTC_afc8f.dir/CMakeCCompilerABI.c.o -c /opt/homebrew/share/cmake/Modules/CMakeCCompilerABI.c]
         ignore line: [clang version 16.0.6]
         ignore line: [Target: arm64-apple-darwin20.0.0]
         ignore line: [Thread model: posix]
         ignore line: [InstalledDir: /Applications/miniconda3/bin]
         ignore line: [clang-16: warning: -Wl -v: 'linker' input unused [-Wunused-command-line-argument]]
         ignore line: [ (in-process)]
-        ignore line: [ "/Applications/miniconda3/bin/clang-16" -cc1 -triple arm64-apple-macosx15.0.0 -Wundef-prefix=TARGET_OS_ -Werror=undef-prefix -Wdeprecated-objc-isa-usage -Werror=deprecated-objc-isa-usage -emit-obj -mrelax-all -disable-free -clear-ast-before-backend -disable-llvm-verifier -discard-value-names -main-file-name CMakeCCompilerABI.c -mrelocation-model pic -pic-level 2 -pic-is-pie -mframe-pointer=non-leaf -ffp-contract=on -fno-rounding-math -funwind-tables=1 -target-sdk-version=15.2 -fcompatibility-qualified-id-block-type-checking -fvisibility-inlines-hidden-static-local-var -target-cpu apple-m1 -target-feature +v8.5a -target-feature +crc -target-feature +crypto -target-feature +dotprod -target-feature +fp-armv8 -target-feature +fp16fml -target-feature +lse -target-feature +ras -target-feature +rcpc -target-feature +rdm -target-feature +neon -target-feature +zcm -target-feature +zcz -target-feature +fullfp16 -target-feature +sm4 -target-feature +sha3 -target-feature +sha2 -target-feature +aes -target-abi darwinpcs -mllvm -treat-scalable-fixed-error-as-warning -debugger-tuning=lldb -target-linker-version 711 -v -fcoverage-compilation-dir=/Users/williambogdanovic/Desktop/simulations/SoA/build/CMakeFiles/CMakeScratch/TryCompile-YBZYIR -resource-dir /Applications/miniconda3/lib/clang/16 -dependency-file CMakeFiles/cmTC_dfd30.dir/CMakeCCompilerABI.c.o.d -MT CMakeFiles/cmTC_dfd30.dir/CMakeCCompilerABI.c.o -sys-header-deps -isysroot /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX.sdk -I /opt/homebrew/include -internal-isystem /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX.sdk/usr/local/include -internal-isystem /Applications/miniconda3/lib/clang/16/include -internal-externc-isystem /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX.sdk/usr/include -fdebug-compilation-dir=/Users/williambogdanovic/Desktop/simulations/SoA/build/CMakeFiles/CMakeScratch/TryCompile-YBZYIR -ferror-limit 19 -stack-protector 1 -fblocks -fencode-extended-block-signature -fregister-global-dtors-with-atexit -fgnuc-version=4.2.1 -fmax-type-align=16 -D__GCC_HAVE_DWARF2_CFI_ASM=1 -o CMakeFiles/cmTC_dfd30.dir/CMakeCCompilerABI.c.o -x c /opt/homebrew/share/cmake/Modules/CMakeCCompilerABI.c]
+        ignore line: [ "/Applications/miniconda3/bin/clang-16" -cc1 -triple arm64-apple-macosx15.0.0 -Wundef-prefix=TARGET_OS_ -Werror=undef-prefix -Wdeprecated-objc-isa-usage -Werror=deprecated-objc-isa-usage -emit-obj -disable-free -clear-ast-before-backend -disable-llvm-verifier -discard-value-names -main-file-name CMakeCCompilerABI.c -mrelocation-model pic -pic-level 2 -pic-is-pie -mframe-pointer=non-leaf -ffp-contract=on -fno-rounding-math -funwind-tables=1 -target-sdk-version=15.2 -fcompatibility-qualified-id-block-type-checking -fvisibility-inlines-hidden-static-local-var -target-cpu apple-m1 -target-feature +v8.5a -target-feature +crc -target-feature +crypto -target-feature +dotprod -target-feature +fp-armv8 -target-feature +fp16fml -target-feature +lse -target-feature +ras -target-feature +rcpc -target-feature +rdm -target-feature +neon -target-feature +zcm -target-feature +zcz -target-feature +fullfp16 -target-feature +sm4 -target-feature +sha3 -target-feature +sha2 -target-feature +aes -target-abi darwinpcs -mllvm -treat-scalable-fixed-error-as-warning -debugger-tuning=lldb -target-linker-version 711 -v -fcoverage-compilation-dir=/Users/williambogdanovic/Desktop/simulations/SoA/build/CMakeFiles/CMakeScratch/TryCompile-DprMk5 -resource-dir /Applications/miniconda3/lib/clang/16 -dependency-file CMakeFiles/cmTC_afc8f.dir/CMakeCCompilerABI.c.o.d -MT CMakeFiles/cmTC_afc8f.dir/CMakeCCompilerABI.c.o -sys-header-deps -isystem /Applications/miniconda3/include -isysroot /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX.sdk -internal-isystem /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX.sdk/usr/local/include -internal-isystem /Applications/miniconda3/lib/clang/16/include -internal-externc-isystem /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX.sdk/usr/include -O2 -fdebug-compilation-dir=/Users/williambogdanovic/Desktop/simulations/SoA/build/CMakeFiles/CMakeScratch/TryCompile-DprMk5 -ferror-limit 19 -stack-protector 2 -fblocks -fencode-extended-block-signature -fregister-global-dtors-with-atexit -fgnuc-version=4.2.1 -fmax-type-align=16 -vectorize-loops -vectorize-slp -D__GCC_HAVE_DWARF2_CFI_ASM=1 -o CMakeFiles/cmTC_afc8f.dir/CMakeCCompilerABI.c.o -x c /opt/homebrew/share/cmake/Modules/CMakeCCompilerABI.c]
         ignore line: [clang -cc1 version 16.0.6 based upon LLVM 16.0.6 default target arm64-apple-darwin24.3.0]
         ignore line: [ignoring nonexistent directory "/Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX.sdk/usr/local/include"]
         ignore line: [ignoring nonexistent directory "/Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX.sdk/Library/Frameworks"]
         ignore line: [#include "..." search starts here:]
         ignore line: [#include <...> search starts here:]
-        ignore line: [ /opt/homebrew/include]
+        ignore line: [ /Applications/miniconda3/include]
         ignore line: [ /Applications/miniconda3/lib/clang/16/include]
         ignore line: [ /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX.sdk/usr/include]
         ignore line: [ /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX.sdk/System/Library/Frameworks (framework directory)]
         ignore line: [End of search list.]
-        ignore line: [Linking C executable cmTC_dfd30]
-        ignore line: [/opt/homebrew/bin/cmake -E cmake_link_script CMakeFiles/cmTC_dfd30.dir/link.txt --verbose=1]
+        ignore line: [Linking C executable cmTC_afc8f]
+        ignore line: [/opt/homebrew/bin/cmake -E cmake_link_script CMakeFiles/cmTC_afc8f.dir/link.txt --verbose=1]
         ignore line: [clang version 16.0.6]
         ignore line: [Target: arm64-apple-darwin20.0.0]
         ignore line: [Thread model: posix]
         ignore line: [InstalledDir: /Applications/miniconda3/bin]
-        link line: [ "/Applications/miniconda3/bin/arm64-apple-darwin20.0.0-ld" -demangle -lto_library /Applications/miniconda3/lib/libLTO.16.dylib -dynamic -arch arm64 -platform_version macos 15.0.0 15.2 -syslibroot /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX.sdk -o cmTC_dfd30 -L/opt/homebrew/lib -L/opt/homebrew/lib -search_paths_first -headerpad_max_install_names -v CMakeFiles/cmTC_dfd30.dir/CMakeCCompilerABI.c.o -lSystem /Applications/miniconda3/lib/clang/16/lib/darwin/libclang_rt.osx.a]
+        link line: [ "/Applications/miniconda3/bin/arm64-apple-darwin20.0.0-ld" -demangle -lto_library /Applications/miniconda3/lib/libLTO.16.dylib -dynamic -arch arm64 -platform_version macos 15.0.0 15.2 -syslibroot /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX.sdk -o cmTC_afc8f -L/Applications/miniconda3/lib -search_paths_first -headerpad_max_install_names -headerpad_max_install_names -dead_strip_dylibs -rpath /Applications/miniconda3/lib -v CMakeFiles/cmTC_afc8f.dir/CMakeCCompilerABI.c.o -lSystem /Applications/miniconda3/lib/clang/16/lib/darwin/libclang_rt.osx.a]
           arg [/Applications/miniconda3/bin/arm64-apple-darwin20.0.0-ld] ==> ignore
           arg [-demangle] ==> ignore
           arg [-lto_library] ==> ignore, skip following value
@@ -203,41 +202,41 @@ events:
           arg [-syslibroot] ==> ignore
           arg [/Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX.sdk] ==> ignore
           arg [-o] ==> ignore
-          arg [cmTC_dfd30] ==> ignore
-          arg [-L/opt/homebrew/lib] ==> dir [/opt/homebrew/lib]
-          arg [-L/opt/homebrew/lib] ==> dir [/opt/homebrew/lib]
+          arg [cmTC_afc8f] ==> ignore
+          arg [-L/Applications/miniconda3/lib] ==> dir [/Applications/miniconda3/lib]
           arg [-search_paths_first] ==> ignore
           arg [-headerpad_max_install_names] ==> ignore
+          arg [-headerpad_max_install_names] ==> ignore
+          arg [-dead_strip_dylibs] ==> ignore
+          arg [-rpath] ==> ignore
+          arg [/Applications/miniconda3/lib] ==> ignore
           arg [-v] ==> ignore
-          arg [CMakeFiles/cmTC_dfd30.dir/CMakeCCompilerABI.c.o] ==> ignore
+          arg [CMakeFiles/cmTC_afc8f.dir/CMakeCCompilerABI.c.o] ==> ignore
           arg [-lSystem] ==> lib [System]
           arg [/Applications/miniconda3/lib/clang/16/lib/darwin/libclang_rt.osx.a] ==> lib [/Applications/miniconda3/lib/clang/16/lib/darwin/libclang_rt.osx.a]
         ignore line: [@(#)PROGRAM:ld  PROJECT:ld64-711]
         ignore line: [BUILD 01:34:15 Mar 15 2024]
         ignore line: [configured to support archs: armv6 armv7 armv7s arm64 arm64e arm64_32 i386 x86_64 x86_64h armv6m armv7k armv7m armv7em (tvOS)]
         ignore line: [Library search paths:]
-        ignore line: [	/opt/homebrew/lib]
-        ignore line: [	/opt/homebrew/lib]
+        ignore line: [	/Applications/miniconda3/lib]
         ignore line: [	/Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX.sdk/usr/lib]
         ignore line: [Framework search paths:]
         ignore line: [	/Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX.sdk/System/Library/Frameworks/]
-        ignore line: [/Applications/miniconda3/bin/arm64-apple-darwin20.0.0-clang -I/opt/homebrew/include  -arch arm64 -isysroot /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX.sdk -Wl -search_paths_first -Wl -headerpad_max_install_names -L/opt/homebrew/lib -v -Wl -v CMakeFiles/cmTC_dfd30.dir/CMakeCCompilerABI.c.o -o cmTC_dfd30]
-        ignore line: [gmake[1]: Leaving directory '/Users/williambogdanovic/Desktop/simulations/SoA/build/CMakeFiles/CMakeScratch/TryCompile-YBZYIR']
+        ignore line: [/Applications/miniconda3/bin/arm64-apple-darwin20.0.0-clang -ftree-vectorize -fPIC -fstack-protector-strong -O2 -pipe -isystem /Applications/miniconda3/include  -arch arm64 -isysroot /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX.sdk -Wl -search_paths_first -Wl -headerpad_max_install_names -Wl -headerpad_max_install_names -Wl -dead_strip_dylibs -Wl -rpath /Applications/miniconda3/lib -L/Applications/miniconda3/lib -v -Wl -v CMakeFiles/cmTC_afc8f.dir/CMakeCCompilerABI.c.o -o cmTC_afc8f]
+        ignore line: [gmake[1]: Leaving directory '/Users/williambogdanovic/Desktop/simulations/SoA/build/CMakeFiles/CMakeScratch/TryCompile-DprMk5']
         ignore line: []
         ignore line: []
-        Library search paths: [;/opt/homebrew/lib;/opt/homebrew/lib;/Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX.sdk/usr/lib]
+        Library search paths: [;/Applications/miniconda3/lib;/Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX.sdk/usr/lib]
         Framework search paths: [;/Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX.sdk/System/Library/Frameworks/]
         remove lib [System]
         remove lib [/Applications/miniconda3/lib/clang/16/lib/darwin/libclang_rt.osx.a]
-        collapse library dir [/opt/homebrew/lib] ==> [/opt/homebrew/lib]
-        collapse library dir [/opt/homebrew/lib] ==> [/opt/homebrew/lib]
-        collapse library dir [/opt/homebrew/lib] ==> [/opt/homebrew/lib]
-        collapse library dir [/opt/homebrew/lib] ==> [/opt/homebrew/lib]
+        collapse library dir [/Applications/miniconda3/lib] ==> [/Applications/miniconda3/lib]
+        collapse library dir [/Applications/miniconda3/lib] ==> [/Applications/miniconda3/lib]
         collapse library dir [/Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX.sdk/usr/lib] ==> [/Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX.sdk/usr/lib]
         collapse framework dir [/Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX.sdk/System/Library/Frameworks/] ==> [/Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX.sdk/System/Library/Frameworks]
         implicit libs: []
         implicit objs: []
-        implicit dirs: [/opt/homebrew/lib;/Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX.sdk/usr/lib]
+        implicit dirs: [/Applications/miniconda3/lib;/Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX.sdk/usr/lib]
         implicit fwks: [/Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX.sdk/System/Library/Frameworks]
       
       
@@ -250,14 +249,14 @@ events:
     checks:
       - "Detecting CXX compiler ABI info"
     directories:
-      source: "/Users/williambogdanovic/Desktop/simulations/SoA/build/CMakeFiles/CMakeScratch/TryCompile-ebQ5Il"
-      binary: "/Users/williambogdanovic/Desktop/simulations/SoA/build/CMakeFiles/CMakeScratch/TryCompile-ebQ5Il"
+      source: "/Users/williambogdanovic/Desktop/simulations/SoA/build/CMakeFiles/CMakeScratch/TryCompile-PhYWqn"
+      binary: "/Users/williambogdanovic/Desktop/simulations/SoA/build/CMakeFiles/CMakeScratch/TryCompile-PhYWqn"
     cmakeVariables:
       CMAKE_CXX_COMPILER_CLANG_SCAN_DEPS: "CMAKE_CXX_COMPILER_CLANG_SCAN_DEPS-NOTFOUND"
       CMAKE_CXX_FLAGS: "-ftree-vectorize -fPIC -fstack-protector-strong -O2 -pipe -stdlib=libc++ -fvisibility-inlines-hidden -fmessage-length=0 -isystem /Applications/miniconda3/include"
       CMAKE_CXX_FLAGS_DEBUG: "-g"
       CMAKE_CXX_SCAN_FOR_MODULES: "OFF"
-      CMAKE_EXE_LINKER_FLAGS: "-L/opt/homebrew/lib"
+      CMAKE_EXE_LINKER_FLAGS: "-Wl,-headerpad_max_install_names -Wl,-dead_strip_dylibs -Wl,-rpath,/Applications/miniconda3/lib -L/Applications/miniconda3/lib"
       CMAKE_OSX_ARCHITECTURES: ""
       CMAKE_OSX_DEPLOYMENT_TARGET: ""
       CMAKE_OSX_SYSROOT: "/Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX.sdk"
@@ -265,20 +264,20 @@ events:
       variable: "CMAKE_CXX_ABI_COMPILED"
       cached: true
       stdout: |
-        Change Dir: '/Users/williambogdanovic/Desktop/simulations/SoA/build/CMakeFiles/CMakeScratch/TryCompile-ebQ5Il'
+        Change Dir: '/Users/williambogdanovic/Desktop/simulations/SoA/build/CMakeFiles/CMakeScratch/TryCompile-PhYWqn'
         
-        Run Build Command(s): /opt/homebrew/bin/cmake -E env VERBOSE=1 /opt/homebrew/bin/gmake -f Makefile cmTC_58d4d/fast
-        /opt/homebrew/bin/gmake  -f CMakeFiles/cmTC_58d4d.dir/build.make CMakeFiles/cmTC_58d4d.dir/build
-        gmake[1]: Entering directory '/Users/williambogdanovic/Desktop/simulations/SoA/build/CMakeFiles/CMakeScratch/TryCompile-ebQ5Il'
-        Building CXX object CMakeFiles/cmTC_58d4d.dir/CMakeCXXCompilerABI.cpp.o
-        /Applications/miniconda3/bin/arm64-apple-darwin20.0.0-clang++   -ftree-vectorize -fPIC -fstack-protector-strong -O2 -pipe -stdlib=libc++ -fvisibility-inlines-hidden -fmessage-length=0 -isystem /Applications/miniconda3/include  -arch arm64 -isysroot /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX.sdk   -v -Wl,-v -MD -MT CMakeFiles/cmTC_58d4d.dir/CMakeCXXCompilerABI.cpp.o -MF CMakeFiles/cmTC_58d4d.dir/CMakeCXXCompilerABI.cpp.o.d -o CMakeFiles/cmTC_58d4d.dir/CMakeCXXCompilerABI.cpp.o -c /opt/homebrew/share/cmake/Modules/CMakeCXXCompilerABI.cpp
+        Run Build Command(s): /opt/homebrew/bin/cmake -E env VERBOSE=1 /opt/homebrew/bin/gmake -f Makefile cmTC_2ede8/fast
+        /opt/homebrew/bin/gmake  -f CMakeFiles/cmTC_2ede8.dir/build.make CMakeFiles/cmTC_2ede8.dir/build
+        gmake[1]: Entering directory '/Users/williambogdanovic/Desktop/simulations/SoA/build/CMakeFiles/CMakeScratch/TryCompile-PhYWqn'
+        Building CXX object CMakeFiles/cmTC_2ede8.dir/CMakeCXXCompilerABI.cpp.o
+        /Applications/miniconda3/bin/arm64-apple-darwin20.0.0-clang++   -ftree-vectorize -fPIC -fstack-protector-strong -O2 -pipe -stdlib=libc++ -fvisibility-inlines-hidden -fmessage-length=0 -isystem /Applications/miniconda3/include  -arch arm64 -isysroot /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX.sdk   -v -Wl,-v -MD -MT CMakeFiles/cmTC_2ede8.dir/CMakeCXXCompilerABI.cpp.o -MF CMakeFiles/cmTC_2ede8.dir/CMakeCXXCompilerABI.cpp.o.d -o CMakeFiles/cmTC_2ede8.dir/CMakeCXXCompilerABI.cpp.o -c /opt/homebrew/share/cmake/Modules/CMakeCXXCompilerABI.cpp
         clang version 16.0.6
         Target: arm64-apple-darwin20.0.0
         Thread model: posix
         InstalledDir: /Applications/miniconda3/bin
         clang-16: warning: -Wl,-v: 'linker' input unused [-Wunused-command-line-argument]
          (in-process)
-         "/Applications/miniconda3/bin/clang-16" -cc1 -triple arm64-apple-macosx15.0.0 -Wundef-prefix=TARGET_OS_ -Werror=undef-prefix -Wdeprecated-objc-isa-usage -Werror=deprecated-objc-isa-usage -emit-obj -disable-free -clear-ast-before-backend -disable-llvm-verifier -discard-value-names -main-file-name CMakeCXXCompilerABI.cpp -mrelocation-model pic -pic-level 2 -pic-is-pie -mframe-pointer=non-leaf -ffp-contract=on -fno-rounding-math -funwind-tables=1 -target-sdk-version=15.2 -fcompatibility-qualified-id-block-type-checking -fvisibility-inlines-hidden-static-local-var -target-cpu apple-m1 -target-feature +v8.5a -target-feature +crc -target-feature +crypto -target-feature +dotprod -target-feature +fp-armv8 -target-feature +fp16fml -target-feature +lse -target-feature +ras -target-feature +rcpc -target-feature +rdm -target-feature +neon -target-feature +zcm -target-feature +zcz -target-feature +fullfp16 -target-feature +sm4 -target-feature +sha3 -target-feature +sha2 -target-feature +aes -target-abi darwinpcs -mllvm -treat-scalable-fixed-error-as-warning -debugger-tuning=lldb -target-linker-version 711 -v -fcoverage-compilation-dir=/Users/williambogdanovic/Desktop/simulations/SoA/build/CMakeFiles/CMakeScratch/TryCompile-ebQ5Il -resource-dir /Applications/miniconda3/lib/clang/16 -dependency-file CMakeFiles/cmTC_58d4d.dir/CMakeCXXCompilerABI.cpp.o.d -MT CMakeFiles/cmTC_58d4d.dir/CMakeCXXCompilerABI.cpp.o -sys-header-deps -isystem /Applications/miniconda3/include -isysroot /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX.sdk -stdlib=libc++ -internal-isystem /Applications/miniconda3/bin/../include/c++/v1 -internal-isystem /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX.sdk/usr/local/include -internal-isystem /Applications/miniconda3/lib/clang/16/include -internal-externc-isystem /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX.sdk/usr/include -O2 -fdeprecated-macro -fdebug-compilation-dir=/Users/williambogdanovic/Desktop/simulations/SoA/build/CMakeFiles/CMakeScratch/TryCompile-ebQ5Il -ferror-limit 19 -fvisibility-inlines-hidden -stack-protector 2 -fblocks -fencode-extended-block-signature -fregister-global-dtors-with-atexit -fgnuc-version=4.2.1 -fcxx-exceptions -fexceptions -fmax-type-align=16 -vectorize-loops -vectorize-slp -D__GCC_HAVE_DWARF2_CFI_ASM=1 -o CMakeFiles/cmTC_58d4d.dir/CMakeCXXCompilerABI.cpp.o -x c++ /opt/homebrew/share/cmake/Modules/CMakeCXXCompilerABI.cpp
+         "/Applications/miniconda3/bin/clang-16" -cc1 -triple arm64-apple-macosx15.0.0 -Wundef-prefix=TARGET_OS_ -Werror=undef-prefix -Wdeprecated-objc-isa-usage -Werror=deprecated-objc-isa-usage -emit-obj -disable-free -clear-ast-before-backend -disable-llvm-verifier -discard-value-names -main-file-name CMakeCXXCompilerABI.cpp -mrelocation-model pic -pic-level 2 -pic-is-pie -mframe-pointer=non-leaf -ffp-contract=on -fno-rounding-math -funwind-tables=1 -target-sdk-version=15.2 -fcompatibility-qualified-id-block-type-checking -fvisibility-inlines-hidden-static-local-var -target-cpu apple-m1 -target-feature +v8.5a -target-feature +crc -target-feature +crypto -target-feature +dotprod -target-feature +fp-armv8 -target-feature +fp16fml -target-feature +lse -target-feature +ras -target-feature +rcpc -target-feature +rdm -target-feature +neon -target-feature +zcm -target-feature +zcz -target-feature +fullfp16 -target-feature +sm4 -target-feature +sha3 -target-feature +sha2 -target-feature +aes -target-abi darwinpcs -mllvm -treat-scalable-fixed-error-as-warning -debugger-tuning=lldb -target-linker-version 711 -v -fcoverage-compilation-dir=/Users/williambogdanovic/Desktop/simulations/SoA/build/CMakeFiles/CMakeScratch/TryCompile-PhYWqn -resource-dir /Applications/miniconda3/lib/clang/16 -dependency-file CMakeFiles/cmTC_2ede8.dir/CMakeCXXCompilerABI.cpp.o.d -MT CMakeFiles/cmTC_2ede8.dir/CMakeCXXCompilerABI.cpp.o -sys-header-deps -isystem /Applications/miniconda3/include -isysroot /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX.sdk -stdlib=libc++ -internal-isystem /Applications/miniconda3/bin/../include/c++/v1 -internal-isystem /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX.sdk/usr/local/include -internal-isystem /Applications/miniconda3/lib/clang/16/include -internal-externc-isystem /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX.sdk/usr/include -O2 -fdeprecated-macro -fdebug-compilation-dir=/Users/williambogdanovic/Desktop/simulations/SoA/build/CMakeFiles/CMakeScratch/TryCompile-PhYWqn -ferror-limit 19 -fvisibility-inlines-hidden -stack-protector 2 -fblocks -fencode-extended-block-signature -fregister-global-dtors-with-atexit -fgnuc-version=4.2.1 -fcxx-exceptions -fexceptions -fmax-type-align=16 -vectorize-loops -vectorize-slp -D__GCC_HAVE_DWARF2_CFI_ASM=1 -o CMakeFiles/cmTC_2ede8.dir/CMakeCXXCompilerABI.cpp.o -x c++ /opt/homebrew/share/cmake/Modules/CMakeCXXCompilerABI.cpp
         clang -cc1 version 16.0.6 based upon LLVM 16.0.6 default target arm64-apple-darwin24.3.0
         ignoring nonexistent directory "/Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX.sdk/usr/local/include"
         ignoring nonexistent directory "/Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX.sdk/Library/Frameworks"
@@ -290,24 +289,23 @@ events:
          /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX.sdk/usr/include
          /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX.sdk/System/Library/Frameworks (framework directory)
         End of search list.
-        Linking CXX executable cmTC_58d4d
-        /opt/homebrew/bin/cmake -E cmake_link_script CMakeFiles/cmTC_58d4d.dir/link.txt --verbose=1
+        Linking CXX executable cmTC_2ede8
+        /opt/homebrew/bin/cmake -E cmake_link_script CMakeFiles/cmTC_2ede8.dir/link.txt --verbose=1
         clang version 16.0.6
         Target: arm64-apple-darwin20.0.0
         Thread model: posix
         InstalledDir: /Applications/miniconda3/bin
-         "/Applications/miniconda3/bin/arm64-apple-darwin20.0.0-ld" -demangle -lto_library /Applications/miniconda3/lib/libLTO.16.dylib -dynamic -arch arm64 -platform_version macos 15.0.0 15.2 -syslibroot /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX.sdk -o cmTC_58d4d -L/opt/homebrew/lib -L/opt/homebrew/lib -search_paths_first -headerpad_max_install_names -v CMakeFiles/cmTC_58d4d.dir/CMakeCXXCompilerABI.cpp.o -lc++ -lSystem /Applications/miniconda3/lib/clang/16/lib/darwin/libclang_rt.osx.a
+         "/Applications/miniconda3/bin/arm64-apple-darwin20.0.0-ld" -demangle -lto_library /Applications/miniconda3/lib/libLTO.16.dylib -dynamic -arch arm64 -platform_version macos 15.0.0 15.2 -syslibroot /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX.sdk -o cmTC_2ede8 -L/Applications/miniconda3/lib -search_paths_first -headerpad_max_install_names -headerpad_max_install_names -dead_strip_dylibs -rpath /Applications/miniconda3/lib -v CMakeFiles/cmTC_2ede8.dir/CMakeCXXCompilerABI.cpp.o -lc++ -lSystem /Applications/miniconda3/lib/clang/16/lib/darwin/libclang_rt.osx.a
         @(#)PROGRAM:ld  PROJECT:ld64-711
         BUILD 01:34:15 Mar 15 2024
         configured to support archs: armv6 armv7 armv7s arm64 arm64e arm64_32 i386 x86_64 x86_64h armv6m armv7k armv7m armv7em (tvOS)
         Library search paths:
-        	/opt/homebrew/lib
-        	/opt/homebrew/lib
+        	/Applications/miniconda3/lib
         	/Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX.sdk/usr/lib
         Framework search paths:
         	/Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX.sdk/System/Library/Frameworks/
-        /Applications/miniconda3/bin/arm64-apple-darwin20.0.0-clang++ -ftree-vectorize -fPIC -fstack-protector-strong -O2 -pipe -stdlib=libc++ -fvisibility-inlines-hidden -fmessage-length=0 -isystem /Applications/miniconda3/include  -arch arm64 -isysroot /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX.sdk -Wl,-search_paths_first -Wl,-headerpad_max_install_names -L/opt/homebrew/lib -v -Wl,-v CMakeFiles/cmTC_58d4d.dir/CMakeCXXCompilerABI.cpp.o -o cmTC_58d4d
-        gmake[1]: Leaving directory '/Users/williambogdanovic/Desktop/simulations/SoA/build/CMakeFiles/CMakeScratch/TryCompile-ebQ5Il'
+        /Applications/miniconda3/bin/arm64-apple-darwin20.0.0-clang++ -ftree-vectorize -fPIC -fstack-protector-strong -O2 -pipe -stdlib=libc++ -fvisibility-inlines-hidden -fmessage-length=0 -isystem /Applications/miniconda3/include  -arch arm64 -isysroot /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX.sdk -Wl,-search_paths_first -Wl,-headerpad_max_install_names -Wl,-headerpad_max_install_names -Wl,-dead_strip_dylibs -Wl,-rpath,/Applications/miniconda3/lib -L/Applications/miniconda3/lib -v -Wl,-v CMakeFiles/cmTC_2ede8.dir/CMakeCXXCompilerABI.cpp.o -o cmTC_2ede8
+        gmake[1]: Leaving directory '/Users/williambogdanovic/Desktop/simulations/SoA/build/CMakeFiles/CMakeScratch/TryCompile-PhYWqn'
         
       exitCode: 0
   -
@@ -351,20 +349,20 @@ events:
       Parsed CXX implicit link information:
         link line regex: [^( *|.*[/\\])(ld[0-9]*(\\.[a-z]+)?|CMAKE_LINK_STARTFILE-NOTFOUND|([^/\\]+-)?ld|collect2)[^/\\]*( |$)]
         linker tool regex: [^[ 	]*(->|")?[ 	]*(([^"]*[/\\])?(ld[0-9]*(\\.[a-z]+)?))("|,| |$)]
-        ignore line: [Change Dir: '/Users/williambogdanovic/Desktop/simulations/SoA/build/CMakeFiles/CMakeScratch/TryCompile-ebQ5Il']
+        ignore line: [Change Dir: '/Users/williambogdanovic/Desktop/simulations/SoA/build/CMakeFiles/CMakeScratch/TryCompile-PhYWqn']
         ignore line: []
-        ignore line: [Run Build Command(s): /opt/homebrew/bin/cmake -E env VERBOSE=1 /opt/homebrew/bin/gmake -f Makefile cmTC_58d4d/fast]
-        ignore line: [/opt/homebrew/bin/gmake  -f CMakeFiles/cmTC_58d4d.dir/build.make CMakeFiles/cmTC_58d4d.dir/build]
-        ignore line: [gmake[1]: Entering directory '/Users/williambogdanovic/Desktop/simulations/SoA/build/CMakeFiles/CMakeScratch/TryCompile-ebQ5Il']
-        ignore line: [Building CXX object CMakeFiles/cmTC_58d4d.dir/CMakeCXXCompilerABI.cpp.o]
-        ignore line: [/Applications/miniconda3/bin/arm64-apple-darwin20.0.0-clang++   -ftree-vectorize -fPIC -fstack-protector-strong -O2 -pipe -stdlib=libc++ -fvisibility-inlines-hidden -fmessage-length=0 -isystem /Applications/miniconda3/include  -arch arm64 -isysroot /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX.sdk   -v -Wl -v -MD -MT CMakeFiles/cmTC_58d4d.dir/CMakeCXXCompilerABI.cpp.o -MF CMakeFiles/cmTC_58d4d.dir/CMakeCXXCompilerABI.cpp.o.d -o CMakeFiles/cmTC_58d4d.dir/CMakeCXXCompilerABI.cpp.o -c /opt/homebrew/share/cmake/Modules/CMakeCXXCompilerABI.cpp]
+        ignore line: [Run Build Command(s): /opt/homebrew/bin/cmake -E env VERBOSE=1 /opt/homebrew/bin/gmake -f Makefile cmTC_2ede8/fast]
+        ignore line: [/opt/homebrew/bin/gmake  -f CMakeFiles/cmTC_2ede8.dir/build.make CMakeFiles/cmTC_2ede8.dir/build]
+        ignore line: [gmake[1]: Entering directory '/Users/williambogdanovic/Desktop/simulations/SoA/build/CMakeFiles/CMakeScratch/TryCompile-PhYWqn']
+        ignore line: [Building CXX object CMakeFiles/cmTC_2ede8.dir/CMakeCXXCompilerABI.cpp.o]
+        ignore line: [/Applications/miniconda3/bin/arm64-apple-darwin20.0.0-clang++   -ftree-vectorize -fPIC -fstack-protector-strong -O2 -pipe -stdlib=libc++ -fvisibility-inlines-hidden -fmessage-length=0 -isystem /Applications/miniconda3/include  -arch arm64 -isysroot /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX.sdk   -v -Wl -v -MD -MT CMakeFiles/cmTC_2ede8.dir/CMakeCXXCompilerABI.cpp.o -MF CMakeFiles/cmTC_2ede8.dir/CMakeCXXCompilerABI.cpp.o.d -o CMakeFiles/cmTC_2ede8.dir/CMakeCXXCompilerABI.cpp.o -c /opt/homebrew/share/cmake/Modules/CMakeCXXCompilerABI.cpp]
         ignore line: [clang version 16.0.6]
         ignore line: [Target: arm64-apple-darwin20.0.0]
         ignore line: [Thread model: posix]
         ignore line: [InstalledDir: /Applications/miniconda3/bin]
         ignore line: [clang-16: warning: -Wl -v: 'linker' input unused [-Wunused-command-line-argument]]
         ignore line: [ (in-process)]
-        ignore line: [ "/Applications/miniconda3/bin/clang-16" -cc1 -triple arm64-apple-macosx15.0.0 -Wundef-prefix=TARGET_OS_ -Werror=undef-prefix -Wdeprecated-objc-isa-usage -Werror=deprecated-objc-isa-usage -emit-obj -disable-free -clear-ast-before-backend -disable-llvm-verifier -discard-value-names -main-file-name CMakeCXXCompilerABI.cpp -mrelocation-model pic -pic-level 2 -pic-is-pie -mframe-pointer=non-leaf -ffp-contract=on -fno-rounding-math -funwind-tables=1 -target-sdk-version=15.2 -fcompatibility-qualified-id-block-type-checking -fvisibility-inlines-hidden-static-local-var -target-cpu apple-m1 -target-feature +v8.5a -target-feature +crc -target-feature +crypto -target-feature +dotprod -target-feature +fp-armv8 -target-feature +fp16fml -target-feature +lse -target-feature +ras -target-feature +rcpc -target-feature +rdm -target-feature +neon -target-feature +zcm -target-feature +zcz -target-feature +fullfp16 -target-feature +sm4 -target-feature +sha3 -target-feature +sha2 -target-feature +aes -target-abi darwinpcs -mllvm -treat-scalable-fixed-error-as-warning -debugger-tuning=lldb -target-linker-version 711 -v -fcoverage-compilation-dir=/Users/williambogdanovic/Desktop/simulations/SoA/build/CMakeFiles/CMakeScratch/TryCompile-ebQ5Il -resource-dir /Applications/miniconda3/lib/clang/16 -dependency-file CMakeFiles/cmTC_58d4d.dir/CMakeCXXCompilerABI.cpp.o.d -MT CMakeFiles/cmTC_58d4d.dir/CMakeCXXCompilerABI.cpp.o -sys-header-deps -isystem /Applications/miniconda3/include -isysroot /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX.sdk -stdlib=libc++ -internal-isystem /Applications/miniconda3/bin/../include/c++/v1 -internal-isystem /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX.sdk/usr/local/include -internal-isystem /Applications/miniconda3/lib/clang/16/include -internal-externc-isystem /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX.sdk/usr/include -O2 -fdeprecated-macro -fdebug-compilation-dir=/Users/williambogdanovic/Desktop/simulations/SoA/build/CMakeFiles/CMakeScratch/TryCompile-ebQ5Il -ferror-limit 19 -fvisibility-inlines-hidden -stack-protector 2 -fblocks -fencode-extended-block-signature -fregister-global-dtors-with-atexit -fgnuc-version=4.2.1 -fcxx-exceptions -fexceptions -fmax-type-align=16 -vectorize-loops -vectorize-slp -D__GCC_HAVE_DWARF2_CFI_ASM=1 -o CMakeFiles/cmTC_58d4d.dir/CMakeCXXCompilerABI.cpp.o -x c++ /opt/homebrew/share/cmake/Modules/CMakeCXXCompilerABI.cpp]
+        ignore line: [ "/Applications/miniconda3/bin/clang-16" -cc1 -triple arm64-apple-macosx15.0.0 -Wundef-prefix=TARGET_OS_ -Werror=undef-prefix -Wdeprecated-objc-isa-usage -Werror=deprecated-objc-isa-usage -emit-obj -disable-free -clear-ast-before-backend -disable-llvm-verifier -discard-value-names -main-file-name CMakeCXXCompilerABI.cpp -mrelocation-model pic -pic-level 2 -pic-is-pie -mframe-pointer=non-leaf -ffp-contract=on -fno-rounding-math -funwind-tables=1 -target-sdk-version=15.2 -fcompatibility-qualified-id-block-type-checking -fvisibility-inlines-hidden-static-local-var -target-cpu apple-m1 -target-feature +v8.5a -target-feature +crc -target-feature +crypto -target-feature +dotprod -target-feature +fp-armv8 -target-feature +fp16fml -target-feature +lse -target-feature +ras -target-feature +rcpc -target-feature +rdm -target-feature +neon -target-feature +zcm -target-feature +zcz -target-feature +fullfp16 -target-feature +sm4 -target-feature +sha3 -target-feature +sha2 -target-feature +aes -target-abi darwinpcs -mllvm -treat-scalable-fixed-error-as-warning -debugger-tuning=lldb -target-linker-version 711 -v -fcoverage-compilation-dir=/Users/williambogdanovic/Desktop/simulations/SoA/build/CMakeFiles/CMakeScratch/TryCompile-PhYWqn -resource-dir /Applications/miniconda3/lib/clang/16 -dependency-file CMakeFiles/cmTC_2ede8.dir/CMakeCXXCompilerABI.cpp.o.d -MT CMakeFiles/cmTC_2ede8.dir/CMakeCXXCompilerABI.cpp.o -sys-header-deps -isystem /Applications/miniconda3/include -isysroot /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX.sdk -stdlib=libc++ -internal-isystem /Applications/miniconda3/bin/../include/c++/v1 -internal-isystem /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX.sdk/usr/local/include -internal-isystem /Applications/miniconda3/lib/clang/16/include -internal-externc-isystem /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX.sdk/usr/include -O2 -fdeprecated-macro -fdebug-compilation-dir=/Users/williambogdanovic/Desktop/simulations/SoA/build/CMakeFiles/CMakeScratch/TryCompile-PhYWqn -ferror-limit 19 -fvisibility-inlines-hidden -stack-protector 2 -fblocks -fencode-extended-block-signature -fregister-global-dtors-with-atexit -fgnuc-version=4.2.1 -fcxx-exceptions -fexceptions -fmax-type-align=16 -vectorize-loops -vectorize-slp -D__GCC_HAVE_DWARF2_CFI_ASM=1 -o CMakeFiles/cmTC_2ede8.dir/CMakeCXXCompilerABI.cpp.o -x c++ /opt/homebrew/share/cmake/Modules/CMakeCXXCompilerABI.cpp]
         ignore line: [clang -cc1 version 16.0.6 based upon LLVM 16.0.6 default target arm64-apple-darwin24.3.0]
         ignore line: [ignoring nonexistent directory "/Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX.sdk/usr/local/include"]
         ignore line: [ignoring nonexistent directory "/Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX.sdk/Library/Frameworks"]
@@ -376,13 +374,13 @@ events:
         ignore line: [ /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX.sdk/usr/include]
         ignore line: [ /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX.sdk/System/Library/Frameworks (framework directory)]
         ignore line: [End of search list.]
-        ignore line: [Linking CXX executable cmTC_58d4d]
-        ignore line: [/opt/homebrew/bin/cmake -E cmake_link_script CMakeFiles/cmTC_58d4d.dir/link.txt --verbose=1]
+        ignore line: [Linking CXX executable cmTC_2ede8]
+        ignore line: [/opt/homebrew/bin/cmake -E cmake_link_script CMakeFiles/cmTC_2ede8.dir/link.txt --verbose=1]
         ignore line: [clang version 16.0.6]
         ignore line: [Target: arm64-apple-darwin20.0.0]
         ignore line: [Thread model: posix]
         ignore line: [InstalledDir: /Applications/miniconda3/bin]
-        link line: [ "/Applications/miniconda3/bin/arm64-apple-darwin20.0.0-ld" -demangle -lto_library /Applications/miniconda3/lib/libLTO.16.dylib -dynamic -arch arm64 -platform_version macos 15.0.0 15.2 -syslibroot /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX.sdk -o cmTC_58d4d -L/opt/homebrew/lib -L/opt/homebrew/lib -search_paths_first -headerpad_max_install_names -v CMakeFiles/cmTC_58d4d.dir/CMakeCXXCompilerABI.cpp.o -lc++ -lSystem /Applications/miniconda3/lib/clang/16/lib/darwin/libclang_rt.osx.a]
+        link line: [ "/Applications/miniconda3/bin/arm64-apple-darwin20.0.0-ld" -demangle -lto_library /Applications/miniconda3/lib/libLTO.16.dylib -dynamic -arch arm64 -platform_version macos 15.0.0 15.2 -syslibroot /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX.sdk -o cmTC_2ede8 -L/Applications/miniconda3/lib -search_paths_first -headerpad_max_install_names -headerpad_max_install_names -dead_strip_dylibs -rpath /Applications/miniconda3/lib -v CMakeFiles/cmTC_2ede8.dir/CMakeCXXCompilerABI.cpp.o -lc++ -lSystem /Applications/miniconda3/lib/clang/16/lib/darwin/libclang_rt.osx.a]
           arg [/Applications/miniconda3/bin/arm64-apple-darwin20.0.0-ld] ==> ignore
           arg [-demangle] ==> ignore
           arg [-lto_library] ==> ignore, skip following value
@@ -397,13 +395,16 @@ events:
           arg [-syslibroot] ==> ignore
           arg [/Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX.sdk] ==> ignore
           arg [-o] ==> ignore
-          arg [cmTC_58d4d] ==> ignore
-          arg [-L/opt/homebrew/lib] ==> dir [/opt/homebrew/lib]
-          arg [-L/opt/homebrew/lib] ==> dir [/opt/homebrew/lib]
+          arg [cmTC_2ede8] ==> ignore
+          arg [-L/Applications/miniconda3/lib] ==> dir [/Applications/miniconda3/lib]
           arg [-search_paths_first] ==> ignore
           arg [-headerpad_max_install_names] ==> ignore
+          arg [-headerpad_max_install_names] ==> ignore
+          arg [-dead_strip_dylibs] ==> ignore
+          arg [-rpath] ==> ignore
+          arg [/Applications/miniconda3/lib] ==> ignore
           arg [-v] ==> ignore
-          arg [CMakeFiles/cmTC_58d4d.dir/CMakeCXXCompilerABI.cpp.o] ==> ignore
+          arg [CMakeFiles/cmTC_2ede8.dir/CMakeCXXCompilerABI.cpp.o] ==> ignore
           arg [-lc++] ==> lib [c++]
           arg [-lSystem] ==> lib [System]
           arg [/Applications/miniconda3/lib/clang/16/lib/darwin/libclang_rt.osx.a] ==> lib [/Applications/miniconda3/lib/clang/16/lib/darwin/libclang_rt.osx.a]
@@ -411,28 +412,25 @@ events:
         ignore line: [BUILD 01:34:15 Mar 15 2024]
         ignore line: [configured to support archs: armv6 armv7 armv7s arm64 arm64e arm64_32 i386 x86_64 x86_64h armv6m armv7k armv7m armv7em (tvOS)]
         ignore line: [Library search paths:]
-        ignore line: [	/opt/homebrew/lib]
-        ignore line: [	/opt/homebrew/lib]
+        ignore line: [	/Applications/miniconda3/lib]
         ignore line: [	/Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX.sdk/usr/lib]
         ignore line: [Framework search paths:]
         ignore line: [	/Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX.sdk/System/Library/Frameworks/]
-        ignore line: [/Applications/miniconda3/bin/arm64-apple-darwin20.0.0-clang++ -ftree-vectorize -fPIC -fstack-protector-strong -O2 -pipe -stdlib=libc++ -fvisibility-inlines-hidden -fmessage-length=0 -isystem /Applications/miniconda3/include  -arch arm64 -isysroot /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX.sdk -Wl -search_paths_first -Wl -headerpad_max_install_names -L/opt/homebrew/lib -v -Wl -v CMakeFiles/cmTC_58d4d.dir/CMakeCXXCompilerABI.cpp.o -o cmTC_58d4d]
-        ignore line: [gmake[1]: Leaving directory '/Users/williambogdanovic/Desktop/simulations/SoA/build/CMakeFiles/CMakeScratch/TryCompile-ebQ5Il']
+        ignore line: [/Applications/miniconda3/bin/arm64-apple-darwin20.0.0-clang++ -ftree-vectorize -fPIC -fstack-protector-strong -O2 -pipe -stdlib=libc++ -fvisibility-inlines-hidden -fmessage-length=0 -isystem /Applications/miniconda3/include  -arch arm64 -isysroot /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX.sdk -Wl -search_paths_first -Wl -headerpad_max_install_names -Wl -headerpad_max_install_names -Wl -dead_strip_dylibs -Wl -rpath /Applications/miniconda3/lib -L/Applications/miniconda3/lib -v -Wl -v CMakeFiles/cmTC_2ede8.dir/CMakeCXXCompilerABI.cpp.o -o cmTC_2ede8]
+        ignore line: [gmake[1]: Leaving directory '/Users/williambogdanovic/Desktop/simulations/SoA/build/CMakeFiles/CMakeScratch/TryCompile-PhYWqn']
         ignore line: []
         ignore line: []
-        Library search paths: [;/opt/homebrew/lib;/opt/homebrew/lib;/Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX.sdk/usr/lib]
+        Library search paths: [;/Applications/miniconda3/lib;/Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX.sdk/usr/lib]
         Framework search paths: [;/Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX.sdk/System/Library/Frameworks/]
         remove lib [System]
         remove lib [/Applications/miniconda3/lib/clang/16/lib/darwin/libclang_rt.osx.a]
-        collapse library dir [/opt/homebrew/lib] ==> [/opt/homebrew/lib]
-        collapse library dir [/opt/homebrew/lib] ==> [/opt/homebrew/lib]
-        collapse library dir [/opt/homebrew/lib] ==> [/opt/homebrew/lib]
-        collapse library dir [/opt/homebrew/lib] ==> [/opt/homebrew/lib]
+        collapse library dir [/Applications/miniconda3/lib] ==> [/Applications/miniconda3/lib]
+        collapse library dir [/Applications/miniconda3/lib] ==> [/Applications/miniconda3/lib]
         collapse library dir [/Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX.sdk/usr/lib] ==> [/Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX.sdk/usr/lib]
         collapse framework dir [/Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX.sdk/System/Library/Frameworks/] ==> [/Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX.sdk/System/Library/Frameworks]
         implicit libs: [c++]
         implicit objs: []
-        implicit dirs: [/opt/homebrew/lib;/Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX.sdk/usr/lib]
+        implicit dirs: [/Applications/miniconda3/lib;/Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX.sdk/usr/lib]
         implicit fwks: [/Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX.sdk/System/Library/Frameworks]
       
       

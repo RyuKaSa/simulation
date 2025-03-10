@@ -454,30 +454,6 @@ src/Simulation.cpp.s:
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/BallsSimulation.dir/build.make CMakeFiles/BallsSimulation.dir/src/Simulation.cpp.s
 .PHONY : src/Simulation.cpp.s
 
-src/SimulationCreation.o: src/SimulationCreation.cpp.o
-.PHONY : src/SimulationCreation.o
-
-# target to build an object file
-src/SimulationCreation.cpp.o:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/BallsSimulation.dir/build.make CMakeFiles/BallsSimulation.dir/src/SimulationCreation.cpp.o
-.PHONY : src/SimulationCreation.cpp.o
-
-src/SimulationCreation.i: src/SimulationCreation.cpp.i
-.PHONY : src/SimulationCreation.i
-
-# target to preprocess a source file
-src/SimulationCreation.cpp.i:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/BallsSimulation.dir/build.make CMakeFiles/BallsSimulation.dir/src/SimulationCreation.cpp.i
-.PHONY : src/SimulationCreation.cpp.i
-
-src/SimulationCreation.s: src/SimulationCreation.cpp.s
-.PHONY : src/SimulationCreation.s
-
-# target to generate assembly for a file
-src/SimulationCreation.cpp.s:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/BallsSimulation.dir/build.make CMakeFiles/BallsSimulation.dir/src/SimulationCreation.cpp.s
-.PHONY : src/SimulationCreation.cpp.s
-
 src/main.o: src/main.cpp.o
 .PHONY : src/main.o
 
@@ -551,9 +527,6 @@ help:
 	@echo "... src/Simulation.o"
 	@echo "... src/Simulation.i"
 	@echo "... src/Simulation.s"
-	@echo "... src/SimulationCreation.o"
-	@echo "... src/SimulationCreation.i"
-	@echo "... src/SimulationCreation.s"
 	@echo "... src/main.o"
 	@echo "... src/main.i"
 	@echo "... src/main.s"

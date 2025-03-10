@@ -4,9 +4,9 @@
 # compile C with /Applications/miniconda3/bin/arm64-apple-darwin20.0.0-clang
 C_DEFINES = 
 
-C_INCLUDES = -I/Users/williambogdanovic/Desktop/simulations/SoA/glimac/third-party/glad/include -I/Users/williambogdanovic/Desktop/simulations/SoA/glimac -I/Users/williambogdanovic/Desktop/simulations/SoA/external/imgui -I/Users/williambogdanovic/Desktop/simulations/SoA/external/imgui/backends
+C_INCLUDES = -I/Users/williambogdanovic/Desktop/simulations/SoA/glimac/third-party/glad/include -I/Users/williambogdanovic/Desktop/simulations/SoA/glimac -I/Users/williambogdanovic/Desktop/simulations/SoA/external/imgui -I/Users/williambogdanovic/Desktop/simulations/SoA/external/imgui/backends -I/opt/homebrew/include
 
-C_FLAGSarm64 = -I/opt/homebrew/include -arch arm64 -isysroot /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX.sdk
+C_FLAGSarm64 = -ftree-vectorize -fPIC -fstack-protector-strong -O2 -pipe -isystem /Applications/miniconda3/include -arch arm64 -isysroot /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX.sdk
 
-C_FLAGS = -I/opt/homebrew/include -arch arm64 -isysroot /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX.sdk
+C_FLAGS = -ftree-vectorize -fPIC -fstack-protector-strong -O2 -pipe -isystem /Applications/miniconda3/include -arch arm64 -isysroot /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX.sdk
 

@@ -76,7 +76,7 @@ CMAKE_C_COMPILER_CLANG_SCAN_DEPS:FILEPATH=CMAKE_C_COMPILER_CLANG_SCAN_DEPS-NOTFO
 CMAKE_C_COMPILER_RANLIB:FILEPATH=CMAKE_C_COMPILER_RANLIB-NOTFOUND
 
 //Flags used by the C compiler during all build types.
-CMAKE_C_FLAGS:STRING=-I/opt/homebrew/include
+CMAKE_C_FLAGS:STRING=-ftree-vectorize -fPIC -fstack-protector-strong -O2 -pipe -isystem /Applications/miniconda3/include
 
 //Flags used by the C compiler during DEBUG builds.
 CMAKE_C_FLAGS_DEBUG:STRING=-g
@@ -94,7 +94,7 @@ CMAKE_C_FLAGS_RELWITHDEBINFO:STRING=-O2 -g -DNDEBUG
 CMAKE_DLLTOOL:FILEPATH=/Applications/miniconda3/bin/llvm-dlltool
 
 //Flags used by the linker during all build types.
-CMAKE_EXE_LINKER_FLAGS:STRING=-L/opt/homebrew/lib
+CMAKE_EXE_LINKER_FLAGS:STRING=-Wl,-headerpad_max_install_names -Wl,-dead_strip_dylibs -Wl,-rpath,/Applications/miniconda3/lib -L/Applications/miniconda3/lib
 
 //Flags used by the linker during DEBUG builds.
 CMAKE_EXE_LINKER_FLAGS_DEBUG:STRING=
@@ -128,7 +128,7 @@ CMAKE_MAKE_PROGRAM:FILEPATH=/opt/homebrew/bin/gmake
 
 //Flags used by the linker during the creation of modules during
 // all build types.
-CMAKE_MODULE_LINKER_FLAGS:STRING=-L/opt/homebrew/lib
+CMAKE_MODULE_LINKER_FLAGS:STRING=-Wl,-headerpad_max_install_names -Wl,-dead_strip_dylibs -Wl,-rpath,/Applications/miniconda3/lib -L/Applications/miniconda3/lib
 
 //Flags used by the linker during the creation of modules during
 // DEBUG builds.
@@ -183,7 +183,7 @@ CMAKE_READELF:FILEPATH=/Applications/miniconda3/bin/llvm-readelf
 
 //Flags used by the linker during the creation of shared libraries
 // during all build types.
-CMAKE_SHARED_LINKER_FLAGS:STRING=-L/opt/homebrew/lib
+CMAKE_SHARED_LINKER_FLAGS:STRING=-Wl,-headerpad_max_install_names -Wl,-dead_strip_dylibs -Wl,-rpath,/Applications/miniconda3/lib -L/Applications/miniconda3/lib
 
 //Flags used by the linker during the creation of shared libraries
 // during DEBUG builds.

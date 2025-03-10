@@ -16,7 +16,7 @@ GUI::GUI(SDL_Window* window, SDL_GLContext glContext)
       performanceNumParticles(0),
       performanceNumSprings(0),
       performancePhysicsStepsPerSecond(0),
-      gridSize(200),           // default grid size parameter
+      gridSize(50),           // default grid size parameter
       springRestLength(1.0f),  // default spring rest length multiplier
       gravityStrength(9.81f),  // default gravity magnitude
       particleMass(5.0f)      // default particle mass
@@ -52,14 +52,14 @@ void GUI::draw() {
 
     // Physics settings
     if (ImGui::CollapsingHeader("Physics Settings", ImGuiTreeNodeFlags_DefaultOpen)) {
-        ImGui::SliderFloat("Spring Constant", &springConstant, 10.0f, 10000.0f);
-        ImGui::SliderFloat("Damping Coefficient", &dampingCoefficient, 0.0f, 100.0f);
+        ImGui::SliderFloat("Spring Constant", &springConstant, 10.0f, 20000.0f);
+        ImGui::SliderFloat("Damping Coefficient", &dampingCoefficient, 1.0f, 200.0f);
     }
 
     // Grid and structure parameters
     if (ImGui::CollapsingHeader("Grid & Structure", ImGuiTreeNodeFlags_DefaultOpen)) {
         ImGui::SliderInt("Grid Size", &gridSize, 10, 500);
-        ImGui::SliderFloat("Spring Rest Length", &springRestLength, 0.1f, 5.0f);
+        ImGui::SliderFloat("Spring Rest Length", &springRestLength, 0.5f, 2.0f);
         ImGui::SliderFloat("Gravity Strength", &gravityStrength, 0.0f, 20.0f);
         ImGui::SliderFloat("Particle Mass", &particleMass, 1.0f, 100.0f);
     }

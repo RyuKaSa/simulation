@@ -6,7 +6,7 @@
 
 // --- Creation Functions ---
 
-void Simulation::addStaticCubeUnderGrid() {
+void SimulationBase::addStaticCubeUnderGrid() {
     std::lock_guard<std::recursive_mutex> lock(simulationMutex);
 
     glm::dvec3 center(0.0);
@@ -22,7 +22,7 @@ void Simulation::addStaticCubeUnderGrid() {
     } else {
         center = glm::dvec3(0.0);
     }
-    double cubeSize = 80.0;
+    double cubeSize = 1.0;
     glm::dvec3 cubePos = center + glm::dvec3(0.0, -cubeSize - 0.5, 0.0);
 
     soA.position.push_back(cubePos);
@@ -35,7 +35,7 @@ void Simulation::addStaticCubeUnderGrid() {
     soA.dimensions.push_back(glm::dvec3(cubeSize));
 }
 
-void Simulation::createCord(int numBalls, double length, double springRestLength, bool bothEndsStatic_) {
+void SimulationBase::createCord(int numBalls, double length, double springRestLength, bool bothEndsStatic_) {
     clearSimulation();
     this->bothEndsStatic = bothEndsStatic_;
     soA.position.reserve(numBalls);
@@ -68,13 +68,13 @@ void Simulation::createCord(int numBalls, double length, double springRestLength
         sp.p1Index = i;
         sp.p2Index = i + 1;
         sp.restLength = dist * springRestLength;
-        sp.springConstant = springConstant;
+        sp.springConstant = sharedParams.springConstant;
         sp.damping = 0.5;
         springs.push_back(sp);
     }
 }
 
-void Simulation::createSquareGridWithDiagonals(int gridSize, double cellSize, double springRestLength) {
+void SimulationBase::createSquareGridWithDiagonals(int gridSize, double cellSize, double springRestLength) {
     clearSimulation();
 
     int numParticles = gridSize * gridSize;
@@ -113,7 +113,7 @@ void Simulation::createSquareGridWithDiagonals(int gridSize, double cellSize, do
                 sp.p1Index = idx;
                 sp.p2Index = rightIdx;
                 sp.restLength = dist * springRestLength;
-                sp.springConstant = springConstant;
+                sp.springConstant = sharedParams.springConstant;
                 sp.damping = 0.5;
                 springs.push_back(sp);
             }
@@ -124,7 +124,7 @@ void Simulation::createSquareGridWithDiagonals(int gridSize, double cellSize, do
                 sp.p1Index = idx;
                 sp.p2Index = bottomIdx;
                 sp.restLength = dist * springRestLength;
-                sp.springConstant = springConstant;
+                sp.springConstant = sharedParams.springConstant;
                 sp.damping = 0.5;
                 springs.push_back(sp);
             }
@@ -135,7 +135,7 @@ void Simulation::createSquareGridWithDiagonals(int gridSize, double cellSize, do
                 sp.p1Index = idx;
                 sp.p2Index = diagIdx;
                 sp.restLength = dist * springRestLength;
-                sp.springConstant = springConstant;
+                sp.springConstant = sharedParams.springConstant;
                 sp.damping = 0.5;
                 springs.push_back(sp);
             }
@@ -146,7 +146,7 @@ void Simulation::createSquareGridWithDiagonals(int gridSize, double cellSize, do
                 sp.p1Index = idx;
                 sp.p2Index = diagIdx;
                 sp.restLength = dist * springRestLength;
-                sp.springConstant = springConstant;
+                sp.springConstant = sharedParams.springConstant;
                 sp.damping = 0.5;
                 springs.push_back(sp);
             }
@@ -154,7 +154,7 @@ void Simulation::createSquareGridWithDiagonals(int gridSize, double cellSize, do
     }
 }
 
-void Simulation::createMultiLayerSquareGridWithDiagonals(int gridSize, int nLayers, double cellSize, double layerSpacing, double springRestLength) {
+void SimulationBase::createMultiLayerSquareGridWithDiagonals(int gridSize, int nLayers, double cellSize, double layerSpacing, double springRestLength) {
     clearSimulation();
 
     int particlesPerLayer = gridSize * gridSize;
@@ -205,7 +205,7 @@ void Simulation::createMultiLayerSquareGridWithDiagonals(int gridSize, int nLaye
                     sp.p1Index = idx;
                     sp.p2Index = rightIdx;
                     sp.restLength = dist * springRestLength;
-                    sp.springConstant = springConstant;
+                    sp.springConstant = sharedParams.springConstant;
                     sp.damping = 0.5;
                     springs.push_back(sp);
                 }
@@ -216,7 +216,7 @@ void Simulation::createMultiLayerSquareGridWithDiagonals(int gridSize, int nLaye
                     sp.p1Index = idx;
                     sp.p2Index = bottomIdx;
                     sp.restLength = dist * springRestLength;
-                    sp.springConstant = springConstant;
+                    sp.springConstant = sharedParams.springConstant;
                     sp.damping = 0.5;
                     springs.push_back(sp);
                 }
@@ -227,7 +227,7 @@ void Simulation::createMultiLayerSquareGridWithDiagonals(int gridSize, int nLaye
                     sp.p1Index = idx;
                     sp.p2Index = diagIdx;
                     sp.restLength = dist * springRestLength;
-                    sp.springConstant = springConstant;
+                    sp.springConstant = sharedParams.springConstant;
                     sp.damping = 0.5;
                     springs.push_back(sp);
                 }
@@ -238,7 +238,7 @@ void Simulation::createMultiLayerSquareGridWithDiagonals(int gridSize, int nLaye
                     sp.p1Index = idx;
                     sp.p2Index = diagIdx;
                     sp.restLength = dist * springRestLength;
-                    sp.springConstant = springConstant;
+                    sp.springConstant = sharedParams.springConstant;
                     sp.damping = 0.5;
                     springs.push_back(sp);
                 }
@@ -264,7 +264,7 @@ void Simulation::createMultiLayerSquareGridWithDiagonals(int gridSize, int nLaye
                         sp.p1Index = lowerIdx;
                         sp.p2Index = upperIdx;
                         sp.restLength = dist * springRestLength;
-                        sp.springConstant = springConstant;
+                        sp.springConstant = sharedParams.springConstant;
                         sp.damping = 0.5;
                         springs.push_back(sp);
                     }
@@ -274,7 +274,7 @@ void Simulation::createMultiLayerSquareGridWithDiagonals(int gridSize, int nLaye
     }
 }
 
-void Simulation::createHexGrid(int numHexagons, double hexagonSize, double springRestLength, bool bothEndsStatic_, double orientationDegrees) {
+void SimulationBase::createHexGrid(int numHexagons, double hexagonSize, double springRestLength, bool bothEndsStatic_, double orientationDegrees) {
     clearSimulation();
     this->bothEndsStatic = bothEndsStatic_;
     springs.clear();
@@ -292,7 +292,7 @@ void Simulation::createHexGrid(int numHexagons, double hexagonSize, double sprin
     // Optionally call updateHexTriangles() if desired.
 }
 
-void Simulation::createMultiLayerHexGrid(int numHexagons, double hexagonSize, double springRestLength, bool bothEndsStatic, double orientationDegrees, double layerHeight, int nLayers) {
+void SimulationBase::createMultiLayerHexGrid(int numHexagons, double hexagonSize, double springRestLength, bool bothEndsStatic, double orientationDegrees, double layerHeight, int nLayers) {
     clearSimulation();
     springs.clear();
     hexagonVertexLists.clear();
@@ -422,7 +422,7 @@ void Simulation::createMultiLayerHexGrid(int numHexagons, double hexagonSize, do
             sp.p1Index = i1;
             sp.p2Index = i2;
             sp.restLength = dist * springRestLength;
-            sp.springConstant = springConstant;
+            sp.springConstant = sharedParams.springConstant;
             sp.damping = 0.5;
             springs.push_back(sp);
         }
@@ -476,7 +476,7 @@ void Simulation::createMultiLayerHexGrid(int numHexagons, double hexagonSize, do
                         float dist = glm::distance(glm::vec3(soA.position[sp.p1Index]),
                                                    glm::vec3(soA.position[sp.p2Index]));
                         sp.restLength = dist * static_cast<float>(springRestLength);
-                        sp.springConstant = springConstant;
+                        sp.springConstant = sharedParams.springConstant;
                         sp.damping = 0.5f;
                         springs.push_back(sp);
                     }
@@ -505,7 +505,7 @@ void Simulation::createMultiLayerHexGrid(int numHexagons, double hexagonSize, do
                         float dist = glm::distance(glm::vec3(soA.position[sp.p1Index]),
                                                    glm::vec3(soA.position[sp.p2Index]));
                         sp.restLength = dist * static_cast<float>(springRestLength);
-                        sp.springConstant = springConstant;
+                        sp.springConstant = sharedParams.springConstant;
                         sp.damping = 0.5f;
                         springs.push_back(sp);
                     }
@@ -515,11 +515,11 @@ void Simulation::createMultiLayerHexGrid(int numHexagons, double hexagonSize, do
     }
 }
 
-glm::dmat4 Simulation::createRotationMatrix(double orientationDegrees) {
+glm::dmat4 SimulationBase::createRotationMatrix(double orientationDegrees) {
     return glm::rotate(glm::dmat4(1.0), glm::radians(orientationDegrees), glm::dvec3(1.0, 0.0, 0.0));
 }
 
-void Simulation::generateHexagonCells(int numHexagons, double hexagonSize, const glm::dmat4& rotationMatrix,
+void SimulationBase::generateHexagonCells(int numHexagons, double hexagonSize, const glm::dmat4& rotationMatrix,
                                       std::vector<glm::dvec3>& uniquePositions,
                                       std::set<std::pair<int,int>>& edgeSet) {
     auto findOrAdd = [&](const glm::dvec3 &pos) -> int {
@@ -569,7 +569,7 @@ void Simulation::generateHexagonCells(int numHexagons, double hexagonSize, const
     }
 }
 
-void Simulation::assignUniquePositionsToSoA(const std::vector<glm::dvec3>& uniquePositions, bool bothEndsStatic) {
+void SimulationBase::assignUniquePositionsToSoA(const std::vector<glm::dvec3>& uniquePositions, bool bothEndsStatic) {
     size_t n = uniquePositions.size();
     soA.position.resize(n);
     soA.velocity.resize(n, glm::dvec3(0.0));
@@ -597,7 +597,7 @@ void Simulation::assignUniquePositionsToSoA(const std::vector<glm::dvec3>& uniqu
     }
 }
 
-void Simulation::createSpringsFromEdgeSet(const std::set<std::pair<int,int>>& edgeSet, double springRestLength) {
+void SimulationBase::createSpringsFromEdgeSet(const std::set<std::pair<int,int>>& edgeSet, double springRestLength) {
     for (auto &e : edgeSet) {
         int i1 = e.first;
         int i2 = e.second;
@@ -606,19 +606,19 @@ void Simulation::createSpringsFromEdgeSet(const std::set<std::pair<int,int>>& ed
         sp.p1Index = i1;
         sp.p2Index = i2;
         sp.restLength = dist * springRestLength;
-        sp.springConstant = springConstant;
+        sp.springConstant = sharedParams.springConstant;
         sp.damping = 0.5;
         springs.push_back(sp);
     }
 }
 
-bool Simulation::approxEqualVec3(const glm::dvec3& a, const glm::dvec3& b, double epsilon) {
+bool SimulationBase::approxEqualVec3(const glm::dvec3& a, const glm::dvec3& b, double epsilon) {
     return (fabs(a.x - b.x) < epsilon) &&
            (fabs(a.y - b.y) < epsilon) &&
            (fabs(a.z - b.z) < epsilon);
 }
 
-int Simulation::findApproxVertexIndex(const std::vector<glm::dvec3>& vertices, const glm::dvec3& target, double epsilon) {
+int SimulationBase::findApproxVertexIndex(const std::vector<glm::dvec3>& vertices, const glm::dvec3& target, double epsilon) {
     for (size_t i = 0; i < vertices.size(); ++i) {
         if (approxEqualVec3(vertices[i], target, epsilon)) {
             return static_cast<int>(i);

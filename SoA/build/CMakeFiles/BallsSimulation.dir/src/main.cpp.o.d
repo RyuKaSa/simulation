@@ -867,7 +867,6 @@ CMakeFiles/BallsSimulation.dir/src/main.cpp.o: \
   /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX.sdk/usr/include/_types/_nl_item.h \
   /Applications/miniconda3/bin/../include/c++/v1/__bsd_locale_defaults.h \
   /Applications/miniconda3/bin/../include/c++/v1/cstdarg \
-  /Users/williambogdanovic/Desktop/simulations/SoA/src/Renderer.hpp \
   /Users/williambogdanovic/Desktop/simulations/SoA/src/Simulation.hpp \
   /opt/homebrew/include/glm/glm.hpp \
   /opt/homebrew/include/glm/detail/_fixes.hpp \
@@ -1049,12 +1048,16 @@ CMakeFiles/BallsSimulation.dir/src/main.cpp.o: \
   /opt/homebrew/include/glm/gtc/../geometric.hpp \
   /opt/homebrew/include/glm/gtc/../trigonometric.hpp \
   /opt/homebrew/include/glm/gtc/../matrix.hpp \
-  /Users/williambogdanovic/Desktop/simulations/SoA/src/PMat.hpp \
+  /Applications/miniconda3/bin/../include/c++/v1/future \
+  /Applications/miniconda3/bin/../include/c++/v1/queue \
   /Applications/miniconda3/bin/../include/c++/v1/deque \
+  /Applications/miniconda3/bin/../include/c++/v1/condition_variable \
+  /Users/williambogdanovic/Desktop/simulations/SoA/src/PMat.hpp \
   /Users/williambogdanovic/Desktop/simulations/SoA/src/Link.hpp \
   /Users/williambogdanovic/Desktop/simulations/SoA/src/SimulationSoAInternals.hpp \
   /Users/williambogdanovic/Desktop/simulations/SoA/src/GUI.hpp \
   /opt/homebrew/include/SDL2/SDL_opengl.h \
+  /Users/williambogdanovic/Desktop/simulations/SoA/src/Renderer.hpp \
   /Users/williambogdanovic/Desktop/simulations/SoA/src/Shader.hpp \
   /opt/homebrew/include/glm/gtc/type_ptr.hpp \
   /opt/homebrew/include/glm/gtc/../gtc/quaternion.hpp \
@@ -1132,4 +1135,5 @@ CMakeFiles/BallsSimulation.dir/src/main.cpp.o: \
   /opt/homebrew/include/glm/gtc/../mat3x4.hpp \
   /opt/homebrew/include/glm/gtc/../mat4x2.hpp \
   /opt/homebrew/include/glm/gtc/../mat4x3.hpp \
-  /opt/homebrew/include/glm/gtc/type_ptr.inl
+  /opt/homebrew/include/glm/gtc/type_ptr.inl \
+  /Users/williambogdanovic/Desktop/simulations/SoA/src/Scene.hpp
