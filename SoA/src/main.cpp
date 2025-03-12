@@ -235,7 +235,7 @@ int main(int argc, char* argv[])
         }
 
         // Optionally, print the total frame time for debugging.
-        std::cout << "Frame time: " << totalFrameTimeMs << " ms" << std::endl;
+        // std::cout << "Frame time: " << totalFrameTimeMs << " ms" << std::endl;
     }
 
     // Cleanup.

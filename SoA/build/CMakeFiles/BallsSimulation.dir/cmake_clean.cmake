@@ -25,6 +25,8 @@ file(REMOVE_RECURSE
   "CMakeFiles/BallsSimulation.dir/src/Shader.cpp.o.d"
   "CMakeFiles/BallsSimulation.dir/src/Simulation.cpp.o"
   "CMakeFiles/BallsSimulation.dir/src/Simulation.cpp.o.d"
+  "CMakeFiles/BallsSimulation.dir/src/SimulationCreation.cpp.o"
+  "CMakeFiles/BallsSimulation.dir/src/SimulationCreation.cpp.o.d"
   "CMakeFiles/BallsSimulation.dir/src/main.cpp.o"
   "CMakeFiles/BallsSimulation.dir/src/main.cpp.o.d"
 )
