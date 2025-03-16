@@ -29,7 +29,7 @@ Renderer::Renderer(const SimulationBase& simulation) : camera(nullptr) {
     initCube();
     initSprings();
     // initHexTriangles();
-    initTripleGrid(simulation);
+    // initTripleGrid(simulation);
 
     // print status of simulation
     std::cout << "Simulation has " << simulation.getSoA().position.size() << " particles.\n";
@@ -198,42 +198,50 @@ void Renderer::initHexTriangles() {
     glBindVertexArray(0);
 }
 
-void Renderer::initGrid() {
+void Renderer::initHorizontalGrid(float gridExtent, float spacing)
+{
+    // Create a horizontal grid on the XZ plane at y = 0.
+    // The grid will span from -gridExtent to +gridExtent in both X and Z directions.
     std::vector<float> gridVertices;
-    float gridSize = 300.0f;
-    float spacing = 5.0f;
-
-    for (float x = -gridSize; x <= gridSize; x += spacing) {
+    
+    // Create vertical lines (constant x, varying z)
+    for (float x = -gridExtent; x <= gridExtent; x += spacing) {
+        // Line from (x, 0, -gridExtent) to (x, 0, gridExtent)
         gridVertices.push_back(x);
-        gridVertices.push_back(-gridSize);
         gridVertices.push_back(0.0f);
-
+        gridVertices.push_back(-gridExtent);
+        
         gridVertices.push_back(x);
-        gridVertices.push_back(gridSize);
         gridVertices.push_back(0.0f);
+        gridVertices.push_back(gridExtent);
     }
-    for (float y = -gridSize; y <= gridSize; y += spacing) {
-        gridVertices.push_back(-gridSize);
-        gridVertices.push_back(y);
+    
+    // Create horizontal lines (constant z, varying x)
+    for (float z = -gridExtent; z <= gridExtent; z += spacing) {
+        // Line from (-gridExtent, 0, z) to (gridExtent, 0, z)
+        gridVertices.push_back(-gridExtent);
         gridVertices.push_back(0.0f);
-
-        gridVertices.push_back(gridSize);
-        gridVertices.push_back(y);
+        gridVertices.push_back(z);
+        
+        gridVertices.push_back(gridExtent);
         gridVertices.push_back(0.0f);
+        gridVertices.push_back(z);
     }
-
-    gridVertexCount = (int)(gridVertices.size() / 3);
-
+    
+    gridVertexCount = static_cast<int>(gridVertices.size() / 3);
+    std::cout << "Initialized horizontal grid with vertex count: " << gridVertexCount << std::endl;
+    
+    // Generate VAO and VBO, and upload the grid data.
     glGenVertexArrays(1, &gridVAO);
     glGenBuffers(1, &gridVBO);
+    
     glBindVertexArray(gridVAO);
     glBindBuffer(GL_ARRAY_BUFFER, gridVBO);
-    glBufferData(GL_ARRAY_BUFFER,
-                 gridVertices.size()*sizeof(float),
-                 gridVertices.data(),
-                 GL_STATIC_DRAW);
-    glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, 3*sizeof(float), (void*)0);
+    glBufferData(GL_ARRAY_BUFFER, gridVertices.size() * sizeof(float), gridVertices.data(), GL_STATIC_DRAW);
+    
+    glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, 3 * sizeof(float), (void*)0);
     glEnableVertexAttribArray(0);
+    
     glBindVertexArray(0);
 }
 
@@ -358,7 +366,7 @@ void Renderer::renderExternalCubes(const SimulationBase& simulation,
 void Renderer::initTripleGrid(const SimulationBase& simulation)
 {
     // 1) Compute bounding box by skipping every 3 positions
-    const ParticleSoA &soa = simulation.getSoA();
+    const ParticleSoA soa = simulation.getSoACopy();
     if (soa.position.empty()) {
         // If no particles, just do nothing
         gridVertexCount = 0;
@@ -381,7 +389,7 @@ void Renderer::initTripleGrid(const SimulationBase& simulation)
     }
 
     // Expand the bounding box a bit so the planes are "just outside"
-    double margin = 0.1 * glm::length(maxPos - minPos);  // 10% margin
+    double margin = 2.0 * glm::length(maxPos - minPos);  // 10% margin
     if (margin < 0.5) margin = 0.5; // minimal margin
     glm::dvec3 expand(margin, margin, margin);
     minPos -= expand;
@@ -401,11 +409,11 @@ void Renderer::initTripleGrid(const SimulationBase& simulation)
     // YZ-plane at x = minX
 
     // We'll define a spacing. You can choose how dense you want it
-    float spacing = 2.0f;  // or pick your own step
+    float spacing = 0.5f;  // or pick your own step
     // (You can also base spacing on the bounding box size if you want.)
 
     std::vector<float> gridVertices;
-    gridVertices.reserve(100000);
+    gridVertices.reserve(1000);
 
     // Helper lambda to build line pairs
     auto addLine = [&](float x1, float y1, float z1,

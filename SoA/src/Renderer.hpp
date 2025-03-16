@@ -28,6 +28,9 @@ public:
     // Attach a camera (OrbitCamera, FPSCamera, etc.)
     void setCamera(Camera* cam) { camera = cam; }
 
+    void initTripleGrid(const SimulationBase& simulation);
+    void initHorizontalGrid(float gridExtent, float spacing);
+
     // Rendering functions
     void renderBalls(const SimulationBase& simulation,
                      const glm::mat4& projection,
@@ -41,6 +44,8 @@ public:
     void renderExternalCubes(const SimulationBase& simulation,
                              const glm::mat4& projection,
                              const glm::mat4& view);
+
+    void renderGrid(const glm::mat4& projection, const glm::mat4& view);
     
 private:
     Shader ballShader;
@@ -56,8 +61,6 @@ private:
     unsigned int vao, vbo;
     unsigned int instancePosVBO, instanceColorVBO, instanceScaleVBO;
 
-    void initGrid();
-    void initTripleGrid(const SimulationBase& simulation);
     void initCube();
     void initSprings();
     void initHexTriangles();
@@ -66,7 +69,6 @@ private:
     // Grid geometry
     unsigned int gridVAO, gridVBO;
     int gridVertexCount;
-    void renderGrid(const glm::mat4& projection, const glm::mat4& view);
 
     // Spring geometry
     unsigned int springVAO, springVBO;

@@ -25,6 +25,7 @@ struct Scene {
     void init() {
         if (!isInitialized) {
             simulation->Initialization();
+            // renderer.initTripleGrid(*simulation);
             isInitialized = true;
         }
         if (OrbitCamera* orbitCam = dynamic_cast<OrbitCamera*>(camera)) {
