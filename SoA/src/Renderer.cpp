@@ -5,7 +5,7 @@
 // Maximum supported instances
 const size_t Renderer::maxInstances;
 
-Renderer::Renderer(const SimulationBase& simulation) {
+Renderer::Renderer(const SimulationBase& simulation) : camera(nullptr) {
     if (!ballShader.load("src/shaders/ball.vs.glsl", "src/shaders/ball.fs.glsl")) {
         std::cerr << "Failed to load ball shaders." << std::endl;
     }
@@ -22,6 +22,8 @@ Renderer::Renderer(const SimulationBase& simulation) {
         std::cerr << "Failed to load grid shaders." << std::endl;
     }
 
+    postProcessQuad = new FullscreenQuad();
+
     initBallGeometry();
     // initGrid();
     initCube();
@@ -31,10 +33,39 @@ Renderer::Renderer(const SimulationBase& simulation) {
 
     // print status of simulation
     std::cout << "Simulation has " << simulation.getSoA().position.size() << " particles.\n";
+}
 
-    targetDistance = 0.0f;
-    cameraPosition = glm::vec3(0.0f, 0.0f, targetDistance);
-    cameraTarget   = glm::vec3(0.0f, 0.0f, 0.0f);
+void Renderer::render(const SimulationBase& simulation) {
+    if (!camera) {
+        std::cerr << "[Renderer] No camera set!\n";
+        return;
+    }
+    
+    // Begin off-screen rendering (if you are using the FBO functionality)
+    camera->beginRender();
+    
+    glClearColor(0.7f, 0.7f, 0.7f, 1.0f);
+    glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
+    glEnable(GL_DEPTH_TEST);
+    
+    // Retrieve view and projection matrices from our camera.
+    float aspect = 16.0f / 9.0f; // Replace with your actual window aspect ratio.
+    glm::mat4 proj = camera->getProjectionMatrix(aspect);
+    glm::mat4 view = camera->getViewMatrix();
+    
+    // Use ball shader as an example:
+    ballShader.use();
+    ballShader.setUniform("uModel", glm::mat4(1.0f));
+    ballShader.setUniform("uMVP", proj * view);
+    
+    renderGrid(proj, view);
+    renderSprings(simulation, proj, view);
+    // Uncomment renderHexTriangles(simulation, proj, view) and renderBalls(simulation, proj, view) if needed.
+    renderExternalCubes(simulation, proj, view);
+    
+    camera->endRender();
+    
+    postProcessQuad->render(camera->getRenderTexture());
 }
 
 Renderer::~Renderer() {
@@ -68,6 +99,8 @@ Renderer::~Renderer() {
     glDeleteVertexArrays(1, &cubeVAO);
     glDeleteBuffers(1, &cubeVBO);
     glDeleteBuffers(1, &cubeEBO);
+
+    delete postProcessQuad;
 }
 
 void Renderer::initBallGeometry() {
@@ -202,40 +235,6 @@ void Renderer::initGrid() {
     glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, 3*sizeof(float), (void*)0);
     glEnableVertexAttribArray(0);
     glBindVertexArray(0);
-}
-
-void Renderer::render(const SimulationBase& simulation) {
-    adjustCameraToFit(simulation);
-
-    cameraPosition = glm::mix(cameraPosition, targetPosition, lerpFactor);
-    cameraTarget   = glm::mix(cameraTarget,   targetCenter,  lerpFactor);
-
-    glClearColor(0.7f, 0.7f, 0.7f, 1.0f);
-    glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
-    glDisable(GL_CULL_FACE);
-
-    glEnable(GL_DEPTH_TEST);
-    glDepthFunc(GL_LESS);
-
-    auto projection = glm::perspective(
-        glm::radians(45.0f),
-        16.0f/9.0f,
-        0.1f, 1000.0f
-    );
-    auto view = glm::lookAt(cameraPosition, cameraTarget, glm::vec3(0.0f,1.0f,0.0f));
-
-    ballShader.use();
-    ballShader.setUniform("uModel", glm::mat4(1.0f));
-    ballShader.setUniform("uMVP", projection * view);
-
-    renderGrid(projection, view);
-    renderSprings(simulation, projection, view);
-    // renderHexTriangles(simulation, projection, view);
-    // renderBalls(simulation, projection, view);
-
-    // std::cout << "Rendering complete 1" << std::endl;
-    renderExternalCubes(simulation, projection, view);
-    // std::cout << "Rendering complete 2" << std::endl;
 }
 
 void Renderer::renderExternalCubes(const SimulationBase& simulation,
@@ -653,60 +652,60 @@ void Renderer::renderGrid(const glm::mat4& projection, const glm::mat4& view)
     glBindVertexArray(0);
 }
 
-void Renderer::adjustCameraToFit(const SimulationBase& simulation)
-{
-    std::vector<glm::dvec3> positions = simulation.getStructureParticlePositions();
-    if (positions.empty()) return;
+// void Renderer::adjustCameraToFit(const SimulationBase& simulation)
+// {
+//     std::vector<glm::dvec3> positions = simulation.getStructureParticlePositions();
+//     if (positions.empty()) return;
 
-    size_t n = positions.size();
-    glm::dvec3 minPos = positions[0];
-    glm::dvec3 maxPos = positions[0];
+//     size_t n = positions.size();
+//     glm::dvec3 minPos = positions[0];
+//     glm::dvec3 maxPos = positions[0];
 
-    for (size_t i = 0; i < n; i += 3) {
-        minPos = glm::min(minPos, positions[i]);
-        maxPos = glm::max(maxPos, positions[i]);
-    }
-    if ((n - 1) % 3 != 0) {
-        minPos = glm::min(minPos, positions.back());
-        maxPos = glm::max(maxPos, positions.back());
-    }
-    glm::dvec3 center = (minPos + maxPos)*0.5;
-    double maxExtent   = glm::length(maxPos - minPos);
-    float newDistance  = (float)glm::clamp(maxExtent*0.8, (double)minCameraDistance, (double)maxCameraDistance);
-    targetDistance     = glm::mix(targetDistance, newDistance, lerpFactor);
+//     for (size_t i = 0; i < n; i += 3) {
+//         minPos = glm::min(minPos, positions[i]);
+//         maxPos = glm::max(maxPos, positions[i]);
+//     }
+//     if ((n - 1) % 3 != 0) {
+//         minPos = glm::min(minPos, positions.back());
+//         maxPos = glm::max(maxPos, positions.back());
+//     }
+//     glm::dvec3 center = (minPos + maxPos)*0.5;
+//     double maxExtent   = glm::length(maxPos - minPos);
+//     float newDistance  = (float)glm::clamp(maxExtent*0.8, (double)minCameraDistance, (double)maxCameraDistance);
+//     targetDistance     = glm::mix(targetDistance, newDistance, lerpFactor);
 
-    targetCenter = glm::vec3((float)center.x, (float)center.y, (float)center.z);
-    targetPosition = glm::vec3((float)maxPos.x,
-                               (float)(maxPos.y + 0.3),
-                               (float)(center.z + targetDistance));
-}
+//     targetCenter = glm::vec3((float)center.x, (float)center.y, (float)center.z);
+//     targetPosition = glm::vec3((float)maxPos.x,
+//                                (float)(maxPos.y + 0.3),
+//                                (float)(center.z + targetDistance));
+// }
 
-void Renderer::cameraReset(const SimulationBase& simulation)
-{
-    std::vector<glm::dvec3> positions = simulation.getStructureParticlePositions();
-    if (positions.empty()) return;
+// void Renderer::cameraReset(const SimulationBase& simulation)
+// {
+//     std::vector<glm::dvec3> positions = simulation.getStructureParticlePositions();
+//     if (positions.empty()) return;
 
-    glm::dvec3 minPos = positions[0];
-    glm::dvec3 maxPos = positions[0];
-    glm::dvec3 sum(0.0);
+//     glm::dvec3 minPos = positions[0];
+//     glm::dvec3 maxPos = positions[0];
+//     glm::dvec3 sum(0.0);
 
-    for (const auto& pos : positions) {
-        minPos = glm::min(minPos, pos);
-        maxPos = glm::max(maxPos, pos);
-        sum += pos;
-    }
-    glm::dvec3 center = sum / (double)positions.size();
-    double extent = glm::length(maxPos - minPos);
-    extent = glm::min(extent, (double)maxCameraDistance);
-    float desiredDistance = (float)glm::max(extent*1.1, (double)minCameraDistance);
-    if (glm::length(center) > (double)maxCameraDistance) {
-        center = glm::normalize(center)*(double)maxCameraDistance;
-    }
-    cameraTarget = glm::vec3((float)center.x,
-                             (float)center.y,
-                             (float)center.z);
-    targetCenter = cameraTarget;
-    targetDistance = desiredDistance;
-    targetPosition = cameraTarget;
-    cameraPosition = targetPosition;
-}
+//     for (const auto& pos : positions) {
+//         minPos = glm::min(minPos, pos);
+//         maxPos = glm::max(maxPos, pos);
+//         sum += pos;
+//     }
+//     glm::dvec3 center = sum / (double)positions.size();
+//     double extent = glm::length(maxPos - minPos);
+//     extent = glm::min(extent, (double)maxCameraDistance);
+//     float desiredDistance = (float)glm::max(extent*1.1, (double)minCameraDistance);
+//     if (glm::length(center) > (double)maxCameraDistance) {
+//         center = glm::normalize(center)*(double)maxCameraDistance;
+//     }
+//     cameraTarget = glm::vec3((float)center.x,
+//                              (float)center.y,
+//                              (float)center.z);
+//     targetCenter = cameraTarget;
+//     targetDistance = desiredDistance;
+//     targetPosition = cameraTarget;
+//     cameraPosition = targetPosition;
+// }

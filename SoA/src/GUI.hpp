@@ -34,6 +34,7 @@ public:
     float getSpringRestLength() const { return springRestLength; }
     float getGravityStrength() const { return gravityStrength; }
     float getParticleMass() const { return particleMass; }
+    float getCameraZoom() const { return cameraZoom; }
 
 private:
     float springConstant;
@@ -56,6 +57,7 @@ private:
     float springRestLength;    // spring rest length multiplier
     float gravityStrength;     // gravity magnitude
     float particleMass;        // mass for new particles
+    float cameraZoom;          // camera zoom level
 };
 
 #endif // GUI_H

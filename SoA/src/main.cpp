@@ -59,8 +59,15 @@ int main(int argc, char* argv[])
     EnvironmentSimulation* envSim = new EnvironmentSimulation(&gui);
 
     // --- Create Scenes from those simulations ---
-    Scene scene1(clothSim);  // Scene that uses ClothSimulation
-    Scene scene2(envSim);    // Scene that uses EnvironmentSimulation
+    Scene scene1(clothSim, new OrbitCamera());  // Scene that uses ClothSimulation
+    Scene scene2(envSim, new FPSCamera);    // Scene that uses EnvironmentSimulation
+
+    int w, h;
+    SDL_GetWindowSize(window, &w, &h);
+
+    // Set the resolution for each camera in your scenes:
+    scene1.camera->setResolution(w, h);
+    scene2.camera->setResolution(w, h);
 
     // Initialize each scene once.
     scene1.init();
@@ -138,7 +145,7 @@ int main(int argc, char* argv[])
             if (gui.isResetRequested()) {
                 scene1.simulation->stopAsyncUpdates();
                 scene1.simulation->reset();
-                scene1.renderer.cameraReset(*scene1.simulation);
+                // scene1.renderer.cameraReset(*scene1.simulation);
                 gui.clearResetFlag();
                 if (!isPaused)
                     scene1.simulation->startAsyncUpdates();
@@ -149,11 +156,15 @@ int main(int argc, char* argv[])
             }
             scene1.simulation->setSpringConstant(gui.getSpringConstant());
             scene1.simulation->setDampingCoefficient(gui.getDampingCoefficient());
+            OrbitCamera* orbitCam = dynamic_cast<OrbitCamera*>(scene1.camera);
+            if (orbitCam) {
+                orbitCam->setZoom(gui.getCameraZoom());
+            }
         } else {
             if (gui.isResetRequested()) {
                 scene2.simulation->stopAsyncUpdates();
                 scene2.simulation->reset();
-                scene2.renderer.cameraReset(*scene2.simulation);
+                // scene2.renderer.cameraReset(*scene2.simulation);
                 gui.clearResetFlag();
                 if (!isPaused)
                     scene2.simulation->startAsyncUpdates();

@@ -19,6 +19,7 @@
 #include "Link.hpp"
 #include "SimulationSoAInternals.hpp"
 #include "GUI.hpp"
+#include "Camera.hpp"
 
 // For manual SIMD logic
 #if defined(__AVX__) || defined(__AVX2__) || defined(__AVX512F__)

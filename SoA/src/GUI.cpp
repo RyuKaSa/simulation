@@ -16,10 +16,11 @@ GUI::GUI(SDL_Window* window, SDL_GLContext glContext)
       performanceNumParticles(0),
       performanceNumSprings(0),
       performancePhysicsStepsPerSecond(0),
-      gridSize(50),           // default grid size parameter
+      gridSize(50),            // default grid size parameter
       springRestLength(1.0f),  // default spring rest length multiplier
       gravityStrength(9.81f),  // default gravity magnitude
-      particleMass(5.0f)      // default particle mass
+      particleMass(5.0f),      // default particle mass
+      cameraZoom(0.5f)
 {
     IMGUI_CHECKVERSION();
     ImGui::CreateContext();
@@ -47,6 +48,10 @@ void GUI::draw() {
     ImGui::SameLine();
     if (ImGui::Button("Drop Structure")) { 
         dropStructureRequested = true; 
+    }
+    // --- Camera Settings ---
+    if (ImGui::CollapsingHeader("Camera Settings", ImGuiTreeNodeFlags_DefaultOpen)) {
+        ImGui::SliderFloat("Camera Zoom", &cameraZoom, 0.1f, 3.0f);
     }
     ImGui::Separator();
 
