@@ -105,13 +105,13 @@ OrbitCamera::OrbitCamera()
     , target(0.0f, 0.0f, 0.0f)
     , distance(1.0f)
     , yaw(0.0f)
-    , pitch(00.0f)  // initial tilt (modify as desired)
+    , pitch(0.0f)
     , minCameraDistance(0.1f)
     , maxCameraDistance(1000.0f)
     , targetCenter(0.0f, 0.0f, 0.0f)
     , targetDistance(1.0f)
-    , targetLerpFactor(0.2f)     // fast lerp for target updates
-    , positionLerpFactor(0.05f)    // slow lerp for distance/position updates
+    , targetLerpFactor(0.1f)     // fast lerp for target updates
+    , positionLerpFactor(0.01f)    // slow lerp for distance/position updates
     , offset(-0.2f, 1.8f, 4.5f)
     , zoom(0.5f)
 {
@@ -194,38 +194,29 @@ void OrbitCamera::adjustToFit(const SimulationBase& simulation) {
 // ------------------ FPSCamera Implementation ------------------ //
 
 FPSCamera::FPSCamera()
-    : position(0.0f, 2.0f, 5.0f)
-    , yaw(0.0f)
-    , pitch(0.0f)
-    , forward(0.0f, 0.0f, -1.0f)
-    , up(0.0f, 1.0f, 0.0f)
+    : position(0.0f, 2.0f, 5.0f),
+      yaw(0.0f),
+      pitch(0.0f),
+      up(0.0f, 1.0f, 0.0f)
 {
+    updateForward();
 }
 
 FPSCamera::~FPSCamera() {}
 
-void FPSCamera::update(float /*deltaTime*/) {
-    // Typically you'd handle WASD movement here
-    // and update yaw/pitch from mouse input.
-    // Then recalc the forward vector from yaw/pitch:
-
-    forward.x = cosf(glm::radians(yaw)) * cosf(glm::radians(pitch));
-    forward.y = sinf(glm::radians(pitch));
-    forward.z = sinf(glm::radians(yaw)) * cosf(glm::radians(pitch));
-    forward   = glm::normalize(forward);
+void FPSCamera::update(float deltaTime)
+{
+    // You could update any inertia or smoothing here if desired.
+    // For now, simply ensure the forward vector is correct.
+    updateForward();
 }
 
-glm::mat4 FPSCamera::getViewMatrix() const {
+glm::mat4 FPSCamera::getViewMatrix() const
+{
     return glm::lookAt(position, position + forward, up);
 }
 
-void FPSCamera::setPosition(const glm::vec3 &p) {
+void FPSCamera::setPosition(const glm::vec3& p)
+{
     position = p;
-}
-
-void FPSCamera::setYawPitch(float y, float p) {
-    yaw   = y;
-    pitch = p;
-    // You might clamp pitch to avoid flipping:
-    // pitch = std::max(-89.f, std::min(pitch, 89.f));
 }

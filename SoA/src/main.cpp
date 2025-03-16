@@ -8,6 +8,7 @@
 #include "Renderer.hpp"
 #include "GUI.hpp"
 #include "Scene.hpp"
+#include "Movement.hpp"
 
 // Returns the current time in seconds.
 double getCurrentTime() {
@@ -48,6 +49,8 @@ int main(int argc, char* argv[])
     }
     // Vsync enabled to cap rendering to ~60 FPS.
     SDL_GL_SetSwapInterval(1);
+    // enable fps mouse movement
+    SDL_SetRelativeMouseMode(SDL_TRUE);
 
     // --- Create a single GUI instance (shared by both scenes) ---
     GUI gui(window, glContext);
@@ -137,6 +140,35 @@ int main(int argc, char* argv[])
                     isPaused = false;
                     std::cout << "Resumed active scene" << std::endl;
                 }
+            }
+
+            if (event.type == SDL_KEYDOWN || event.type == SDL_KEYUP) {
+                Movement::handleKeyEvent(event);
+            }
+
+            if (event.type == SDL_MOUSEMOTION) {
+                // Only handle mouse motion if scene2 is active
+                if (activeScene == 2 && !isPaused) {
+                    FPSCamera* fpsCam = dynamic_cast<FPSCamera*>(scene2.camera);
+                    if (fpsCam) {
+                        Movement::handleMouseMotion(event, *fpsCam);
+                        // std::cout << "Mouse motion" << std::endl;
+                    }
+                }
+            }
+        }
+
+        // When switching scenes:
+        if (activeScene == 1) {
+            // Disable relative mouse mode for scene 1
+            SDL_SetRelativeMouseMode(SDL_FALSE);
+        } else {
+            if (!isPaused)
+                // Enable relative mouse mode for scene 2
+                SDL_SetRelativeMouseMode(SDL_TRUE);
+            else {
+                // Disable relative mouse mode for scene 2 when paused
+                SDL_SetRelativeMouseMode(SDL_FALSE);
             }
         }
 
@@ -243,6 +275,15 @@ int main(int argc, char* argv[])
                                       numParticles,
                                       numSprings,
                                       effectiveSteps);
+        }
+
+        if (activeScene == 2 && !isPaused) {
+            // We are in the Environment scene, which uses the FPSCamera
+            FPSCamera* fpsCam = dynamic_cast<FPSCamera*>(scene2.camera);
+            if (fpsCam) {
+                // Let the Movement system move the camera:
+                Movement::updateFPSCamera(*fpsCam, (float)targetFrameDuration);
+            }
         }
 
         // Optionally, print the total frame time for debugging.

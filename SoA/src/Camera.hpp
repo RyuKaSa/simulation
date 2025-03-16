@@ -116,27 +116,38 @@ class OrbitCamera : public Camera {
 // FPSCamera: first-person flight, classic "lookAt position + forward direction" (Scene 2).
 //
 class FPSCamera : public Camera {
-public:
-    FPSCamera();
-    virtual ~FPSCamera() override;
-
-    virtual void update(float deltaTime) override;
-    virtual glm::mat4 getViewMatrix() const override;
-
-    // Position/orientation
-    void setPosition(const glm::vec3& p);
-    void setYawPitch(float y, float p);
-
-    glm::vec3 getPosition() const { return position; }
-    float getYaw()   const { return yaw; }
-    float getPitch() const { return pitch; }
-
-private:
-    glm::vec3 position;
-    float yaw;
-    float pitch;
-
-    // For convenience, you might keep "forward" or just compute on the fly
-    glm::vec3 forward;
-    glm::vec3 up;
+    public:
+        FPSCamera();
+        virtual ~FPSCamera() override;
+        
+        virtual void update(float deltaTime) override;
+        virtual glm::mat4 getViewMatrix() const override;
+        
+        void setPosition(const glm::vec3& p);
+        
+        // Set yaw and pitch and immediately update the forward vector.
+        void setYawPitch(float newYaw, float newPitch) {
+            yaw = newYaw;
+            pitch = newPitch;
+            updateForward();
+        }
+        float getYaw() const { return yaw; }
+        float getPitch() const { return pitch; }
+        glm::vec3 getForward() const { return forward; }
+        glm::vec3 getPosition() const { return position; }
+        
+    private:
+        glm::vec3 position;
+        float yaw;    // in degrees
+        float pitch;  // in degrees
+        glm::vec3 forward;
+        glm::vec3 up;
+        
+        // Recalculate the forward vector from yaw and pitch.
+        void updateForward() {
+            forward.x = cosf(glm::radians(yaw)) * cosf(glm::radians(pitch));
+            forward.y = sinf(glm::radians(pitch));
+            forward.z = sinf(glm::radians(yaw)) * cosf(glm::radians(pitch));
+            forward = glm::normalize(forward);
+        }
 };
