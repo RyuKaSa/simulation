@@ -341,6 +341,42 @@ void SimulationBase::resolveExternalCollisions() {
     }
 }
 
+void SimulationBase::clearExternalBlocks() {
+    // Create new vectors using the same allocator for glm::dvec3 vectors.
+    std::vector<glm::dvec3, AlignedAllocator<glm::dvec3, 32>> newPositions;
+    std::vector<glm::dvec3, AlignedAllocator<glm::dvec3, 32>> newVelocities;
+    std::vector<glm::dvec3, AlignedAllocator<glm::dvec3, 32>> newForceAccum;
+    std::vector<double> newMass; // double uses default allocator.
+    std::vector<ParticleType> newType; // Enum, default allocator.
+    std::vector<bool> newIsStatic; // bool, default allocator.
+    std::vector<glm::dvec3, AlignedAllocator<glm::dvec3, 32>> newColor;
+    std::vector<glm::dvec3, AlignedAllocator<glm::dvec3, 32>> newDimensions;
+
+    // Copy only particles that are not external.
+    for (size_t i = 0; i < soA.position.size(); i++) {
+        if (soA.type[i] != ParticleType::EXTERNAL) {
+            newPositions.push_back(soA.position[i]);
+            newVelocities.push_back(soA.velocity[i]);
+            newForceAccum.push_back(soA.forceAccum[i]);
+            newMass.push_back(soA.mass[i]);
+            newType.push_back(soA.type[i]);
+            newIsStatic.push_back(soA.isStatic[i]);
+            newColor.push_back(soA.color[i]);
+            newDimensions.push_back(soA.dimensions[i]);
+        }
+    }
+
+    // Replace the existing data with the filtered data.
+    soA.position    = newPositions;
+    soA.velocity    = newVelocities;
+    soA.forceAccum  = newForceAccum;
+    soA.mass        = newMass;
+    soA.type        = newType;
+    soA.isStatic    = newIsStatic;
+    soA.color       = newColor;
+    soA.dimensions  = newDimensions;
+}
+
 // ------------------- Derived Class Implementations -------------------
 
 // ClothSimulation Implementation.

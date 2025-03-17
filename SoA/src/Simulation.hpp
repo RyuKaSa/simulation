@@ -78,6 +78,12 @@ public:
     size_t getSpringCount() const;
     const std::vector<SpringData>& getSprings() const;
 
+    // Returns a mutable reference to the ParticleSoA.
+    ParticleSoA& getSoAReference() { return soA; }
+
+    // Clears external (block) particles from the simulation.
+    void clearExternalBlocks();
+
     // setters.
     void setSpringConstant(double k);
     void setDampingCoefficient(double z);

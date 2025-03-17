@@ -2,23 +2,27 @@
 #include <glad/glad.h>
 #include <iostream>
 #include <deque>
-#include <numeric>  // for std::accumulate
+#include <numeric> // for std::accumulate
 
 #include "Simulation.hpp"
 #include "Renderer.hpp"
 #include "GUI.hpp"
 #include "Scene.hpp"
 #include "Movement.hpp"
+#include "BlockWorld.hpp"
+#include "BlockPlacement.hpp"
 
 // Returns the current time in seconds.
-double getCurrentTime() {
+double getCurrentTime()
+{
     return (double)SDL_GetPerformanceCounter() / (double)SDL_GetPerformanceFrequency();
 }
 
-int main(int argc, char* argv[])
+int main(int argc, char *argv[])
 {
     // --- SDL Init and GL context creation ---
-    if (SDL_Init(SDL_INIT_VIDEO) != 0) {
+    if (SDL_Init(SDL_INIT_VIDEO) != 0)
+    {
         std::cerr << "SDL_Init Error: " << SDL_GetError() << std::endl;
         return -1;
     }
@@ -26,21 +30,24 @@ int main(int argc, char* argv[])
     SDL_GL_SetAttribute(SDL_GL_CONTEXT_MINOR_VERSION, 3);
     SDL_GL_SetAttribute(SDL_GL_CONTEXT_PROFILE_MASK, SDL_GL_CONTEXT_PROFILE_CORE);
 
-    SDL_Window* window = SDL_CreateWindow("Balls Simulation",
-        SDL_WINDOWPOS_CENTERED, SDL_WINDOWPOS_CENTERED, 1600, 900, SDL_WINDOW_OPENGL);
-    if (!window) {
+    SDL_Window *window = SDL_CreateWindow("Balls Simulation",
+                                          SDL_WINDOWPOS_CENTERED, SDL_WINDOWPOS_CENTERED, 1600, 900, SDL_WINDOW_OPENGL);
+    if (!window)
+    {
         std::cerr << "SDL_CreateWindow Error: " << SDL_GetError() << std::endl;
         SDL_Quit();
         return -1;
     }
     SDL_GLContext glContext = SDL_GL_CreateContext(window);
-    if (!glContext) {
+    if (!glContext)
+    {
         std::cerr << "SDL_GL_CreateContext Error: " << SDL_GetError() << std::endl;
         SDL_DestroyWindow(window);
         SDL_Quit();
         return -1;
     }
-    if (!gladLoadGLLoader((GLADloadproc)SDL_GL_GetProcAddress)) {
+    if (!gladLoadGLLoader((GLADloadproc)SDL_GL_GetProcAddress))
+    {
         std::cerr << "Failed to initialize GLAD" << std::endl;
         SDL_GL_DeleteContext(glContext);
         SDL_DestroyWindow(window);
@@ -57,13 +64,13 @@ int main(int argc, char* argv[])
 
     // --- Create the two derived simulations ---
     // Scene 1: Cloth
-    ClothSimulation* clothSim = new ClothSimulation(&gui);
+    ClothSimulation *clothSim = new ClothSimulation(&gui);
     // Scene 2: Environment
-    EnvironmentSimulation* envSim = new EnvironmentSimulation(&gui);
+    EnvironmentSimulation *envSim = new EnvironmentSimulation(&gui);
 
     // --- Create Scenes from those simulations ---
-    Scene scene1(clothSim, new OrbitCamera());  // Scene that uses ClothSimulation
-    Scene scene2(envSim, new FPSCamera);    // Scene that uses EnvironmentSimulation
+    Scene scene1(clothSim, new OrbitCamera()); // Scene that uses ClothSimulation
+    Scene scene2(envSim, new FPSCamera);       // Scene that uses EnvironmentSimulation
 
     int w, h;
     SDL_GetWindowSize(window, &w, &h);
@@ -78,16 +85,19 @@ int main(int argc, char* argv[])
     scene2.init();
     scene2.renderer.initHorizontalGrid(50.0f, 0.5f);
 
+    // each block is 1 unit, and grid spans ±50 units.
+    BlockWorld blockWorld(1.0f, 50.0f, 1000);
+
     // Start with scene1 active and scene2 paused.
     scene1.resume();
     scene2.pause();
 
-    int activeScene = 1; // 1 means scene1 is active, 2 means scene2 is active.
+    int activeScene = 1;   // 1 means scene1 is active, 2 means scene2 is active.
     bool isPaused = false; // whether the current active scene is paused
 
     double previousTime = getCurrentTime();
     // We expect about 16.67 ms per frame at 60 FPS.
-    const double targetFrameDuration = 1.0 / 60.0; 
+    const double targetFrameDuration = 1.0 / 60.0;
 
     // Queues for smoothing (store last 20 measurements)
     const size_t smoothingQueueSize = 20;
@@ -98,25 +108,28 @@ int main(int argc, char* argv[])
     SDL_Event event;
     while (running)
     {
-        double frameStartTime = getCurrentTime();  // Begin whole frame timing
+        double frameStartTime = getCurrentTime(); // Begin whole frame timing
 
-        // Process events
         while (SDL_PollEvent(&event))
         {
+            // Quit event.
             if (event.type == SDL_QUIT)
                 running = false;
-
             gui.processEvent(event);
 
-            // Toggle scene with 'X'
-            if (event.type == SDL_KEYDOWN && event.key.keysym.sym == SDLK_x) {
-                if (activeScene == 1) {
+            // Toggle scenes with the 'X' key.
+            if (event.type == SDL_KEYDOWN && event.key.keysym.sym == SDLK_x)
+            {
+                if (activeScene == 1)
+                {
                     scene1.pause();
                     scene2.resume();
                     activeScene = 2;
                     isPaused = false;
                     std::cout << "Switched to Scene 2" << std::endl;
-                } else {
+                }
+                else
+                {
                     scene2.pause();
                     scene1.resume();
                     activeScene = 1;
@@ -125,16 +138,20 @@ int main(int argc, char* argv[])
                 }
             }
 
-            // Toggle pause/resume with 'C'
-            if (event.type == SDL_KEYDOWN && event.key.keysym.sym == SDLK_c) {
-                if (!isPaused) {
+            // Toggle pause/resume with the 'C' key.
+            if (event.type == SDL_KEYDOWN && event.key.keysym.sym == SDLK_c)
+            {
+                if (!isPaused)
+                {
                     if (activeScene == 1)
                         scene1.pause();
                     else
                         scene2.pause();
                     isPaused = true;
                     std::cout << "Paused active scene" << std::endl;
-                } else {
+                }
+                else
+                {
                     if (activeScene == 1)
                         scene1.resume();
                     else
@@ -144,39 +161,65 @@ int main(int argc, char* argv[])
                 }
             }
 
-            if (event.type == SDL_KEYDOWN || event.type == SDL_KEYUP) {
+            // Handle key events via Movement module.
+            if (event.type == SDL_KEYDOWN || event.type == SDL_KEYUP)
                 Movement::handleKeyEvent(event);
+
+            // Handle mouse motion (only for Scene 2 when active and not paused).
+            if (event.type == SDL_MOUSEMOTION && activeScene == 2 && !isPaused)
+            {
+                FPSCamera *fpsCam = dynamic_cast<FPSCamera *>(scene2.camera);
+                if (fpsCam)
+                    Movement::handleMouseMotion(event, *fpsCam);
             }
 
-            if (event.type == SDL_MOUSEMOTION) {
-                // Only handle mouse motion if scene2 is active
-                if (activeScene == 2 && !isPaused) {
-                    FPSCamera* fpsCam = dynamic_cast<FPSCamera*>(scene2.camera);
-                    if (fpsCam) {
-                        Movement::handleMouseMotion(event, *fpsCam);
-                        // std::cout << "Mouse motion" << std::endl;
+            if (activeScene == 2 && event.type == SDL_MOUSEBUTTONDOWN) {
+                FPSCamera* fpsCam = dynamic_cast<FPSCamera*>(scene2.camera);
+                if (fpsCam) {
+                    glm::vec3 rayOrigin = fpsCam->getPosition();
+                    glm::vec3 rayDir    = fpsCam->getForward(); // simplified ray direction
+                    GridCoord targetCoord;
+                    // Pass the simulation reference as well:
+                    if (GetBlockPlacementPosition(rayOrigin, rayDir, blockWorld, *scene2.simulation, targetCoord)) {
+                        if (event.button.button == SDL_BUTTON_LEFT) {
+                            // Left click: Place a block if not already present.
+                            if (!blockWorld.hasBlock(targetCoord.x, targetCoord.y, targetCoord.z)) {
+                                blockWorld.addBlock(targetCoord.x, targetCoord.y, targetCoord.z);
+                                scene2.simulation->clearExternalBlocks();
+                                blockWorld.updateSimulation(scene2.simulation->getSoAReference());
+                            }
+                        }
+                        else if (event.button.button == SDL_BUTTON_RIGHT) {
+                            // Right click: Remove a block if it exists.
+                            if (blockWorld.hasBlock(targetCoord.x, targetCoord.y, targetCoord.z)) {
+                                blockWorld.removeBlock(targetCoord.x, targetCoord.y, targetCoord.z);
+                                scene2.simulation->clearExternalBlocks();
+                                blockWorld.updateSimulation(scene2.simulation->getSoAReference());
+                            }
+                        }
                     }
                 }
             }
-        }
+        } // end event loop
 
-        // When switching scenes:
-        if (activeScene == 1) {
-            // Disable relative mouse mode for scene 1
+        // Adjust relative mouse mode based on the active scene.
+        if (activeScene == 1)
+        {
             SDL_SetRelativeMouseMode(SDL_FALSE);
-        } else {
+        }
+        else
+        {
             if (!isPaused)
-                // Enable relative mouse mode for scene 2
                 SDL_SetRelativeMouseMode(SDL_TRUE);
-            else {
-                // Disable relative mouse mode for scene 2 when paused
+            else
                 SDL_SetRelativeMouseMode(SDL_FALSE);
-            }
         }
 
         // Update simulation parameters (physics updates run asynchronously)
-        if (activeScene == 1) {
-            if (gui.isResetRequested()) {
+        if (activeScene == 1)
+        {
+            if (gui.isResetRequested())
+            {
                 scene1.simulation->stopAsyncUpdates();
                 scene1.simulation->reset();
                 // scene1.renderer.cameraReset(*scene1.simulation);
@@ -184,18 +227,23 @@ int main(int argc, char* argv[])
                 if (!isPaused)
                     scene1.simulation->startAsyncUpdates();
             }
-            if (gui.isDropStructureRequested()) {
+            if (gui.isDropStructureRequested())
+            {
                 scene1.simulation->dropStructure();
                 gui.clearDropStructureFlag();
             }
             scene1.simulation->setSpringConstant(gui.getSpringConstant());
             scene1.simulation->setDampingCoefficient(gui.getDampingCoefficient());
-            OrbitCamera* orbitCam = dynamic_cast<OrbitCamera*>(scene1.camera);
-            if (orbitCam) {
+            OrbitCamera *orbitCam = dynamic_cast<OrbitCamera *>(scene1.camera);
+            if (orbitCam)
+            {
                 orbitCam->setZoom(gui.getCameraZoom());
             }
-        } else {
-            if (gui.isResetRequested()) {
+        }
+        else
+        {
+            if (gui.isResetRequested())
+            {
                 scene2.simulation->stopAsyncUpdates();
                 scene2.simulation->reset();
                 // scene2.renderer.cameraReset(*scene2.simulation);
@@ -203,7 +251,8 @@ int main(int argc, char* argv[])
                 if (!isPaused)
                     scene2.simulation->startAsyncUpdates();
             }
-            if (gui.isDropStructureRequested()) {
+            if (gui.isDropStructureRequested())
+            {
                 scene2.simulation->dropStructure();
                 gui.clearDropStructureFlag();
             }
@@ -247,13 +296,14 @@ int main(int argc, char* argv[])
 
         // Compute averages
         float avgRenderTime = std::accumulate(renderTimeQueue.begin(), renderTimeQueue.end(), 0.0f) / renderTimeQueue.size();
-        float avgFrameTime  = std::accumulate(frameTimeQueue.begin(), frameTimeQueue.end(), 0.0f) / frameTimeQueue.size();
+        float avgFrameTime = std::accumulate(frameTimeQueue.begin(), frameTimeQueue.end(), 0.0f) / frameTimeQueue.size();
         float avgFPS = (avgFrameTime > 0.0f) ? (1000.0f / avgFrameTime) : 0.0f;
 
         // --- Update performance metrics in the GUI ---
-        if (activeScene == 1) {
+        if (activeScene == 1)
+        {
             int numParticles = (int)scene1.simulation->getSoA().position.size();
-            int numSprings   = (int)scene1.simulation->getSpringCount();
+            int numSprings = (int)scene1.simulation->getSpringCount();
             double physicsStepTime = scene1.simulation->getLastPhysicsUpdateTime(); // in ms, assumed
             int effectiveSteps = scene1.simulation->getEffectiveStepsPerSecond();
 
@@ -264,9 +314,11 @@ int main(int argc, char* argv[])
                                       numParticles,
                                       numSprings,
                                       effectiveSteps);
-        } else {
+        }
+        else
+        {
             int numParticles = (int)scene2.simulation->getSoA().position.size();
-            int numSprings   = (int)scene2.simulation->getSpringCount();
+            int numSprings = (int)scene2.simulation->getSpringCount();
             double physicsStepTime = scene2.simulation->getLastPhysicsUpdateTime();
             int effectiveSteps = scene2.simulation->getEffectiveStepsPerSecond();
 
@@ -279,10 +331,12 @@ int main(int argc, char* argv[])
                                       effectiveSteps);
         }
 
-        if (activeScene == 2 && !isPaused) {
+        if (activeScene == 2 && !isPaused)
+        {
             // We are in the Environment scene, which uses the FPSCamera
-            FPSCamera* fpsCam = dynamic_cast<FPSCamera*>(scene2.camera);
-            if (fpsCam) {
+            FPSCamera *fpsCam = dynamic_cast<FPSCamera *>(scene2.camera);
+            if (fpsCam)
+            {
                 // Let the Movement system move the camera:
                 Movement::updateFPSCamera(*fpsCam, (float)targetFrameDuration);
             }

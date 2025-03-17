@@ -51,7 +51,6 @@ dependencies: \
   /opt/homebrew/include/SDL2/SDL_misc.h \
   /Users/williambogdanovic/Desktop/simulations/SoA/glimac/third-party/glad/include/glad/glad.h \
   /Users/williambogdanovic/Desktop/simulations/SoA/glimac/third-party/glad/include/KHR/khrplatform.h \
-  /Users/williambogdanovic/Desktop/simulations/SoA/src/Renderer.hpp \
   /Users/williambogdanovic/Desktop/simulations/SoA/src/Simulation.hpp \
   /opt/homebrew/include/glm/glm.hpp \
   /opt/homebrew/include/glm/detail/_fixes.hpp \
@@ -233,9 +232,6 @@ dependencies: \
   /opt/homebrew/include/glm/vector_relational.hpp \
   /opt/homebrew/include/glm/integer.hpp \
   /opt/homebrew/include/glm/detail/func_integer.inl \
-  /Users/williambogdanovic/Desktop/simulations/SoA/src/PMat.hpp \
-  /Users/williambogdanovic/Desktop/simulations/SoA/src/Link.hpp \
-  /Users/williambogdanovic/Desktop/simulations/SoA/src/SimulationSoAInternals.hpp \
   /opt/homebrew/include/glm/gtc/matrix_transform.hpp \
   /opt/homebrew/include/glm/gtc/../mat4x4.hpp \
   /opt/homebrew/include/glm/gtc/../vec2.hpp \
@@ -260,5 +256,100 @@ dependencies: \
   /opt/homebrew/include/glm/gtc/../geometric.hpp \
   /opt/homebrew/include/glm/gtc/../trigonometric.hpp \
   /opt/homebrew/include/glm/gtc/../matrix.hpp \
+  /Users/williambogdanovic/Desktop/simulations/SoA/src/PMat.hpp \
+  /Users/williambogdanovic/Desktop/simulations/SoA/src/Link.hpp \
+  /Users/williambogdanovic/Desktop/simulations/SoA/src/SimulationSoAInternals_SIMD.hpp \
+  /Users/williambogdanovic/Desktop/simulations/SoA/src/SIMDIntegration.hpp \
   /Users/williambogdanovic/Desktop/simulations/SoA/src/GUI.hpp \
-  /opt/homebrew/include/SDL2/SDL_opengl.h
+  /opt/homebrew/include/SDL2/SDL_opengl.h \
+  /Users/williambogdanovic/Desktop/simulations/SoA/src/Renderer.hpp \
+  /Users/williambogdanovic/Desktop/simulations/SoA/src/Shader.hpp \
+  /opt/homebrew/include/glm/gtc/type_ptr.hpp \
+  /opt/homebrew/include/glm/gtc/../gtc/quaternion.hpp \
+  /opt/homebrew/include/glm/gtc/../gtc/../gtc/constants.hpp \
+  /opt/homebrew/include/glm/gtc/../gtc/../gtc/matrix_transform.hpp \
+  /opt/homebrew/include/glm/gtc/../gtc/../ext/vector_relational.hpp \
+  /opt/homebrew/include/glm/gtc/../gtc/../ext/../detail/qualifier.hpp \
+  /opt/homebrew/include/glm/gtc/../gtc/../ext/vector_relational.inl \
+  /opt/homebrew/include/glm/gtc/../gtc/../ext/../vector_relational.hpp \
+  /opt/homebrew/include/glm/gtc/../gtc/../ext/../common.hpp \
+  /opt/homebrew/include/glm/gtc/../gtc/../ext/../detail/type_float.hpp \
+  /opt/homebrew/include/glm/gtc/../gtc/../ext/../detail/setup.hpp \
+  /opt/homebrew/include/glm/gtc/../gtc/../ext/quaternion_common.hpp \
+  /opt/homebrew/include/glm/gtc/../gtc/../ext/../ext/scalar_constants.hpp \
+  /opt/homebrew/include/glm/gtc/../gtc/../ext/../ext/quaternion_geometric.hpp \
+  /opt/homebrew/include/glm/gtc/../gtc/../ext/../ext/../geometric.hpp \
+  /opt/homebrew/include/glm/gtc/../gtc/../ext/../ext/../exponential.hpp \
+  /opt/homebrew/include/glm/gtc/../gtc/../ext/../ext/../ext/vector_relational.hpp \
+  /opt/homebrew/include/glm/gtc/../gtc/../ext/../ext/quaternion_geometric.inl \
+  /opt/homebrew/include/glm/gtc/../gtc/../ext/../trigonometric.hpp \
+  /opt/homebrew/include/glm/gtc/../gtc/../ext/../exponential.hpp \
+  /opt/homebrew/include/glm/gtc/../gtc/../ext/quaternion_common.inl \
+  /opt/homebrew/include/glm/gtc/../gtc/../ext/quaternion_float.hpp \
+  /opt/homebrew/include/glm/gtc/../gtc/../ext/../detail/type_quat.hpp \
+  /opt/homebrew/include/glm/gtc/../gtc/../ext/../detail/../detail/type_mat3x3.hpp \
+  /opt/homebrew/include/glm/gtc/../gtc/../ext/../detail/../detail/type_mat4x4.hpp \
+  /opt/homebrew/include/glm/gtc/../gtc/../ext/../detail/../detail/type_vec3.hpp \
+  /opt/homebrew/include/glm/gtc/../gtc/../ext/../detail/../detail/type_vec4.hpp \
+  /opt/homebrew/include/glm/gtc/../gtc/../ext/../detail/../ext/vector_relational.hpp \
+  /opt/homebrew/include/glm/gtc/../gtc/../ext/../detail/../ext/quaternion_relational.hpp \
+  /opt/homebrew/include/glm/gtc/../gtc/../ext/../detail/../ext/../vector_relational.hpp \
+  /opt/homebrew/include/glm/gtc/../gtc/../ext/../detail/../ext/quaternion_relational.inl \
+  /opt/homebrew/include/glm/gtc/../gtc/../ext/../detail/../gtc/constants.hpp \
+  /opt/homebrew/include/glm/gtc/../gtc/../ext/../detail/../gtc/matrix_transform.hpp \
+  /opt/homebrew/include/glm/gtc/../gtc/../ext/../detail/type_quat.inl \
+  /opt/homebrew/include/glm/gtc/../gtc/../ext/../detail/../trigonometric.hpp \
+  /opt/homebrew/include/glm/gtc/../gtc/../ext/../detail/../exponential.hpp \
+  /opt/homebrew/include/glm/gtc/../gtc/../ext/../detail/../ext/quaternion_common.hpp \
+  /opt/homebrew/include/glm/gtc/../gtc/../ext/../detail/../ext/quaternion_geometric.hpp \
+  /opt/homebrew/include/glm/gtc/../gtc/../ext/quaternion_float_precision.hpp \
+  /opt/homebrew/include/glm/gtc/../gtc/../ext/quaternion_double.hpp \
+  /opt/homebrew/include/glm/gtc/../gtc/../ext/quaternion_double_precision.hpp \
+  /opt/homebrew/include/glm/gtc/../gtc/../ext/quaternion_relational.hpp \
+  /opt/homebrew/include/glm/gtc/../gtc/../ext/quaternion_geometric.hpp \
+  /opt/homebrew/include/glm/gtc/../gtc/../ext/quaternion_trigonometric.hpp \
+  /opt/homebrew/include/glm/gtc/../gtc/../ext/scalar_constants.hpp \
+  /opt/homebrew/include/glm/gtc/../gtc/../ext/quaternion_trigonometric.inl \
+  /opt/homebrew/include/glm/gtc/../gtc/../ext/quaternion_transform.hpp \
+  /opt/homebrew/include/glm/gtc/../gtc/../ext/../geometric.hpp \
+  /opt/homebrew/include/glm/gtc/../gtc/../ext/quaternion_transform.inl \
+  /opt/homebrew/include/glm/gtc/../gtc/../detail/type_mat3x3.hpp \
+  /opt/homebrew/include/glm/gtc/../gtc/../detail/type_mat4x4.hpp \
+  /opt/homebrew/include/glm/gtc/../gtc/../detail/type_vec3.hpp \
+  /opt/homebrew/include/glm/gtc/../gtc/../detail/type_vec4.hpp \
+  /opt/homebrew/include/glm/gtc/../gtc/quaternion.inl \
+  /opt/homebrew/include/glm/gtc/../gtc/../trigonometric.hpp \
+  /opt/homebrew/include/glm/gtc/../gtc/../geometric.hpp \
+  /opt/homebrew/include/glm/gtc/../gtc/../exponential.hpp \
+  /opt/homebrew/include/glm/gtc/../gtc/epsilon.hpp \
+  /opt/homebrew/include/glm/gtc/../gtc/../detail/setup.hpp \
+  /opt/homebrew/include/glm/gtc/../gtc/../detail/qualifier.hpp \
+  /opt/homebrew/include/glm/gtc/../gtc/epsilon.inl \
+  /opt/homebrew/include/glm/gtc/../gtc/../vector_relational.hpp \
+  /opt/homebrew/include/glm/gtc/../gtc/../common.hpp \
+  /opt/homebrew/include/glm/gtc/../gtc/vec1.hpp \
+  /opt/homebrew/include/glm/gtc/../gtc/../ext/vector_bool1.hpp \
+  /opt/homebrew/include/glm/gtc/../gtc/../ext/../detail/type_vec1.hpp \
+  /opt/homebrew/include/glm/gtc/../gtc/../ext/vector_bool1_precision.hpp \
+  /opt/homebrew/include/glm/gtc/../gtc/../ext/vector_float1.hpp \
+  /opt/homebrew/include/glm/gtc/../gtc/../ext/vector_float1_precision.hpp \
+  /opt/homebrew/include/glm/gtc/../gtc/../ext/vector_double1.hpp \
+  /opt/homebrew/include/glm/gtc/../gtc/../ext/vector_double1_precision.hpp \
+  /opt/homebrew/include/glm/gtc/../gtc/../ext/vector_int1.hpp \
+  /opt/homebrew/include/glm/gtc/../gtc/../ext/vector_int1_sized.hpp \
+  /opt/homebrew/include/glm/gtc/../gtc/../ext/../ext/vector_int1.hpp \
+  /opt/homebrew/include/glm/gtc/../gtc/../ext/../ext/scalar_int_sized.hpp \
+  /opt/homebrew/include/glm/gtc/../gtc/../ext/vector_uint1.hpp \
+  /opt/homebrew/include/glm/gtc/../gtc/../ext/vector_uint1_sized.hpp \
+  /opt/homebrew/include/glm/gtc/../gtc/../ext/../ext/vector_uint1.hpp \
+  /opt/homebrew/include/glm/gtc/../gtc/../ext/../ext/scalar_uint_sized.hpp \
+  /opt/homebrew/include/glm/gtc/../mat2x2.hpp \
+  /opt/homebrew/include/glm/gtc/../mat2x3.hpp \
+  /opt/homebrew/include/glm/gtc/../mat2x4.hpp \
+  /opt/homebrew/include/glm/gtc/../mat3x2.hpp \
+  /opt/homebrew/include/glm/gtc/../mat3x3.hpp \
+  /opt/homebrew/include/glm/gtc/../mat3x4.hpp \
+  /opt/homebrew/include/glm/gtc/../mat4x2.hpp \
+  /opt/homebrew/include/glm/gtc/../mat4x3.hpp \
+  /opt/homebrew/include/glm/gtc/type_ptr.inl \
+  /Users/williambogdanovic/Desktop/simulations/SoA/src/Scene.hpp

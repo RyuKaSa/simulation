@@ -1058,6 +1058,7 @@ CMakeFiles/BallsSimulation.dir/src/Renderer.cpp.o: \
   /opt/homebrew/include/SDL2/SDL_version.h \
   /opt/homebrew/include/SDL2/SDL_locale.h \
   /opt/homebrew/include/SDL2/SDL_misc.h \
+  /Users/williambogdanovic/Desktop/simulations/SoA/src/Camera.hpp \
   /Users/williambogdanovic/Desktop/simulations/SoA/src/Shader.hpp \
   /opt/homebrew/include/glm/gtc/type_ptr.hpp \
   /opt/homebrew/include/glm/gtc/../gtc/quaternion.hpp \
@@ -1135,4 +1136,5 @@ CMakeFiles/BallsSimulation.dir/src/Renderer.cpp.o: \
   /opt/homebrew/include/glm/gtc/../mat3x4.hpp \
   /opt/homebrew/include/glm/gtc/../mat4x2.hpp \
   /opt/homebrew/include/glm/gtc/../mat4x3.hpp \
-  /opt/homebrew/include/glm/gtc/type_ptr.inl
+  /opt/homebrew/include/glm/gtc/type_ptr.inl \
+  /Users/williambogdanovic/Desktop/simulations/SoA/src/FullscreenQuad.hpp

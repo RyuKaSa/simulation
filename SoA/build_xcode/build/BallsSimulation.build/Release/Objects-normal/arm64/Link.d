@@ -181,4 +181,5 @@ dependencies: \
   /opt/homebrew/include/glm/vector_relational.hpp \
   /opt/homebrew/include/glm/integer.hpp \
   /opt/homebrew/include/glm/detail/func_integer.inl \
-  /Users/williambogdanovic/Desktop/simulations/SoA/src/PMat.hpp
+  /Users/williambogdanovic/Desktop/simulations/SoA/src/PMat.hpp \
+  /Users/williambogdanovic/Desktop/simulations/SoA/src/SimulationSoAInternals_SIMD.hpp

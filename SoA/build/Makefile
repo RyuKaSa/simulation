@@ -334,6 +334,102 @@ glimac/third-party/glad/src/glad.c.s:
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/glad.dir/build.make CMakeFiles/glad.dir/glimac/third-party/glad/src/glad.c.s
 .PHONY : glimac/third-party/glad/src/glad.c.s
 
+src/BlockPlacement.o: src/BlockPlacement.cpp.o
+.PHONY : src/BlockPlacement.o
+
+# target to build an object file
+src/BlockPlacement.cpp.o:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/BallsSimulation.dir/build.make CMakeFiles/BallsSimulation.dir/src/BlockPlacement.cpp.o
+.PHONY : src/BlockPlacement.cpp.o
+
+src/BlockPlacement.i: src/BlockPlacement.cpp.i
+.PHONY : src/BlockPlacement.i
+
+# target to preprocess a source file
+src/BlockPlacement.cpp.i:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/BallsSimulation.dir/build.make CMakeFiles/BallsSimulation.dir/src/BlockPlacement.cpp.i
+.PHONY : src/BlockPlacement.cpp.i
+
+src/BlockPlacement.s: src/BlockPlacement.cpp.s
+.PHONY : src/BlockPlacement.s
+
+# target to generate assembly for a file
+src/BlockPlacement.cpp.s:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/BallsSimulation.dir/build.make CMakeFiles/BallsSimulation.dir/src/BlockPlacement.cpp.s
+.PHONY : src/BlockPlacement.cpp.s
+
+src/BlockWorld.o: src/BlockWorld.cpp.o
+.PHONY : src/BlockWorld.o
+
+# target to build an object file
+src/BlockWorld.cpp.o:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/BallsSimulation.dir/build.make CMakeFiles/BallsSimulation.dir/src/BlockWorld.cpp.o
+.PHONY : src/BlockWorld.cpp.o
+
+src/BlockWorld.i: src/BlockWorld.cpp.i
+.PHONY : src/BlockWorld.i
+
+# target to preprocess a source file
+src/BlockWorld.cpp.i:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/BallsSimulation.dir/build.make CMakeFiles/BallsSimulation.dir/src/BlockWorld.cpp.i
+.PHONY : src/BlockWorld.cpp.i
+
+src/BlockWorld.s: src/BlockWorld.cpp.s
+.PHONY : src/BlockWorld.s
+
+# target to generate assembly for a file
+src/BlockWorld.cpp.s:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/BallsSimulation.dir/build.make CMakeFiles/BallsSimulation.dir/src/BlockWorld.cpp.s
+.PHONY : src/BlockWorld.cpp.s
+
+src/Camera.o: src/Camera.cpp.o
+.PHONY : src/Camera.o
+
+# target to build an object file
+src/Camera.cpp.o:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/BallsSimulation.dir/build.make CMakeFiles/BallsSimulation.dir/src/Camera.cpp.o
+.PHONY : src/Camera.cpp.o
+
+src/Camera.i: src/Camera.cpp.i
+.PHONY : src/Camera.i
+
+# target to preprocess a source file
+src/Camera.cpp.i:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/BallsSimulation.dir/build.make CMakeFiles/BallsSimulation.dir/src/Camera.cpp.i
+.PHONY : src/Camera.cpp.i
+
+src/Camera.s: src/Camera.cpp.s
+.PHONY : src/Camera.s
+
+# target to generate assembly for a file
+src/Camera.cpp.s:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/BallsSimulation.dir/build.make CMakeFiles/BallsSimulation.dir/src/Camera.cpp.s
+.PHONY : src/Camera.cpp.s
+
+src/FullscreenQuad.o: src/FullscreenQuad.cpp.o
+.PHONY : src/FullscreenQuad.o
+
+# target to build an object file
+src/FullscreenQuad.cpp.o:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/BallsSimulation.dir/build.make CMakeFiles/BallsSimulation.dir/src/FullscreenQuad.cpp.o
+.PHONY : src/FullscreenQuad.cpp.o
+
+src/FullscreenQuad.i: src/FullscreenQuad.cpp.i
+.PHONY : src/FullscreenQuad.i
+
+# target to preprocess a source file
+src/FullscreenQuad.cpp.i:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/BallsSimulation.dir/build.make CMakeFiles/BallsSimulation.dir/src/FullscreenQuad.cpp.i
+.PHONY : src/FullscreenQuad.cpp.i
+
+src/FullscreenQuad.s: src/FullscreenQuad.cpp.s
+.PHONY : src/FullscreenQuad.s
+
+# target to generate assembly for a file
+src/FullscreenQuad.cpp.s:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/BallsSimulation.dir/build.make CMakeFiles/BallsSimulation.dir/src/FullscreenQuad.cpp.s
+.PHONY : src/FullscreenQuad.cpp.s
+
 src/GUI.o: src/GUI.cpp.o
 .PHONY : src/GUI.o
 
@@ -381,6 +477,54 @@ src/Link.s: src/Link.cpp.s
 src/Link.cpp.s:
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/BallsSimulation.dir/build.make CMakeFiles/BallsSimulation.dir/src/Link.cpp.s
 .PHONY : src/Link.cpp.s
+
+src/Movement.o: src/Movement.cpp.o
+.PHONY : src/Movement.o
+
+# target to build an object file
+src/Movement.cpp.o:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/BallsSimulation.dir/build.make CMakeFiles/BallsSimulation.dir/src/Movement.cpp.o
+.PHONY : src/Movement.cpp.o
+
+src/Movement.i: src/Movement.cpp.i
+.PHONY : src/Movement.i
+
+# target to preprocess a source file
+src/Movement.cpp.i:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/BallsSimulation.dir/build.make CMakeFiles/BallsSimulation.dir/src/Movement.cpp.i
+.PHONY : src/Movement.cpp.i
+
+src/Movement.s: src/Movement.cpp.s
+.PHONY : src/Movement.s
+
+# target to generate assembly for a file
+src/Movement.cpp.s:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/BallsSimulation.dir/build.make CMakeFiles/BallsSimulation.dir/src/Movement.cpp.s
+.PHONY : src/Movement.cpp.s
+
+src/Raycaster.o: src/Raycaster.cpp.o
+.PHONY : src/Raycaster.o
+
+# target to build an object file
+src/Raycaster.cpp.o:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/BallsSimulation.dir/build.make CMakeFiles/BallsSimulation.dir/src/Raycaster.cpp.o
+.PHONY : src/Raycaster.cpp.o
+
+src/Raycaster.i: src/Raycaster.cpp.i
+.PHONY : src/Raycaster.i
+
+# target to preprocess a source file
+src/Raycaster.cpp.i:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/BallsSimulation.dir/build.make CMakeFiles/BallsSimulation.dir/src/Raycaster.cpp.i
+.PHONY : src/Raycaster.cpp.i
+
+src/Raycaster.s: src/Raycaster.cpp.s
+.PHONY : src/Raycaster.s
+
+# target to generate assembly for a file
+src/Raycaster.cpp.s:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/BallsSimulation.dir/build.make CMakeFiles/BallsSimulation.dir/src/Raycaster.cpp.s
+.PHONY : src/Raycaster.cpp.s
 
 src/Renderer.o: src/Renderer.cpp.o
 .PHONY : src/Renderer.o
@@ -536,12 +680,30 @@ help:
 	@echo "... glimac/third-party/glad/src/glad.o"
 	@echo "... glimac/third-party/glad/src/glad.i"
 	@echo "... glimac/third-party/glad/src/glad.s"
+	@echo "... src/BlockPlacement.o"
+	@echo "... src/BlockPlacement.i"
+	@echo "... src/BlockPlacement.s"
+	@echo "... src/BlockWorld.o"
+	@echo "... src/BlockWorld.i"
+	@echo "... src/BlockWorld.s"
+	@echo "... src/Camera.o"
+	@echo "... src/Camera.i"
+	@echo "... src/Camera.s"
+	@echo "... src/FullscreenQuad.o"
+	@echo "... src/FullscreenQuad.i"
+	@echo "... src/FullscreenQuad.s"
 	@echo "... src/GUI.o"
 	@echo "... src/GUI.i"
 	@echo "... src/GUI.s"
 	@echo "... src/Link.o"
 	@echo "... src/Link.i"
 	@echo "... src/Link.s"
+	@echo "... src/Movement.o"
+	@echo "... src/Movement.i"
+	@echo "... src/Movement.s"
+	@echo "... src/Raycaster.o"
+	@echo "... src/Raycaster.i"
+	@echo "... src/Raycaster.s"
 	@echo "... src/Renderer.o"
 	@echo "... src/Renderer.i"
 	@echo "... src/Renderer.s"

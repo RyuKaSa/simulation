@@ -1071,6 +1071,7 @@ CMakeFiles/BallsSimulation.dir/src/main.cpp.o: \
   /Users/williambogdanovic/Desktop/simulations/SoA/src/SimulationSoAInternals.hpp \
   /Users/williambogdanovic/Desktop/simulations/SoA/src/GUI.hpp \
   /opt/homebrew/include/SDL2/SDL_opengl.h \
+  /Users/williambogdanovic/Desktop/simulations/SoA/src/Camera.hpp \
   /Users/williambogdanovic/Desktop/simulations/SoA/src/Renderer.hpp \
   /Users/williambogdanovic/Desktop/simulations/SoA/src/Shader.hpp \
   /opt/homebrew/include/glm/gtc/type_ptr.hpp \
@@ -1150,4 +1151,9 @@ CMakeFiles/BallsSimulation.dir/src/main.cpp.o: \
   /opt/homebrew/include/glm/gtc/../mat4x2.hpp \
   /opt/homebrew/include/glm/gtc/../mat4x3.hpp \
   /opt/homebrew/include/glm/gtc/type_ptr.inl \
-  /Users/williambogdanovic/Desktop/simulations/SoA/src/Scene.hpp
+  /Users/williambogdanovic/Desktop/simulations/SoA/src/FullscreenQuad.hpp \
+  /Users/williambogdanovic/Desktop/simulations/SoA/src/Scene.hpp \
+  /Users/williambogdanovic/Desktop/simulations/SoA/src/Movement.hpp \
+  /Users/williambogdanovic/Desktop/simulations/SoA/src/BlockWorld.hpp \
+  /Applications/miniconda3/bin/../include/c++/v1/unordered_set \
+  /Users/williambogdanovic/Desktop/simulations/SoA/src/BlockPlacement.hpp

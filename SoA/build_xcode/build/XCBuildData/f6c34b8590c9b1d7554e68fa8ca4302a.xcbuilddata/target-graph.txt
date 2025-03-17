@@ -1,7 +1,0 @@
-Target dependency graph (3 targets)
-Target 'BallsSimulation' in project 'BallsSimulation'
-➜ Explicit dependency on target 'glad' in project 'BallsSimulation'
-➜ Explicit dependency on target 'ZERO_CHECK' in project 'BallsSimulation'
-Target 'glad' in project 'BallsSimulation'
-➜ Explicit dependency on target 'ZERO_CHECK' in project 'BallsSimulation'
-Target 'ZERO_CHECK' in project 'BallsSimulation' (no dependencies)

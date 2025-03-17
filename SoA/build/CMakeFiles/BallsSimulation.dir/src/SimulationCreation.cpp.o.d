@@ -1055,4 +1055,5 @@ CMakeFiles/BallsSimulation.dir/src/SimulationCreation.cpp.o: \
   /opt/homebrew/include/SDL2/SDL_locale.h \
   /opt/homebrew/include/SDL2/SDL_misc.h \
   /opt/homebrew/include/SDL2/SDL_opengl.h \
-  /opt/homebrew/include/SDL2/SDL_opengl_glext.h
+  /opt/homebrew/include/SDL2/SDL_opengl_glext.h \
+  /Users/williambogdanovic/Desktop/simulations/SoA/src/Camera.hpp

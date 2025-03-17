@@ -51,7 +51,6 @@ dependencies: \
   /opt/homebrew/include/SDL2/SDL_misc.h \
   /Users/williambogdanovic/Desktop/simulations/SoA/glimac/third-party/glad/include/glad/glad.h \
   /Users/williambogdanovic/Desktop/simulations/SoA/glimac/third-party/glad/include/KHR/khrplatform.h \
-  /Users/williambogdanovic/Desktop/simulations/SoA/src/Renderer.hpp \
   /Users/williambogdanovic/Desktop/simulations/SoA/src/Simulation.hpp \
   /opt/homebrew/include/glm/glm.hpp \
   /opt/homebrew/include/glm/detail/_fixes.hpp \
@@ -233,9 +232,6 @@ dependencies: \
   /opt/homebrew/include/glm/vector_relational.hpp \
   /opt/homebrew/include/glm/integer.hpp \
   /opt/homebrew/include/glm/detail/func_integer.inl \
-  /Users/williambogdanovic/Desktop/simulations/SoA/src/PMat.hpp \
-  /Users/williambogdanovic/Desktop/simulations/SoA/src/Link.hpp \
-  /Users/williambogdanovic/Desktop/simulations/SoA/src/SimulationSoAInternals.hpp \
   /opt/homebrew/include/glm/gtc/matrix_transform.hpp \
   /opt/homebrew/include/glm/gtc/../mat4x4.hpp \
   /opt/homebrew/include/glm/gtc/../vec2.hpp \
@@ -260,6 +256,12 @@ dependencies: \
   /opt/homebrew/include/glm/gtc/../geometric.hpp \
   /opt/homebrew/include/glm/gtc/../trigonometric.hpp \
   /opt/homebrew/include/glm/gtc/../matrix.hpp \
+  /Users/williambogdanovic/Desktop/simulations/SoA/src/PMat.hpp \
+  /Users/williambogdanovic/Desktop/simulations/SoA/src/Link.hpp \
+  /Users/williambogdanovic/Desktop/simulations/SoA/src/SimulationSoAInternals.hpp \
+  /Users/williambogdanovic/Desktop/simulations/SoA/src/GUI.hpp \
+  /opt/homebrew/include/SDL2/SDL_opengl.h \
+  /Users/williambogdanovic/Desktop/simulations/SoA/src/Renderer.hpp \
   /Users/williambogdanovic/Desktop/simulations/SoA/src/Shader.hpp \
   /opt/homebrew/include/glm/gtc/type_ptr.hpp \
   /opt/homebrew/include/glm/gtc/../gtc/quaternion.hpp \
@@ -349,5 +351,4 @@ dependencies: \
   /opt/homebrew/include/glm/gtc/../mat4x2.hpp \
   /opt/homebrew/include/glm/gtc/../mat4x3.hpp \
   /opt/homebrew/include/glm/gtc/type_ptr.inl \
-  /Users/williambogdanovic/Desktop/simulations/SoA/src/GUI.hpp \
-  /opt/homebrew/include/SDL2/SDL_opengl.h
+  /Users/williambogdanovic/Desktop/simulations/SoA/src/Scene.hpp
