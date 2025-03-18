@@ -86,7 +86,7 @@ int main(int argc, char *argv[])
     scene2.renderer.initHorizontalGrid(50.0f, 0.5f);
 
     // each block is 1 unit, and grid spans ±50 units.
-    BlockWorld blockWorld(1.0f, 50.0f, 1000);
+    BlockWorld blockWorld(1.0f, 50.0f, envSim);
 
     // Start with scene1 active and scene2 paused.
     scene1.resume();
@@ -185,16 +185,16 @@ int main(int argc, char *argv[])
                             // Left click: Place a block if not already present.
                             if (!blockWorld.hasBlock(targetCoord.x, targetCoord.y, targetCoord.z)) {
                                 blockWorld.addBlock(targetCoord.x, targetCoord.y, targetCoord.z);
-                                scene2.simulation->clearExternalBlocks();
-                                blockWorld.updateSimulation(scene2.simulation->getSoAReference());
+                                // scene2.simulation->clearExternalBlocks();
+                                blockWorld.updateSimulation(scene2.simulation->getSoAReference(), scene2.simulation->getSpringsReference());
                             }
                         }
                         else if (event.button.button == SDL_BUTTON_RIGHT) {
                             // Right click: Remove a block if it exists.
                             if (blockWorld.hasBlock(targetCoord.x, targetCoord.y, targetCoord.z)) {
                                 blockWorld.removeBlock(targetCoord.x, targetCoord.y, targetCoord.z);
-                                scene2.simulation->clearExternalBlocks();
-                                blockWorld.updateSimulation(scene2.simulation->getSoAReference());
+                                // scene2.simulation->clearExternalBlocks();
+                                blockWorld.updateSimulation(scene2.simulation->getSoAReference(), scene2.simulation->getSpringsReference());
                             }
                         }
                     }

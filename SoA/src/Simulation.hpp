@@ -77,6 +77,7 @@ public:
     ParticleSoA getSoACopy() const;
     size_t getSpringCount() const;
     const std::vector<SpringData>& getSprings() const;
+    std::vector<SpringData>& getSpringsReference() { return springs; }
 
     // Returns a mutable reference to the ParticleSoA.
     ParticleSoA& getSoAReference() { return soA; }
@@ -201,7 +202,7 @@ public:
     virtual ~ClothSimulation() {}
     virtual void Initialization() override;
     virtual void reset() override {
-        SimulationBase::reset();
+        this->SimulationBase::reset();
     }
 };
 
@@ -213,7 +214,7 @@ public:
     virtual ~EnvironmentSimulation() {}
     virtual void Initialization() override;
     virtual void reset() override {
-        SimulationBase::reset();
+        this->SimulationBase::reset();
     }
 };
 

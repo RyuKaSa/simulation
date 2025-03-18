@@ -1,17 +1,13 @@
 #include "BlockWorld.hpp"
-#include "SimulationSoAInternals.hpp" // Provides ParticleSoA and ParticleType.
+#include "Simulation.hpp" // For SimulationBase and its getters.
 #include <cmath>
 #include <iostream>
 
-BlockWorld::BlockWorld(float gridSpacing, float gridExtent, size_t poolSize)
-    : m_gridSpacing(gridSpacing), m_gridExtent(gridExtent) {
+BlockWorld::BlockWorld(float gridSpacing, float gridExtent, SimulationBase* sim)
+    : m_gridSpacing(gridSpacing), m_gridExtent(gridExtent), simulation(sim)
+{
     std::cout << "BlockWorld created with gridSpacing: " << m_gridSpacing 
-              << ", gridExtent: " << m_gridExtent 
-              << ", poolSize: " << poolSize << std::endl;
-    // Pre-allocate free indices.
-    for (size_t i = 0; i < poolSize; i++) {
-        m_freeIndices.push(i);
-    }
+              << ", gridExtent: " << m_gridExtent << std::endl;
 }
 
 bool BlockWorld::addBlock(int cx, int cy, int cz) {
@@ -41,17 +37,31 @@ bool BlockWorld::addBlock(int cx, int cy, int cz) {
             return false;
         }
     }
-    // Add the block.
+    
+    // Record the block.
     m_blocks.insert(coord);
-    if (m_freeIndices.empty()) {
-        std::cout << "No free block indices available!" << std::endl;
-        return false;
-    }
-    size_t poolIndex = m_freeIndices.front();
-    m_freeIndices.pop();
-    m_blockIndex[coord] = poolIndex;
+
+    // Determine the world position of the block.
+    glm::vec3 worldPos = gridToWorld(coord);
+    // Get the simulation's particle data.
+    ParticleSoA &soa = simulation->getSoAReference();
+    
+    // Add a new external particle (push_back) to the simulation.
+    size_t newIndex = soa.position.size();
+    soa.position.push_back(glm::dvec3(worldPos));
+    soa.velocity.push_back(glm::dvec3(0.0));
+    soa.forceAccum.push_back(glm::dvec3(0.0));
+    soa.mass.push_back(1.0);
+    soa.type.push_back(ParticleType::EXTERNAL);
+    soa.isStatic.push_back(true);
+    soa.color.push_back(glm::dvec3(1.0, 1.0, 1.0));
+    soa.dimensions.push_back(glm::dvec3(m_gridSpacing));
+    soa.clothID.push_back(-1);
+
+    // Record mapping from grid coordinate to the new particle index.
+    m_blockIndex[coord] = newIndex;
     std::cout << "Block added at (" << cx << ", " << cy << ", " << cz 
-              << ") with pool index " << poolIndex << std::endl;
+              << ") with new particle index " << newIndex << std::endl;
     return true;
 }
 
@@ -60,9 +70,21 @@ bool BlockWorld::removeBlock(int cx, int cy, int cz) {
     if (m_blocks.erase(coord) > 0) {
         auto it = m_blockIndex.find(coord);
         if (it != m_blockIndex.end()) {
-            size_t poolIndex = it->second;
-            m_freeIndices.push(poolIndex);
+            size_t particleIndex = it->second;
+            // Remove the external particle from the simulation.
+            ParticleSoA &soa = simulation->getSoAReference();
+            std::vector<SpringData> &springs = simulation->getSpringsReference();
+            removeParticle(soa, springs, particleIndex); // Defined as an inline helper in SimulationSoAInternals.hpp
+
+            // Erase the mapping.
             m_blockIndex.erase(it);
+
+            // Update indices for all external particles with indices greater than the removed one.
+            for (auto &pair : m_blockIndex) {
+                if (pair.second > particleIndex) {
+                    pair.second--;
+                }
+            }
         }
         std::cout << "Block removed at (" << cx << ", " << cy << ", " << cz << ")." << std::endl;
         return true;
@@ -83,35 +105,28 @@ GridCoord BlockWorld::worldToGrid(float wx, float wy, float wz) const {
 }
 
 glm::vec3 BlockWorld::gridToWorld(const GridCoord &coord) const {
-    // Returns the center position of the cell.
+    // Return the center position of the grid cell.
     return glm::vec3(coord.x * m_gridSpacing, coord.y * m_gridSpacing, coord.z * m_gridSpacing);
 }
 
-void BlockWorld::updateSimulation(ParticleSoA &soa) const {
-    // We assume that the external block pool is allocated at the end of the SoA.
-    // Let poolStart be the starting index for block particles.
-    // (For example, if SoA originally had N particles and we pre-allocated poolSize additional particles,
-    // then poolStart = N.)
-    size_t totalParticles = soa.position.size();
-    // We assume poolSize = (m_freeIndices.size() + m_blockIndex.size()).
-    size_t poolSize = m_freeIndices.size() + m_blockIndex.size();
-    size_t poolStart = totalParticles - poolSize;
-    
-    // For each active block, update its corresponding external particle.
+void BlockWorld::updateSimulation(ParticleSoA &soa, std::vector<SpringData> &springs) const {
+    // For each external block, update its particle position.
     for (const auto &pair : m_blockIndex) {
         const GridCoord &coord = pair.first;
-        size_t poolIndex = pair.second;
+        size_t index = pair.second;
         glm::vec3 worldPos = gridToWorld(coord);
-        size_t index = poolStart + poolIndex;
         if (index < soa.position.size()) {
-            soa.position[index]    = glm::dvec3(worldPos);
-            soa.velocity[index]    = glm::dvec3(0.0);
-            soa.forceAccum[index]  = glm::dvec3(0.0);
-            soa.mass[index]        = 1.0;
-            soa.type[index]        = ParticleType::EXTERNAL;
-            soa.isStatic[index]    = true;
-            soa.color[index]       = glm::dvec3(1.0, 1.0, 1.0);
-            soa.dimensions[index]  = glm::dvec3(m_gridSpacing);
+            soa.position[index]   = glm::dvec3(worldPos);
+            soa.velocity[index]   = glm::dvec3(0.0);
+            soa.forceAccum[index] = glm::dvec3(0.0);
+            soa.mass[index]       = 1.0;
+            soa.type[index]       = ParticleType::EXTERNAL;
+            soa.isStatic[index]   = true;
+            soa.color[index]      = glm::dvec3(1.0, 1.0, 1.0);
+            soa.dimensions[index] = glm::dvec3(m_gridSpacing);
+            soa.clothID[index]    = -1;
         }
     }
+    // Reorder the SoA so that cloth particles come first.
+    reorderClothFirst(soa, springs);
 }

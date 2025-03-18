@@ -1,3 +1,4 @@
+// Simulation.cpp
 #include "Simulation.hpp"
 #include "SimulationSoAInternals.hpp"
 #include <algorithm>
@@ -19,6 +20,8 @@ SimulationBase::SimulationBase() {
     threadPool = new ThreadPool(numThreads);
     std::cout << "Number of threads: " << numThreads << std::endl;
 
+    // Reserve memory (note: reserve() does not change size; cloth and external particles
+    // will be appended later via push_back or resize)
     soA.position.reserve(300000);
     soA.velocity.reserve(300000);
     soA.forceAccum.reserve(300000);
@@ -27,6 +30,8 @@ SimulationBase::SimulationBase() {
     soA.isStatic.reserve(300000);
     soA.color.reserve(300000);
     soA.dimensions.reserve(300000);
+    // Also reserve for clothID vector
+    soA.clothID.reserve(300000);
 }
 
 SimulationBase::~SimulationBase() {
@@ -52,26 +57,23 @@ void SimulationBase::reset() {
 void SimulationBase::update(double dt) {
     std::lock_guard<std::recursive_mutex> lock(simulationMutex);
 
-    // 1) Zero out force accumulators
+    // 1) Zero out force accumulators for all particles
     for(auto &f : soA.forceAccum) {
         f = glm::dvec3(0.0);
     }
 
-    // 2) Springs
-    // (Threaded spring force calculation)
-    // Here, dt is not directly used, but you may modify if needed.
-    // We call our helper:
-    // (See definition below)
-    // In our example, we pass dt to our threaded spring force function:
+    // 2) Compute spring forces.
+    // Springs will only be applied if both endpoints belong to the same cloth (clothID not -1)
     applyThreadedSpringForces(dt);
 
-    // 3) Gravity
+    // 3) Apply gravity if available.
     if(gravityLink) {
         applyGravityLink();
     }
 
-    // 4) Integration
+    // 4) Integrate particle positions and velocities
     size_t n = soA.position.size();
+    // size_t n = clothParticleCount;
     unsigned int numThreads = std::thread::hardware_concurrency();
     if(numThreads == 0) numThreads = 2;
     size_t chunkPart = (n + numThreads - 1) / numThreads;
@@ -81,9 +83,6 @@ void SimulationBase::update(double dt) {
         size_t end = std::min(start + chunkPart, n);
         futures.push_back(
             threadPool->enqueue([this, dt, start, end]() {
-                #ifdef _OPENMP
-                #pragma omp simd
-                #endif
                 for(size_t i = start; i < end; i++) {
                     if(soA.isStatic[i]) {
                         soA.forceAccum[i] = glm::dvec3(0.0);
@@ -94,6 +93,7 @@ void SimulationBase::update(double dt) {
                         soA.position[i] += soA.velocity[i] * dt;
                         soA.forceAccum[i] = glm::dvec3(0.0);
                     }
+                    
                 }
             })
         );
@@ -103,7 +103,7 @@ void SimulationBase::update(double dt) {
     }
     futures.clear();
 
-    // 5) External collisions
+    // 5) Process external collisions (this function may handle collisions between external blocks
     resolveExternalCollisions();
 }
 
@@ -218,6 +218,7 @@ void SimulationBase::clearSimulation() {
     soA.isStatic.clear();
     soA.color.clear();
     soA.dimensions.clear();
+    soA.clothID.clear();
     springs.clear();
     hexTriangles.clear();
     hexagonVertexLists.clear();
@@ -260,7 +261,8 @@ SimulationBase::ThreadPool::~ThreadPool() {
     }
 }
 
-// Apply spring forces in a multi-threaded manner:
+// Apply spring forces in a multi-threaded manner.
+// Only apply springs for which both endpoints share the same clothID (and that clothID is not -1).
 void SimulationBase::applyThreadedSpringForces(double /*dt*/) {
     unsigned int numThreads = std::thread::hardware_concurrency();
     if (numThreads == 0) numThreads = 2;
@@ -276,6 +278,9 @@ void SimulationBase::applyThreadedSpringForces(double /*dt*/) {
                     auto &sp = springs[i];
                     int i1 = sp.p1Index;
                     int i2 = sp.p2Index;
+                    // Only process spring if both endpoints belong to the same cloth and are not external
+                    if (soA.clothID[i1] != soA.clothID[i2] || soA.clothID[i1] < 0)
+                        continue;
                     glm::dvec3 pos1 = soA.position[i1];
                     glm::dvec3 pos2 = soA.position[i2];
                     glm::dvec3 vel1 = soA.velocity[i1];
@@ -335,7 +340,7 @@ void SimulationBase::resolveExternalCollisions() {
                 }
                 glm::dvec3 normalComponent = glm::dot(soA.velocity[i], normal) * normal;
                 glm::dvec3 tangentialComponent = soA.velocity[i] - normalComponent;
-                soA.velocity[i] = normalComponent + (1.0 - frictionCoefficient)*tangentialComponent;
+                soA.velocity[i] = normalComponent + (1.0 - frictionCoefficient) * tangentialComponent;
             }
         }
     }
@@ -346,15 +351,17 @@ void SimulationBase::clearExternalBlocks() {
     std::vector<glm::dvec3, AlignedAllocator<glm::dvec3, 32>> newPositions;
     std::vector<glm::dvec3, AlignedAllocator<glm::dvec3, 32>> newVelocities;
     std::vector<glm::dvec3, AlignedAllocator<glm::dvec3, 32>> newForceAccum;
-    std::vector<double> newMass; // double uses default allocator.
-    std::vector<ParticleType> newType; // Enum, default allocator.
-    std::vector<bool> newIsStatic; // bool, default allocator.
+    std::vector<double> newMass;
+    std::vector<ParticleType> newType;
+    std::vector<bool> newIsStatic;
     std::vector<glm::dvec3, AlignedAllocator<glm::dvec3, 32>> newColor;
     std::vector<glm::dvec3, AlignedAllocator<glm::dvec3, 32>> newDimensions;
+    std::vector<int> newClothID;
 
-    // Copy only particles that are not external.
-    for (size_t i = 0; i < soA.position.size(); i++) {
-        if (soA.type[i] != ParticleType::EXTERNAL) {
+    // Keep cloth particles (indices where clothID >= 0) and reappend external ones.
+    size_t total = soA.position.size();
+    for (size_t i = 0; i < total; i++) {
+        if (soA.clothID[i] != -1) { // cloth particle
             newPositions.push_back(soA.position[i]);
             newVelocities.push_back(soA.velocity[i]);
             newForceAccum.push_back(soA.forceAccum[i]);
@@ -363,10 +370,24 @@ void SimulationBase::clearExternalBlocks() {
             newIsStatic.push_back(soA.isStatic[i]);
             newColor.push_back(soA.color[i]);
             newDimensions.push_back(soA.dimensions[i]);
+            newClothID.push_back(soA.clothID[i]);
+        }
+    }
+    // Append external blocks (clothID == -1)
+    for (size_t i = 0; i < total; i++) {
+        if (soA.clothID[i] == -1) {
+            newPositions.push_back(soA.position[i]);
+            newVelocities.push_back(soA.velocity[i]);
+            newForceAccum.push_back(soA.forceAccum[i]);
+            newMass.push_back(soA.mass[i]);
+            newType.push_back(soA.type[i]);
+            newIsStatic.push_back(soA.isStatic[i]);
+            newColor.push_back(soA.color[i]);
+            newDimensions.push_back(soA.dimensions[i]);
+            newClothID.push_back(soA.clothID[i]);
         }
     }
 
-    // Replace the existing data with the filtered data.
     soA.position    = newPositions;
     soA.velocity    = newVelocities;
     soA.forceAccum  = newForceAccum;
@@ -375,6 +396,7 @@ void SimulationBase::clearExternalBlocks() {
     soA.isStatic    = newIsStatic;
     soA.color       = newColor;
     soA.dimensions  = newDimensions;
+    soA.clothID     = newClothID;
 }
 
 // ------------------- Derived Class Implementations -------------------
@@ -391,7 +413,12 @@ void ClothSimulation::Initialization() {
     sharedParams.springConstant = guiInstance->getSpringConstant();
     sharedParams.dampingCoefficient = guiInstance->getDampingCoefficient();
 
+    // For example, create a multi-layer square grid.
     createMultiLayerSquareGridWithDiagonals(sharedParams.gridSize, 2, 0.03, 0.03, sharedParams.springRestLength);
+
+    // After creating the cloth, record how many particles belong to cloth(s)
+    // (In this multi-layer creation, all particles just created have a clothID >= 0.)
+    // If you want to integrate all cloth particles regardless of clothID, no further action is needed.
 
     if (gravityLink) {
         delete gravityLink;
@@ -414,6 +441,7 @@ void EnvironmentSimulation::Initialization() {
     sharedParams.springConstant = guiInstance->getSpringConstant();
     sharedParams.dampingCoefficient = guiInstance->getDampingCoefficient();
 
+    // Create a hex grid for the environment cloth.
     createHexGrid(sharedParams.gridSize, 0.03, sharedParams.springRestLength, true, 0.0);
 
     if (gravityLink) {

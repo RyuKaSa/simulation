@@ -5,8 +5,7 @@
 #include <vector>
 #include "PMat.hpp"
 
-// Forward declaration of SoA struct:
-struct ParticleSoA;
+#include "SimulationSoAInternals.hpp"
 
 // Applies e.g. gravity (a dvec3 force) to all structure particles:
 class Link {
