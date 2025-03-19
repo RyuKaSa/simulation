@@ -251,13 +251,18 @@ int main(int argc, char *argv[])
                 orbitCam->setZoom(gui.getCameraZoom());
             }
         }
-        else
+        else // activeScene == 2
         {
             if (gui.isResetRequested())
             {
                 scene2.simulation->stopAsyncUpdates();
                 scene2.simulation->reset();
-                // scene2.renderer.cameraReset(*scene2.simulation);
+            
+                // Fully clear the external cubes.
+                blockWorld.clearAllBlocks();
+                blockWorld.updateSimulation(scene2.simulation->getSoAReference(),
+                                            scene2.simulation->getSpringsReference());
+            
                 gui.clearResetFlag();
                 if (!isPaused)
                     scene2.simulation->startAsyncUpdates();

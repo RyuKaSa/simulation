@@ -153,18 +153,41 @@ void BlockWorld::updateSimulation(ParticleSoA &soa,
     // reorderClothFirst(soa, springs);
 }
 
-// NEW: remove all active blocks from the world and SoA
 void BlockWorld::clearAllBlocks()
 {
-    // We must remove each block individually so that SoA indices remain consistent
-    // while we’re removing. We'll gather them in a separate container first.
-    std::vector<GridCoord> allBlocks(m_blocks.begin(), m_blocks.end());
+    ParticleSoA &soa = simulation->getSoAReference();
+    std::vector<SpringData> &springs = simulation->getSpringsReference();
 
-    // Then remove them one by one.
-    for (const GridCoord &coord : allBlocks)
-    {
-        removeBlock(coord); // calls removeBlock(int,int,int) under the hood
+    // Gather all block particle indices from m_blockIndex.
+    std::vector<size_t> indices;
+    for (const auto &entry : m_blockIndex) {
+        indices.push_back(entry.second);
     }
-    // Now m_blocks and m_blockIndex should be fully empty
+    // Sort in descending order so that removing one does not affect the indices of those with lower values.
+    std::sort(indices.begin(), indices.end(), std::greater<size_t>());
+
+    // Remove each block using the robust removeParticle() call.
+    for (size_t idx : indices) {
+        // removeBlock(...) calls removeParticle() internally.
+        // We use the overload that takes GridCoord, so we need to recover the coordinate.
+        // Alternatively, if you have a direct way to call removeParticle for a given index, do so.
+        // Here, we iterate over a copy of m_blockIndex.
+        // (Since removeBlock() also updates m_blockIndex, we rely on this descending order removal.)
+        for (auto it = m_blockIndex.begin(); it != m_blockIndex.end(); ) {
+            if (it->second == idx) {
+                // Remove the block at this coordinate.
+                removeBlock(it->first);
+                // erase returns the next iterator.
+                it = m_blockIndex.begin();  // start over since m_blockIndex has been modified
+            } else {
+                ++it;
+            }
+        }
+    }
+
+    // After all removals, clear our bookkeeping.
+    m_blocks.clear();
+    m_blockIndex.clear();
+
     std::cout << "All blocks have been cleared.\n";
 }
