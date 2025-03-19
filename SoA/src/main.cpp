@@ -173,28 +173,39 @@ int main(int argc, char *argv[])
                     Movement::handleMouseMotion(event, *fpsCam);
             }
 
-            if (activeScene == 2 && event.type == SDL_MOUSEBUTTONDOWN) {
+            if (activeScene == 2 && event.type == SDL_MOUSEBUTTONDOWN)
+            {
                 FPSCamera* fpsCam = dynamic_cast<FPSCamera*>(scene2.camera);
-                if (fpsCam) {
+                if (fpsCam)
+                {
                     glm::vec3 rayOrigin = fpsCam->getPosition();
-                    glm::vec3 rayDir    = fpsCam->getForward(); // simplified ray direction
-                    GridCoord targetCoord;
-                    // Pass the simulation reference as well:
-                    if (GetBlockPlacementPosition(rayOrigin, rayDir, blockWorld, *scene2.simulation, targetCoord)) {
-                        if (event.button.button == SDL_BUTTON_LEFT) {
-                            // Left click: Place a block if not already present.
-                            if (!blockWorld.hasBlock(targetCoord.x, targetCoord.y, targetCoord.z)) {
+                    glm::vec3 rayDir    = fpsCam->getForward();
+
+                    if (event.button.button == SDL_BUTTON_LEFT)
+                    {
+                        // LEFT click => place block if not present
+                        GridCoord targetCoord;
+                        if (GetBlockAdditionCoord(rayOrigin, rayDir, blockWorld, *scene2.simulation, targetCoord))
+                        {
+                            if (!blockWorld.hasBlock(targetCoord))
+                            {
                                 blockWorld.addBlock(targetCoord.x, targetCoord.y, targetCoord.z);
-                                // scene2.simulation->clearExternalBlocks();
-                                blockWorld.updateSimulation(scene2.simulation->getSoAReference(), scene2.simulation->getSpringsReference());
+                                blockWorld.updateSimulation(scene2.simulation->getSoAReference(),
+                                                            scene2.simulation->getSpringsReference());
                             }
                         }
-                        else if (event.button.button == SDL_BUTTON_RIGHT) {
-                            // Right click: Remove a block if it exists.
-                            if (blockWorld.hasBlock(targetCoord.x, targetCoord.y, targetCoord.z)) {
-                                blockWorld.removeBlock(targetCoord.x, targetCoord.y, targetCoord.z);
-                                // scene2.simulation->clearExternalBlocks();
-                                blockWorld.updateSimulation(scene2.simulation->getSoAReference(), scene2.simulation->getSpringsReference());
+                    }
+                    else if (event.button.button == SDL_BUTTON_RIGHT)
+                    {
+                        // RIGHT click => remove the exact block we pointed at
+                        GridCoord removeCoord;
+                        if (GetBlockRemovalCoord(rayOrigin, rayDir, blockWorld, *scene2.simulation, removeCoord))
+                        {
+                            if (blockWorld.hasBlock(removeCoord))
+                            {
+                                blockWorld.removeBlock(removeCoord);
+                                blockWorld.updateSimulation(scene2.simulation->getSoAReference(),
+                                                            scene2.simulation->getSpringsReference());
                             }
                         }
                     }

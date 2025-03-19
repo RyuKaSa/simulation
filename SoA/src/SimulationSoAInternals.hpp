@@ -140,18 +140,20 @@ inline void removeParticle(ParticleSoA &soA, std::vector<SpringData> &springs, s
     size_t n = soA.position.size();
     if (removeIndex >= n) return; // Nothing to do.
 
-    // Build a new ordering that skips the removed index.
+    // Build a new ordering of size n that moves the particle to remove to the end,
+    // preserving the order of all other particles.
     std::vector<size_t> newOrder;
-    newOrder.reserve(n - 1);
+    newOrder.reserve(n);
     for (size_t i = 0; i < n; i++) {
-        if (i == removeIndex)
-            continue;
-        newOrder.push_back(i);
+        if (i != removeIndex)
+            newOrder.push_back(i);
     }
-    
-    // Reorder SoA and fix spring indices accordingly.
+    // Append the removed index at the end.
+    newOrder.push_back(removeIndex);
+
+    // Now newOrder.size() == n, as required by reorderSoAAndFixSprings.
     reorderSoAAndFixSprings(soA, springs, newOrder);
-    
+
     // Resize each vector to remove the last (now unused) element.
     soA.position.resize(n - 1);
     soA.velocity.resize(n - 1);

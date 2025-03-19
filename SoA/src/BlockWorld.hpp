@@ -4,7 +4,7 @@
 #include <unordered_set>
 #include <unordered_map>
 #include <glm/glm.hpp>
-#include "SimulationSoAInternals.hpp" // Defines ParticleSoA and SpringData, plus reorder functions.
+#include "SimulationSoAInternals.hpp" // ParticleSoA, etc.
 
 // Structure to represent a grid cell coordinate.
 struct GridCoord {
@@ -29,38 +29,44 @@ class SimulationBase; // Forward declaration
 // BlockWorld class manages block placement on a 3D grid.
 class BlockWorld {
 public:
-    // The constructor now takes a pointer to the simulation.
     BlockWorld(float gridSpacing, float gridExtent, SimulationBase* sim);
 
-    // Adds a block at grid cell (cx, cy, cz). Returns true if placement is successful.
     bool addBlock(int cx, int cy, int cz);
-
-    // Removes a block at grid cell (cx, cy, cz). Returns true if removal is successful.
+    
+    // Overload to remove by ints or by GridCoord:
     bool removeBlock(int cx, int cy, int cz);
+    bool removeBlock(const GridCoord &coord) {
+        return removeBlock(coord.x, coord.y, coord.z);
+    }
 
-    // Checks if a block exists at grid cell (cx, cy, cz).
+    // Check if block exists
     bool hasBlock(int cx, int cy, int cz) const;
+    bool hasBlock(const GridCoord &coord) const {
+        return hasBlock(coord.x, coord.y, coord.z);
+    }
 
-    // Converts a world position to grid coordinates.
+    // Convert between world coords and grid coords
     GridCoord worldToGrid(float wx, float wy, float wz) const;
-
-    // Converts grid coordinates to world-space position (cell center).
     glm::vec3 gridToWorld(const GridCoord &coord) const;
 
-    // Updates the simulation’s external particles with current block data.
+    // Sync block data to the simulation SoA (positions, etc.).
     void updateSimulation(ParticleSoA &soa, std::vector<SpringData> &springs) const;
 
     float getGridSpacing() const { return m_gridSpacing; }
-    float getGridExtent() const { return m_gridExtent; }
+    float getGridExtent()  const { return m_gridExtent; }
+
+    // *** NEW: fully clear all blocks from the scene. ***
+    // Loops over all active blocks and removes them from SoA.
+    void clearAllBlocks();
 
 private:
     float m_gridSpacing;
     float m_gridExtent;
-    SimulationBase* simulation; // Pointer to the simulation
+    SimulationBase* simulation; // pointer to the sim
 
-    // Set of active blocks.
+    // Set of active blocks
     std::unordered_set<GridCoord, GridCoordHash> m_blocks;
-    // Mapping from grid coordinate to external particle index.
+    // Mapping from grid coord -> external particle index
     std::unordered_map<GridCoord, size_t, GridCoordHash> m_blockIndex;
 };
 

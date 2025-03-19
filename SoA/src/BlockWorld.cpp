@@ -1,23 +1,25 @@
 #include "BlockWorld.hpp"
-#include "Simulation.hpp" // For SimulationBase and its getters.
+#include "Simulation.hpp"
 #include <cmath>
 #include <iostream>
 
 BlockWorld::BlockWorld(float gridSpacing, float gridExtent, SimulationBase* sim)
     : m_gridSpacing(gridSpacing), m_gridExtent(gridExtent), simulation(sim)
 {
-    std::cout << "BlockWorld created with gridSpacing: " << m_gridSpacing 
+    std::cout << "BlockWorld created with gridSpacing: " << m_gridSpacing
               << ", gridExtent: " << m_gridExtent << std::endl;
 }
 
-bool BlockWorld::addBlock(int cx, int cy, int cz) {
+bool BlockWorld::addBlock(int cx, int cy, int cz)
+{
     if (cy < 0)
-        return false; // Do not allow blocks below ground.
+        return false; // do not allow blocks below ground
+
     GridCoord coord {cx, cy, cz};
     if (m_blocks.find(coord) != m_blocks.end())
-        return false; // Block already exists.
+        return false; // block already exists
 
-    // Enforce adjacency if not on ground.
+    // Enforce adjacency if not on ground:
     if (cy > 0) {
         bool adjacent = false;
         GridCoord neighbors[6] = {
@@ -32,22 +34,22 @@ bool BlockWorld::addBlock(int cx, int cy, int cz) {
             }
         }
         if (!adjacent) {
-            std::cout << "Block at (" << cx << ", " << cy << ", " << cz 
-                      << ") is not adjacent. Placement denied." << std::endl;
+            std::cout << "Block at (" << cx << ", " << cy << ", " << cz
+                      << ") is not adjacent.  Placement denied.\n";
             return false;
         }
     }
-    
-    // Record the block.
+
+    // Record the block
     m_blocks.insert(coord);
 
-    // Determine the world position of the block.
+    // Determine the world position
     glm::vec3 worldPos = gridToWorld(coord);
-    // Get the simulation's particle data.
+
+    // Insert new external particle into the simulation
     ParticleSoA &soa = simulation->getSoAReference();
-    
-    // Add a new external particle (push_back) to the simulation.
     size_t newIndex = soa.position.size();
+
     soa.position.push_back(glm::dvec3(worldPos));
     soa.velocity.push_back(glm::dvec3(0.0));
     soa.forceAccum.push_back(glm::dvec3(0.0));
@@ -58,64 +60,84 @@ bool BlockWorld::addBlock(int cx, int cy, int cz) {
     soa.dimensions.push_back(glm::dvec3(m_gridSpacing));
     soa.clothID.push_back(-1);
 
-    // Record mapping from grid coordinate to the new particle index.
     m_blockIndex[coord] = newIndex;
-    std::cout << "Block added at (" << cx << ", " << cy << ", " << cz 
+
+    std::cout << "Block added at (" << cx << ", " << cy << ", " << cz
               << ") with new particle index " << newIndex << std::endl;
     return true;
 }
 
-bool BlockWorld::removeBlock(int cx, int cy, int cz) {
+bool BlockWorld::removeBlock(int cx, int cy, int cz)
+{
     GridCoord coord {cx, cy, cz};
-    if (m_blocks.erase(coord) > 0) {
-        auto it = m_blockIndex.find(coord);
-        if (it != m_blockIndex.end()) {
-            size_t particleIndex = it->second;
-            // Remove the external particle from the simulation.
-            ParticleSoA &soa = simulation->getSoAReference();
-            std::vector<SpringData> &springs = simulation->getSpringsReference();
-            removeParticle(soa, springs, particleIndex); // Defined as an inline helper in SimulationSoAInternals.hpp
+    auto itSet = m_blocks.find(coord);
+    if (itSet == m_blocks.end()) {
+        // No such block
+        return false;
+    }
+    // Erase from the set
+    m_blocks.erase(itSet);
 
-            // Erase the mapping.
-            m_blockIndex.erase(it);
+    // Find the SoA index
+    auto itMap = m_blockIndex.find(coord);
+    if (itMap != m_blockIndex.end())
+    {
+        size_t particleIndex = itMap->second;
 
-            // Update indices for all external particles with indices greater than the removed one.
-            for (auto &pair : m_blockIndex) {
-                if (pair.second > particleIndex) {
-                    pair.second--;
-                }
+        // Remove the external particle from the simulation SoA:
+        ParticleSoA &soa = simulation->getSoAReference();
+        std::vector<SpringData> &springs = simulation->getSpringsReference();
+        removeParticle(soa, springs, particleIndex);
+
+        // Erase from map
+        m_blockIndex.erase(itMap);
+
+        // Fix the indices in m_blockIndex that were > particleIndex
+        for (auto &pair : m_blockIndex) {
+            if (pair.second > particleIndex) {
+                pair.second--;
             }
         }
-        std::cout << "Block removed at (" << cx << ", " << cy << ", " << cz << ")." << std::endl;
-        return true;
     }
-    return false;
+    std::cout << "Block removed at (" << cx << ", " << cy << ", " << cz << ").\n";
+    return true;
 }
 
-bool BlockWorld::hasBlock(int cx, int cy, int cz) const {
+bool BlockWorld::hasBlock(int cx, int cy, int cz) const
+{
     GridCoord coord {cx, cy, cz};
     return (m_blocks.find(coord) != m_blocks.end());
 }
 
-GridCoord BlockWorld::worldToGrid(float wx, float wy, float wz) const {
+GridCoord BlockWorld::worldToGrid(float wx, float wy, float wz) const
+{
     int cx = static_cast<int>(std::floor(wx / m_gridSpacing + 0.5f));
     int cy = static_cast<int>(std::floor(wy / m_gridSpacing + 0.5f));
     int cz = static_cast<int>(std::floor(wz / m_gridSpacing + 0.5f));
     return GridCoord {cx, cy, cz};
 }
 
-glm::vec3 BlockWorld::gridToWorld(const GridCoord &coord) const {
-    // Return the center position of the grid cell.
-    return glm::vec3(coord.x * m_gridSpacing, coord.y * m_gridSpacing, coord.z * m_gridSpacing);
+glm::vec3 BlockWorld::gridToWorld(const GridCoord &coord) const
+{
+    // Return center position of the cell
+    return glm::vec3(coord.x * m_gridSpacing,
+                     coord.y * m_gridSpacing,
+                     coord.z * m_gridSpacing);
 }
 
-void BlockWorld::updateSimulation(ParticleSoA &soa, std::vector<SpringData> &springs) const {
-    // For each external block, update its particle position.
-    for (const auto &pair : m_blockIndex) {
+void BlockWorld::updateSimulation(ParticleSoA &soa,
+                                  std::vector<SpringData> &springs) const
+{
+    // Keep the SoA in sync with our block coordinates
+    // (i.e. re-assign positions, ensure they're static, etc.)
+    for (const auto &pair : m_blockIndex)
+    {
         const GridCoord &coord = pair.first;
         size_t index = pair.second;
-        glm::vec3 worldPos = gridToWorld(coord);
+
         if (index < soa.position.size()) {
+            glm::vec3 worldPos = gridToWorld(coord);
+
             soa.position[index]   = glm::dvec3(worldPos);
             soa.velocity[index]   = glm::dvec3(0.0);
             soa.forceAccum[index] = glm::dvec3(0.0);
@@ -127,6 +149,22 @@ void BlockWorld::updateSimulation(ParticleSoA &soa, std::vector<SpringData> &spr
             soa.clothID[index]    = -1;
         }
     }
-    // Reorder the SoA so that cloth particles come first.
-    reorderClothFirst(soa, springs);
+    // Reorder so cloth particles are first
+    // reorderClothFirst(soa, springs);
+}
+
+// NEW: remove all active blocks from the world and SoA
+void BlockWorld::clearAllBlocks()
+{
+    // We must remove each block individually so that SoA indices remain consistent
+    // while we’re removing. We'll gather them in a separate container first.
+    std::vector<GridCoord> allBlocks(m_blocks.begin(), m_blocks.end());
+
+    // Then remove them one by one.
+    for (const GridCoord &coord : allBlocks)
+    {
+        removeBlock(coord); // calls removeBlock(int,int,int) under the hood
+    }
+    // Now m_blocks and m_blockIndex should be fully empty
+    std::cout << "All blocks have been cleared.\n";
 }
