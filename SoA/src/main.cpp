@@ -4,6 +4,7 @@
 #include <deque>
 #include <numeric> // for std::accumulate
 
+#include "imgui.h"
 #include "Simulation.hpp"
 #include "Renderer.hpp"
 #include "GUI.hpp"
@@ -175,18 +176,18 @@ int main(int argc, char *argv[])
 
             if (activeScene == 2 && event.type == SDL_MOUSEBUTTONDOWN)
             {
+                // If ImGui is handling mouse input, ignore these clicks.
+                if (ImGui::GetIO().WantCaptureMouse)
+                    continue;
+            
                 FPSCamera* fpsCam = dynamic_cast<FPSCamera*>(scene2.camera);
-                if (fpsCam)
-                {
+                if (fpsCam) {
                     glm::vec3 rayOrigin = fpsCam->getPosition();
                     glm::vec3 rayDir    = fpsCam->getForward();
-
-                    if (event.button.button == SDL_BUTTON_LEFT)
-                    {
-                        // LEFT click => place block if not present
+            
+                    if (event.button.button == SDL_BUTTON_LEFT) {
                         GridCoord targetCoord;
-                        if (GetBlockAdditionCoord(rayOrigin, rayDir, blockWorld, *scene2.simulation, targetCoord))
-                        {
+                        if (GetBlockAdditionCoord(rayOrigin, rayDir, blockWorld, *scene2.simulation, targetCoord)) {
                             if (!blockWorld.hasBlock(targetCoord))
                             {
                                 blockWorld.addBlock(targetCoord.x, targetCoord.y, targetCoord.z);
@@ -195,14 +196,10 @@ int main(int argc, char *argv[])
                             }
                         }
                     }
-                    else if (event.button.button == SDL_BUTTON_RIGHT)
-                    {
-                        // RIGHT click => remove the exact block we pointed at
+                    else if (event.button.button == SDL_BUTTON_RIGHT) {
                         GridCoord removeCoord;
-                        if (GetBlockRemovalCoord(rayOrigin, rayDir, blockWorld, *scene2.simulation, removeCoord))
-                        {
-                            if (blockWorld.hasBlock(removeCoord))
-                            {
+                        if (GetBlockRemovalCoord(rayOrigin, rayDir, blockWorld, *scene2.simulation, removeCoord)) {
+                            if (blockWorld.hasBlock(removeCoord)) {
                                 blockWorld.removeBlock(removeCoord);
                                 blockWorld.updateSimulation(scene2.simulation->getSoAReference(),
                                                             scene2.simulation->getSpringsReference());
