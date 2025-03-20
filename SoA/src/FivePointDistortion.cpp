@@ -44,16 +44,25 @@ void FivePointDistortion::initFullscreenQuad() {
     glBindVertexArray(0);
 }
 
-void FivePointDistortion::render(unsigned int equirectTexID, float factor) {
+void FivePointDistortion::render(unsigned int equirectTexID, float factor, const glm::mat4& viewMatrix) {
     glDisable(GL_DEPTH_TEST);
 
     distortionShader.use();
     distortionShader.setUniform("uFactor", factor);
 
+    // Bind equirectangular texture
     glActiveTexture(GL_TEXTURE0);
     glBindTexture(GL_TEXTURE_2D, equirectTexID);
     distortionShader.setUniform("uEquirect", 0);
 
+    // Debugging: Print the view matrix (check console output)
+    // std::cout << "View Matrix:\n"
+    //           << glm::to_string(viewMatrix) << std::endl;
+
+    // Pass view matrix to the shader
+    distortionShader.setUniform("viewMatrix", viewMatrix);
+
+    // Render fullscreen quad
     glBindVertexArray(quadVAO);
     glDrawArrays(GL_TRIANGLE_STRIP, 0, 4);
     glBindVertexArray(0);

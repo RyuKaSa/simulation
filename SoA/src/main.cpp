@@ -304,6 +304,8 @@ int main(int argc, char *argv[])
             if (fpsCam) {
                 // Get the current camera position.
                 glm::vec3 camPos = fpsCam->getPosition();
+                glm::mat4 viewMat4 = fpsCam->getViewMatrix();  // Get 4x4 view matrix
+                glm::mat3 viewMat3 = glm::mat3(viewMat4);
                 
                 // Render the scene into a cubemap from the FPS camera's position.
                 // Note: We pass scene2.simulation and fpsCam to capture the full 360° view.
@@ -313,7 +315,7 @@ int main(int argc, char *argv[])
                 unsigned int equirectID = equiConverter.convert(cubeCapture.getCubemapID());
                 
                 // Finally, apply the five-point (fisheye) distortion effect using the current distortion factor.
-                distortionPass.render(equirectID, gui.getFivePointFactor());
+                distortionPass.render(equirectID, gui.getFivePointFactor(), viewMat4);
             }
         }
 

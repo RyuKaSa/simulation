@@ -1,21 +1,42 @@
 #version 330 core
-in vec2 TexCoords;
 out vec4 FragColor;
-uniform sampler2D uEquirect;   // The 2D equirectangular map
-uniform float uFactor;         // 0..1 distortion factor
+in vec2 TexCoords;
 
-void main()
-{
-    // Convert [0..1] -> [-1..1]
+uniform sampler2D uEquirect;  // The equirectangular environment map
+uniform mat4 viewMatrix;      // The camera view matrix
+
+const float PI = 3.14159265359;
+
+void main() {
+    // Convert TexCoords from [0,1] to [-1,1] (Normalized Device Coordinates)
     vec2 uv = TexCoords * 2.0 - 1.0;
-    float r = length(uv);
-    // Interpolate warp strength: 1.0 means no distortion; lower values mean more curvature.
-    float warpStrength = mix(1.0, 0.7, uFactor);
-    float warpedR = pow(r, warpStrength);
-    float theta = atan(uv.y, uv.x);
-    vec2 warpedUV = warpedR * vec2(cos(theta), sin(theta));
-    warpedUV = warpedUV * 0.5 + 0.5;
-    vec2 eqUV = clamp(warpedUV, 0.0, 1.0);
-    vec3 color = texture(uEquirect, eqUV).rgb;
+
+    // Define the FOV for perspective projection
+    float fov = radians(90.0);  // Set to 90 degrees FOV
+    float tanHalfFOV = tan(fov * 0.5);
+
+    // Compute direction in camera space
+    vec3 dir = normalize(vec3(uv.x * tanHalfFOV, uv.y * tanHalfFOV, -1.0)); // Use -1.0 for correct forward direction
+
+    // Extract only rotation from view matrix
+    mat3 rotationMatrix = mat3(viewMatrix);
+
+    // Apply rotation to direction
+    dir = normalize(rotationMatrix * dir);
+
+    // Flip Y to match OpenGL's coordinate system
+    dir.y = -dir.y;
+
+    // Convert world space direction to spherical coordinates
+    float lon = atan(dir.x, dir.z);   // Longitude (-π to π) → Swap X and Z
+    float lat = asin(dir.y);          // Latitude (-π/2 to π/2)
+
+    // Convert spherical coordinates to equirectangular UVs
+    float u = (lon / (2.0 * PI)) + 0.5;
+    float v = (lat / PI) + 0.5;
+
+    // Sample the equirectangular environment map
+    vec3 color = texture(uEquirect, vec2(u, v)).rgb;
+
     FragColor = vec4(color, 1.0);
 }
