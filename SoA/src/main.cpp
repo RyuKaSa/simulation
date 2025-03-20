@@ -96,9 +96,9 @@ int main(int argc, char *argv[])
     EquirectangularConverter equiConverter;
     FivePointDistortion distortionPass;
 
-    cubeCapture.init(4096);
+    cubeCapture.init(2048);
     equiConverter.init(w, h);
-    distortionPass.init(4096, 2048);
+    distortionPass.init(2048, 1024);
 
     // Start with scene1 active and scene2 paused.
     scene1.resume();
