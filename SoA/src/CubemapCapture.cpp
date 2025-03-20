@@ -79,7 +79,8 @@ void CubemapCapture::renderToCubemap(SimulationBase &simulation,
         glm::vec3(0, 1, 0),
         glm::vec3(0, -1, 0),
         glm::vec3(0, 0, 1),
-        glm::vec3(0, 0, -1)};
+        glm::vec3(0, 0, -1)
+    };
     static const glm::vec3 ups[6] = {
         glm::vec3(0, -1, 0), // +X
         glm::vec3(0, -1, 0), // -X

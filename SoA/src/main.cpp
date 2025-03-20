@@ -298,23 +298,21 @@ int main(int argc, char *argv[])
             // Render Scene 1 normally.
             scene1.render();
         } else if (activeScene == 2) {
-            // For Scene 2, use the five-point distortion effect.
-            // Use the FPS camera from Scene 2.
             FPSCamera* fpsCam = dynamic_cast<FPSCamera*>(scene2.camera);
             if (fpsCam) {
-                // Get the current camera position.
+                // Get the current view matrix (which includes the camera's rotation)
+                glm::mat4 viewMat4 = fpsCam->getViewMatrix();
+        
+                // Render the scene into a cubemap at the camera's current position.
                 glm::vec3 camPos = fpsCam->getPosition();
-                glm::mat4 viewMat4 = fpsCam->getViewMatrix();  // Get 4x4 view matrix
-                glm::mat3 viewMat3 = glm::mat3(viewMat4);
-                
-                // Render the scene into a cubemap from the FPS camera's position.
-                // Note: We pass scene2.simulation and fpsCam to capture the full 360° view.
                 cubeCapture.renderToCubemap(*scene2.simulation, *fpsCam, camPos, scene2.renderer);
-                
-                // Convert the cubemap to a 2D equirectangular texture.
+        
+                // Convert the cubemap to an equirectangular texture.
                 unsigned int equirectID = equiConverter.convert(cubeCapture.getCubemapID());
-                
-                // Finally, apply the five-point (fisheye) distortion effect using the current distortion factor.
+        
+                // Render the final perspective view.
+                // The equirectangular texture is world-aligned and depends only on camPos.
+                // The FPS camera's rotation (viewMat4) is used in the shader to orient the view.
                 distortionPass.render(equirectID, gui.getFivePointFactor(), viewMat4);
             }
         }
