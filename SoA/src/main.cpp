@@ -12,6 +12,9 @@
 #include "Movement.hpp"
 #include "BlockWorld.hpp"
 #include "BlockPlacement.hpp"
+#include "CubemapCapture.hpp"
+#include "EquirectangularConverter.hpp"
+#include "FivePointDistortion.hpp"
 
 // Returns the current time in seconds.
 double getCurrentTime()
@@ -88,6 +91,14 @@ int main(int argc, char *argv[])
 
     // each block is 1 unit, and grid spans ±50 units.
     BlockWorld blockWorld(1.0f, 50.0f, envSim);
+
+    CubemapCapture cubeCapture;
+    EquirectangularConverter equiConverter;
+    FivePointDistortion distortionPass;
+
+    cubeCapture.init(1024);
+    equiConverter.init(1024, 512);
+    distortionPass.init(w, h);
 
     // Start with scene1 active and scene2 paused.
     scene1.resume();
@@ -282,13 +293,32 @@ int main(int argc, char *argv[])
 
         // --- Measure Render Time ---
         double renderStartTime = getCurrentTime();
-        if (activeScene == 1)
+
+        if (activeScene == 1) {
+            // Render Scene 1 normally.
             scene1.render();
-        else
-            scene2.render();
+        } else if (activeScene == 2) {
+            // For Scene 2, use the five-point distortion effect.
+            // Use the FPS camera from Scene 2.
+            FPSCamera* fpsCam = dynamic_cast<FPSCamera*>(scene2.camera);
+            if (fpsCam) {
+                // Get the current camera position.
+                glm::vec3 camPos = fpsCam->getPosition();
+                
+                // Render the scene into a cubemap from the FPS camera's position.
+                // Note: We pass scene2.simulation and fpsCam to capture the full 360° view.
+                cubeCapture.renderToCubemap(*scene2.simulation, *fpsCam, camPos, scene2.renderer);
+                
+                // Convert the cubemap to a 2D equirectangular texture.
+                unsigned int equirectID = equiConverter.convert(cubeCapture.getCubemapID());
+                
+                // Finally, apply the five-point (fisheye) distortion effect using the current distortion factor.
+                distortionPass.render(equirectID, gui.getFivePointFactor());
+            }
+        }
+
         double renderEndTime = getCurrentTime();
         float renderFrameTimeMs = (float)((renderEndTime - renderStartTime) * 1000.0f);
-        // (If this number seems too high, check what scene.render() is doing.)
 
         // Render ImGui overlay and swap buffers
         gui.render();

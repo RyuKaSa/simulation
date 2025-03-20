@@ -46,6 +46,8 @@ public:
                              const glm::mat4& view);
 
     void renderGrid(const glm::mat4& projection, const glm::mat4& view);
+
+    void renderWithMatrices(const SimulationBase &simulation, const glm::mat4 &view, const glm::mat4 &projection);
     
 private:
     Shader ballShader;

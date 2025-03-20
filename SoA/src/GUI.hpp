@@ -35,6 +35,7 @@ public:
     float getGravityStrength() const { return gravityStrength; }
     float getParticleMass() const { return particleMass; }
     float getCameraZoom() const { return cameraZoom; }
+    float getFivePointFactor() const { return fivePointFactor; }
 
 private:
     float springConstant;
@@ -58,6 +59,7 @@ private:
     float gravityStrength;     // gravity magnitude
     float particleMass;        // mass for new particles
     float cameraZoom;          // camera zoom level
+    float fivePointFactor;     // five-point distortion factor
 };
 
 #endif // GUI_H

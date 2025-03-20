@@ -20,7 +20,8 @@ GUI::GUI(SDL_Window* window, SDL_GLContext glContext)
       springRestLength(1.0f),  // default spring rest length multiplier
       gravityStrength(9.81f),  // default gravity magnitude
       particleMass(5.0f),      // default particle mass
-      cameraZoom(0.5f)
+      cameraZoom(0.5f),
+      fivePointFactor(0.0f)
 {
     IMGUI_CHECKVERSION();
     ImGui::CreateContext();
@@ -52,6 +53,7 @@ void GUI::draw() {
     // --- Camera Settings ---
     if (ImGui::CollapsingHeader("Camera Settings", ImGuiTreeNodeFlags_DefaultOpen)) {
         ImGui::SliderFloat("Camera Zoom", &cameraZoom, 0.1f, 3.0f);
+        ImGui::SliderFloat("Five-Point Factor", &fivePointFactor, 0.0f, 1.0f);
     }
     ImGui::Separator();
 

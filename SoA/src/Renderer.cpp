@@ -68,6 +68,25 @@ void Renderer::render(const SimulationBase& simulation) {
     postProcessQuad->render(camera->getRenderTexture());
 }
 
+void Renderer::renderWithMatrices(const SimulationBase &simulation, const glm::mat4 &view, const glm::mat4 &projection) {
+    glClearColor(0.7f, 0.7f, 0.7f, 1.0f);
+    glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
+    glEnable(GL_DEPTH_TEST);
+    
+    // Example: Use ball shader
+    ballShader.use();
+    ballShader.setUniform("uModel", glm::mat4(1.0f));
+    ballShader.setUniform("uMVP", projection * view);
+    
+    // Render scene elements using the provided matrices.
+    renderGrid(projection, view);
+    renderSprings(simulation, projection, view);
+    // Optionally, uncomment if needed:
+    // renderHexTriangles(simulation, projection, view);
+    // renderBalls(simulation, projection, view);
+    renderExternalCubes(simulation, projection, view);
+}
+
 Renderer::~Renderer() {
     glDeleteProgram(ballShader.getID());
     glDeleteProgram(cubeShader.getID());

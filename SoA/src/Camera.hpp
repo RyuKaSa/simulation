@@ -35,6 +35,8 @@ public:
     void setNearPlane(float np)     { nearPlane = np; }
     void setFarPlane(float fp)      { farPlane  = fp; }
 
+    float getFOV() const { return fov; }
+
 protected:
     // Perspective camera defaults
     float fov;
