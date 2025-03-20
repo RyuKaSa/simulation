@@ -33,7 +33,7 @@ void Movement::handleKeyEvent(const SDL_Event& e)
         case SDLK_SPACE:
             moveUp = isKeyDown;
             break;
-        case SDLK_LSHIFT:
+        case SDLK_LCTRL:
             moveDown = isKeyDown;
             break;
         default:

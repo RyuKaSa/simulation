@@ -4,7 +4,7 @@
 #include <iostream>
 
 CubemapCapture::CubemapCapture()
-    : fboID(0), rboID(0), cubemapTexID(0), cubemapSize(1024)
+    : fboID(0), rboID(0), cubemapTexID(0), cubemapSize(2048)
 {
 }
 

@@ -1,12 +1,20 @@
 #include "EquirectangularConverter.hpp"
 #include <iostream>
 
+#ifndef GL_MAX_TEXTURE_MAX_ANISOTROPY_EXT
+#define GL_MAX_TEXTURE_MAX_ANISOTROPY_EXT 0x84FF
+#endif
+
+#ifndef GL_TEXTURE_MAX_ANISOTROPY_EXT
+#define GL_TEXTURE_MAX_ANISOTROPY_EXT 0x84FE
+#endif
+
 EquirectangularConverter::EquirectangularConverter()
     : fbo(0)
     , rbo(0)
     , equirectTexID(0)
-    , outWidth(512)
-    , outHeight(256)
+    , outWidth(2048)
+    , outHeight(1024)
     , quadVAO(0)
     , quadVBO(0)
 {
@@ -24,7 +32,7 @@ void EquirectangularConverter::init(int width, int height) {
     outWidth = width;
     outHeight = height;
 
-    // Load the equiShader from external files:
+    // Load shader as before…
     if (!equiShader.load("src/shaders/equirect_convert.vs.glsl", "src/shaders/equirect_convert.fs.glsl")) {
         std::cerr << "Failed to load equirectangular conversion shaders.\n";
     }
@@ -33,13 +41,19 @@ void EquirectangularConverter::init(int width, int height) {
     glGenFramebuffers(1, &fbo);
     glBindFramebuffer(GL_FRAMEBUFFER, fbo);
 
-    // Create the 2D texture for equirect output
+    // Create a higher resolution texture for the equirect output
     glGenTextures(1, &equirectTexID);
     glBindTexture(GL_TEXTURE_2D, equirectTexID);
     glTexImage2D(GL_TEXTURE_2D, 0, GL_RGBA, outWidth, outHeight,
                  0, GL_RGBA, GL_UNSIGNED_BYTE, nullptr);
-    glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR);
+
+    // Enable mipmapping and anisotropic filtering.
+    glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR_MIPMAP_LINEAR);
     glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
+    // Optionally set anisotropic filtering if supported:
+    GLfloat largestAnisotropy = 0.0f;
+    glGetFloatv(GL_MAX_TEXTURE_MAX_ANISOTROPY_EXT, &largestAnisotropy);
+    glTexParameterf(GL_TEXTURE_2D, GL_TEXTURE_MAX_ANISOTROPY_EXT, largestAnisotropy);
 
     glFramebufferTexture2D(GL_FRAMEBUFFER,
                            GL_COLOR_ATTACHMENT0,
@@ -47,7 +61,7 @@ void EquirectangularConverter::init(int width, int height) {
                            equirectTexID,
                            0);
 
-    // Create a renderbuffer for depth, if needed
+    // Create depth renderbuffer if needed
     glGenRenderbuffers(1, &rbo);
     glBindRenderbuffer(GL_RENDERBUFFER, rbo);
     glRenderbufferStorage(GL_RENDERBUFFER, GL_DEPTH_COMPONENT24, outWidth, outHeight);
@@ -57,10 +71,8 @@ void EquirectangularConverter::init(int width, int height) {
     if (glCheckFramebufferStatus(GL_FRAMEBUFFER) != GL_FRAMEBUFFER_COMPLETE) {
         std::cerr << "[EquirectangularConverter] Framebuffer not complete!\n";
     }
-
     glBindFramebuffer(GL_FRAMEBUFFER, 0);
 
-    // Prepare fullscreen quad geometry
     initFullscreenQuad();
 }
 
@@ -101,17 +113,18 @@ unsigned int EquirectangularConverter::convert(unsigned int cubemapTexID) {
     glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 
     equiShader.use();
-    // Set sampler to the cubemap
     glActiveTexture(GL_TEXTURE0);
     glBindTexture(GL_TEXTURE_CUBE_MAP, cubemapTexID);
     equiShader.setUniform("uCubemap", 0);
 
-    // Draw the quad
     glBindVertexArray(quadVAO);
     glDrawArrays(GL_TRIANGLE_STRIP, 0, 4);
     glBindVertexArray(0);
 
-    glBindFramebuffer(GL_FRAMEBUFFER, 0);
+    // Generate mipmaps for smoother sampling later.
+    glBindTexture(GL_TEXTURE_2D, equirectTexID);
+    glGenerateMipmap(GL_TEXTURE_2D);
 
+    glBindFramebuffer(GL_FRAMEBUFFER, 0);
     return equirectTexID;
 }
