@@ -22,7 +22,9 @@ GUI::GUI(SDL_Window* window, SDL_GLContext glContext)
       particleMass(5.0f),      // default particle mass
       cameraZoom(0.5f),
       fivePointFactor(0.0f),
-      showCrosshair(true)
+      showCrosshair(true),
+      lightPhi(45.0f),
+      lightTheta(45.0f)
 {
     IMGUI_CHECKVERSION();
     ImGui::CreateContext();
@@ -56,6 +58,8 @@ void GUI::draw() {
         ImGui::SliderFloat("Camera Zoom", &cameraZoom, 0.1f, 3.0f);
         ImGui::SliderFloat("Five-Point Factor", &fivePointFactor, 0.0f, 1.0f);
         ImGui::Checkbox("Show Crosshair", &showCrosshair);
+        ImGui::SliderFloat("Light Phi", &lightPhi,   0.0f, 360.0f);
+        ImGui::SliderFloat("Light Theta", &lightTheta, -80.0f, 80.0f);
     }
     ImGui::Separator();
 

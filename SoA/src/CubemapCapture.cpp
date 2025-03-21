@@ -64,7 +64,8 @@ void CubemapCapture::init(int cubeSize)
 void CubemapCapture::renderToCubemap(SimulationBase &simulation,
                                      Camera &tempCameraForCapture,
                                      const glm::vec3 &camPos,
-                                     Renderer &renderer)
+                                     Renderer &renderer,
+                                     const glm::vec3 &lightDir)
 {
     if (!fboID || !cubemapTexID)
     {
@@ -121,7 +122,8 @@ void CubemapCapture::renderToCubemap(SimulationBase &simulation,
                                      ups[i]);
 
         // Render using the provided renderer with our custom view/projection matrices
-        renderer.renderWithMatrices(simulation, view, tempCameraForCapture.getProjectionMatrix(1.0f));
+        // renderer.renderWithMatrices(simulation, view, tempCameraForCapture.getProjectionMatrix(1.0f));
+        renderer.renderWithMatricesAndShadows(simulation, view, tempCameraForCapture.getProjectionMatrix(1.0f), lightDir);
     } // end for each face
 
     // Restore original FOV

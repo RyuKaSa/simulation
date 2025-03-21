@@ -5,22 +5,34 @@
 // Maximum supported instances
 const size_t Renderer::maxInstances;
 
-Renderer::Renderer(const SimulationBase& simulation) : camera(nullptr) {
-    if (!ballShader.load("src/shaders/ball.vs.glsl", "src/shaders/ball.fs.glsl")) {
+Renderer::Renderer(const SimulationBase &simulation) : camera(nullptr)
+{
+    if (!ballShader.load("src/shaders/ball.vs.glsl", "src/shaders/ball.fs.glsl"))
+    {
         std::cerr << "Failed to load ball shaders." << std::endl;
     }
-    if (!cubeShader.load("src/shaders/cube.vs.glsl", "src/shaders/cube.fs.glsl")) {
+    if (!cubeShader.load("src/shaders/cube.vs.glsl", "src/shaders/cube.fs.glsl"))
+    {
         std::cerr << "Failed to load cube shaders." << std::endl;
     }
-    if (!springShader.load("src/shaders/spring.vs.glsl", "src/shaders/spring.fs.glsl")) {
+    if (!springShader.load("src/shaders/spring.vs.glsl", "src/shaders/spring.fs.glsl"))
+    {
         std::cerr << "Failed to load spring shaders." << std::endl;
     }
-    if (!meshShader.load("src/shaders/mesh.vs.glsl", "src/shaders/mesh.fs.glsl")) {
+    if (!meshShader.load("src/shaders/mesh.vs.glsl", "src/shaders/mesh.fs.glsl"))
+    {
         std::cerr << "Failed to load mesh shaders." << std::endl;
     }
-    if (!gridShader.load("src/shaders/grid.vs.glsl", "src/shaders/grid.fs.glsl")) {
+    if (!gridShader.load("src/shaders/grid.vs.glsl", "src/shaders/grid.fs.glsl"))
+    {
         std::cerr << "Failed to load grid shaders." << std::endl;
     }
+    if (!depthShader.load("src/shaders/dirShadowDepth.vs.glsl", "src/shaders/dirShadowDepth.fs.glsl"))
+    {
+        std::cerr << "Failed to load dirShadowDepth shaders." << std::endl;
+    }
+
+    initDirectionalShadowMap();
 
     postProcessQuad = new FullscreenQuad();
 
@@ -35,49 +47,52 @@ Renderer::Renderer(const SimulationBase& simulation) : camera(nullptr) {
     std::cout << "Simulation has " << simulation.getSoA().position.size() << " particles.\n";
 }
 
-void Renderer::render(const SimulationBase& simulation) {
-    if (!camera) {
+void Renderer::render(const SimulationBase &simulation)
+{
+    if (!camera)
+    {
         std::cerr << "[Renderer] No camera set!\n";
         return;
     }
-    
+
     // Begin off-screen rendering (if you are using the FBO functionality)
     camera->beginRender();
-    
+
     glClearColor(0.7f, 0.7f, 0.7f, 1.0f);
     glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
     glEnable(GL_DEPTH_TEST);
-    
+
     // Retrieve view and projection matrices from our camera.
     float aspect = 16.0f / 9.0f; // Replace with your actual window aspect ratio.
     glm::mat4 proj = camera->getProjectionMatrix(aspect);
     glm::mat4 view = camera->getViewMatrix();
-    
+
     // Use ball shader as an example:
     ballShader.use();
     ballShader.setUniform("uModel", glm::mat4(1.0f));
     ballShader.setUniform("uMVP", proj * view);
-    
+
     renderGrid(proj, view);
     renderSprings(simulation, proj, view);
-    // Uncomment renderHexTriangles(simulation, proj, view) and renderBalls(simulation, proj, view) if needed.
+    // renderHexTriangles(simulation, proj, view) and renderBalls(simulation, proj, view)
     renderExternalCubes(simulation, proj, view);
-    
+
     camera->endRender();
-    
+
     postProcessQuad->render(camera->getRenderTexture());
 }
 
-void Renderer::renderWithMatrices(const SimulationBase &simulation, const glm::mat4 &view, const glm::mat4 &projection) {
+void Renderer::renderWithMatrices(const SimulationBase &simulation, const glm::mat4 &view, const glm::mat4 &projection)
+{
     glClearColor(0.7f, 0.7f, 0.7f, 1.0f);
     glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
     glEnable(GL_DEPTH_TEST);
-    
+
     // Example: Use ball shader
     ballShader.use();
     ballShader.setUniform("uModel", glm::mat4(1.0f));
     ballShader.setUniform("uMVP", projection * view);
-    
+
     // Render scene elements using the provided matrices.
     renderGrid(projection, view);
     renderSprings(simulation, projection, view);
@@ -87,13 +102,87 @@ void Renderer::renderWithMatrices(const SimulationBase &simulation, const glm::m
     renderExternalCubes(simulation, projection, view);
 }
 
-Renderer::~Renderer() {
+void Renderer::renderWithMatricesAndShadows(const SimulationBase &simulation,
+                                            const glm::mat4 &view,
+                                            const glm::mat4 &projection,
+                                            const glm::vec3 &lightDir)
+{
+    // Set to filled mode and clear the framebuffer.
+    glPolygonMode(GL_FRONT_AND_BACK, GL_FILL);
+    glClearColor(0.7f, 0.7f, 0.7f, 1.0f);
+    glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
+    glEnable(GL_DEPTH_TEST);
+
+    // Render grid using gridShader (unchanged)
+    gridShader.use();
+    gridShader.setUniform("uModel", glm::mat4(1.0f));
+    gridShader.setUniform("uMVP", projection * view);
+    renderGrid(projection, view);
+
+    // Render springs using springShader (unchanged)
+    springShader.use();
+    {
+        glm::mat4 model(1.0f);
+        glm::mat4 mvp = projection * view * model;
+        springShader.setUniform("uMVP", mvp);
+        springShader.setUniform("uColor", glm::vec3(0.25f, 0.39f, 0.59f));
+    }
+    renderSprings(simulation, projection, view);
+
+    // Render external cubes with shadows using cubeShader.
+    cubeShader.use();
+    // Pass the shadow-related uniforms.
+    cubeShader.setUniform("uLightSpaceMatrix", lightSpaceMatrix);
+    glActiveTexture(GL_TEXTURE1);
+    glBindTexture(GL_TEXTURE_2D, dirShadowTex);
+    cubeShader.setUniform("uShadowMap", 1);
+    // Also pass the light direction if your shader uses it:
+    cubeShader.setUniform("uLightDir", lightDir);
+
+    // Render each external cube.
+    const ParticleSoA soa = simulation.getSoACopy();
+    for (size_t i = 0; i < soa.position.size(); i++)
+    {
+        if (soa.type[i] == ParticleType::EXTERNAL)
+        {
+            glm::vec3 pos(
+                (float)soa.position[i].x,
+                (float)soa.position[i].y,
+                (float)soa.position[i].z);
+            glm::vec3 scl(
+                (float)soa.dimensions[i].x,
+                (float)soa.dimensions[i].y,
+                (float)soa.dimensions[i].z);
+            glm::mat4 model = glm::mat4(1.0f);
+            model = glm::translate(model, pos);
+            model = glm::scale(model, scl);
+            cubeShader.setUniform("uModel", model);
+
+            glm::mat4 mvp = projection * view * model;
+            cubeShader.setUniform("uMVP", mvp);
+
+            // Set the color uniform (if needed)
+            glm::vec3 color(
+                (float)soa.color[i].x,
+                (float)soa.color[i].y,
+                (float)soa.color[i].z);
+            cubeShader.setUniform("uColor", color);
+
+            glBindVertexArray(cubeVAO);
+            // Draw as filled cube using 36 triangle indices.
+            glDrawElements(GL_TRIANGLES, 36, GL_UNSIGNED_INT, 0);
+        }
+    }
+    glBindVertexArray(0);
+}
+
+Renderer::~Renderer()
+{
     glDeleteProgram(ballShader.getID());
     glDeleteProgram(cubeShader.getID());
     glDeleteProgram(springShader.getID());
     glDeleteProgram(meshShader.getID());
     glDeleteProgram(gridShader.getID());
-    
 
     // Delete ball geometry
     glDeleteVertexArrays(1, &vao);
@@ -122,11 +211,15 @@ Renderer::~Renderer() {
     delete postProcessQuad;
 }
 
-void Renderer::initBallGeometry() {
+void Renderer::initBallGeometry()
+{
     float radius = 0.1f;
     float vertices[(numSegments + 2) * 3];
-    vertices[0] = 0.0f; vertices[1] = 0.0f; vertices[2] = 0.0f;
-    for (int i = 0; i <= numSegments; i++) {
+    vertices[0] = 0.0f;
+    vertices[1] = 0.0f;
+    vertices[2] = 0.0f;
+    for (int i = 0; i <= numSegments; i++)
+    {
         float angle = i * 2.0f * 3.1415926f / numSegments;
         vertices[(i + 1) * 3 + 0] = radius * cos(angle);
         vertices[(i + 1) * 3 + 1] = radius * sin(angle);
@@ -138,7 +231,7 @@ void Renderer::initBallGeometry() {
     glBindVertexArray(vao);
     glBindBuffer(GL_ARRAY_BUFFER, vbo);
     glBufferData(GL_ARRAY_BUFFER, sizeof(vertices), vertices, GL_STATIC_DRAW);
-    glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, 3*sizeof(float), (void*)0);
+    glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, 3 * sizeof(float), (void *)0);
     glEnableVertexAttribArray(0);
 
     glGenBuffers(1, &instancePosVBO);
@@ -146,42 +239,52 @@ void Renderer::initBallGeometry() {
     glGenBuffers(1, &instanceScaleVBO);
 
     glBindBuffer(GL_ARRAY_BUFFER, instancePosVBO);
-    glBufferData(GL_ARRAY_BUFFER, maxInstances*sizeof(glm::vec3), nullptr, GL_DYNAMIC_DRAW);
-    glVertexAttribPointer(1, 3, GL_FLOAT, GL_FALSE, sizeof(glm::vec3), (void*)0);
+    glBufferData(GL_ARRAY_BUFFER, maxInstances * sizeof(glm::vec3), nullptr, GL_DYNAMIC_DRAW);
+    glVertexAttribPointer(1, 3, GL_FLOAT, GL_FALSE, sizeof(glm::vec3), (void *)0);
     glEnableVertexAttribArray(1);
     glVertexAttribDivisor(1, 1);
 
     glBindBuffer(GL_ARRAY_BUFFER, instanceColorVBO);
-    glBufferData(GL_ARRAY_BUFFER, maxInstances*sizeof(glm::vec3), nullptr, GL_DYNAMIC_DRAW);
-    glVertexAttribPointer(2, 3, GL_FLOAT, GL_FALSE, sizeof(glm::vec3), (void*)0);
+    glBufferData(GL_ARRAY_BUFFER, maxInstances * sizeof(glm::vec3), nullptr, GL_DYNAMIC_DRAW);
+    glVertexAttribPointer(2, 3, GL_FLOAT, GL_FALSE, sizeof(glm::vec3), (void *)0);
     glEnableVertexAttribArray(2);
     glVertexAttribDivisor(2, 1);
 
     glBindBuffer(GL_ARRAY_BUFFER, instanceScaleVBO);
-    glBufferData(GL_ARRAY_BUFFER, maxInstances*sizeof(glm::vec3), nullptr, GL_DYNAMIC_DRAW);
-    glVertexAttribPointer(3, 1, GL_FLOAT, GL_FALSE, sizeof(glm::vec3), (void*)0);
+    glBufferData(GL_ARRAY_BUFFER, maxInstances * sizeof(glm::vec3), nullptr, GL_DYNAMIC_DRAW);
+    glVertexAttribPointer(3, 1, GL_FLOAT, GL_FALSE, sizeof(glm::vec3), (void *)0);
     glEnableVertexAttribArray(3);
     glVertexAttribDivisor(3, 1);
 
     glBindVertexArray(0);
 }
 
-void Renderer::initCube() {
+void Renderer::initCube()
+{
     float cubeVertices[] = {
         -0.5f, -0.5f, -0.5f,
-         0.5f, -0.5f, -0.5f,
-         0.5f,  0.5f, -0.5f,
-        -0.5f,  0.5f, -0.5f,
-        -0.5f, -0.5f,  0.5f,
-         0.5f, -0.5f,  0.5f,
-         0.5f,  0.5f,  0.5f,
-        -0.5f,  0.5f,  0.5f
-    };
+        0.5f, -0.5f, -0.5f,
+        0.5f, 0.5f, -0.5f,
+        -0.5f, 0.5f, -0.5f,
+        -0.5f, -0.5f, 0.5f,
+        0.5f, -0.5f, 0.5f,
+        0.5f, 0.5f, 0.5f,
+        -0.5f, 0.5f, 0.5f};
+
+    // 12 triangles * 3 vertices = 36 indices
     unsigned int cubeIndices[] = {
-        0,1, 1,2, 2,3, 3,0,
-        4,5, 5,6, 6,7, 7,4,
-        0,4, 1,5, 2,6, 3,7
-    };
+        // front face
+        0, 1, 2, 2, 3, 0,
+        // back face
+        5, 4, 7, 7, 6, 5,
+        // left face
+        4, 0, 3, 3, 7, 4,
+        // right face
+        1, 5, 6, 6, 2, 1,
+        // top face
+        3, 2, 6, 6, 7, 3,
+        // bottom face
+        4, 5, 1, 1, 0, 4};
 
     glGenVertexArrays(1, &cubeVAO);
     glGenBuffers(1, &cubeVBO);
@@ -195,24 +298,26 @@ void Renderer::initCube() {
     glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, cubeEBO);
     glBufferData(GL_ELEMENT_ARRAY_BUFFER, sizeof(cubeIndices), cubeIndices, GL_STATIC_DRAW);
 
-    glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, 3*sizeof(float), (void*)0);
+    glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, 3 * sizeof(float), (void *)0);
     glEnableVertexAttribArray(0);
 
     glBindVertexArray(0);
 }
 
-void Renderer::initSprings() {
+void Renderer::initSprings()
+{
     glGenVertexArrays(1, &springVAO);
     glGenBuffers(1, &springVBO);
 }
 
-void Renderer::initHexTriangles() {
+void Renderer::initHexTriangles()
+{
     glGenVertexArrays(1, &hexTriVAO);
     glGenBuffers(1, &hexTriVBO);
     glBindVertexArray(hexTriVAO);
     glBindBuffer(GL_ARRAY_BUFFER, hexTriVBO);
     glBufferData(GL_ARRAY_BUFFER, 0, nullptr, GL_DYNAMIC_DRAW);
-    glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, 3*sizeof(float), (void*)0);
+    glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, 3 * sizeof(float), (void *)0);
     glEnableVertexAttribArray(0);
     glBindVertexArray(0);
 }
@@ -222,171 +327,116 @@ void Renderer::initHorizontalGrid(float gridExtent, float spacing)
     // Create a horizontal grid on the XZ plane at y = 0.
     // The grid will span from -gridExtent to +gridExtent in both X and Z directions.
     std::vector<float> gridVertices;
-    
+
     // Create vertical lines (constant x, varying z)
-    for (float x = -gridExtent; x <= gridExtent; x += spacing) {
+    for (float x = -gridExtent; x <= gridExtent; x += spacing)
+    {
         // Line from (x, 0, -gridExtent) to (x, 0, gridExtent)
         gridVertices.push_back(x);
         gridVertices.push_back(0.0f);
         gridVertices.push_back(-gridExtent);
-        
+
         gridVertices.push_back(x);
         gridVertices.push_back(0.0f);
         gridVertices.push_back(gridExtent);
     }
-    
+
     // Create horizontal lines (constant z, varying x)
-    for (float z = -gridExtent; z <= gridExtent; z += spacing) {
+    for (float z = -gridExtent; z <= gridExtent; z += spacing)
+    {
         // Line from (-gridExtent, 0, z) to (gridExtent, 0, z)
         gridVertices.push_back(-gridExtent);
         gridVertices.push_back(0.0f);
         gridVertices.push_back(z);
-        
+
         gridVertices.push_back(gridExtent);
         gridVertices.push_back(0.0f);
         gridVertices.push_back(z);
     }
-    
+
     gridVertexCount = static_cast<int>(gridVertices.size() / 3);
     std::cout << "Initialized horizontal grid with vertex count: " << gridVertexCount << std::endl;
-    
+
     // Generate VAO and VBO, and upload the grid data.
     glGenVertexArrays(1, &gridVAO);
     glGenBuffers(1, &gridVBO);
-    
+
     glBindVertexArray(gridVAO);
     glBindBuffer(GL_ARRAY_BUFFER, gridVBO);
     glBufferData(GL_ARRAY_BUFFER, gridVertices.size() * sizeof(float), gridVertices.data(), GL_STATIC_DRAW);
-    
-    glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, 3 * sizeof(float), (void*)0);
+
+    glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, 3 * sizeof(float), (void *)0);
     glEnableVertexAttribArray(0);
-    
+
     glBindVertexArray(0);
 }
-
-void Renderer::renderExternalCubes(const SimulationBase& simulation,
-                                   const glm::mat4& projection,
-                                   const glm::mat4& view)
+void Renderer::renderExternalCubes(const SimulationBase &simulation,
+                                   const glm::mat4 &projection,
+                                   const glm::mat4 &view)
 {
-    // std::cout << "Rendering external cubes START" << std::endl;
-    
-    // We'll do the minimal double->float conversion
+    // Convert doubles to floats for positions, scales, and colors.
     const ParticleSoA soa = simulation.getSoACopy();
-    // std::cout << "after simulation.getSoA()" << std::endl;
     std::vector<glm::vec3> positions, scales, colors;
-    // std::cout << "after vector init" << std::endl;
     positions.reserve(soa.position.size());
     scales.reserve(soa.dimensions.size());
     colors.reserve(soa.color.size());
-    // std::cout << "after reserve" << std::endl;
 
-    for (size_t i = 0; i < soa.position.size(); i++) {
-        if (soa.type[i] == ParticleType::EXTERNAL) {
-            // Convert dvec3 -> vec3
+    for (size_t i = 0; i < soa.position.size(); i++)
+    {
+        if (soa.type[i] == ParticleType::EXTERNAL)
+        {
             glm::vec3 p(
                 (float)soa.position[i].x,
                 (float)soa.position[i].y,
-                (float)soa.position[i].z
-            );
+                (float)soa.position[i].z);
             glm::vec3 s(
                 (float)soa.dimensions[i].x,
                 (float)soa.dimensions[i].y,
-                (float)soa.dimensions[i].z
-            );
+                (float)soa.dimensions[i].z);
             glm::vec3 c(
                 (float)soa.color[i].x,
                 (float)soa.color[i].y,
-                (float)soa.color[i].z
-            );
+                (float)soa.color[i].z);
             positions.push_back(p);
             scales.push_back(s);
             colors.push_back(c);
         }
     }
-    // this redundant loop fixes a memory issue ???
-    for (size_t i = 0; i < soa.position.size(); i++) {
-        if (soa.type[i] == ParticleType::EXTERNAL) {
-            glm::vec3 c(
-                (float)soa.color[i].x,
-                (float)soa.color[i].y,
-                (float)soa.color[i].z
-            );
-            colors.push_back(c);
-        }
-    }
+    if (positions.empty())
+        return;
 
-    // std::cout << "colors.size() AFTER filling = " << colors.size() << std::endl;
-    volatile size_t dummy = colors.size();
-    // std::cout << "after for loop" << std::endl;
-    if (positions.empty()) return;
-    // std::cout << "after if" << std::endl;
-
-    GLint prevPolygonMode;
-    glGetIntegerv(GL_POLYGON_MODE, &prevPolygonMode);
-    glPolygonMode(GL_FRONT_AND_BACK, GL_LINE);
-    GLfloat prevLineWidth;
-    glGetFloatv(GL_LINE_WIDTH, &prevLineWidth);
-    glLineWidth(5.0f);
-    // std::cout << "before cubeShader.use()" << std::endl;
+    // Set polygon mode to fill.
+    glPolygonMode(GL_FRONT_AND_BACK, GL_FILL);
 
     cubeShader.use();
-    // std::cout << "after cubeShader.use()" << std::endl;
-    // std::cout << "cubeShader is valid? " << &cubeShader << std::endl;
 
-    for (size_t i = 0; i < positions.size(); i++) {
-        // std::cout << "in for loop" << std::endl;
-        glm::mat4 model(1.0f);
+    // Loop over external cubes.
+    for (size_t i = 0; i < positions.size(); i++)
+    {
+        // Build model matrix.
+        glm::mat4 model = glm::mat4(1.0f);
         model = glm::translate(model, positions[i]);
-        float s = scales[i].x;
-        if (std::isnan(s) || std::isinf(s) || s == 0.0f) {
-            std::cerr << "ERROR: Invalid scale value: " << s << std::endl;
-            return;
-        }
-        model = glm::scale(model, glm::vec3(s));
-        // std::cout << "after model" << std::endl;
-
-        // std::cout << "scales.size() = " << scales.size() << ", i = " << i << std::endl;
-        if (i >= scales.size()) {
-            std::cerr << "ERROR: Index out of bounds in scales!" << std::endl;
-            return;
-        }
+        // Here, using non-uniform scaling based on the full scale vector.
+        model = glm::scale(model, scales[i]);
 
         glm::mat4 mvp = projection * view * model;
-        // std::cout << "after mvp" << std::endl;
         cubeShader.setUniform("uMVP", mvp);
-        // std::cout << "after setUniform mvp" << std::endl;
-        // std::cout << "colors.size() = " << colors.size() << std::endl;
-        if (colors.empty()) {
-            std::cerr << "ERROR: colors vector is empty!" << std::endl;
-            return;
-        }
-        // std::cout << "Color: " << colors[i].r << ", " << colors[i].g << ", " << colors[i].b << std::endl;
-        if (std::isnan(colors[i].r) || std::isnan(colors[i].g) || std::isnan(colors[i].b) ||
-            std::isinf(colors[i].r) || std::isinf(colors[i].g) || std::isinf(colors[i].b)) {
-            std::cerr << "ERROR: Invalid color values!" << std::endl;
-            return;
-        }
+        cubeShader.setUniform("uModel", model);
         cubeShader.setUniform("uColor", colors[i]);
-        // std::cout << "after setUniform color" << std::endl;
 
         glBindVertexArray(cubeVAO);
-        glDrawElements(GL_LINES, 24, GL_UNSIGNED_INT, 0);
+        // Use 36 indices for a filled cube.
+        glDrawElements(GL_TRIANGLES, 36, GL_UNSIGNED_INT, 0);
         glBindVertexArray(0);
     }
-    // std::cout << "after for loop" << std::endl;
-
-    glPolygonMode(GL_FRONT_AND_BACK, prevPolygonMode);
-    glLineWidth(prevLineWidth);
-
-    ballShader.use();
-    // std::cout << "Rendering external cubes END" << std::endl;
 }
 
-void Renderer::initTripleGrid(const SimulationBase& simulation)
+void Renderer::initTripleGrid(const SimulationBase &simulation)
 {
     // 1) Compute bounding box by skipping every 3 positions
     const ParticleSoA soa = simulation.getSoACopy();
-    if (soa.position.empty()) {
+    if (soa.position.empty())
+    {
         // If no particles, just do nothing
         gridVertexCount = 0;
         std::cerr << "No particles to create grid for!" << std::endl;
@@ -402,14 +452,16 @@ void Renderer::initTripleGrid(const SimulationBase& simulation)
     maxPos = glm::max(maxPos, soa.position.back());
 
     // skip ~ every 3rd to quickly get bounding box
-    for (size_t i = 0; i < soa.position.size(); i += 3) {
+    for (size_t i = 0; i < soa.position.size(); i += 3)
+    {
         minPos = glm::min(minPos, soa.position[i]);
         maxPos = glm::max(maxPos, soa.position[i]);
     }
 
     // Expand the bounding box a bit so the planes are "just outside"
-    double margin = 2.0 * glm::length(maxPos - minPos);  // 10% margin
-    if (margin < 0.5) margin = 0.5; // minimal margin
+    double margin = 2.0 * glm::length(maxPos - minPos); // 10% margin
+    if (margin < 0.5)
+        margin = 0.5; // minimal margin
     glm::dvec3 expand(margin, margin, margin);
     minPos -= expand;
     maxPos += expand;
@@ -428,7 +480,7 @@ void Renderer::initTripleGrid(const SimulationBase& simulation)
     // YZ-plane at x = minX
 
     // We'll define a spacing. You can choose how dense you want it
-    float spacing = 0.5f;  // or pick your own step
+    float spacing = 0.5f; // or pick your own step
     // (You can also base spacing on the bounding box size if you want.)
 
     std::vector<float> gridVertices;
@@ -449,26 +501,32 @@ void Renderer::initTripleGrid(const SimulationBase& simulation)
 
     // ============ PLANE 1: XY-plane at z = minZ ============
     // We'll draw lines parallel to X and parallel to Y
-    for (float x = minX; x <= maxX; x += spacing) {
+    for (float x = minX; x <= maxX; x += spacing)
+    {
         addLine(x, minY, minZ, x, maxY, minZ);
     }
-    for (float y = minY; y <= maxY; y += spacing) {
+    for (float y = minY; y <= maxY; y += spacing)
+    {
         addLine(minX, y, minZ, maxX, y, minZ);
     }
 
     // ============ PLANE 2: XZ-plane at y = minY ============
-    for (float x = minX; x <= maxX; x += spacing) {
+    for (float x = minX; x <= maxX; x += spacing)
+    {
         addLine(x, minY, minZ, x, minY, maxZ);
     }
-    for (float z = minZ; z <= maxZ; z += spacing) {
+    for (float z = minZ; z <= maxZ; z += spacing)
+    {
         addLine(minX, minY, z, maxX, minY, z);
     }
 
     // ============ PLANE 3: YZ-plane at x = minX ============
-    for (float y = minY; y <= maxY; y += spacing) {
+    for (float y = minY; y <= maxY; y += spacing)
+    {
         addLine(minX, y, minZ, minX, y, maxZ);
     }
-    for (float z = minZ; z <= maxZ; z += spacing) {
+    for (float z = minZ; z <= maxZ; z += spacing)
+    {
         addLine(minX, minY, z, minX, maxY, z);
     }
 
@@ -488,28 +546,30 @@ void Renderer::initTripleGrid(const SimulationBase& simulation)
                  GL_STATIC_DRAW);
 
     // Simple position attribute
-    glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, 3 * sizeof(float), (void*)0);
+    glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, 3 * sizeof(float), (void *)0);
     glEnableVertexAttribArray(0);
 
     glBindVertexArray(0);
 }
 
-void Renderer::renderBalls(const SimulationBase& simulation,
-                           const glm::mat4& projection,
-                           const glm::mat4& view)
+void Renderer::renderBalls(const SimulationBase &simulation,
+                           const glm::mat4 &projection,
+                           const glm::mat4 &view)
 {
     // --- Use the ball shader first! ---
     ballShader.use();
-    
-    const ParticleSoA& soa = simulation.getSoA();
+
+    const ParticleSoA &soa = simulation.getSoA();
     std::vector<glm::vec3> positions, colors, scales;
     positions.reserve(soa.position.size());
     colors.reserve(soa.color.size());
     scales.reserve(soa.dimensions.size());
 
     // Filter out EXTERNAL particles so we only see the 'balls'
-    for (size_t i = 0; i < soa.position.size(); i++) {
-        if (soa.type[i] != ParticleType::EXTERNAL) {
+    for (size_t i = 0; i < soa.position.size(); i++)
+    {
+        if (soa.type[i] != ParticleType::EXTERNAL)
+        {
             positions.emplace_back((float)soa.position[i].x,
                                    (float)soa.position[i].y,
                                    (float)soa.position[i].z);
@@ -524,54 +584,64 @@ void Renderer::renderBalls(const SimulationBase& simulation,
 
     // Clamp instance count if needed
     size_t instanceCount = positions.size();
-    if (instanceCount > maxInstances) {
+    if (instanceCount > maxInstances)
+    {
         instanceCount = maxInstances;
     }
 
     // -- Upload instance data (positions, colors, scales) to the VBOs -- //
     glBindBuffer(GL_ARRAY_BUFFER, instancePosVBO);
-    void* posPtr = glMapBufferRange(GL_ARRAY_BUFFER, 0,
-                                    instanceCount*sizeof(glm::vec3),
+    void *posPtr = glMapBufferRange(GL_ARRAY_BUFFER, 0,
+                                    instanceCount * sizeof(glm::vec3),
                                     GL_MAP_WRITE_BIT | GL_MAP_INVALIDATE_BUFFER_BIT);
-    if (posPtr) {
-        memcpy(posPtr, positions.data(), instanceCount*sizeof(glm::vec3));
+    if (posPtr)
+    {
+        memcpy(posPtr, positions.data(), instanceCount * sizeof(glm::vec3));
         glUnmapBuffer(GL_ARRAY_BUFFER);
-    } else {
+    }
+    else
+    {
         // Fallback if mapping fails
         glBufferSubData(GL_ARRAY_BUFFER, 0,
-                        instanceCount*sizeof(glm::vec3),
+                        instanceCount * sizeof(glm::vec3),
                         positions.data());
     }
 
     glBindBuffer(GL_ARRAY_BUFFER, instanceColorVBO);
-    void* colorPtr = glMapBufferRange(GL_ARRAY_BUFFER, 0,
-                                      instanceCount*sizeof(glm::vec3),
+    void *colorPtr = glMapBufferRange(GL_ARRAY_BUFFER, 0,
+                                      instanceCount * sizeof(glm::vec3),
                                       GL_MAP_WRITE_BIT | GL_MAP_INVALIDATE_BUFFER_BIT);
-    if (colorPtr) {
-        memcpy(colorPtr, colors.data(), instanceCount*sizeof(glm::vec3));
+    if (colorPtr)
+    {
+        memcpy(colorPtr, colors.data(), instanceCount * sizeof(glm::vec3));
         glUnmapBuffer(GL_ARRAY_BUFFER);
-    } else {
+    }
+    else
+    {
         glBufferSubData(GL_ARRAY_BUFFER, 0,
-                        instanceCount*sizeof(glm::vec3),
+                        instanceCount * sizeof(glm::vec3),
                         colors.data());
     }
 
     glBindBuffer(GL_ARRAY_BUFFER, instanceScaleVBO);
-    void* scalePtr = glMapBufferRange(GL_ARRAY_BUFFER, 0,
-                                      instanceCount*sizeof(glm::vec3),
+    void *scalePtr = glMapBufferRange(GL_ARRAY_BUFFER, 0,
+                                      instanceCount * sizeof(glm::vec3),
                                       GL_MAP_WRITE_BIT | GL_MAP_INVALIDATE_BUFFER_BIT);
-    if (scalePtr) {
-        memcpy(scalePtr, scales.data(), instanceCount*sizeof(glm::vec3));
+    if (scalePtr)
+    {
+        memcpy(scalePtr, scales.data(), instanceCount * sizeof(glm::vec3));
         glUnmapBuffer(GL_ARRAY_BUFFER);
-    } else {
+    }
+    else
+    {
         glBufferSubData(GL_ARRAY_BUFFER, 0,
-                        instanceCount*sizeof(glm::vec3),
+                        instanceCount * sizeof(glm::vec3),
                         scales.data());
     }
 
     // Set uniforms
     ballShader.setUniform("useInstance", 1);
-    
+
     glm::mat4 model(1.0f);
     ballShader.setUniform("uModel", model);
     glm::mat4 mvp = projection * view * model;
@@ -583,27 +653,26 @@ void Renderer::renderBalls(const SimulationBase& simulation,
     glBindVertexArray(0);
 }
 
-void Renderer::renderSprings(const SimulationBase& simulation,
-                             const glm::mat4& projection,
-                             const glm::mat4& view)
+void Renderer::renderSprings(const SimulationBase &simulation,
+                             const glm::mat4 &projection,
+                             const glm::mat4 &view)
 {
-    const ParticleSoA& soa = simulation.getSoA();
-    const std::vector<SpringData>& springs = simulation.getSprings();
+    const ParticleSoA &soa = simulation.getSoA();
+    const std::vector<SpringData> &springs = simulation.getSprings();
 
     std::vector<glm::vec3> springVertices;
-    springVertices.reserve(springs.size()*2);
+    springVertices.reserve(springs.size() * 2);
 
-    for (const SpringData& spring : springs) {
+    for (const SpringData &spring : springs)
+    {
         glm::vec3 p1 = glm::vec3(
             (float)soa.position[spring.p1Index].x,
             (float)soa.position[spring.p1Index].y,
-            (float)soa.position[spring.p1Index].z
-        );
+            (float)soa.position[spring.p1Index].z);
         glm::vec3 p2 = glm::vec3(
             (float)soa.position[spring.p2Index].x,
             (float)soa.position[spring.p2Index].y,
-            (float)soa.position[spring.p2Index].z
-        );
+            (float)soa.position[spring.p2Index].z);
         springVertices.push_back(p1);
         springVertices.push_back(p2);
     }
@@ -618,36 +687,39 @@ void Renderer::renderSprings(const SimulationBase& simulation,
     glBindVertexArray(springVAO);
     glBindBuffer(GL_ARRAY_BUFFER, springVBO);
     glBufferData(GL_ARRAY_BUFFER,
-                 springVertices.size()*sizeof(glm::vec3),
+                 springVertices.size() * sizeof(glm::vec3),
                  springVertices.data(),
                  GL_DYNAMIC_DRAW);
 
     // Setup the vertex attrib again
-    glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, sizeof(glm::vec3), (void*)0);
+    glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, sizeof(glm::vec3), (void *)0);
     glEnableVertexAttribArray(0);
 
     glDrawArrays(GL_LINES, 0, (GLsizei)springVertices.size());
     glBindVertexArray(0);
 }
 
-void Renderer::renderHexTriangles(const SimulationBase& simulation,
-                                  const glm::mat4& projection,
-                                  const glm::mat4& view)
+void Renderer::renderHexTriangles(const SimulationBase &simulation,
+                                  const glm::mat4 &projection,
+                                  const glm::mat4 &view)
 {
-    const std::vector<HexTriangle>& tris = simulation.getHexTriangles();
-    if (tris.empty()) return;
+    const std::vector<HexTriangle> &tris = simulation.getHexTriangles();
+    if (tris.empty())
+        return;
 
     size_t vertexCount = tris.size() * 3;
-    size_t totalBytes  = vertexCount*sizeof(glm::vec3);
+    size_t totalBytes = vertexCount * sizeof(glm::vec3);
 
     glBindVertexArray(hexTriVAO);
     glBindBuffer(GL_ARRAY_BUFFER, hexTriVBO);
     glBufferData(GL_ARRAY_BUFFER, totalBytes, nullptr, GL_DYNAMIC_DRAW);
 
-    glm::vec3* bufferData = (glm::vec3*)glMapBuffer(GL_ARRAY_BUFFER, GL_WRITE_ONLY);
-    if (bufferData) {
-        for (const auto& tri : tris) {
-            memcpy(bufferData, tri.vertices, 3*sizeof(glm::vec3));
+    glm::vec3 *bufferData = (glm::vec3 *)glMapBuffer(GL_ARRAY_BUFFER, GL_WRITE_ONLY);
+    if (bufferData)
+    {
+        for (const auto &tri : tris)
+        {
+            memcpy(bufferData, tri.vertices, 3 * sizeof(glm::vec3));
             bufferData += 3;
         }
         glUnmapBuffer(GL_ARRAY_BUFFER);
@@ -664,10 +736,10 @@ void Renderer::renderHexTriangles(const SimulationBase& simulation,
     glBindVertexArray(0);
 }
 
-void Renderer::renderGrid(const glm::mat4& projection, const glm::mat4& view)
+void Renderer::renderGrid(const glm::mat4 &projection, const glm::mat4 &view)
 {
     glm::mat4 model(1.0f);
-    glm::mat4 mvp  = projection*view*model;
+    glm::mat4 mvp = projection * view * model;
 
     gridShader.use();
     gridShader.setUniform("uModel", model);
@@ -676,6 +748,164 @@ void Renderer::renderGrid(const glm::mat4& projection, const glm::mat4& view)
     // std::cout << "Rendering grid with vertex count: " << gridVertexCount << std::endl;
     glBindVertexArray(gridVAO);
     glDrawArrays(GL_LINES, 0, gridVertexCount);
+    glBindVertexArray(0);
+}
+
+void Renderer::initDirectionalShadowMap()
+{
+    glGenFramebuffers(1, &dirShadowFBO);
+
+    glGenTextures(1, &dirShadowTex);
+    glBindTexture(GL_TEXTURE_2D, dirShadowTex);
+    glTexImage2D(GL_TEXTURE_2D, 0, GL_DEPTH_COMPONENT,
+                 SHADOW_SIZE, SHADOW_SIZE, 0,
+                 GL_DEPTH_COMPONENT, GL_FLOAT, nullptr);
+    glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_NEAREST);
+    glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_NEAREST);
+    // clamp to border so that outside of [0,1] is in light
+    glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_CLAMP_TO_BORDER);
+    glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_CLAMP_TO_BORDER);
+    float white[4] = {1.0f, 1.0f, 1.0f, 1.0f};
+    glTexParameterfv(GL_TEXTURE_2D, GL_TEXTURE_BORDER_COLOR, white);
+
+    glBindFramebuffer(GL_FRAMEBUFFER, dirShadowFBO);
+    glFramebufferTexture2D(GL_FRAMEBUFFER, GL_DEPTH_ATTACHMENT,
+                           GL_TEXTURE_2D, dirShadowTex, 0);
+    glDrawBuffer(GL_NONE); // no color
+    glReadBuffer(GL_NONE);
+
+    if (glCheckFramebufferStatus(GL_FRAMEBUFFER) != GL_FRAMEBUFFER_COMPLETE)
+    {
+        std::cerr << "Shadow FBO not complete!" << std::endl;
+    }
+    glBindFramebuffer(GL_FRAMEBUFFER, 0);
+
+    shadowsInitialized = true;
+}
+
+void Renderer::renderDirectionalShadowMap(const SimulationBase &simulation, const glm::vec3 &lightDir)
+{
+    if (!shadowsInitialized)
+        return;
+
+    // 1) We'll define an orthographic box big enough for your environment.
+    float orthoSize = 50.0f; // tune to your scene
+    float nearPlane = -10.0f;
+    float farPlane = 100.0f;
+    // We'll just pick "center" at (0,0,0). If your environment is large, compute a bounding box from the environment.
+    glm::vec3 center(0.0f, 0.0f, 0.0f);
+
+    // position the light far away in the -lightDir direction
+    glm::vec3 lightPos = center - 30.0f * lightDir;
+    // pick an up vector not collinear with lightDir
+    glm::vec3 up(0, 1, 0);
+    if (fabs(glm::dot(up, lightDir)) > 0.9f)
+        up = glm::vec3(1, 0, 0);
+
+    glm::mat4 lightProj = glm::ortho(-orthoSize, orthoSize,
+                                     -orthoSize, orthoSize,
+                                     nearPlane, farPlane);
+    glm::mat4 lightView = glm::lookAt(lightPos, center, up);
+    lightSpaceMatrix = lightProj * lightView;
+
+    // 2) Render to the shadow map FBO
+    glViewport(0, 0, SHADOW_SIZE, SHADOW_SIZE);
+    glBindFramebuffer(GL_FRAMEBUFFER, dirShadowFBO);
+    glClear(GL_DEPTH_BUFFER_BIT);
+
+    depthShader.use();
+    depthShader.setUniform("uLightSpaceMatrix", lightSpaceMatrix);
+
+    // Draw your environment geometry with depthShader
+    // Example: draw external cubes as simple boxes
+    const ParticleSoA soa = simulation.getSoACopy();
+    for (size_t i = 0; i < soa.position.size(); i++)
+    {
+        if (soa.type[i] == ParticleType::EXTERNAL)
+        {
+            glm::vec3 pos((float)soa.position[i].x,
+                          (float)soa.position[i].y,
+                          (float)soa.position[i].z);
+            glm::vec3 scl((float)soa.dimensions[i].x,
+                          (float)soa.dimensions[i].y,
+                          (float)soa.dimensions[i].z);
+            glm::mat4 model(1.0f);
+            model = glm::translate(model, pos);
+            model = glm::scale(model, scl);
+
+            depthShader.setUniform("uModel", model);
+
+            glBindVertexArray(cubeVAO);
+            // Make sure your cube EBO is actually 36 triangles (not just lines!)
+            // e.g. glDrawElements(GL_TRIANGLES, 36, GL_UNSIGNED_INT, 0);
+            glDrawElements(GL_TRIANGLES, 36, GL_UNSIGNED_INT, 0);
+        }
+    }
+
+    glBindFramebuffer(GL_FRAMEBUFFER, 0);
+    // restore main viewport (handled in your main loop)
+}
+
+void Renderer::renderSceneWithShadows(const SimulationBase &simulation,
+                                      const glm::mat4 &view,
+                                      const glm::mat4 &projection,
+                                      const glm::vec3 &lightDir)
+{
+    // Ensure filled mode.
+    glPolygonMode(GL_FRONT_AND_BACK, GL_FILL);
+    glClearColor(0.7f, 0.7f, 0.7f, 1.0f);
+    glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
+    glEnable(GL_DEPTH_TEST);
+
+    cubeShader.use();
+
+    // Set the light-space matrix (for shadow mapping).
+    cubeShader.setUniform("uLightSpaceMatrix", lightSpaceMatrix);
+
+    // Bind the shadow texture to texture unit 1.
+    glActiveTexture(GL_TEXTURE1);
+    glBindTexture(GL_TEXTURE_2D, dirShadowTex);
+    cubeShader.setUniform("uShadowMap", 1);
+
+    // *** Set the light direction uniform here ***
+    cubeShader.setUniform("uLightDir", lightDir);
+
+    // Render external cubes.
+    const ParticleSoA soa = simulation.getSoACopy();
+    for (size_t i = 0; i < soa.position.size(); i++)
+    {
+        if (soa.type[i] == ParticleType::EXTERNAL)
+        {
+            glm::vec3 pos(
+                (float)soa.position[i].x,
+                (float)soa.position[i].y,
+                (float)soa.position[i].z);
+            glm::vec3 scl(
+                (float)soa.dimensions[i].x,
+                (float)soa.dimensions[i].y,
+                (float)soa.dimensions[i].z);
+
+            // Build model matrix.
+            glm::mat4 model = glm::mat4(1.0f);
+            model = glm::translate(model, pos);
+            model = glm::scale(model, scl);
+
+            cubeShader.setUniform("uModel", model);
+            glm::mat4 mvp = projection * view * model;
+            cubeShader.setUniform("uMVP", mvp);
+
+            // Optionally, set the color uniform using the particle color.
+            glm::vec3 color(
+                (float)soa.color[i].x,
+                (float)soa.color[i].y,
+                (float)soa.color[i].z);
+            cubeShader.setUniform("uColor", color);
+
+            glBindVertexArray(cubeVAO);
+            // Use 36 indices (triangles) for filled cube rendering.
+            glDrawElements(GL_TRIANGLES, 36, GL_UNSIGNED_INT, 0);
+        }
+    }
     glBindVertexArray(0);
 }
 

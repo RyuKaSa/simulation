@@ -300,20 +300,34 @@ int main(int argc, char *argv[])
         } else if (activeScene == 2) {
             FPSCamera* fpsCam = dynamic_cast<FPSCamera*>(scene2.camera);
             if (fpsCam) {
-                // Get the current view matrix (which includes the camera's rotation)
-                glm::mat4 viewMat4 = fpsCam->getViewMatrix();
+                // --- Compute light direction from GUI angles ---
+                float phiDeg   = gui.getLightPhi();
+                float thetaDeg = gui.getLightTheta();
+                float phiRad   = glm::radians(phiDeg);
+                float thetaRad = glm::radians(thetaDeg);
+                glm::vec3 lightDir(
+                    cos(phiRad) * cos(thetaRad),
+                    sin(thetaRad),
+                    sin(phiRad) * cos(thetaRad)
+                );
+                lightDir = glm::normalize(lightDir);
         
-                // Render the scene into a cubemap at the camera's current position.
+                // --- Render the directional shadow map ---
+                scene2.renderer.renderDirectionalShadowMap(*scene2.simulation, lightDir);
+        
+                // --- Restore the main viewport (w and h are the window dimensions) ---
+                glViewport(0, 0, w, h);
+        
+                // --- Render the scene into a cubemap using a shadow-aware renderer ---
                 glm::vec3 camPos = fpsCam->getPosition();
-                cubeCapture.renderToCubemap(*scene2.simulation, *fpsCam, camPos, scene2.renderer);
+                cubeCapture.renderToCubemap(*scene2.simulation, *fpsCam, camPos, scene2.renderer, lightDir);
         
-                // Convert the cubemap to an equirectangular texture.
+                // --- Convert the cubemap to an equirectangular texture ---
                 unsigned int equirectID = equiConverter.convert(cubeCapture.getCubemapID());
         
+                // --- Finally, perform the distortion pass on the final texture ---
                 distortionPass.setShowCrosshair(gui.getShowCrosshair());
-                // Render the final perspective view.
-                // The equirectangular texture is world-aligned and depends only on camPos.
-                // The FPS camera's rotation (viewMat4) is used in the shader to orient the view.
+                glm::mat4 viewMat4 = fpsCam->getViewMatrix();
                 distortionPass.render(equirectID, gui.getFivePointFactor(), viewMat4);
             }
         }

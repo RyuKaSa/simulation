@@ -14,41 +14,52 @@
 #include "Camera.hpp"
 #include "FullscreenQuad.hpp"
 
-class Renderer {
+class Renderer
+{
 public:
     // Constructor takes a Simulation reference for geometry initialization.
-    Renderer(const SimulationBase& simulation);
+    Renderer(const SimulationBase &simulation);
     ~Renderer();
 
-    FullscreenQuad* postProcessQuad;
+    FullscreenQuad *postProcessQuad;
 
     // Main render call
-    void render(const SimulationBase& simulation);
+    void render(const SimulationBase &simulation);
 
     // Attach a camera (OrbitCamera, FPSCamera, etc.)
-    void setCamera(Camera* cam) { camera = cam; }
+    void setCamera(Camera *cam) { camera = cam; }
 
-    void initTripleGrid(const SimulationBase& simulation);
+    void initTripleGrid(const SimulationBase &simulation);
     void initHorizontalGrid(float gridExtent, float spacing);
 
     // Rendering functions
-    void renderBalls(const SimulationBase& simulation,
-                     const glm::mat4& projection,
-                     const glm::mat4& view);
-    void renderHexTriangles(const SimulationBase& simulation,
-                            const glm::mat4& projection,
-                            const glm::mat4& view);
-    void renderSprings(const SimulationBase& simulation,
-                       const glm::mat4& projection,
-                       const glm::mat4& view);
-    void renderExternalCubes(const SimulationBase& simulation,
-                             const glm::mat4& projection,
-                             const glm::mat4& view);
+    void renderBalls(const SimulationBase &simulation,
+                     const glm::mat4 &projection,
+                     const glm::mat4 &view);
+    void renderHexTriangles(const SimulationBase &simulation,
+                            const glm::mat4 &projection,
+                            const glm::mat4 &view);
+    void renderSprings(const SimulationBase &simulation,
+                       const glm::mat4 &projection,
+                       const glm::mat4 &view);
+    void renderExternalCubes(const SimulationBase &simulation,
+                             const glm::mat4 &projection,
+                             const glm::mat4 &view);
 
-    void renderGrid(const glm::mat4& projection, const glm::mat4& view);
+    void renderGrid(const glm::mat4 &projection, const glm::mat4 &view);
 
     void renderWithMatrices(const SimulationBase &simulation, const glm::mat4 &view, const glm::mat4 &projection);
-    
+    void renderWithMatricesAndShadows(const SimulationBase &simulation,
+                                                const glm::mat4 &view,
+                                                const glm::mat4 &projection,
+                                                const glm::vec3 &lightDir);
+
+    void renderDirectionalShadowMap(const SimulationBase &simulation, const glm::vec3 &lightDir);
+    const glm::mat4 &getLightSpaceMatrix() const { return lightSpaceMatrix; }
+    unsigned int getDirectionalShadowTex() const { return dirShadowTex; }
+
+    void renderSceneWithShadows(const SimulationBase &simulation, const glm::mat4 &view, const glm::mat4 &projection, const glm::vec3 &lightDir);
+
 private:
     Shader ballShader;
     Shader cubeShader;
@@ -57,7 +68,7 @@ private:
     Shader gridShader;
 
     // Our camera pointer
-    Camera* camera;
+    Camera *camera;
 
     // Geometry for instanced balls
     unsigned int vao, vbo;
@@ -85,6 +96,15 @@ private:
     int numSegments = 32;
 
     static const size_t maxInstances = 100000;
+
+    Shader depthShader; // For shadow pass
+    unsigned int dirShadowFBO = 0;
+    unsigned int dirShadowTex = 0;
+    glm::mat4 lightSpaceMatrix = glm::mat4(1.0f);
+    bool shadowsInitialized = false;
+    static const unsigned int SHADOW_SIZE = 1024;
+
+    void initDirectionalShadowMap();
 };
 
 #endif // RENDERER_H

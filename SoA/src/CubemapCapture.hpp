@@ -24,7 +24,8 @@ public:
     void renderToCubemap(SimulationBase& simulation,
                          Camera& tempCameraForCapture,
                          const glm::vec3& camPos,
-                         Renderer& renderer);
+                         Renderer& renderer,
+                         const glm::vec3& lightDir);
 
     // Returns the ID of the cubemap texture (GL_TEXTURE_CUBE_MAP).
     unsigned int getCubemapID() const { return cubemapTexID; }

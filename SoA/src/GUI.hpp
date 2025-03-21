@@ -38,6 +38,9 @@ public:
     float getFivePointFactor() const { return fivePointFactor; }
     bool getShowCrosshair() const { return showCrosshair; }
 
+    float getLightPhi() const { return lightPhi; }
+    float getLightTheta() const { return lightTheta; }
+
 private:
     float springConstant;
     float dampingCoefficient;
@@ -63,6 +66,9 @@ private:
     float fivePointFactor;     // five-point distortion factor
 
     bool showCrosshair;
+
+    float lightPhi;
+    float lightTheta;
 };
 
 #endif // GUI_H
