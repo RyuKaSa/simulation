@@ -789,7 +789,7 @@ void Renderer::renderDirectionalShadowMap(const SimulationBase &simulation, cons
         return;
 
     // 1) We'll define an orthographic box big enough for your environment.
-    float orthoSize = 50.0f; // tune to your scene
+    float orthoSize = 25.0f; // tune to your scene
     float nearPlane = -10.0f;
     float farPlane = 100.0f;
     // We'll just pick "center" at (0,0,0). If your environment is large, compute a bounding box from the environment.

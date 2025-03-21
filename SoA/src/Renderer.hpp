@@ -102,7 +102,7 @@ private:
     unsigned int dirShadowTex = 0;
     glm::mat4 lightSpaceMatrix = glm::mat4(1.0f);
     bool shadowsInitialized = false;
-    static const unsigned int SHADOW_SIZE = 1024;
+    static const unsigned int SHADOW_SIZE = 4096;
 
     void initDirectionalShadowMap();
 };
