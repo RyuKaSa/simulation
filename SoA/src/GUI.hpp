@@ -36,6 +36,7 @@ public:
     float getParticleMass() const { return particleMass; }
     float getCameraZoom() const { return cameraZoom; }
     float getFivePointFactor() const { return fivePointFactor; }
+    bool getShowCrosshair() const { return showCrosshair; }
 
 private:
     float springConstant;
@@ -60,6 +61,8 @@ private:
     float particleMass;        // mass for new particles
     float cameraZoom;          // camera zoom level
     float fivePointFactor;     // five-point distortion factor
+
+    bool showCrosshair;
 };
 
 #endif // GUI_H

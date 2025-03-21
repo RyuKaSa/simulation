@@ -21,7 +21,8 @@ GUI::GUI(SDL_Window* window, SDL_GLContext glContext)
       gravityStrength(9.81f),  // default gravity magnitude
       particleMass(5.0f),      // default particle mass
       cameraZoom(0.5f),
-      fivePointFactor(0.0f)
+      fivePointFactor(0.0f),
+      showCrosshair(true)
 {
     IMGUI_CHECKVERSION();
     ImGui::CreateContext();
@@ -54,6 +55,7 @@ void GUI::draw() {
     if (ImGui::CollapsingHeader("Camera Settings", ImGuiTreeNodeFlags_DefaultOpen)) {
         ImGui::SliderFloat("Camera Zoom", &cameraZoom, 0.1f, 3.0f);
         ImGui::SliderFloat("Five-Point Factor", &fivePointFactor, 0.0f, 1.0f);
+        ImGui::Checkbox("Show Crosshair", &showCrosshair);
     }
     ImGui::Separator();
 

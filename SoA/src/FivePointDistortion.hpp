@@ -17,9 +17,13 @@ public:
     // 'factor' is [0..1], where 0 = no distortion, 1 = full 5-point style.
     void render(unsigned int equirectTexID, float factor, const glm::mat4& viewMatrix);
 
+    void setShowCrosshair(bool value) { showCrosshair = value; }
+
 private:
     unsigned int quadVAO, quadVBO;
     Shader distortionShader;
+
+    bool showCrosshair;
 
     void initFullscreenQuad();
 };

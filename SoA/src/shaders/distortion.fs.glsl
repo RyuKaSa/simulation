@@ -5,6 +5,7 @@ in vec2 TexCoords;
 uniform sampler2D uEquirect;  // The equirectangular texture
 uniform mat4 viewMatrix;      // The FPS camera's view matrix (world-to-camera)
 uniform float uFactor;        // 0 = 90° perspective, 1 = full spherical (180°)
+uniform bool showCrosshair;   // Enable/disable crosshair display
 
 const float PI = 3.14159265359;
 
@@ -16,12 +17,8 @@ void main() {
     vec3 rayDirPersp = normalize(vec3(ndc.x * tanHalfFov, ndc.y * tanHalfFov, -1.0));
 
     // --- 2. Compute the full spherical ray (camera space) ---
-    // For the full spherical branch we want:
-    //   - Horizontal: full 360° mapping, with center (TexCoords.x == 0.5) mapping to forward.
-    //   - Vertical: mapping TexCoords.y in [0,1] to [-pi/2, pi/2] so that 0.5 is zero.
-    // Thus:
-    float phi_full = (TexCoords.x - 0.5) * 2.0 * PI - (PI / 2.0); // center at -pi/2 yields forward.
-    float theta_full = (TexCoords.y - 0.5) * PI;                    // range [-pi/2, pi/2]
+    float phi_full = (TexCoords.x - 0.5) * 2.0 * PI - (PI / 2.0);
+    float theta_full = (TexCoords.y - 0.5) * PI;
     vec3 rayDirFull = normalize(vec3(
         cos(theta_full) * cos(phi_full),
         sin(theta_full),
@@ -29,8 +26,6 @@ void main() {
     ));
 
     // --- 3. Interpolate between the two rays ---
-    // uFactor = 0 gives the original 90° perspective ray;
-    // uFactor = 1 gives the full spherical ray.
     vec3 rayDir = normalize(mix(rayDirPersp, rayDirFull, uFactor));
 
     // --- 4. Transform the ray from camera space to world space ---
@@ -57,5 +52,30 @@ void main() {
     float v = (lat / PI) + 0.5;
 
     vec3 color = texture(uEquirect, vec2(u, v)).rgb;
+    
+    // --- 7. Overlay a center crosshair (+) if enabled ---
+    if (showCrosshair) {
+        // Estimate one pixel's size in texture space.
+        vec2 pixelSize = fwidth(TexCoords);
+        // For 2-pixel thick lines, half-thickness is 1 pixel.
+        float halfThicknessX = pixelSize.x;
+        float halfThicknessY = pixelSize.y;
+        // Set arm half-length to 5 pixels (adjust multiplier for a different length).
+        float armHalfLengthX = 5.0 * pixelSize.x;
+        float armHalfLengthY = 5.0 * pixelSize.y;
+        
+        // Vertical line: very narrow in x and extending along y.
+        bool inVertical = (abs(TexCoords.x - 0.5) < halfThicknessX) &&
+                          (abs(TexCoords.y - 0.5) < armHalfLengthY);
+        // Horizontal line: very narrow in y and extending along x.
+        bool inHorizontal = (abs(TexCoords.y - 0.5) < halfThicknessY) &&
+                            (abs(TexCoords.x - 0.5) < armHalfLengthX);
+        
+        // Invert the computed color if the fragment lies in either band.
+        if (inVertical || inHorizontal) {
+            color = vec3(1.0) - color;
+        }
+    }
+    
     FragColor = vec4(color, 1.0);
 }

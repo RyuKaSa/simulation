@@ -310,6 +310,7 @@ int main(int argc, char *argv[])
                 // Convert the cubemap to an equirectangular texture.
                 unsigned int equirectID = equiConverter.convert(cubeCapture.getCubemapID());
         
+                distortionPass.setShowCrosshair(gui.getShowCrosshair());
                 // Render the final perspective view.
                 // The equirectangular texture is world-aligned and depends only on camPos.
                 // The FPS camera's rotation (viewMat4) is used in the shader to orient the view.

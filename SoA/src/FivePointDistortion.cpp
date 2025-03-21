@@ -4,6 +4,7 @@
 FivePointDistortion::FivePointDistortion()
     : quadVAO(0)
     , quadVBO(0)
+    , showCrosshair(true)
 {}
 
 FivePointDistortion::~FivePointDistortion() {
@@ -61,6 +62,7 @@ void FivePointDistortion::render(unsigned int equirectTexID, float factor, const
 
     // Pass view matrix to the shader
     distortionShader.setUniform("viewMatrix", viewMatrix);
+    distortionShader.setUniform("showCrosshair", showCrosshair);
 
     // Render fullscreen quad
     glBindVertexArray(quadVAO);
