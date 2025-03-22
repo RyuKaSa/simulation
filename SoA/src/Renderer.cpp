@@ -446,6 +446,16 @@ void Renderer::renderExternalCubes(const SimulationBase &simulation,
 
     cubeShader.use();
 
+    cubeShader.setUniform("uLightSpaceMatrix", glm::mat4(0.0f));
+    // Provide a default light direction (e.g. pointing downwards)
+    cubeShader.setUniform("uLightDir", glm::vec3(-0.2f, -0.9f, -0.45f));
+
+    // Bind a default texture for the shadow map.
+    // For example, you could bind a 1x1 white texture so that sampling it always returns white (no shadow effect).
+    glActiveTexture(GL_TEXTURE1);
+    glBindTexture(GL_TEXTURE_2D, 0);
+    cubeShader.setUniform("uShadowMap", 1);
+
     // Loop over external cubes.
     for (size_t i = 0; i < positions.size(); i++)
     {
