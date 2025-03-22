@@ -92,6 +92,22 @@ int main(int argc, char *argv[])
     // each block is 1 unit, and grid spans ±50 units.
     BlockWorld blockWorld(1.0f, 50.0f, envSim);
 
+    // Template 1: a 3x3 square on the ground.
+    std::vector<GridCoord> template1 = {
+        {0,0,0}, {1,0,0}, {2,0,0},
+        {0,0,1}, {1,0,1}, {2,0,1},
+        {0,0,2}, {1,0,2}, {2,0,2}
+    };
+
+    // Template 2: a plus sign.
+    std::vector<GridCoord> template2 = {
+        {0,0,0},
+        { 1,0,0},
+        {-1,0,0},
+        {0,0,1},
+        {0,0,-1}
+    };
+
     CubemapCapture cubeCapture;
     EquirectangularConverter equiConverter;
     FivePointDistortion distortionPass;
@@ -282,6 +298,30 @@ int main(int argc, char *argv[])
             }
             scene2.simulation->setSpringConstant(gui.getSpringConstant());
             scene2.simulation->setDampingCoefficient(gui.getDampingCoefficient());
+
+            if (gui.isPlaceTemplateRequested()){
+                // templates
+                blockWorld.clearAllBlocks();
+        
+                if (gui.getSelectedTemplate() == 1) {
+                    // Place Template 1 blocks relative to origin (or a base coordinate if desired)
+                    for (const auto &coord : template1) {
+                        blockWorld.addBlock(coord.x, coord.y, coord.z);
+                    }
+                } else if (gui.getSelectedTemplate() == 2) {
+                    // Place Template 2 blocks
+                    for (const auto &coord : template2) {
+                        blockWorld.addBlock(coord.x, coord.y, coord.z);
+                    }
+                }
+                
+                // Update the simulation's SoA with the new block positions.
+                blockWorld.updateSimulation(scene2.simulation->getSoAReference(),
+                                            scene2.simulation->getSpringsReference());
+                
+                // Clear the flag so we only place the template once per click.
+                gui.clearPlaceTemplateFlag();
+            }
         }
 
         // Prepare and draw ImGui content.

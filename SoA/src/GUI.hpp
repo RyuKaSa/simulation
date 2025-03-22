@@ -40,6 +40,10 @@ public:
 
     float getLightPhi() const { return lightPhi; }
     float getLightTheta() const { return lightTheta; }
+    
+    int getSelectedTemplate() const { return selectedTemplate; }
+    bool isPlaceTemplateRequested() const { return placeTemplateRequested; }
+    void clearPlaceTemplateFlag() { placeTemplateRequested = false; }
 
 private:
     float springConstant;
@@ -69,6 +73,9 @@ private:
 
     float lightPhi;
     float lightTheta;
+
+    int selectedTemplate;
+    bool placeTemplateRequested;
 };
 
 #endif // GUI_H

@@ -62,8 +62,9 @@ bool BlockWorld::addBlock(int cx, int cy, int cz)
 
     m_blockIndex[coord] = newIndex;
 
-    std::cout << "Block added at (" << cx << ", " << cy << ", " << cz
-              << ") with new particle index " << newIndex << std::endl;
+    // Optionally print the updated list of blocks
+    printBlockList();
+
     return true;
 }
 
@@ -99,8 +100,32 @@ bool BlockWorld::removeBlock(int cx, int cy, int cz)
             }
         }
     }
-    std::cout << "Block removed at (" << cx << ", " << cy << ", " << cz << ").\n";
+    // Optionally print the updated list of blocks
+    printBlockList();
+
     return true;
+}
+
+void BlockWorld::printBlockList() const {
+    std::vector<BlockInfo> blocks = getBlockList();
+    std::cout << "Current blocks (" << blocks.size() << "):\n";
+    for (const auto &info : blocks) {
+        std::cout << "Index: " << info.index
+                  << " | Grid: (" << info.grid.x << ", " << info.grid.y << ", " << info.grid.z << ")"
+                  << " | World: (" << info.world.x << ", " << info.world.y << ", " << info.world.z << ")\n";
+    }
+}
+
+std::vector<BlockInfo> BlockWorld::getBlockList() const {
+    std::vector<BlockInfo> blockList;
+    for (const auto &entry : m_blockIndex) {
+        BlockInfo info;
+        info.index = entry.second;
+        info.grid = entry.first;
+        info.world = gridToWorld(entry.first);
+        blockList.push_back(info);
+    }
+    return blockList;
 }
 
 bool BlockWorld::hasBlock(int cx, int cy, int cz) const

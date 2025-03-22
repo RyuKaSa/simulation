@@ -24,7 +24,9 @@ GUI::GUI(SDL_Window* window, SDL_GLContext glContext)
       fivePointFactor(0.0f),
       showCrosshair(true),
       lightPhi(45.0f),
-      lightTheta(45.0f)
+      lightTheta(45.0f),
+      selectedTemplate(0),     // start with "None"
+      placeTemplateRequested(false)
 {
     IMGUI_CHECKVERSION();
     ImGui::CreateContext();
@@ -60,6 +62,16 @@ void GUI::draw() {
         ImGui::Checkbox("Show Crosshair", &showCrosshair);
         ImGui::SliderFloat("Light Phi", &lightPhi,   0.0f, 360.0f);
         ImGui::SliderFloat("Light Theta", &lightTheta, -80.0f, 80.0f);
+    }
+    ImGui::Separator();
+
+    ImGui::Text("Select a Template:");
+    ImGui::RadioButton("None", &selectedTemplate, 0);
+    ImGui::RadioButton("Template 1", &selectedTemplate, 1);
+    ImGui::RadioButton("Template 2", &selectedTemplate, 2);
+    if (ImGui::Button("Place Template")) {
+        placeTemplateRequested = true;
+        std::cout << "Place Template requested" << std::endl;
     }
     ImGui::Separator();
 

@@ -3,6 +3,7 @@
 
 #include <unordered_set>
 #include <unordered_map>
+#include <vector>
 #include <glm/glm.hpp>
 #include "SimulationSoAInternals.hpp" // ParticleSoA, etc.
 
@@ -12,6 +13,12 @@ struct GridCoord {
     bool operator==(const GridCoord &other) const {
         return x == other.x && y == other.y && z == other.z;
     }
+};
+
+struct BlockInfo {
+    size_t index;     // Index in the simulation's SoA
+    GridCoord grid;   // Grid coordinates
+    glm::vec3 world;  // World position (vec3)
 };
 
 // Hash functor for GridCoord.
@@ -55,9 +62,14 @@ public:
     float getGridSpacing() const { return m_gridSpacing; }
     float getGridExtent()  const { return m_gridExtent; }
 
-    // *** NEW: fully clear all blocks from the scene. ***
-    // Loops over all active blocks and removes them from SoA.
+    // Fully clear all blocks from the scene.
     void clearAllBlocks();
+
+    // NEW: Get the list of current blocks (their index, grid coordinates, and world positions)
+    std::vector<BlockInfo> getBlockList() const;
+
+    // NEW: Print the list of current blocks to console
+    void printBlockList() const;
 
 private:
     float m_gridSpacing;
