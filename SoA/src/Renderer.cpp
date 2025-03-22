@@ -261,30 +261,61 @@ void Renderer::initBallGeometry()
 
 void Renderer::initCube()
 {
+    // 24 vertices: 6 faces, 4 vertices per face.
+    // Each vertex has 6 floats: 3 for position and 3 for normal.
     float cubeVertices[] = {
-        -0.5f, -0.5f, -0.5f,
-        0.5f, -0.5f, -0.5f,
-        0.5f, 0.5f, -0.5f,
-        -0.5f, 0.5f, -0.5f,
-        -0.5f, -0.5f, 0.5f,
-        0.5f, -0.5f, 0.5f,
-        0.5f, 0.5f, 0.5f,
-        -0.5f, 0.5f, 0.5f};
+        // Front face
+        -0.5f, -0.5f,  0.5f,   0.0f,  0.0f,  1.0f,  // 0
+         0.5f, -0.5f,  0.5f,   0.0f,  0.0f,  1.0f,  // 1
+         0.5f,  0.5f,  0.5f,   0.0f,  0.0f,  1.0f,  // 2
+        -0.5f,  0.5f,  0.5f,   0.0f,  0.0f,  1.0f,  // 3
 
-    // 12 triangles * 3 vertices = 36 indices
+        // Back face
+        -0.5f, -0.5f, -0.5f,   0.0f,  0.0f, -1.0f,  // 4
+         0.5f, -0.5f, -0.5f,   0.0f,  0.0f, -1.0f,  // 5
+         0.5f,  0.5f, -0.5f,   0.0f,  0.0f, -1.0f,  // 6
+        -0.5f,  0.5f, -0.5f,   0.0f,  0.0f, -1.0f,  // 7
+
+        // Left face
+        -0.5f, -0.5f, -0.5f,  -1.0f,  0.0f,  0.0f,  // 8
+        -0.5f, -0.5f,  0.5f,  -1.0f,  0.0f,  0.0f,  // 9
+        -0.5f,  0.5f,  0.5f,  -1.0f,  0.0f,  0.0f,  // 10
+        -0.5f,  0.5f, -0.5f,  -1.0f,  0.0f,  0.0f,  // 11
+
+        // Right face
+         0.5f, -0.5f, -0.5f,   1.0f,  0.0f,  0.0f,  // 12
+         0.5f, -0.5f,  0.5f,   1.0f,  0.0f,  0.0f,  // 13
+         0.5f,  0.5f,  0.5f,   1.0f,  0.0f,  0.0f,  // 14
+         0.5f,  0.5f, -0.5f,   1.0f,  0.0f,  0.0f,  // 15
+
+        // Top face
+        -0.5f,  0.5f, -0.5f,   0.0f,  1.0f,  0.0f,  // 16
+         0.5f,  0.5f, -0.5f,   0.0f,  1.0f,  0.0f,  // 17
+         0.5f,  0.5f,  0.5f,   0.0f,  1.0f,  0.0f,  // 18
+        -0.5f,  0.5f,  0.5f,   0.0f,  1.0f,  0.0f,  // 19
+
+        // Bottom face
+        -0.5f, -0.5f, -0.5f,   0.0f, -1.0f,  0.0f,  // 20
+         0.5f, -0.5f, -0.5f,   0.0f, -1.0f,  0.0f,  // 21
+         0.5f, -0.5f,  0.5f,   0.0f, -1.0f,  0.0f,  // 22
+        -0.5f, -0.5f,  0.5f,   0.0f, -1.0f,  0.0f   // 23
+    };
+
+    // 36 indices for 12 triangles
     unsigned int cubeIndices[] = {
-        // front face
-        0, 1, 2, 2, 3, 0,
-        // back face
-        5, 4, 7, 7, 6, 5,
-        // left face
-        4, 0, 3, 3, 7, 4,
-        // right face
-        1, 5, 6, 6, 2, 1,
-        // top face
-        3, 2, 6, 6, 7, 3,
-        // bottom face
-        4, 5, 1, 1, 0, 4};
+        // Front face
+        0, 1, 2,   2, 3, 0,
+        // Back face
+        4, 5, 6,   6, 7, 4,
+        // Left face
+        8, 9, 10,  10, 11, 8,
+        // Right face
+        12, 13, 14, 14, 15, 12,
+        // Top face
+        16, 17, 18, 18, 19, 16,
+        // Bottom face
+        20, 21, 22, 22, 23, 20
+    };
 
     glGenVertexArrays(1, &cubeVAO);
     glGenBuffers(1, &cubeVBO);
@@ -298,8 +329,13 @@ void Renderer::initCube()
     glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, cubeEBO);
     glBufferData(GL_ELEMENT_ARRAY_BUFFER, sizeof(cubeIndices), cubeIndices, GL_STATIC_DRAW);
 
-    glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, 3 * sizeof(float), (void *)0);
+    // Set up the vertex attributes.
+    // Positions: 3 floats, starting at offset 0, stride 6 floats.
+    glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, 6 * sizeof(float), (void*)0);
     glEnableVertexAttribArray(0);
+    // Normals: 3 floats, starting at offset 3*sizeof(float), stride 6 floats.
+    glVertexAttribPointer(1, 3, GL_FLOAT, GL_FALSE, 6 * sizeof(float), (void*)(3 * sizeof(float)));
+    glEnableVertexAttribArray(1);
 
     glBindVertexArray(0);
 }
