@@ -8,10 +8,12 @@ uniform float uFactor;        // 0 = 90° perspective, 1 = full spherical (180°
 uniform bool showCrosshair;   // Enable/disable crosshair display
 
 const float PI = 3.14159265359;
+const float aspectRatio = 16.0 / 9.0;
 
 void main() {
     // --- 1. Compute the 90° perspective ray (camera space) ---
     vec2 ndc = TexCoords * 2.0 - 1.0; // NDC from [-1,1]
+    ndc.x *= aspectRatio; // Correct aspect ratio
     float fov = radians(90.0);
     float tanHalfFov = tan(fov * 0.5);
     vec3 rayDirPersp = normalize(vec3(ndc.x * tanHalfFov, ndc.y * tanHalfFov, -1.0));
