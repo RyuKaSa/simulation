@@ -94,18 +94,22 @@ int main(int argc, char *argv[])
 
     // Template 1: a 3x3 square on the ground.
     std::vector<GridCoord> template1 = {
-        {0,0,0}, {1,0,0}, {2,0,0},
-        {0,0,1}, {1,0,1}, {2,0,1},
-        {0,0,2}, {1,0,2}, {2,0,2}
+        {-8, 7, 13},
+        {8, 7, 13},
+        {8, 7, -3},
+        {-8, 7, -3},
+        {8, 0, -3},
+        {-8, 0, -3},
+        {8, 0, 13},
+        {-8, 0, 13}
     };
 
     // Template 2: a plus sign.
     std::vector<GridCoord> template2 = {
-        {0,0,0},
-        { 1,0,0},
-        {-1,0,0},
-        {0,0,1},
-        {0,0,-1}
+        {-8, 6, 13},
+        {8, 5, 13},
+        {8, 1, -3},
+        {-8, 0, -3}
     };
 
     CubemapCapture cubeCapture;
@@ -305,13 +309,11 @@ int main(int argc, char *argv[])
         
                 if (gui.getSelectedTemplate() == 1) {
                     // Place Template 1 blocks relative to origin (or a base coordinate if desired)
-                    for (const auto &coord : template1) {
-                        blockWorld.addBlock(coord.x, coord.y, coord.z);
-                    }
+                    blockWorld.placeHollowCube(template1);
                 } else if (gui.getSelectedTemplate() == 2) {
                     // Place Template 2 blocks
                     for (const auto &coord : template2) {
-                        blockWorld.addBlock(coord.x, coord.y, coord.z);
+                        blockWorld.addBlockForce(coord.x, coord.y, coord.z);
                     }
                 }
                 

@@ -103,6 +103,8 @@ private:
     glm::mat4 lightSpaceMatrix = glm::mat4(1.0f);
     bool shadowsInitialized = false;
     static const unsigned int SHADOW_SIZE = 4096;
+    // In Renderer.hpp, in the Renderer class:
+    unsigned int cubeInstanceVBO, cubeInstanceColorVBO;
 
     void initDirectionalShadowMap();
 };

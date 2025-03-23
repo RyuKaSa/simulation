@@ -106,6 +106,80 @@ bool BlockWorld::removeBlock(int cx, int cy, int cz)
     return true;
 }
 
+bool BlockWorld::addBlockForce(int cx, int cy, int cz)
+{
+    if (cy < 0)
+        return false; // still don't allow below ground
+
+    GridCoord coord {cx, cy, cz};
+    if (m_blocks.find(coord) != m_blocks.end())
+        return false; // block already exists
+
+    // Bypass adjacency check
+    m_blocks.insert(coord);
+
+    glm::vec3 worldPos = gridToWorld(coord);
+    ParticleSoA &soa = simulation->getSoAReference();
+    size_t newIndex = soa.position.size();
+
+    soa.position.push_back(glm::dvec3(worldPos));
+    soa.velocity.push_back(glm::dvec3(0.0));
+    soa.forceAccum.push_back(glm::dvec3(0.0));
+    soa.mass.push_back(1.0);
+    soa.type.push_back(ParticleType::BACKGROUND);
+    soa.isStatic.push_back(true);
+    soa.color.push_back(glm::dvec3(1.0, 1.0, 1.0));
+    soa.dimensions.push_back(glm::dvec3(m_gridSpacing));
+    soa.clothID.push_back(-1);
+
+    m_blockIndex[coord] = newIndex;
+    return true;
+}
+
+void BlockWorld::placeHollowCube(const std::vector<GridCoord>& corners)
+{
+    if (corners.size() < 8)
+    {
+        std::cerr << "placeHollowCube: Not enough corners provided!" << std::endl;
+        return;
+    }
+    
+    // Determine the bounding box from the 8 corners.
+    int minX = corners[0].x, maxX = corners[0].x;
+    int minY = corners[0].y, maxY = corners[0].y;
+    int minZ = corners[0].z, maxZ = corners[0].z;
+    for (const auto &c : corners)
+    {
+        if (c.x < minX) minX = c.x;
+        if (c.x > maxX) maxX = c.x;
+        if (c.y < minY) minY = c.y;
+        if (c.y > maxY) maxY = c.y;
+        if (c.z < minZ) minZ = c.z;
+        if (c.z > maxZ) maxZ = c.z;
+    }
+    
+    // Loop through every coordinate in the cuboid.
+    // Add a block only if the coordinate is on the boundary.
+    // (A coordinate is on the boundary if any of its components equals the min or max.)
+    for (int x = minX; x <= maxX; x++)
+    {
+        for (int y = minY; y <= maxY; y++)
+        {
+            for (int z = minZ; z <= maxZ; z++)
+            {
+                if (x == minX || x == maxX ||
+                    y == minY || y == maxY ||
+                    z == minZ || z == maxZ)
+                {
+                    // Here we use addBlock. If the adjacency check is an issue,
+                    // you might consider an alternate method that bypasses it.
+                    addBlock(x, y, z);
+                }
+            }
+        }
+    }
+}
+
 void BlockWorld::printBlockList() const {
     std::vector<BlockInfo> blocks = getBlockList();
     std::cout << "Current blocks (" << blocks.size() << "):\n";

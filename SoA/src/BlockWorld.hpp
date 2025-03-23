@@ -39,6 +39,8 @@ public:
     BlockWorld(float gridSpacing, float gridExtent, SimulationBase* sim);
 
     bool addBlock(int cx, int cy, int cz);
+
+    bool addBlockForce(int cx, int cy, int cz);
     
     // Overload to remove by ints or by GridCoord:
     bool removeBlock(int cx, int cy, int cz);
@@ -59,6 +61,8 @@ public:
     // Sync block data to the simulation SoA (positions, etc.).
     void updateSimulation(ParticleSoA &soa, std::vector<SpringData> &springs) const;
 
+    void placeHollowCube(const std::vector<GridCoord>& corners);
+    
     float getGridSpacing() const { return m_gridSpacing; }
     float getGridExtent()  const { return m_gridExtent; }
 

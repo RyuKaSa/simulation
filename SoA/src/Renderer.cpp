@@ -129,50 +129,70 @@ void Renderer::renderWithMatricesAndShadows(const SimulationBase &simulation,
     }
     renderSprings(simulation, projection, view);
 
-    // Render external cubes with shadows using cubeShader.
+    // Render cubes with instancing (for both EXTERNAL and BACKGROUND types).
     cubeShader.use();
     // Pass the shadow-related uniforms.
     cubeShader.setUniform("uLightSpaceMatrix", lightSpaceMatrix);
     glActiveTexture(GL_TEXTURE1);
     glBindTexture(GL_TEXTURE_2D, dirShadowTex);
     cubeShader.setUniform("uShadowMap", 1);
-    // Also pass the light direction if your shader uses it:
+    // Also pass the light direction.
     cubeShader.setUniform("uLightDir", lightDir);
 
-    // Render each external cube.
+    // Gather instance data for cubes of type EXTERNAL and BACKGROUND.
     const ParticleSoA soa = simulation.getSoACopy();
+    std::vector<glm::mat4> instanceModels;
+    std::vector<glm::vec3> instanceColors;
+    instanceModels.reserve(soa.position.size());
+    instanceColors.reserve(soa.position.size());
+
     for (size_t i = 0; i < soa.position.size(); i++)
     {
-        if (soa.type[i] == ParticleType::EXTERNAL)
+        if (soa.type[i] == ParticleType::EXTERNAL || soa.type[i] == ParticleType::BACKGROUND)
         {
+            // Build model matrix from position and scale.
             glm::vec3 pos(
-                (float)soa.position[i].x,
-                (float)soa.position[i].y,
-                (float)soa.position[i].z);
+                static_cast<float>(soa.position[i].x),
+                static_cast<float>(soa.position[i].y),
+                static_cast<float>(soa.position[i].z));
             glm::vec3 scl(
-                (float)soa.dimensions[i].x,
-                (float)soa.dimensions[i].y,
-                (float)soa.dimensions[i].z);
-            glm::mat4 model = glm::mat4(1.0f);
-            model = glm::translate(model, pos);
+                static_cast<float>(soa.dimensions[i].x),
+                static_cast<float>(soa.dimensions[i].y),
+                static_cast<float>(soa.dimensions[i].z));
+            glm::mat4 model = glm::translate(glm::mat4(1.0f), pos);
             model = glm::scale(model, scl);
-            cubeShader.setUniform("uModel", model);
+            instanceModels.push_back(model);
 
-            glm::mat4 mvp = projection * view * model;
-            cubeShader.setUniform("uMVP", mvp);
-
-            // Set the color uniform (if needed)
+            // Retrieve the cube's color.
             glm::vec3 color(
-                (float)soa.color[i].x,
-                (float)soa.color[i].y,
-                (float)soa.color[i].z);
-            cubeShader.setUniform("uColor", color);
-
-            glBindVertexArray(cubeVAO);
-            // Draw as filled cube using 36 triangle indices.
-            glDrawElements(GL_TRIANGLES, 36, GL_UNSIGNED_INT, 0);
+                static_cast<float>(soa.color[i].x),
+                static_cast<float>(soa.color[i].y),
+                static_cast<float>(soa.color[i].z));
+            instanceColors.push_back(color);
         }
     }
+
+    if (instanceModels.empty())
+        return;
+
+    size_t instanceCount = instanceModels.size();
+
+    // Upload instance model matrices.
+    glBindBuffer(GL_ARRAY_BUFFER, cubeInstanceVBO);
+    glBufferData(GL_ARRAY_BUFFER, instanceCount * sizeof(glm::mat4), instanceModels.data(), GL_DYNAMIC_DRAW);
+
+    // Upload instance colors.
+    glBindBuffer(GL_ARRAY_BUFFER, cubeInstanceColorVBO);
+    glBufferData(GL_ARRAY_BUFFER, instanceCount * sizeof(glm::vec3), instanceColors.data(), GL_DYNAMIC_DRAW);
+    glBindBuffer(GL_ARRAY_BUFFER, 0);
+
+    // Compute and set the combined view-projection matrix.
+    glm::mat4 mvp = projection * view;
+    cubeShader.setUniform("uMVP", mvp);
+
+    // Bind the cube VAO (which now has instanced attributes) and draw all instances.
+    glBindVertexArray(cubeVAO);
+    glDrawElementsInstanced(GL_TRIANGLES, 36, GL_UNSIGNED_INT, 0, static_cast<GLsizei>(instanceCount));
     glBindVertexArray(0);
 }
 
@@ -265,57 +285,50 @@ void Renderer::initCube()
     // Each vertex has 6 floats: 3 for position and 3 for normal.
     float cubeVertices[] = {
         // Front face
-        -0.5f, -0.5f,  0.5f,   0.0f,  0.0f,  1.0f,  // 0
-         0.5f, -0.5f,  0.5f,   0.0f,  0.0f,  1.0f,  // 1
-         0.5f,  0.5f,  0.5f,   0.0f,  0.0f,  1.0f,  // 2
-        -0.5f,  0.5f,  0.5f,   0.0f,  0.0f,  1.0f,  // 3
-
+        -0.5f, -0.5f, 0.5f, 0.0f, 0.0f, 1.0f,
+        0.5f, -0.5f, 0.5f, 0.0f, 0.0f, 1.0f,
+        0.5f, 0.5f, 0.5f, 0.0f, 0.0f, 1.0f,
+        -0.5f, 0.5f, 0.5f, 0.0f, 0.0f, 1.0f,
         // Back face
-        -0.5f, -0.5f, -0.5f,   0.0f,  0.0f, -1.0f,  // 4
-         0.5f, -0.5f, -0.5f,   0.0f,  0.0f, -1.0f,  // 5
-         0.5f,  0.5f, -0.5f,   0.0f,  0.0f, -1.0f,  // 6
-        -0.5f,  0.5f, -0.5f,   0.0f,  0.0f, -1.0f,  // 7
-
+        -0.5f, -0.5f, -0.5f, 0.0f, 0.0f, -1.0f,
+        0.5f, -0.5f, -0.5f, 0.0f, 0.0f, -1.0f,
+        0.5f, 0.5f, -0.5f, 0.0f, 0.0f, -1.0f,
+        -0.5f, 0.5f, -0.5f, 0.0f, 0.0f, -1.0f,
         // Left face
-        -0.5f, -0.5f, -0.5f,  -1.0f,  0.0f,  0.0f,  // 8
-        -0.5f, -0.5f,  0.5f,  -1.0f,  0.0f,  0.0f,  // 9
-        -0.5f,  0.5f,  0.5f,  -1.0f,  0.0f,  0.0f,  // 10
-        -0.5f,  0.5f, -0.5f,  -1.0f,  0.0f,  0.0f,  // 11
-
+        -0.5f, -0.5f, -0.5f, -1.0f, 0.0f, 0.0f,
+        -0.5f, -0.5f, 0.5f, -1.0f, 0.0f, 0.0f,
+        -0.5f, 0.5f, 0.5f, -1.0f, 0.0f, 0.0f,
+        -0.5f, 0.5f, -0.5f, -1.0f, 0.0f, 0.0f,
         // Right face
-         0.5f, -0.5f, -0.5f,   1.0f,  0.0f,  0.0f,  // 12
-         0.5f, -0.5f,  0.5f,   1.0f,  0.0f,  0.0f,  // 13
-         0.5f,  0.5f,  0.5f,   1.0f,  0.0f,  0.0f,  // 14
-         0.5f,  0.5f, -0.5f,   1.0f,  0.0f,  0.0f,  // 15
-
+        0.5f, -0.5f, -0.5f, 1.0f, 0.0f, 0.0f,
+        0.5f, -0.5f, 0.5f, 1.0f, 0.0f, 0.0f,
+        0.5f, 0.5f, 0.5f, 1.0f, 0.0f, 0.0f,
+        0.5f, 0.5f, -0.5f, 1.0f, 0.0f, 0.0f,
         // Top face
-        -0.5f,  0.5f, -0.5f,   0.0f,  1.0f,  0.0f,  // 16
-         0.5f,  0.5f, -0.5f,   0.0f,  1.0f,  0.0f,  // 17
-         0.5f,  0.5f,  0.5f,   0.0f,  1.0f,  0.0f,  // 18
-        -0.5f,  0.5f,  0.5f,   0.0f,  1.0f,  0.0f,  // 19
-
+        -0.5f, 0.5f, -0.5f, 0.0f, 1.0f, 0.0f,
+        0.5f, 0.5f, -0.5f, 0.0f, 1.0f, 0.0f,
+        0.5f, 0.5f, 0.5f, 0.0f, 1.0f, 0.0f,
+        -0.5f, 0.5f, 0.5f, 0.0f, 1.0f, 0.0f,
         // Bottom face
-        -0.5f, -0.5f, -0.5f,   0.0f, -1.0f,  0.0f,  // 20
-         0.5f, -0.5f, -0.5f,   0.0f, -1.0f,  0.0f,  // 21
-         0.5f, -0.5f,  0.5f,   0.0f, -1.0f,  0.0f,  // 22
-        -0.5f, -0.5f,  0.5f,   0.0f, -1.0f,  0.0f   // 23
-    };
+        -0.5f, -0.5f, -0.5f, 0.0f, -1.0f, 0.0f,
+        0.5f, -0.5f, -0.5f, 0.0f, -1.0f, 0.0f,
+        0.5f, -0.5f, 0.5f, 0.0f, -1.0f, 0.0f,
+        -0.5f, -0.5f, 0.5f, 0.0f, -1.0f, 0.0f};
 
     // 36 indices for 12 triangles
     unsigned int cubeIndices[] = {
         // Front face
-        0, 1, 2,   2, 3, 0,
+        0, 1, 2, 2, 3, 0,
         // Back face
-        4, 5, 6,   6, 7, 4,
+        4, 5, 6, 6, 7, 4,
         // Left face
-        8, 9, 10,  10, 11, 8,
+        8, 9, 10, 10, 11, 8,
         // Right face
         12, 13, 14, 14, 15, 12,
         // Top face
         16, 17, 18, 18, 19, 16,
         // Bottom face
-        20, 21, 22, 22, 23, 20
-    };
+        20, 21, 22, 22, 23, 20};
 
     glGenVertexArrays(1, &cubeVAO);
     glGenBuffers(1, &cubeVBO);
@@ -323,19 +336,39 @@ void Renderer::initCube()
 
     glBindVertexArray(cubeVAO);
 
+    // Vertex buffer & index buffer
     glBindBuffer(GL_ARRAY_BUFFER, cubeVBO);
     glBufferData(GL_ARRAY_BUFFER, sizeof(cubeVertices), cubeVertices, GL_STATIC_DRAW);
-
     glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, cubeEBO);
     glBufferData(GL_ELEMENT_ARRAY_BUFFER, sizeof(cubeIndices), cubeIndices, GL_STATIC_DRAW);
 
-    // Set up the vertex attributes.
-    // Positions: 3 floats, starting at offset 0, stride 6 floats.
-    glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, 6 * sizeof(float), (void*)0);
+    // Vertex attribute for positions (location = 0)
+    glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, 6 * sizeof(float), (void *)0);
     glEnableVertexAttribArray(0);
-    // Normals: 3 floats, starting at offset 3*sizeof(float), stride 6 floats.
-    glVertexAttribPointer(1, 3, GL_FLOAT, GL_FALSE, 6 * sizeof(float), (void*)(3 * sizeof(float)));
+    // Vertex attribute for normals (location = 1)
+    glVertexAttribPointer(1, 3, GL_FLOAT, GL_FALSE, 6 * sizeof(float), (void *)(3 * sizeof(float)));
     glEnableVertexAttribArray(1);
+
+    // -------- Set up instancing --------
+
+    // Instance model matrix (mat4 -> 4 vec4 attributes at locations 2,3,4,5)
+    glGenBuffers(1, &cubeInstanceVBO);
+    glBindBuffer(GL_ARRAY_BUFFER, cubeInstanceVBO);
+    glBufferData(GL_ARRAY_BUFFER, maxInstances * sizeof(glm::mat4), nullptr, GL_DYNAMIC_DRAW);
+    for (unsigned int i = 0; i < 4; i++)
+    {
+        glEnableVertexAttribArray(2 + i);
+        glVertexAttribPointer(2 + i, 4, GL_FLOAT, GL_FALSE, sizeof(glm::mat4), (void *)(sizeof(glm::vec4) * i));
+        glVertexAttribDivisor(2 + i, 1); // Tell OpenGL this attribute advances per instance
+    }
+
+    // Instance color (vec3 at location = 6)
+    glGenBuffers(1, &cubeInstanceColorVBO);
+    glBindBuffer(GL_ARRAY_BUFFER, cubeInstanceColorVBO);
+    glBufferData(GL_ARRAY_BUFFER, maxInstances * sizeof(glm::vec3), nullptr, GL_DYNAMIC_DRAW);
+    glEnableVertexAttribArray(6);
+    glVertexAttribPointer(6, 3, GL_FLOAT, GL_FALSE, sizeof(glm::vec3), (void *)0);
+    glVertexAttribDivisor(6, 1);
 
     glBindVertexArray(0);
 }
@@ -406,75 +439,80 @@ void Renderer::initHorizontalGrid(float gridExtent, float spacing)
 
     glBindVertexArray(0);
 }
+
 void Renderer::renderExternalCubes(const SimulationBase &simulation,
                                    const glm::mat4 &projection,
                                    const glm::mat4 &view)
 {
-    // Convert doubles to floats for positions, scales, and colors.
+    // Gather instance data for cubes of type EXTERNAL.
     const ParticleSoA soa = simulation.getSoACopy();
-    std::vector<glm::vec3> positions, scales, colors;
-    positions.reserve(soa.position.size());
-    scales.reserve(soa.dimensions.size());
-    colors.reserve(soa.color.size());
+    std::vector<glm::mat4> instanceModels;
+    std::vector<glm::vec3> instanceColors;
+    instanceModels.reserve(soa.position.size());
+    instanceColors.reserve(soa.position.size());
 
     for (size_t i = 0; i < soa.position.size(); i++)
     {
         if (soa.type[i] == ParticleType::EXTERNAL)
         {
-            glm::vec3 p(
-                (float)soa.position[i].x,
-                (float)soa.position[i].y,
-                (float)soa.position[i].z);
-            glm::vec3 s(
-                (float)soa.dimensions[i].x,
-                (float)soa.dimensions[i].y,
-                (float)soa.dimensions[i].z);
-            glm::vec3 c(
-                (float)soa.color[i].x,
-                (float)soa.color[i].y,
-                (float)soa.color[i].z);
-            positions.push_back(p);
-            scales.push_back(s);
-            colors.push_back(c);
+            // Build model matrix from position and scale.
+            glm::vec3 pos(
+                static_cast<float>(soa.position[i].x),
+                static_cast<float>(soa.position[i].y),
+                static_cast<float>(soa.position[i].z));
+            glm::vec3 scl(
+                static_cast<float>(soa.dimensions[i].x),
+                static_cast<float>(soa.dimensions[i].y),
+                static_cast<float>(soa.dimensions[i].z));
+            glm::mat4 model = glm::translate(glm::mat4(1.0f), pos);
+            model = glm::scale(model, scl);
+            instanceModels.push_back(model);
+
+            // Retrieve the cube's color.
+            glm::vec3 color(
+                static_cast<float>(soa.color[i].x),
+                static_cast<float>(soa.color[i].y),
+                static_cast<float>(soa.color[i].z));
+            instanceColors.push_back(color);
         }
     }
-    if (positions.empty())
+
+    if (instanceModels.empty())
         return;
+
+    size_t instanceCount = instanceModels.size();
 
     // Set polygon mode to fill.
     glPolygonMode(GL_FRONT_AND_BACK, GL_FILL);
 
     cubeShader.use();
 
+    // Set default shadow and lighting uniforms.
     cubeShader.setUniform("uLightSpaceMatrix", glm::mat4(0.0f));
-    // Provide a default light direction (e.g. pointing downwards)
     cubeShader.setUniform("uLightDir", glm::vec3(-0.2f, -0.9f, -0.45f));
 
     // Bind a default texture for the shadow map.
-    // For example, you could bind a 1x1 white texture so that sampling it always returns white (no shadow effect).
     glActiveTexture(GL_TEXTURE1);
     glBindTexture(GL_TEXTURE_2D, 0);
     cubeShader.setUniform("uShadowMap", 1);
 
-    // Loop over external cubes.
-    for (size_t i = 0; i < positions.size(); i++)
-    {
-        // Build model matrix.
-        glm::mat4 model = glm::mat4(1.0f);
-        model = glm::translate(model, positions[i]);
-        // Here, using non-uniform scaling based on the full scale vector.
-        model = glm::scale(model, scales[i]);
+    // Upload instance model matrices.
+    glBindBuffer(GL_ARRAY_BUFFER, cubeInstanceVBO);
+    glBufferData(GL_ARRAY_BUFFER, instanceCount * sizeof(glm::mat4), instanceModels.data(), GL_DYNAMIC_DRAW);
 
-        glm::mat4 mvp = projection * view * model;
-        cubeShader.setUniform("uMVP", mvp);
-        cubeShader.setUniform("uModel", model);
-        cubeShader.setUniform("uColor", colors[i]);
+    // Upload instance colors.
+    glBindBuffer(GL_ARRAY_BUFFER, cubeInstanceColorVBO);
+    glBufferData(GL_ARRAY_BUFFER, instanceCount * sizeof(glm::vec3), instanceColors.data(), GL_DYNAMIC_DRAW);
+    glBindBuffer(GL_ARRAY_BUFFER, 0);
 
-        glBindVertexArray(cubeVAO);
-        // Use 36 indices for a filled cube.
-        glDrawElements(GL_TRIANGLES, 36, GL_UNSIGNED_INT, 0);
-        glBindVertexArray(0);
-    }
+    // Compute and set the combined view-projection matrix.
+    glm::mat4 mvp = projection * view;
+    cubeShader.setUniform("uMVP", mvp);
+
+    // Bind the cube VAO (which is now configured for instancing) and draw all instances.
+    glBindVertexArray(cubeVAO);
+    glDrawElementsInstanced(GL_TRIANGLES, 36, GL_UNSIGNED_INT, 0, static_cast<GLsizei>(instanceCount));
+    glBindVertexArray(0);
 }
 
 void Renderer::initTripleGrid(const SimulationBase &simulation)

@@ -8,7 +8,8 @@
 
 enum class ParticleType {
     STRUCTURE,
-    EXTERNAL
+    EXTERNAL,
+    BACKGROUND
 };
 
 // Now using double instead of float

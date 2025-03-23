@@ -84,6 +84,8 @@ void SimulationBase::update(double dt) {
         futures.push_back(
             threadPool->enqueue([this, dt, start, end]() {
                 for(size_t i = start; i < end; i++) {
+                    if (soA.type[i] == ParticleType::BACKGROUND)
+                        continue;
                     if(soA.isStatic[i]) {
                         soA.forceAccum[i] = glm::dvec3(0.0);
                     } else {
@@ -310,8 +312,10 @@ void SimulationBase::applyThreadedSpringForces(double /*dt*/) {
 void SimulationBase::resolveExternalCollisions() {
     const double restitution = 0.5;
     const double frictionCoefficient = 0.3;
-    const double particleRadius = 0.1;
+    const double particleRadius = 0.05;
     for (size_t cubeIndex = 0; cubeIndex < soA.position.size(); cubeIndex++) {
+        if (soA.type[cubeIndex] == ParticleType::BACKGROUND)
+            continue;
         if (soA.type[cubeIndex] != ParticleType::EXTERNAL)
             continue;
         glm::dvec3 cubeCenter = soA.position[cubeIndex];

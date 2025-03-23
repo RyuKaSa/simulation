@@ -2,6 +2,7 @@
 
 in vec4 FragPosLightSpace;
 in vec3 FragNormal;
+in vec3 InstanceColor;  // Added instance color input
 
 out vec4 FragColor;
 
@@ -30,7 +31,7 @@ void main()
         float ndotl = max(dot(normalize(FragNormal), -uLightDir), 0.0);
         // We’ll do a very simple grey ambient (0.2) + direct (0.8 * ndotl).
         float litShade = 0.2 + 0.8 * ndotl;
-        FragColor = vec4(vec3(litShade), 1.0);
+        FragColor = vec4(InstanceColor * litShade, 1.0);
         return;
     }
 
@@ -73,5 +74,5 @@ void main()
     // edges, you’d do PCF or an average of multiple samples.
     float finalShade = mix(litShade, shadowShade, shadow);
 
-    FragColor = vec4(vec3(finalShade), 1.0);
+    FragColor = vec4(InstanceColor * finalShade, 1.0);
 }
