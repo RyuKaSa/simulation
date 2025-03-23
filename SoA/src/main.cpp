@@ -239,6 +239,62 @@ int main(int argc, char *argv[])
                     }
                 }
             }
+
+            if (event.type == SDL_KEYDOWN && event.key.keysym.sym == SDLK_v)
+            {
+                // Only place cloth in Scene 2.
+                if (activeScene == 2)
+                {
+                    std::cout << "Placing cloth at target block..." << std::endl;
+                    FPSCamera* fpsCam = dynamic_cast<FPSCamera*>(scene2.camera);
+                    if (!fpsCam)
+                        continue;
+            
+                    glm::vec3 rayOrigin = fpsCam->getPosition();
+                    glm::vec3 rayDir    = fpsCam->getForward();
+            
+                    // Use the same raycasting function to get the grid coordinate.
+                    GridCoord targetCoord;
+                    if (GetBlockAdditionCoord(rayOrigin, rayDir, blockWorld, *scene2.simulation, targetCoord))
+                    {
+                        // Cast simulation pointer to EnvironmentSimulation.
+                        EnvironmentSimulation* envSim = dynamic_cast<EnvironmentSimulation*>(scene2.simulation);
+                        if (envSim)
+                        {
+                            // Pull cloth parameters from sharedParams.
+                            int gridSize = envSim->sharedParams.gridSize;
+                            double springRestLength = envSim->sharedParams.springRestLength;
+                            // For cell size and layer spacing, you can choose to use a shared parameter or a constant.
+                            double cellSize = 0.03;     // e.g., similar to the hexgrid test.
+                            int nLayers = 2;            // Number of layers (could also be a shared param)
+                            double layerSpacing = 0.03; // Adjust as desired.
+            
+                            // Create the cloth with its center at the target block.
+                            envSim->createMultiLayerSquareGridWithDiagonalsCentered(
+                                targetCoord.x, targetCoord.y, targetCoord.z,
+                                gridSize, nLayers, cellSize, layerSpacing, springRestLength);
+            
+                            // After creation, update spring constants and damping on all cloth springs.
+                            // (Assuming that cloth particles are marked via clothID in the SoA.)
+                            std::vector<SpringData>& springs = envSim->getSpringsReference();
+                            ParticleSoA& soa = envSim->getSoAReference();
+                            for (SpringData &sp : springs)
+                            {
+                                // Update only springs connecting cloth particles.
+                                // (Assumes that if either particle has clothID >= 0, it is part of a cloth.)
+                                if (soa.clothID[sp.p1Index] >= 0 || soa.clothID[sp.p2Index] >= 0)
+                                {
+                                    sp.springConstant = envSim->sharedParams.springConstant;
+                                    sp.damping = envSim->sharedParams.dampingCoefficient;
+                                }
+                            }
+            
+                            // Finally, update the simulation so the new cloth is reflected.
+                            blockWorld.updateSimulation(soa, springs);
+                        }
+                    }
+                }
+            }
         } // end event loop
 
         // Adjust relative mouse mode based on the active scene.
@@ -285,6 +341,7 @@ int main(int argc, char *argv[])
             {
                 scene2.simulation->stopAsyncUpdates();
                 scene2.simulation->reset();
+                // reset env cloths here, function is EnvironmentSimulation::removeAllCloths();
             
                 // Fully clear the external cubes.
                 blockWorld.clearAllBlocks();

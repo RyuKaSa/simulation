@@ -446,11 +446,28 @@ void EnvironmentSimulation::Initialization() {
     sharedParams.dampingCoefficient = guiInstance->getDampingCoefficient();
 
     // Create a hex grid for the environment cloth.
-    createHexGrid(sharedParams.gridSize, 0.03, sharedParams.springRestLength, true, 0.0);
+    // createHexGrid(sharedParams.gridSize, 0.03, sharedParams.springRestLength, true, 0.0);
 
     if (gravityLink) {
         delete gravityLink;
         gravityLink = nullptr;
     }
-    gravityLink = new Link(soA, glm::dvec3(3.0, -sharedParams.gravityStrength, 0.0));
+    gravityLink = new Link(soA, glm::dvec3(0.0, -sharedParams.gravityStrength, 0.0));
+}
+
+void EnvironmentSimulation::removeAllCloths()
+{
+    ParticleSoA &soa = getSoAReference();
+    std::vector<SpringData> &springs = getSpringsReference();
+    std::cout << "Removing all cloth particles...\n";
+    // Iterate backwards so removal indices don't shift
+    for (int i = (int)soa.position.size() - 1; i >= 0; i--)
+    {
+        // If clothID >= 0, that means it's cloth
+        if (soa.clothID[i] >= 0)
+        {
+            // removeParticle is the inline utility in SimulationSoAInternals.hpp
+            removeParticle(soa, springs, i);
+        }
+    }
 }

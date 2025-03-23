@@ -104,6 +104,7 @@ public:
                                bool bothEndsStatic, double orientationDegrees);
     virtual void createMultiLayerHexGrid(int numHexagons, double hexagonSize, double springRestLength,
                                          bool bothEndsStatic, double orientationDegrees, double layerHeight, int nLayers);
+    virtual void createMultiLayerSquareGridWithDiagonalsCentered(int cx, int cy, int cz, int gridSize, int nLayers, double cellSize, double layerSpacing, double springRestLength);
 
     // Helper creation functions.
     virtual glm::dmat4 createRotationMatrix(double orientationDegrees);
@@ -127,6 +128,9 @@ public:
     double getLastPhysicsUpdateTime() const { return lastPhysicsUpdateTime.load(); }
     int getEffectiveStepsPerSecond() const { return effectiveStepsPerSecond.load(); }
 
+    // Shared parameters.
+    SharedSimParams sharedParams;
+
 protected:
     // Simulation data.
     ParticleSoA soA;
@@ -140,9 +144,6 @@ protected:
 
     // Gravity link.
     Link* gravityLink = nullptr;
-
-    // Shared parameters.
-    SharedSimParams sharedParams;
 
     // Concurrency.
     std::thread asyncThread;
@@ -216,6 +217,7 @@ public:
     virtual void reset() override {
         this->SimulationBase::reset();
     }
+    virtual void removeAllCloths();
 };
 
 #endif // SIMULATION_HPP

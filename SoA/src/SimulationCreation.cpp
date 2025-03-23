@@ -631,3 +631,145 @@ int SimulationBase::findApproxVertexIndex(const std::vector<glm::dvec3>& vertice
     }
     return -1;
 }
+
+void SimulationBase::createMultiLayerSquareGridWithDiagonalsCentered(
+    int cx, int cy, int cz,      // Grid coordinate of the block center
+    int gridSize,              // Number of particles per row/column in each layer
+    int nLayers,               // Number of layers in the cloth (vertical stack)
+    double cellSize,           // Spacing between cloth particles in a layer
+    double layerSpacing,       // Spacing between layers
+    double springRestLength)   // Factor to scale the computed rest lengths of springs
+{
+    // Determine starting index and assign a new cloth ID.
+    size_t startIndex = soA.position.size();
+    int clothID = nextClothID++;  // nextClothID is assumed to be a member variable
+
+    int particlesPerLayer = gridSize * gridSize;
+    int totalParticles = nLayers * particlesPerLayer;
+
+    // Resize the SoA vectors to accommodate the new cloth particles.
+    soA.position.resize(startIndex + totalParticles);
+    soA.velocity.resize(startIndex + totalParticles, glm::dvec3(0.0));
+    soA.forceAccum.resize(startIndex + totalParticles, glm::dvec3(0.0));
+    double massValue = guiInstance ? guiInstance->getParticleMass() : 1.0;
+    soA.mass.resize(startIndex + totalParticles, massValue);
+    soA.type.resize(startIndex + totalParticles, ParticleType::STRUCTURE);
+    // All particles are dynamic (non-static):
+    soA.isStatic.resize(startIndex + totalParticles, false);
+    soA.color.resize(startIndex + totalParticles, glm::dvec3(1.0, 0.0, 0.0));
+    soA.dimensions.resize(startIndex + totalParticles, glm::dvec3(1.0));
+    soA.clothID.resize(startIndex + totalParticles, clothID);
+
+    // Compute the world-space center for the target block.
+    // (Assuming gridToWorld returns the center of the grid cell.)
+    glm::dvec3 blockCenter = glm::dvec3(cx, cy, cz);
+
+    // Compute half-width so that the cloth is centered on the block.
+    double halfWidth = (gridSize - 1) * cellSize / 2.0;
+
+    // --- Position particles for each layer ---
+    // The (x,z) positions span from -halfWidth to +halfWidth,
+    // and the vertical (y) positions are offset by layerSpacing.
+    for (int l = 0; l < nLayers; l++) {
+        for (int i = 0; i < gridSize; i++) {
+            for (int j = 0; j < gridSize; j++) {
+                int localIndex = l * particlesPerLayer + i * gridSize + j;
+                size_t idx = startIndex + localIndex;
+
+                double x = j * cellSize - halfWidth;
+                double z = i * cellSize - halfWidth;
+                double y = l * layerSpacing;
+                soA.position[idx] = blockCenter + glm::dvec3(x, y, z);
+            }
+        }
+    }
+
+    // --- Create springs within each layer ---
+    for (int l = 0; l < nLayers; l++) {
+        int layerOffset = startIndex + (l * particlesPerLayer);
+        for (int i = 0; i < gridSize; i++) {
+            for (int j = 0; j < gridSize; j++) {
+                int localIndex = i * gridSize + j;
+                size_t idx = layerOffset + localIndex;
+
+                // Right neighbor
+                if (j < gridSize - 1) {
+                    size_t rightIdx = layerOffset + (i * gridSize + (j + 1));
+                    double dist = glm::distance(soA.position[idx], soA.position[rightIdx]);
+                    SpringData sp;
+                    sp.p1Index = (int)idx;
+                    sp.p2Index = (int)rightIdx;
+                    sp.restLength = dist * springRestLength;
+                    sp.springConstant = sharedParams.springConstant;
+                    sp.damping = 0.5;
+                    springs.push_back(sp);
+                }
+                // Down neighbor
+                if (i < gridSize - 1) {
+                    size_t bottomIdx = layerOffset + ((i + 1) * gridSize + j);
+                    double dist = glm::distance(soA.position[idx], soA.position[bottomIdx]);
+                    SpringData sp;
+                    sp.p1Index = (int)idx;
+                    sp.p2Index = (int)bottomIdx;
+                    sp.restLength = dist * springRestLength;
+                    sp.springConstant = sharedParams.springConstant;
+                    sp.damping = 0.5;
+                    springs.push_back(sp);
+                }
+                // Diagonal: down-right
+                if (i < gridSize - 1 && j < gridSize - 1) {
+                    size_t diagIdx = layerOffset + ((i + 1) * gridSize + (j + 1));
+                    double dist = glm::distance(soA.position[idx], soA.position[diagIdx]);
+                    SpringData sp;
+                    sp.p1Index = (int)idx;
+                    sp.p2Index = (int)diagIdx;
+                    sp.restLength = dist * springRestLength;
+                    sp.springConstant = sharedParams.springConstant;
+                    sp.damping = 0.5;
+                    springs.push_back(sp);
+                }
+                // Diagonal: down-left
+                if (i < gridSize - 1 && j > 0) {
+                    size_t diagIdx = layerOffset + ((i + 1) * gridSize + (j - 1));
+                    double dist = glm::distance(soA.position[idx], soA.position[diagIdx]);
+                    SpringData sp;
+                    sp.p1Index = (int)idx;
+                    sp.p2Index = (int)diagIdx;
+                    sp.restLength = dist * springRestLength;
+                    sp.springConstant = sharedParams.springConstant;
+                    sp.damping = 0.5;
+                    springs.push_back(sp);
+                }
+            }
+        }
+    }
+
+    // --- Create springs between layers ---
+    for (int l = 0; l < nLayers - 1; l++) {
+        int lowerOffset = startIndex + (l * particlesPerLayer);
+        int upperOffset = startIndex + ((l + 1) * particlesPerLayer);
+        for (int i = 0; i < gridSize; i++) {
+            for (int j = 0; j < gridSize; j++) {
+                size_t lowerIdx = lowerOffset + (i * gridSize + j);
+                // Connect each particle to its adjacent neighbors in the layer above.
+                for (int di = -1; di <= 1; di++) {
+                    for (int dj = -1; dj <= 1; dj++) {
+                        int ni = i + di;
+                        int nj = j + dj;
+                        if (ni < 0 || ni >= gridSize) continue;
+                        if (nj < 0 || nj >= gridSize) continue;
+                        size_t upperIdx = upperOffset + (ni * gridSize + nj);
+                        double dist = glm::distance(soA.position[lowerIdx], soA.position[upperIdx]);
+                        SpringData sp;
+                        sp.p1Index = (int)lowerIdx;
+                        sp.p2Index = (int)upperIdx;
+                        sp.restLength = dist * springRestLength;
+                        sp.springConstant = sharedParams.springConstant;
+                        sp.damping = 0.5;
+                        springs.push_back(sp);
+                    }
+                }
+            }
+        }
+    }
+}
