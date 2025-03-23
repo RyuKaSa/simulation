@@ -14,6 +14,7 @@
 #include <condition_variable>
 #include <stdexcept>
 #include <iostream>
+#include <glad/glad.h>
 
 #include "PMat.hpp"
 #include "Link.hpp"
@@ -35,6 +36,17 @@
 struct HexTriangle {
     glm::vec3 vertices[3];
     glm::vec3 normal;
+};
+
+struct ClothMesh {
+    unsigned int vao;
+    unsigned int vbo;
+    int vertexCount;
+    int clothID;
+
+    int startIndex;
+    int gridSize;
+    int nLayers;
 };
 
 //-----------------------------------------------------------
@@ -130,6 +142,12 @@ public:
 
     // Shared parameters.
     SharedSimParams sharedParams;
+
+    std::vector<HexTriangle> clothTriangles;
+    std::vector<ClothMesh> clothMeshes;
+    std::vector<float> meshData;
+
+    virtual std::vector<float> buildClothMeshData(int startIndex, int gridSize, int nLayers) const;
 
 protected:
     // Simulation data.

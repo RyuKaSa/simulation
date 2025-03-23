@@ -308,6 +308,123 @@ void SimulationBase::applyThreadedSpringForces(double /*dt*/) {
     futures.clear();
 }
 
+std::vector<float> SimulationBase::buildClothMeshData(int startIndex, int gridSize, int nLayers) const {
+    std::vector<float> meshData;
+
+    // Helper lambda: get the current particle position as glm::vec3.
+    auto getPos = [this, startIndex, gridSize](int layer, int i, int j) -> glm::vec3 {
+        size_t index = startIndex + (layer * gridSize * gridSize) + (i * gridSize) + j;
+        return glm::vec3(soA.position[index]);  // cast from dvec3 to vec3
+    };
+
+    // Helper lambda: add a triangle to meshData.
+    // Each triangle is three vertices; for each vertex, we store 6 floats: position (x,y,z) and normal (x,y,z).
+    auto addTriangle = [&meshData](const glm::vec3 &p0, const glm::vec3 &p1, const glm::vec3 &p2) {
+        glm::vec3 normal = glm::normalize(glm::cross(p1 - p0, p2 - p0));
+        // Vertex 1
+        meshData.push_back(p0.x); meshData.push_back(p0.y); meshData.push_back(p0.z);
+        meshData.push_back(normal.x); meshData.push_back(normal.y); meshData.push_back(normal.z);
+        // Vertex 2
+        meshData.push_back(p1.x); meshData.push_back(p1.y); meshData.push_back(p1.z);
+        meshData.push_back(normal.x); meshData.push_back(normal.y); meshData.push_back(normal.z);
+        // Vertex 3
+        meshData.push_back(p2.x); meshData.push_back(p2.y); meshData.push_back(p2.z);
+        meshData.push_back(normal.x); meshData.push_back(normal.y); meshData.push_back(normal.z);
+    };
+
+    // ----------------------------
+    // Top Face (upper layer)
+    // ----------------------------
+    int topLayer = nLayers - 1;
+    for (int i = 0; i < gridSize - 1; i++) {
+        for (int j = 0; j < gridSize - 1; j++) {
+            glm::vec3 p00 = getPos(topLayer, i, j);
+            glm::vec3 p01 = getPos(topLayer, i, j + 1);
+            glm::vec3 p10 = getPos(topLayer, i + 1, j);
+            glm::vec3 p11 = getPos(topLayer, i + 1, j + 1);
+            // Two triangles per cell; winding so that normal points upward.
+            addTriangle(p00, p01, p10);
+            addTriangle(p01, p11, p10);
+        }
+    }
+
+    // ----------------------------
+    // Bottom Face (lower layer)
+    // ----------------------------
+    int bottomLayer = 0;
+    for (int i = 0; i < gridSize - 1; i++) {
+        for (int j = 0; j < gridSize - 1; j++) {
+            glm::vec3 p00 = getPos(bottomLayer, i, j);
+            glm::vec3 p01 = getPos(bottomLayer, i, j + 1);
+            glm::vec3 p10 = getPos(bottomLayer, i + 1, j);
+            glm::vec3 p11 = getPos(bottomLayer, i + 1, j + 1);
+            // Reverse winding order so that the normal points downward.
+            addTriangle(p00, p10, p01);
+            addTriangle(p01, p10, p11);
+        }
+    }
+
+    // ----------------------------
+    // Side Faces (vertical sides)
+    // ----------------------------
+    // For each pair of consecutive layers, generate quads along the perimeter and split each quad into two triangles.
+    for (int l = 0; l < nLayers - 1; l++) {
+        // Lambda to add a quad (split into 2 triangles)
+        auto addQuad = [&](const glm::vec3 &A, const glm::vec3 &B,
+                           const glm::vec3 &C, const glm::vec3 &D) {
+            addTriangle(A, B, C);
+            addTriangle(B, D, C);
+        };
+
+        // Front edge (i = 0): assuming front faces in -Z direction.
+        {
+            int i = 0;
+            for (int j = 0; j < gridSize - 1; j++) {
+                glm::vec3 A = getPos(l, i, j);
+                glm::vec3 B = getPos(l, i, j + 1);
+                glm::vec3 C = getPos(l + 1, i, j);
+                glm::vec3 D = getPos(l + 1, i, j + 1);
+                addQuad(A, B, C, D);
+            }
+        }
+        // Back edge (i = gridSize - 1): reverse winding for outward normal.
+        {
+            int i = gridSize - 1;
+            for (int j = 0; j < gridSize - 1; j++) {
+                glm::vec3 A = getPos(l, i, j);
+                glm::vec3 B = getPos(l, i, j + 1);
+                glm::vec3 C = getPos(l + 1, i, j);
+                glm::vec3 D = getPos(l + 1, i, j + 1);
+                addQuad(A, C, B, D);
+            }
+        }
+        // Left edge (j = 0)
+        {
+            int j = 0;
+            for (int i = 0; i < gridSize - 1; i++) {
+                glm::vec3 A = getPos(l, i, j);
+                glm::vec3 B = getPos(l, i + 1, j);
+                glm::vec3 C = getPos(l + 1, i, j);
+                glm::vec3 D = getPos(l + 1, i + 1, j);
+                addQuad(A, B, C, D);
+            }
+        }
+        // Right edge (j = gridSize - 1): reverse winding.
+        {
+            int j = gridSize - 1;
+            for (int i = 0; i < gridSize - 1; i++) {
+                glm::vec3 A = getPos(l, i, j);
+                glm::vec3 B = getPos(l, i + 1, j);
+                glm::vec3 C = getPos(l + 1, i, j);
+                glm::vec3 D = getPos(l + 1, i + 1, j);
+                addQuad(A, C, B, D);
+            }
+        }
+    }
+
+    return meshData;
+}
+
 // Basic external collision logic.
 void SimulationBase::resolveExternalCollisions() {
     const double restitution = 0.5;

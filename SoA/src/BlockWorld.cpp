@@ -63,7 +63,7 @@ bool BlockWorld::addBlock(int cx, int cy, int cz)
     m_blockIndex[coord] = newIndex;
 
     // Optionally print the updated list of blocks
-    printBlockList();
+    // printBlockList();
 
     return true;
 }
@@ -101,7 +101,7 @@ bool BlockWorld::removeBlock(int cx, int cy, int cz)
         }
     }
     // Optionally print the updated list of blocks
-    printBlockList();
+    // printBlockList();
 
     return true;
 }

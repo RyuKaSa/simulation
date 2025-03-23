@@ -18,15 +18,20 @@ void SimulationBase::addStaticCubeUnderGrid()
 
     glm::dvec3 center(0.0);
     int count = 0;
-    for (size_t i = 0; i < soA.position.size(); i++) {
-        if (soA.type[i] == ParticleType::STRUCTURE) {
+    for (size_t i = 0; i < soA.position.size(); i++)
+    {
+        if (soA.type[i] == ParticleType::STRUCTURE)
+        {
             center += soA.position[i];
             count++;
         }
     }
-    if (count > 0) {
+    if (count > 0)
+    {
         center /= static_cast<double>(count);
-    } else {
+    }
+    else
+    {
         center = glm::dvec3(0.0);
     }
     double cubeSize = 1.0;
@@ -66,7 +71,8 @@ void SimulationBase::createCord(int numBalls, double length,
     soA.dimensions.reserve(startIndex + numBalls);
     soA.clothID.reserve(startIndex + numBalls);
 
-    for (int i = 0; i < numBalls; i++) {
+    for (int i = 0; i < numBalls; i++)
+    {
         glm::dvec3 pos = startPos + glm::dvec3(i * spacing, 0.0, 0.0);
         soA.position.push_back(pos);
         soA.velocity.push_back(glm::dvec3(0.0));
@@ -83,7 +89,8 @@ void SimulationBase::createCord(int numBalls, double length,
     }
 
     // Create springs
-    for (int i = 0; i < numBalls - 1; i++) {
+    for (int i = 0; i < numBalls - 1; i++)
+    {
         size_t idxA = startIndex + i;
         size_t idxB = startIndex + i + 1;
 
@@ -119,31 +126,37 @@ void SimulationBase::createSquareGridWithDiagonals(int gridSize,
     soA.clothID.resize(startIndex + numParticles, clothID);
 
     double halfWidth = (gridSize - 1) * cellSize / 2.0;
-    for (int i = 0; i < gridSize; i++) {
-        for (int j = 0; j < gridSize; j++) {
+    for (int i = 0; i < gridSize; i++)
+    {
+        for (int j = 0; j < gridSize; j++)
+        {
             int localIndex = i * gridSize + j;
             size_t idx = startIndex + localIndex;
             soA.position[idx] =
-                glm::dvec3(j*cellSize - halfWidth, 0.0, i*cellSize - halfWidth);
+                glm::dvec3(j * cellSize - halfWidth, 0.0, i * cellSize - halfWidth);
         }
     }
 
     // Left & right edges static
-    for (int i = 0; i < gridSize; i++) {
-        size_t leftIdx  = startIndex + i*gridSize;
-        size_t rightIdx = startIndex + i*gridSize + (gridSize - 1);
-        soA.isStatic[leftIdx]  = true;
+    for (int i = 0; i < gridSize; i++)
+    {
+        size_t leftIdx = startIndex + i * gridSize;
+        size_t rightIdx = startIndex + i * gridSize + (gridSize - 1);
+        soA.isStatic[leftIdx] = true;
         soA.isStatic[rightIdx] = true;
     }
 
     // Springs horizontally, vertically, diagonally
-    for (int i = 0; i < gridSize; i++) {
-        for (int j = 0; j < gridSize; j++) {
-            size_t idx = startIndex + (i*gridSize + j);
+    for (int i = 0; i < gridSize; i++)
+    {
+        for (int j = 0; j < gridSize; j++)
+        {
+            size_t idx = startIndex + (i * gridSize + j);
 
             // Right neighbor
-            if (j < gridSize - 1) {
-                size_t rightIdx = startIndex + (i*gridSize + (j+1));
+            if (j < gridSize - 1)
+            {
+                size_t rightIdx = startIndex + (i * gridSize + (j + 1));
                 double dist = glm::distance(soA.position[idx], soA.position[rightIdx]);
                 SpringData sp;
                 sp.p1Index = (int)idx;
@@ -154,8 +167,9 @@ void SimulationBase::createSquareGridWithDiagonals(int gridSize,
                 springs.push_back(sp);
             }
             // Down neighbor
-            if (i < gridSize - 1) {
-                size_t bottomIdx = startIndex + ((i+1)*gridSize + j);
+            if (i < gridSize - 1)
+            {
+                size_t bottomIdx = startIndex + ((i + 1) * gridSize + j);
                 double dist = glm::distance(soA.position[idx], soA.position[bottomIdx]);
                 SpringData sp;
                 sp.p1Index = (int)idx;
@@ -166,8 +180,9 @@ void SimulationBase::createSquareGridWithDiagonals(int gridSize,
                 springs.push_back(sp);
             }
             // Diagonal
-            if (i < gridSize - 1 && j < gridSize - 1) {
-                size_t diagIdx = startIndex + ((i+1)*gridSize + (j+1));
+            if (i < gridSize - 1 && j < gridSize - 1)
+            {
+                size_t diagIdx = startIndex + ((i + 1) * gridSize + (j + 1));
                 double dist = glm::distance(soA.position[idx], soA.position[diagIdx]);
                 SpringData sp;
                 sp.p1Index = (int)idx;
@@ -177,8 +192,9 @@ void SimulationBase::createSquareGridWithDiagonals(int gridSize,
                 sp.damping = 0.5;
                 springs.push_back(sp);
             }
-            if (i < gridSize - 1 && j > 0) {
-                size_t diagIdx = startIndex + ((i+1)*gridSize + (j-1));
+            if (i < gridSize - 1 && j > 0)
+            {
+                size_t diagIdx = startIndex + ((i + 1) * gridSize + (j - 1));
                 double dist = glm::distance(soA.position[idx], soA.position[diagIdx]);
                 SpringData sp;
                 sp.p1Index = (int)idx;
@@ -203,7 +219,7 @@ void SimulationBase::createMultiLayerSquareGridWithDiagonals(int gridSize,
     int clothID = nextClothID++;
 
     int particlesPerLayer = gridSize * gridSize;
-    int totalParticles    = nLayers * particlesPerLayer;
+    int totalParticles = nLayers * particlesPerLayer;
 
     soA.position.resize(startIndex + totalParticles);
     soA.velocity.resize(startIndex + totalParticles, glm::dvec3(0.0));
@@ -219,11 +235,14 @@ void SimulationBase::createMultiLayerSquareGridWithDiagonals(int gridSize,
     double halfWidth = (gridSize - 1) * cellSize / 2.0;
 
     // Position each layer
-    for (int l = 0; l < nLayers; l++) {
-        for (int i = 0; i < gridSize; i++) {
-            for (int j = 0; j < gridSize; j++) {
+    for (int l = 0; l < nLayers; l++)
+    {
+        for (int i = 0; i < gridSize; i++)
+        {
+            for (int j = 0; j < gridSize; j++)
+            {
                 int localIndex = l * particlesPerLayer + i * gridSize + j;
-                size_t idx     = startIndex + localIndex;
+                size_t idx = startIndex + localIndex;
 
                 double x = j * cellSize - halfWidth;
                 double z = i * cellSize - halfWidth;
@@ -234,27 +253,33 @@ void SimulationBase::createMultiLayerSquareGridWithDiagonals(int gridSize,
     }
 
     // Left & right edges static in each layer
-    for (int l = 0; l < nLayers; l++) {
-        for (int i = 0; i < gridSize; i++) {
-            size_t leftIdx  = startIndex + (l*particlesPerLayer) + (i*gridSize);
-            size_t rightIdx = startIndex + (l*particlesPerLayer) + (i*gridSize + (gridSize - 1));
-            soA.isStatic[leftIdx]  = true;
+    for (int l = 0; l < nLayers; l++)
+    {
+        for (int i = 0; i < gridSize; i++)
+        {
+            size_t leftIdx = startIndex + (l * particlesPerLayer) + (i * gridSize);
+            size_t rightIdx = startIndex + (l * particlesPerLayer) + (i * gridSize + (gridSize - 1));
+            soA.isStatic[leftIdx] = true;
             soA.isStatic[rightIdx] = true;
         }
     }
 
     // Springs within each layer
-    for (int l = 0; l < nLayers; l++) {
-        int layerOffset = startIndex + (l*particlesPerLayer);
+    for (int l = 0; l < nLayers; l++)
+    {
+        int layerOffset = startIndex + (l * particlesPerLayer);
 
-        for (int i = 0; i < gridSize; i++) {
-            for (int j = 0; j < gridSize; j++) {
+        for (int i = 0; i < gridSize; i++)
+        {
+            for (int j = 0; j < gridSize; j++)
+            {
                 int localIndex = i * gridSize + j;
                 size_t idx = layerOffset + localIndex;
 
                 // Right neighbor
-                if (j < gridSize - 1) {
-                    size_t rightIdx = layerOffset + (i*gridSize + (j+1));
+                if (j < gridSize - 1)
+                {
+                    size_t rightIdx = layerOffset + (i * gridSize + (j + 1));
                     double dist = glm::distance(soA.position[idx], soA.position[rightIdx]);
                     SpringData sp;
                     sp.p1Index = (int)idx;
@@ -265,8 +290,9 @@ void SimulationBase::createMultiLayerSquareGridWithDiagonals(int gridSize,
                     springs.push_back(sp);
                 }
                 // Down neighbor
-                if (i < gridSize - 1) {
-                    size_t bottomIdx = layerOffset + ((i+1)*gridSize + j);
+                if (i < gridSize - 1)
+                {
+                    size_t bottomIdx = layerOffset + ((i + 1) * gridSize + j);
                     double dist = glm::distance(soA.position[idx], soA.position[bottomIdx]);
                     SpringData sp;
                     sp.p1Index = (int)idx;
@@ -277,8 +303,9 @@ void SimulationBase::createMultiLayerSquareGridWithDiagonals(int gridSize,
                     springs.push_back(sp);
                 }
                 // Diagonal
-                if (i < gridSize - 1 && j < gridSize - 1) {
-                    size_t diagIdx = layerOffset + ((i+1)*gridSize + (j+1));
+                if (i < gridSize - 1 && j < gridSize - 1)
+                {
+                    size_t diagIdx = layerOffset + ((i + 1) * gridSize + (j + 1));
                     double dist = glm::distance(soA.position[idx], soA.position[diagIdx]);
                     SpringData sp;
                     sp.p1Index = (int)idx;
@@ -288,8 +315,9 @@ void SimulationBase::createMultiLayerSquareGridWithDiagonals(int gridSize,
                     sp.damping = 0.5;
                     springs.push_back(sp);
                 }
-                if (i < gridSize - 1 && j > 0) {
-                    size_t diagIdx = layerOffset + ((i+1)*gridSize + (j-1));
+                if (i < gridSize - 1 && j > 0)
+                {
+                    size_t diagIdx = layerOffset + ((i + 1) * gridSize + (j - 1));
                     double dist = glm::distance(soA.position[idx], soA.position[diagIdx]);
                     SpringData sp;
                     sp.p1Index = (int)idx;
@@ -304,21 +332,28 @@ void SimulationBase::createMultiLayerSquareGridWithDiagonals(int gridSize,
     }
 
     // Springs between layers
-    for (int l = 0; l < nLayers - 1; l++) {
-        int lowerOffset = startIndex + (l     * particlesPerLayer);
-        int upperOffset = startIndex + ((l+1) * particlesPerLayer);
+    for (int l = 0; l < nLayers - 1; l++)
+    {
+        int lowerOffset = startIndex + (l * particlesPerLayer);
+        int upperOffset = startIndex + ((l + 1) * particlesPerLayer);
 
-        for (int i = 0; i < gridSize; i++) {
-            for (int j = 0; j < gridSize; j++) {
-                size_t lowerIdx = lowerOffset + (i*gridSize + j);
-                for (int di = -1; di <= 1; di++) {
-                    for (int dj = -1; dj <= 1; dj++) {
+        for (int i = 0; i < gridSize; i++)
+        {
+            for (int j = 0; j < gridSize; j++)
+            {
+                size_t lowerIdx = lowerOffset + (i * gridSize + j);
+                for (int di = -1; di <= 1; di++)
+                {
+                    for (int dj = -1; dj <= 1; dj++)
+                    {
                         int ni = i + di;
                         int nj = j + dj;
-                        if (ni < 0 || ni >= gridSize) continue;
-                        if (nj < 0 || nj >= gridSize) continue;
+                        if (ni < 0 || ni >= gridSize)
+                            continue;
+                        if (nj < 0 || nj >= gridSize)
+                            continue;
 
-                        size_t upperIdx = upperOffset + (ni*gridSize + nj);
+                        size_t upperIdx = upperOffset + (ni * gridSize + nj);
                         double dist = glm::distance(soA.position[lowerIdx],
                                                     soA.position[upperIdx]);
                         SpringData sp;
@@ -351,7 +386,7 @@ void SimulationBase::createHexGrid(int numHexagons,
     glm::dmat4 rotationMatrix = createRotationMatrix(orientationDegrees);
 
     std::vector<glm::dvec3> uniquePositions;
-    std::set<std::pair<int,int>> edgeSet;
+    std::set<std::pair<int, int>> edgeSet;
     generateHexagonCells(numHexagons, hexagonSize, rotationMatrix,
                          uniquePositions, edgeSet);
 
@@ -371,26 +406,32 @@ void SimulationBase::createHexGrid(int numHexagons,
     soA.clothID.resize(oldCount + newCount, clothID);
 
     double minX = 1e9, maxX = -1e9;
-    for (auto &p : uniquePositions) {
-        if (p.x < minX) minX = p.x;
-        if (p.x > maxX) maxX = p.x;
+    for (auto &p : uniquePositions)
+    {
+        if (p.x < minX)
+            minX = p.x;
+        if (p.x > maxX)
+            maxX = p.x;
     }
 
-    for (size_t i = 0; i < newCount; i++) {
+    for (size_t i = 0; i < newCount; i++)
+    {
         size_t idx = oldCount + i;
         soA.position[idx] = uniquePositions[i];
     }
-    for (size_t i = 0; i < newCount; i++) {
+    for (size_t i = 0; i < newCount; i++)
+    {
         size_t idx = oldCount + i;
         double px = soA.position[idx].x;
-        bool leftStatic  = (px <= minX + 0.001);
+        bool leftStatic = (px <= minX + 0.001);
         bool rightStatic = (bothEndsStatic && px >= maxX - 0.001);
         soA.isStatic[idx] = (leftStatic || rightStatic);
     }
 
     // Now create springs from edgeSet
-    for (auto &e : edgeSet) {
-        int i1 = e.first  + (int)oldCount;
+    for (auto &e : edgeSet)
+    {
+        int i1 = e.first + (int)oldCount;
         int i2 = e.second + (int)oldCount;
         double dist = glm::distance(soA.position[i1], soA.position[i2]);
         SpringData sp;
@@ -421,14 +462,14 @@ void SimulationBase::createMultiLayerHexGrid(int numHexagons,
     glm::dmat4 rotationMatrix = createRotationMatrix(orientationDegrees);
 
     std::vector<glm::dvec3> baseUniquePositions;
-    std::set<std::pair<int,int>> edgeSet;
+    std::set<std::pair<int, int>> edgeSet;
     generateHexagonCells(numHexagons, hexagonSize, rotationMatrix,
                          baseUniquePositions, edgeSet);
 
     size_t baseCount = baseUniquePositions.size();
-    size_t oldCount  = soA.position.size();
-    size_t total     = nLayers * baseCount;
-    int clothID      = nextClothID++;
+    size_t oldCount = soA.position.size();
+    size_t total = nLayers * baseCount;
+    int clothID = nextClothID++;
 
     soA.position.resize(oldCount + total);
     soA.velocity.resize(oldCount + total, glm::dvec3(0.0));
@@ -443,15 +484,18 @@ void SimulationBase::createMultiLayerHexGrid(int numHexagons,
 
     glm::dvec3 minPos = baseUniquePositions[0];
     glm::dvec3 maxPos = baseUniquePositions[0];
-    for (size_t i = 1; i < baseCount; i++) {
+    for (size_t i = 1; i < baseCount; i++)
+    {
         minPos = glm::min(minPos, baseUniquePositions[i]);
         maxPos = glm::max(maxPos, baseUniquePositions[i]);
     }
 
     // Layout the layers
-    for (int layer = 0; layer < nLayers; layer++) {
-        for (size_t i = 0; i < baseCount; i++) {
-            size_t idx = oldCount + (layer*baseCount) + i;
+    for (int layer = 0; layer < nLayers; layer++)
+    {
+        for (size_t i = 0; i < baseCount; i++)
+        {
+            size_t idx = oldCount + (layer * baseCount) + i;
             glm::dvec3 pos = baseUniquePositions[i];
             pos.y += (layerHeight * layer);
             soA.position[idx] = pos;
@@ -461,31 +505,36 @@ void SimulationBase::createMultiLayerHexGrid(int numHexagons,
     double minX = minPos.x;
     double maxX = maxPos.x;
     // Mark static if near left or right
-    for (int layer = 0; layer < nLayers; layer++) {
-        for (size_t i = 0; i < baseCount; i++) {
-            size_t idx = oldCount + (layer*baseCount) + i;
+    for (int layer = 0; layer < nLayers; layer++)
+    {
+        for (size_t i = 0; i < baseCount; i++)
+        {
+            size_t idx = oldCount + (layer * baseCount) + i;
             double px = soA.position[idx].x;
-            bool leftStatic  = (px <= minX + 0.001);
+            bool leftStatic = (px <= minX + 0.001);
             bool rightStatic = (bothEndsStatic && px >= maxX - 0.001);
-            if (leftStatic || rightStatic) {
+            if (leftStatic || rightStatic)
+            {
                 soA.isStatic[idx] = true;
             }
         }
     }
 
     // Springs within each layer
-    for (int layer = 0; layer < nLayers; layer++) {
-        size_t layerOffset = oldCount + (layer*baseCount);
-        for (auto &edge : edgeSet) {
-            int i1 = edge.first  + (int)layerOffset;
+    for (int layer = 0; layer < nLayers; layer++)
+    {
+        size_t layerOffset = oldCount + (layer * baseCount);
+        for (auto &edge : edgeSet)
+        {
+            int i1 = edge.first + (int)layerOffset;
             int i2 = edge.second + (int)layerOffset;
             double dist = glm::distance(soA.position[i1], soA.position[i2]);
             SpringData sp;
-            sp.p1Index    = i1;
-            sp.p2Index    = i2;
+            sp.p1Index = i1;
+            sp.p2Index = i2;
             sp.restLength = dist * springRestLength;
             sp.springConstant = sharedParams.springConstant;
-            sp.damping    = 0.5;
+            sp.damping = 0.5;
             springs.push_back(sp);
         }
     }
@@ -506,15 +555,18 @@ glm::dmat4 SimulationBase::createRotationMatrix(double orientationDegrees)
 // ------------------ generateHexagonCells ------------------ //
 void SimulationBase::generateHexagonCells(int numHexagons,
                                           double hexagonSize,
-                                          const glm::dmat4& rotationMatrix,
-                                          std::vector<glm::dvec3>& uniquePositions,
-                                          std::set<std::pair<int,int>>& edgeSet)
+                                          const glm::dmat4 &rotationMatrix,
+                                          std::vector<glm::dvec3> &uniquePositions,
+                                          std::set<std::pair<int, int>> &edgeSet)
 {
-    auto findOrAdd = [&](const glm::dvec3 &pos) -> int {
+    auto findOrAdd = [&](const glm::dvec3 &pos) -> int
+    {
         double eps = 0.0001;
-        for (int i = 0; i < (int)uniquePositions.size(); i++) {
+        for (int i = 0; i < (int)uniquePositions.size(); i++)
+        {
             glm::dvec3 diff = uniquePositions[i] - pos;
-            if (glm::length(diff) < eps) {
+            if (glm::length(diff) < eps)
+            {
                 return i;
             }
         }
@@ -523,8 +575,10 @@ void SimulationBase::generateHexagonCells(int numHexagons,
     };
 
     // Simple hex layout
-    for (int r = 0; r < numHexagons; r++) {
-        for (int c = 0; c < numHexagons; c++) {
+    for (int r = 0; r < numHexagons; r++)
+    {
+        for (int c = 0; c < numHexagons; c++)
+        {
             glm::dvec3 center;
             center.x = std::sqrt(3.0) * hexagonSize * (c + (r % 2) * 0.5);
             center.y = 1.5 * hexagonSize * r;
@@ -533,7 +587,8 @@ void SimulationBase::generateHexagonCells(int numHexagons,
 
             std::vector<int> indices;
             indices.reserve(6);
-            for (int i = 0; i < 6; i++) {
+            for (int i = 0; i < 6; i++)
+            {
                 double ang = glm::radians(60.0 * i + 90.0);
                 glm::dvec3 offset(hexagonSize * std::cos(ang),
                                   hexagonSize * std::sin(ang),
@@ -544,18 +599,20 @@ void SimulationBase::generateHexagonCells(int numHexagons,
                 indices.push_back(idx);
             }
             // Build edges
-            for (int i = 0; i < 6; i++) {
+            for (int i = 0; i < 6; i++)
+            {
                 int i1 = indices[i];
-                int i2 = indices[(i+1) % 6];
-                if (i1 > i2) std::swap(i1, i2);
-                edgeSet.insert({ i1, i2 });
+                int i2 = indices[(i + 1) % 6];
+                if (i1 > i2)
+                    std::swap(i1, i2);
+                edgeSet.insert({i1, i2});
             }
         }
     }
 }
 
 // ------------------ Legacy functions if needed -------------- //
-void SimulationBase::assignUniquePositionsToSoA(const std::vector<glm::dvec3>& uniquePositions,
+void SimulationBase::assignUniquePositionsToSoA(const std::vector<glm::dvec3> &uniquePositions,
                                                 bool bothEndsStatic)
 {
     // This is leftover from your original code. If you want each new
@@ -577,27 +634,33 @@ void SimulationBase::assignUniquePositionsToSoA(const std::vector<glm::dvec3>& u
     // soA.clothID.resize(n, clothID);
 
     double minX = 1e9, maxX = -1e9;
-    for (auto &p : uniquePositions) {
-        if (p.x < minX) minX = p.x;
-        if (p.x > maxX) maxX = p.x;
+    for (auto &p : uniquePositions)
+    {
+        if (p.x < minX)
+            minX = p.x;
+        if (p.x > maxX)
+            maxX = p.x;
     }
-    for (size_t i = 0; i < n; i++) {
+    for (size_t i = 0; i < n; i++)
+    {
         soA.position[i] = uniquePositions[i];
     }
-    for (size_t i = 0; i < n; i++) {
+    for (size_t i = 0; i < n; i++)
+    {
         double px = soA.position[i].x;
-        bool leftStatic  = (px <= minX + 0.001);
+        bool leftStatic = (px <= minX + 0.001);
         bool rightStatic = (bothEndsStatic && px >= maxX - 0.001);
-        soA.isStatic[i]  = (leftStatic || rightStatic);
+        soA.isStatic[i] = (leftStatic || rightStatic);
     }
 }
 
-void SimulationBase::createSpringsFromEdgeSet(const std::set<std::pair<int,int>>& edgeSet,
+void SimulationBase::createSpringsFromEdgeSet(const std::set<std::pair<int, int>> &edgeSet,
                                               double springRestLength)
 {
     // If you do not offset indices (like oldCount), this function must assume
     // the SoA is exactly sized for those edges. Typically used in your older code.
-    for (auto &e : edgeSet) {
+    for (auto &e : edgeSet)
+    {
         int i1 = e.first;
         int i2 = e.second;
         double dist = glm::distance(soA.position[i1], soA.position[i2]);
@@ -611,8 +674,8 @@ void SimulationBase::createSpringsFromEdgeSet(const std::set<std::pair<int,int>>
     }
 }
 
-bool SimulationBase::approxEqualVec3(const glm::dvec3& a,
-                                     const glm::dvec3& b,
+bool SimulationBase::approxEqualVec3(const glm::dvec3 &a,
+                                     const glm::dvec3 &b,
                                      double epsilon)
 {
     return (std::fabs(a.x - b.x) < epsilon) &&
@@ -620,12 +683,14 @@ bool SimulationBase::approxEqualVec3(const glm::dvec3& a,
            (std::fabs(a.z - b.z) < epsilon);
 }
 
-int SimulationBase::findApproxVertexIndex(const std::vector<glm::dvec3>& vertices,
-                                          const glm::dvec3& target,
+int SimulationBase::findApproxVertexIndex(const std::vector<glm::dvec3> &vertices,
+                                          const glm::dvec3 &target,
                                           double epsilon)
 {
-    for (size_t i = 0; i < vertices.size(); ++i) {
-        if (approxEqualVec3(vertices[i], target, epsilon)) {
+    for (size_t i = 0; i < vertices.size(); ++i)
+    {
+        if (approxEqualVec3(vertices[i], target, epsilon))
+        {
             return (int)i;
         }
     }
@@ -633,49 +698,45 @@ int SimulationBase::findApproxVertexIndex(const std::vector<glm::dvec3>& vertice
 }
 
 void SimulationBase::createMultiLayerSquareGridWithDiagonalsCentered(
-    int cx, int cy, int cz,      // Grid coordinate of the block center
-    int gridSize,              // Number of particles per row/column in each layer
-    int nLayers,               // Number of layers in the cloth (vertical stack)
-    double cellSize,           // Spacing between cloth particles in a layer
-    double layerSpacing,       // Spacing between layers
-    double springRestLength)   // Factor to scale the computed rest lengths of springs
+    int cx, int cy, int cz,  // Grid coordinate of the block center
+    int gridSize,            // Number of particles per row/column in each layer
+    int nLayers,             // Number of layers in the cloth (vertical stack)
+    double cellSize,         // Spacing between cloth particles in a layer
+    double layerSpacing,     // Spacing between layers
+    double springRestLength) // Factor to scale the computed rest lengths of springs
 {
-    // Determine starting index and assign a new cloth ID.
+    // ----------------------------
+    // 1) Create Particles & Springs
+    // ----------------------------
     size_t startIndex = soA.position.size();
-    int clothID = nextClothID++;  // nextClothID is assumed to be a member variable
+    int clothID = nextClothID++; // Assign a unique cloth ID
 
     int particlesPerLayer = gridSize * gridSize;
     int totalParticles = nLayers * particlesPerLayer;
 
-    // Resize the SoA vectors to accommodate the new cloth particles.
     soA.position.resize(startIndex + totalParticles);
     soA.velocity.resize(startIndex + totalParticles, glm::dvec3(0.0));
     soA.forceAccum.resize(startIndex + totalParticles, glm::dvec3(0.0));
     double massValue = guiInstance ? guiInstance->getParticleMass() : 1.0;
     soA.mass.resize(startIndex + totalParticles, massValue);
     soA.type.resize(startIndex + totalParticles, ParticleType::STRUCTURE);
-    // All particles are dynamic (non-static):
-    soA.isStatic.resize(startIndex + totalParticles, false);
+    soA.isStatic.resize(startIndex + totalParticles, false); // all dynamic
     soA.color.resize(startIndex + totalParticles, glm::dvec3(1.0, 0.0, 0.0));
     soA.dimensions.resize(startIndex + totalParticles, glm::dvec3(1.0));
     soA.clothID.resize(startIndex + totalParticles, clothID);
 
-    // Compute the world-space center for the target block.
-    // (Assuming gridToWorld returns the center of the grid cell.)
     glm::dvec3 blockCenter = glm::dvec3(cx, cy, cz);
-
-    // Compute half-width so that the cloth is centered on the block.
     double halfWidth = (gridSize - 1) * cellSize / 2.0;
 
-    // --- Position particles for each layer ---
-    // The (x,z) positions span from -halfWidth to +halfWidth,
-    // and the vertical (y) positions are offset by layerSpacing.
-    for (int l = 0; l < nLayers; l++) {
-        for (int i = 0; i < gridSize; i++) {
-            for (int j = 0; j < gridSize; j++) {
+    // Position particles for each layer (grid in xz, y offset per layer)
+    for (int l = 0; l < nLayers; l++)
+    {
+        for (int i = 0; i < gridSize; i++)
+        {
+            for (int j = 0; j < gridSize; j++)
+            {
                 int localIndex = l * particlesPerLayer + i * gridSize + j;
                 size_t idx = startIndex + localIndex;
-
                 double x = j * cellSize - halfWidth;
                 double z = i * cellSize - halfWidth;
                 double y = l * layerSpacing;
@@ -684,16 +745,18 @@ void SimulationBase::createMultiLayerSquareGridWithDiagonalsCentered(
         }
     }
 
-    // --- Create springs within each layer ---
-    for (int l = 0; l < nLayers; l++) {
+    // Create springs within each layer (horizontal, vertical, and diagonal)
+    for (int l = 0; l < nLayers; l++)
+    {
         int layerOffset = startIndex + (l * particlesPerLayer);
-        for (int i = 0; i < gridSize; i++) {
-            for (int j = 0; j < gridSize; j++) {
+        for (int i = 0; i < gridSize; i++)
+        {
+            for (int j = 0; j < gridSize; j++)
+            {
                 int localIndex = i * gridSize + j;
                 size_t idx = layerOffset + localIndex;
-
-                // Right neighbor
-                if (j < gridSize - 1) {
+                if (j < gridSize - 1)
+                {
                     size_t rightIdx = layerOffset + (i * gridSize + (j + 1));
                     double dist = glm::distance(soA.position[idx], soA.position[rightIdx]);
                     SpringData sp;
@@ -704,8 +767,8 @@ void SimulationBase::createMultiLayerSquareGridWithDiagonalsCentered(
                     sp.damping = 0.5;
                     springs.push_back(sp);
                 }
-                // Down neighbor
-                if (i < gridSize - 1) {
+                if (i < gridSize - 1)
+                {
                     size_t bottomIdx = layerOffset + ((i + 1) * gridSize + j);
                     double dist = glm::distance(soA.position[idx], soA.position[bottomIdx]);
                     SpringData sp;
@@ -716,8 +779,8 @@ void SimulationBase::createMultiLayerSquareGridWithDiagonalsCentered(
                     sp.damping = 0.5;
                     springs.push_back(sp);
                 }
-                // Diagonal: down-right
-                if (i < gridSize - 1 && j < gridSize - 1) {
+                if (i < gridSize - 1 && j < gridSize - 1)
+                {
                     size_t diagIdx = layerOffset + ((i + 1) * gridSize + (j + 1));
                     double dist = glm::distance(soA.position[idx], soA.position[diagIdx]);
                     SpringData sp;
@@ -728,8 +791,8 @@ void SimulationBase::createMultiLayerSquareGridWithDiagonalsCentered(
                     sp.damping = 0.5;
                     springs.push_back(sp);
                 }
-                // Diagonal: down-left
-                if (i < gridSize - 1 && j > 0) {
+                if (i < gridSize - 1 && j > 0)
+                {
                     size_t diagIdx = layerOffset + ((i + 1) * gridSize + (j - 1));
                     double dist = glm::distance(soA.position[idx], soA.position[diagIdx]);
                     SpringData sp;
@@ -744,22 +807,26 @@ void SimulationBase::createMultiLayerSquareGridWithDiagonalsCentered(
         }
     }
 
-    // --- Create springs between layers ---
-    for (int l = 0; l < nLayers - 1; l++) {
+    // Create springs between layers
+    for (int l = 0; l < nLayers - 1; l++)
+    {
         int lowerOffset = startIndex + (l * particlesPerLayer);
         int upperOffset = startIndex + ((l + 1) * particlesPerLayer);
-        for (int i = 0; i < gridSize; i++) {
-            for (int j = 0; j < gridSize; j++) {
+        for (int i = 0; i < gridSize; i++)
+        {
+            for (int j = 0; j < gridSize; j++)
+            {
                 size_t lowerIdx = lowerOffset + (i * gridSize + j);
-                // Connect each particle to its adjacent neighbors in the layer above.
-                for (int di = -1; di <= 1; di++) {
-                    for (int dj = -1; dj <= 1; dj++) {
-                        int ni = i + di;
-                        int nj = j + dj;
-                        if (ni < 0 || ni >= gridSize) continue;
-                        if (nj < 0 || nj >= gridSize) continue;
+                for (int di = -1; di <= 1; di++)
+                {
+                    for (int dj = -1; dj <= 1; dj++)
+                    {
+                        int ni = i + di, nj = j + dj;
+                        if (ni < 0 || ni >= gridSize || nj < 0 || nj >= gridSize)
+                            continue;
                         size_t upperIdx = upperOffset + (ni * gridSize + nj);
-                        double dist = glm::distance(soA.position[lowerIdx], soA.position[upperIdx]);
+                        double dist = glm::distance(soA.position[lowerIdx],
+                                                    soA.position[upperIdx]);
                         SpringData sp;
                         sp.p1Index = (int)lowerIdx;
                         sp.p2Index = (int)upperIdx;
@@ -772,4 +839,161 @@ void SimulationBase::createMultiLayerSquareGridWithDiagonalsCentered(
             }
         }
     }
+
+    // ----------------------------
+    // 2) Generate Outer Shell Mesh for the Cloth
+    //    (Top face, Bottom face, and Side Faces)
+    // ----------------------------
+
+    // Clear previous triangle data.
+    hexTriangles.clear();
+
+    // Helper lambda: computes face normal and pushes a HexTriangle.
+    auto addHexTriangle = [&](const glm::vec3 &p0, const glm::vec3 &p1, const glm::vec3 &p2)
+    {
+        HexTriangle tri;
+        tri.vertices[0] = p0;
+        tri.vertices[1] = p1;
+        tri.vertices[2] = p2;
+        tri.normal = glm::normalize(glm::cross(p1 - p0, p2 - p0));
+        hexTriangles.push_back(tri);
+    };
+
+    // You already have a helper lambda for meshData; we reuse a similar helper for hexTriangles.
+    auto getPos = [&](int layer, int i, int j) -> glm::vec3
+    {
+        size_t index = startIndex + (layer * gridSize * gridSize) + (i * gridSize) + j;
+        return glm::vec3(soA.position[index]);
+    };
+
+    // --- Top Face (upper layer) ---
+    {
+        int topLayer = nLayers - 1;
+        for (int i = 0; i < gridSize - 1; i++)
+        {
+            for (int j = 0; j < gridSize - 1; j++)
+            {
+                glm::vec3 p00 = getPos(topLayer, i, j);
+                glm::vec3 p01 = getPos(topLayer, i, j + 1);
+                glm::vec3 p10 = getPos(topLayer, i + 1, j);
+                glm::vec3 p11 = getPos(topLayer, i + 1, j + 1);
+                // Create two triangles per cell.
+                addHexTriangle(p00, p01, p10);
+                addHexTriangle(p01, p11, p10);
+            }
+        }
+    }
+
+    // --- Bottom Face (lower layer; reverse winding so normal points downward) ---
+    {
+        int bottomLayer = 0;
+        for (int i = 0; i < gridSize - 1; i++)
+        {
+            for (int j = 0; j < gridSize - 1; j++)
+            {
+                glm::vec3 p00 = getPos(bottomLayer, i, j);
+                glm::vec3 p01 = getPos(bottomLayer, i, j + 1);
+                glm::vec3 p10 = getPos(bottomLayer, i + 1, j);
+                glm::vec3 p11 = getPos(bottomLayer, i + 1, j + 1);
+                // Reverse the order for downward normals.
+                addHexTriangle(p00, p10, p01);
+                addHexTriangle(p01, p10, p11);
+            }
+        }
+    }
+
+    // --- Side Faces: Connect the perimeter between consecutive layers ---
+    for (int l = 0; l < nLayers - 1; l++)
+    {
+        // Helper lambda for adding a quad (split into 2 triangles)
+        auto addQuad = [&](const glm::vec3 &A, const glm::vec3 &B,
+                           const glm::vec3 &C, const glm::vec3 &D)
+        {
+            addHexTriangle(A, B, C);
+            addHexTriangle(B, D, C);
+        };
+
+        // Front edge (i = 0)
+        {
+            int i = 0;
+            for (int j = 0; j < gridSize - 1; j++)
+            {
+                glm::vec3 A = getPos(l, i, j);
+                glm::vec3 B = getPos(l, i, j + 1);
+                glm::vec3 C = getPos(l + 1, i, j);
+                glm::vec3 D = getPos(l + 1, i, j + 1);
+                addQuad(A, B, C, D);
+            }
+        }
+        // Back edge (i = gridSize - 1); reverse winding for outward normals.
+        {
+            int i = gridSize - 1;
+            for (int j = 0; j < gridSize - 1; j++)
+            {
+                glm::vec3 A = getPos(l, i, j);
+                glm::vec3 B = getPos(l, i, j + 1);
+                glm::vec3 C = getPos(l + 1, i, j);
+                glm::vec3 D = getPos(l + 1, i, j + 1);
+                addQuad(A, C, B, D);
+            }
+        }
+        // Left edge (j = 0)
+        {
+            int j = 0;
+            for (int i = 0; i < gridSize - 1; i++)
+            {
+                glm::vec3 A = getPos(l, i, j);
+                glm::vec3 B = getPos(l, i + 1, j);
+                glm::vec3 C = getPos(l + 1, i, j);
+                glm::vec3 D = getPos(l + 1, i + 1, j);
+                addQuad(A, B, C, D);
+            }
+        }
+        // Right edge (j = gridSize - 1); reverse winding for outward normals.
+        {
+            int j = gridSize - 1;
+            for (int i = 0; i < gridSize - 1; i++)
+            {
+                glm::vec3 A = getPos(l, i, j);
+                glm::vec3 B = getPos(l, i + 1, j);
+                glm::vec3 C = getPos(l + 1, i, j);
+                glm::vec3 D = getPos(l + 1, i + 1, j);
+                addQuad(A, C, B, D);
+            }
+        }
+    }
+
+    // Compute total vertex count (6 floats per vertex).
+    int vertexCount = static_cast<int>(meshData.size() / 6);
+
+    // ----------------------------
+    // 3) Create VAO/VBO for This Cloth Mesh and Store It
+    // ----------------------------
+    // Build the initial mesh data.
+    std::vector<float> meshData = buildClothMeshData(startIndex, gridSize, nLayers);
+
+    // Create VAO/VBO, but use GL_DYNAMIC_DRAW so we can update it later.
+    unsigned int meshVAO, meshVBO;
+    glGenVertexArrays(1, &meshVAO);
+    glGenBuffers(1, &meshVBO);
+    glBindVertexArray(meshVAO);
+    glBindBuffer(GL_ARRAY_BUFFER, meshVBO);
+    glBufferData(GL_ARRAY_BUFFER, meshData.size() * sizeof(float), meshData.data(), GL_DYNAMIC_DRAW); // DYNAMIC now!
+    
+    // Set up vertex attributes.
+    glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, 6 * sizeof(float), (void*)0);
+    glEnableVertexAttribArray(0);
+    glVertexAttribPointer(1, 3, GL_FLOAT, GL_FALSE, 6 * sizeof(float), (void*)(3 * sizeof(float)));
+    glEnableVertexAttribArray(1);
+    glBindVertexArray(0);
+
+    // Create the ClothMesh object.
+    ClothMesh clothMesh;
+    clothMesh.vao = meshVAO;
+    clothMesh.vbo = meshVBO;
+    clothMesh.vertexCount = static_cast<int>(meshData.size() / 6);
+    clothMesh.startIndex = startIndex;
+    clothMesh.gridSize   = gridSize;
+    clothMesh.nLayers    = nLayers;
+    clothMeshes.push_back(clothMesh);
 }

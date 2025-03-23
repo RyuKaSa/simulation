@@ -60,6 +60,11 @@ public:
 
     void renderSceneWithShadows(const SimulationBase &simulation, const glm::mat4 &view, const glm::mat4 &projection, const glm::vec3 &lightDir);
 
+    void renderClothMesh(const SimulationBase &simulation,
+        const glm::mat4 &projection,
+        const glm::mat4 &view,
+        const ClothMesh &clothMesh);
+
 private:
     Shader ballShader;
     Shader cubeShader;

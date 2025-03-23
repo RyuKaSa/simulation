@@ -264,10 +264,9 @@ int main(int argc, char *argv[])
                             // Pull cloth parameters from sharedParams.
                             int gridSize = envSim->sharedParams.gridSize;
                             double springRestLength = envSim->sharedParams.springRestLength;
-                            // For cell size and layer spacing, you can choose to use a shared parameter or a constant.
-                            double cellSize = 0.03;     // e.g., similar to the hexgrid test.
-                            int nLayers = 2;            // Number of layers (could also be a shared param)
-                            double layerSpacing = 0.03; // Adjust as desired.
+                            double cellSize = 0.03;
+                            int nLayers = 2;
+                            double layerSpacing = 0.03;
             
                             // Create the cloth with its center at the target block.
                             envSim->createMultiLayerSquareGridWithDiagonalsCentered(

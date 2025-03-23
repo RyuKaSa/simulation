@@ -40,7 +40,7 @@ Renderer::Renderer(const SimulationBase &simulation) : camera(nullptr)
     // initGrid();
     initCube();
     initSprings();
-    // initHexTriangles();
+    initHexTriangles();
     // initTripleGrid(simulation);
 
     // print status of simulation
@@ -127,7 +127,8 @@ void Renderer::renderWithMatricesAndShadows(const SimulationBase &simulation,
         springShader.setUniform("uMVP", mvp);
         springShader.setUniform("uColor", glm::vec3(0.25f, 0.39f, 0.59f));
     }
-    renderSprings(simulation, projection, view);
+    // renderSprings(simulation, projection, view);
+    // renderHexTriangles(simulation, projection, view);
 
     // Render cubes with instancing (for both EXTERNAL and BACKGROUND types).
     cubeShader.use();
@@ -194,6 +195,11 @@ void Renderer::renderWithMatricesAndShadows(const SimulationBase &simulation,
     glBindVertexArray(cubeVAO);
     glDrawElementsInstanced(GL_TRIANGLES, 36, GL_UNSIGNED_INT, 0, static_cast<GLsizei>(instanceCount));
     glBindVertexArray(0);
+
+    for (const ClothMesh &mesh : simulation.clothMeshes)
+    {
+        renderClothMesh(simulation, projection, view, mesh);
+    }
 }
 
 Renderer::~Renderer()
@@ -384,10 +390,26 @@ void Renderer::initHexTriangles()
     glGenVertexArrays(1, &hexTriVAO);
     glGenBuffers(1, &hexTriVBO);
     glBindVertexArray(hexTriVAO);
+
     glBindBuffer(GL_ARRAY_BUFFER, hexTriVBO);
+    // We don’t upload any data yet—just allocate 0 or an initial size.
+    // (We’ll do actual bufferData later in render)
+
     glBufferData(GL_ARRAY_BUFFER, 0, nullptr, GL_DYNAMIC_DRAW);
-    glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, 3 * sizeof(float), (void *)0);
+
+    // -- Layout: We’ll store each vertex as 6 floats (Position + Normal) --
+    //    position = loc 0, normal = loc 1
+
+    // Position attribute
+    glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, 6 * sizeof(float), (void *)0);
     glEnableVertexAttribArray(0);
+
+    // Normal attribute
+    glVertexAttribPointer(1, 3, GL_FLOAT, GL_FALSE,
+                          6 * sizeof(float),
+                          (void *)(3 * sizeof(float)));
+    glEnableVertexAttribArray(1);
+
     glBindVertexArray(0);
 }
 
@@ -791,32 +813,81 @@ void Renderer::renderHexTriangles(const SimulationBase &simulation,
     if (tris.empty())
         return;
 
+    // Build an array of floats for positions + normals
+    // Each triangle has 3 vertices, each vertex = 6 floats (pos + normal).
+    // So total floats = number of triangles * 3 * 6
     size_t vertexCount = tris.size() * 3;
-    size_t totalBytes = vertexCount * sizeof(glm::vec3);
+    size_t floatCount = vertexCount * 6;
+    std::vector<float> bufferData;
+    bufferData.reserve(floatCount);
 
-    glBindVertexArray(hexTriVAO);
-    glBindBuffer(GL_ARRAY_BUFFER, hexTriVBO);
-    glBufferData(GL_ARRAY_BUFFER, totalBytes, nullptr, GL_DYNAMIC_DRAW);
-
-    glm::vec3 *bufferData = (glm::vec3 *)glMapBuffer(GL_ARRAY_BUFFER, GL_WRITE_ONLY);
-    if (bufferData)
+    for (auto &t : tris)
     {
-        for (const auto &tri : tris)
+        // For each triangle, push back (pos.x, pos.y, pos.z, normal.x, normal.y, normal.z)
+        const glm::vec3 &n = t.normal;
+        for (int i = 0; i < 3; i++)
         {
-            memcpy(bufferData, tri.vertices, 3 * sizeof(glm::vec3));
-            bufferData += 3;
+            const glm::vec3 &p = t.vertices[i];
+            // position
+            bufferData.push_back(p.x);
+            bufferData.push_back(p.y);
+            bufferData.push_back(p.z);
+            // normal
+            bufferData.push_back(n.x);
+            bufferData.push_back(n.y);
+            bufferData.push_back(n.z);
         }
-        glUnmapBuffer(GL_ARRAY_BUFFER);
     }
 
+    // Now upload to the VBO
+    glBindVertexArray(hexTriVAO);
+    glBindBuffer(GL_ARRAY_BUFFER, hexTriVBO);
+
+    // Upload all the vertex+normal data
+    glBufferData(GL_ARRAY_BUFFER,
+                 bufferData.size() * sizeof(float),
+                 bufferData.data(),
+                 GL_DYNAMIC_DRAW);
+
     meshShader.use();
-    glm::mat4 modelMat(1.0f);
-    glm::mat4 mvpMat = projection * view * modelMat;
-    meshShader.setUniform("uMVP", mvpMat);
-    meshShader.setUniform("uColor", glm::vec3(0.42f, 0.65f, 0.99f));
+    glPolygonMode(GL_FRONT_AND_BACK, GL_FILL);
+    // Suppose we want model=identity for debug
+    glm::mat4 model = glm::mat4(1.0f);
+    glm::mat4 mvp = projection * view * model;
+    meshShader.setUniform("uMVP", mvp);
+
+    meshShader.setUniform("uColor", glm::vec3(1.0f));
 
     // Draw
     glDrawArrays(GL_TRIANGLES, 0, (GLsizei)vertexCount);
+
+    glBindVertexArray(0);
+}
+
+void Renderer::renderClothMesh(const SimulationBase &simulation,
+                               const glm::mat4 &projection,
+                               const glm::mat4 &view,
+                               const ClothMesh &clothMesh)
+{
+    // 1. Rebuild mesh data using the current particle positions.
+    std::vector<float> newMeshData = simulation.buildClothMeshData(clothMesh.startIndex, clothMesh.gridSize, clothMesh.nLayers);
+
+    // 2. Update the existing VBO with the new data.
+    glBindBuffer(GL_ARRAY_BUFFER, clothMesh.vbo);
+    glBufferSubData(GL_ARRAY_BUFFER, 0, newMeshData.size() * sizeof(float), newMeshData.data());
+    glBindBuffer(GL_ARRAY_BUFFER, 0);
+
+    // 3. Set up your shader and uniforms.
+    meshShader.use();
+    glPolygonMode(GL_FRONT_AND_BACK, GL_FILL);
+    glm::mat4 model(1.0f);
+    glm::mat4 mvp = projection * view * model;
+    meshShader.setUniform("uMVP", mvp);
+    meshShader.setUniform("uColor", glm::vec3(1.0f));
+
+    // 4. Bind the VAO and draw the updated mesh.
+    glBindVertexArray(clothMesh.vao);
+    glDrawArrays(GL_TRIANGLES, 0, clothMesh.vertexCount);
     glBindVertexArray(0);
 }
 
