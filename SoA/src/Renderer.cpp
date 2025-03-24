@@ -198,7 +198,37 @@ void Renderer::renderWithMatricesAndShadows(const SimulationBase &simulation,
 
     for (const ClothMesh &mesh : simulation.clothMeshes)
     {
-        renderClothMesh(simulation, projection, view, mesh);
+        // 1. Rebuild mesh data using the current particle positions.
+        std::vector<float> newMeshData = simulation.buildClothMeshData(mesh.startIndex, mesh.gridSize, mesh.nLayers);
+    
+        // 2. Update the existing VBO with the new data.
+        glBindBuffer(GL_ARRAY_BUFFER, mesh.vbo);
+        glBufferSubData(GL_ARRAY_BUFFER, 0, newMeshData.size() * sizeof(float), newMeshData.data());
+        glBindBuffer(GL_ARRAY_BUFFER, 0);
+    
+        // 3. Set up the mesh shader and its uniforms.
+        meshShader.use();
+        glPolygonMode(GL_FRONT_AND_BACK, GL_FILL);
+    
+        // Define the model transformation (here, identity matrix if no extra transform is needed).
+        glm::mat4 model = glm::mat4(1.0f);
+        glm::mat4 mvp = projection * view * model;
+        meshShader.setUniform("uMVP", mvp);
+        meshShader.setUniform("uModel", model);
+    
+        // Set the shadow mapping uniforms. These values should be updated dynamically elsewhere.
+        meshShader.setUniform("uLightSpaceMatrix", lightSpaceMatrix);
+        meshShader.setUniform("uLightDir", lightDir);
+    
+        // Bind the shadow map texture to texture unit 1.
+        glActiveTexture(GL_TEXTURE1);
+        glBindTexture(GL_TEXTURE_2D, dirShadowTex);
+        meshShader.setUniform("uShadowMap", 1);
+    
+        // 4. Bind the VAO and draw the updated mesh.
+        glBindVertexArray(mesh.vao);
+        glDrawArrays(GL_TRIANGLES, 0, mesh.vertexCount);
+        glBindVertexArray(0);
     }
 }
 
@@ -877,13 +907,24 @@ void Renderer::renderClothMesh(const SimulationBase &simulation,
     glBufferSubData(GL_ARRAY_BUFFER, 0, newMeshData.size() * sizeof(float), newMeshData.data());
     glBindBuffer(GL_ARRAY_BUFFER, 0);
 
-    // 3. Set up your shader and uniforms.
+    // 3. Set up the mesh shader and its uniforms.
     meshShader.use();
     glPolygonMode(GL_FRONT_AND_BACK, GL_FILL);
-    glm::mat4 model(1.0f);
+
+    // Define the model transformation (identity if the mesh is already in world space)
+    glm::mat4 model = glm::mat4(1.0f);
     glm::mat4 mvp = projection * view * model;
     meshShader.setUniform("uMVP", mvp);
-    meshShader.setUniform("uColor", glm::vec3(1.0f));
+    meshShader.setUniform("uModel", model);
+
+    // Set the shadow mapping uniforms:
+    meshShader.setUniform("uLightSpaceMatrix", lightSpaceMatrix);
+    meshShader.setUniform("uLightDir", glm::vec3(-0.2f, -0.9f, -0.45f));
+
+    // Bind the shadow map texture to texture unit 1.
+    glActiveTexture(GL_TEXTURE1);
+    glBindTexture(GL_TEXTURE_2D, dirShadowTex);
+    meshShader.setUniform("uShadowMap", 1);
 
     // 4. Bind the VAO and draw the updated mesh.
     glBindVertexArray(clothMesh.vao);
