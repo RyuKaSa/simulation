@@ -987,7 +987,7 @@ void Renderer::renderDirectionalShadowMap(const SimulationBase &simulation, cons
     // 1) We'll define an orthographic box big enough for your environment.
     float orthoSize = 25.0f; // tune to your scene
     float nearPlane = -10.0f;
-    float farPlane = 100.0f;
+    float farPlane = 50.0f;
     // We'll just pick "center" at (0,0,0). If your environment is large, compute a bounding box from the environment.
     glm::vec3 center(0.0f, 0.0f, 0.0f);
 
@@ -1032,10 +1032,25 @@ void Renderer::renderDirectionalShadowMap(const SimulationBase &simulation, cons
             depthShader.setUniform("uModel", model);
 
             glBindVertexArray(cubeVAO);
-            // Make sure your cube EBO is actually 36 triangles (not just lines!)
             // e.g. glDrawElements(GL_TRIANGLES, 36, GL_UNSIGNED_INT, 0);
             glDrawElements(GL_TRIANGLES, 36, GL_UNSIGNED_INT, 0);
         }
+    }
+
+    // After drawing cubes in the shadow pass:
+    for (const ClothMesh &mesh : simulation.clothMeshes)
+    {
+        // Optionally rebuild or update the mesh data if needed
+        // (just like in your main render pass). Then bind the VAO:
+        glBindVertexArray(mesh.vao);
+
+        // Set the model matrix. If your cloth doesn’t have an extra transform,
+        // you can use an identity matrix or any offset/rotation you need.
+        glm::mat4 model = glm::mat4(1.0f);
+        depthShader.setUniform("uModel", model);
+
+        // Now draw it:
+        glDrawArrays(GL_TRIANGLES, 0, mesh.vertexCount);
     }
 
     glBindFramebuffer(GL_FRAMEBUFFER, 0);
