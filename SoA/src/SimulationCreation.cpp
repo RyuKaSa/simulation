@@ -34,8 +34,8 @@ void SimulationBase::addStaticCubeUnderGrid()
     {
         center = glm::dvec3(0.0);
     }
-    double cubeSize = 1.0;
-    glm::dvec3 cubePos = center + glm::dvec3(0.0, -cubeSize - 0.5, 0.0);
+    double cubeSize = 0.7;
+    glm::dvec3 cubePos = center + glm::dvec3(0.0, -cubeSize - 0.1, 0.0);
 
     soA.position.push_back(cubePos);
     soA.velocity.push_back(glm::dvec3(0.0));

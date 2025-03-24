@@ -39,7 +39,7 @@ void main()
     float closestDepth = texture(uShadowMap, projCoords.xy).r;
 
     // A small bias helps prevent shadow acne:
-    float bias = 0.001;
+    float bias = 0.0005;
     float shadow = (currentDepth > closestDepth + bias) ? 1.0 : 0.0;
 
     // -------------------------------------------------------------

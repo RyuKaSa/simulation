@@ -454,11 +454,11 @@ void Renderer::initHorizontalGrid(float gridExtent, float spacing)
     {
         // Line from (x, 0, -gridExtent) to (x, 0, gridExtent)
         gridVertices.push_back(x);
-        gridVertices.push_back(0.0f);
+        gridVertices.push_back(-0.5f);
         gridVertices.push_back(-gridExtent);
 
         gridVertices.push_back(x);
-        gridVertices.push_back(0.0f);
+        gridVertices.push_back(-0.5f);
         gridVertices.push_back(gridExtent);
     }
 
@@ -467,11 +467,11 @@ void Renderer::initHorizontalGrid(float gridExtent, float spacing)
     {
         // Line from (-gridExtent, 0, z) to (gridExtent, 0, z)
         gridVertices.push_back(-gridExtent);
-        gridVertices.push_back(0.0f);
+        gridVertices.push_back(-0.5f);
         gridVertices.push_back(z);
 
         gridVertices.push_back(gridExtent);
-        gridVertices.push_back(0.0f);
+        gridVertices.push_back(-0.5f);
         gridVertices.push_back(z);
     }
 
@@ -985,7 +985,7 @@ void Renderer::renderDirectionalShadowMap(const SimulationBase &simulation, cons
         return;
 
     // 1) We'll define an orthographic box big enough for your environment.
-    float orthoSize = 25.0f; // tune to your scene
+    float orthoSize = 15.0f; // tune to your scene
     float nearPlane = -10.0f;
     float farPlane = 50.0f;
     // We'll just pick "center" at (0,0,0). If your environment is large, compute a bounding box from the environment.

@@ -42,7 +42,7 @@ void main()
     float closestDepth = texture(uShadowMap, projCoords.xy).r;
     
     // A small bias can help reduce shadow acne
-    float bias = 0.001;
+    float bias = 0.0005;
     
     // Shadow factor: 0 = not in shadow, 1 = fully shadowed
     float shadow = (currentDepth > closestDepth + bias) ? 1.0 : 0.0;

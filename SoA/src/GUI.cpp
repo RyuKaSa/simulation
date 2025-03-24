@@ -4,7 +4,7 @@
 #include "imgui_impl_opengl3.h"
 
 GUI::GUI(SDL_Window* window, SDL_GLContext glContext)
-    : springConstant(3000.0f),
+    : springConstant(10000.0f),
       dampingCoefficient(70.0f),
       physicsSteps(1000),
       reset(false),
@@ -24,7 +24,7 @@ GUI::GUI(SDL_Window* window, SDL_GLContext glContext)
       fivePointFactor(0.0f),
       showCrosshair(true),
       lightPhi(45.0f),
-      lightTheta(45.0f),
+      lightTheta(-45.0f),
       selectedTemplate(0),     // start with "None"
       placeTemplateRequested(false)
 {
