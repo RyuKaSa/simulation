@@ -47,6 +47,7 @@ Renderer::Renderer(const SimulationBase &simulation) : camera(nullptr)
     std::cout << "Simulation has " << simulation.getSoA().position.size() << " particles.\n";
 }
 
+// scene 1 renderer
 void Renderer::render(const SimulationBase &simulation)
 {
     if (!camera)
@@ -67,11 +68,11 @@ void Renderer::render(const SimulationBase &simulation)
     glm::mat4 proj = camera->getProjectionMatrix(aspect);
     glm::mat4 view = camera->getViewMatrix();
 
-    // Use ball shader as an example:
     ballShader.use();
     ballShader.setUniform("uModel", glm::mat4(1.0f));
     ballShader.setUniform("uMVP", proj * view);
 
+    renderBalls(simulation, proj, view);
     renderGrid(proj, view);
     renderSprings(simulation, proj, view);
     // renderHexTriangles(simulation, proj, view) and renderBalls(simulation, proj, view)
@@ -699,7 +700,8 @@ void Renderer::renderBalls(const SimulationBase &simulation,
     std::vector<glm::vec3> positions, colors, scales;
     positions.reserve(soa.position.size());
     colors.reserve(soa.color.size());
-    scales.reserve(soa.dimensions.size());
+    // scales.reserve(soa.dimensions.size());
+    scales.reserve(0.001f);
 
     // Filter out EXTERNAL particles so we only see the 'balls'
     for (size_t i = 0; i < soa.position.size(); i++)
