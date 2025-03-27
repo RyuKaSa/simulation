@@ -349,7 +349,14 @@ int main(int argc, char *argv[])
             {
                 scene1.simulation->stopAsyncUpdates();
                 scene1.simulation->reset();
-                // scene1.renderer.cameraReset(*scene1.simulation);
+        
+                // Cast camera to OrbitCamera and call forceFit to instantly adjust the view.
+                OrbitCamera *orbitCam = dynamic_cast<OrbitCamera *>(scene1.camera);
+                if (orbitCam)
+                {
+                    orbitCam->forceFit(*scene1.simulation);
+                }
+        
                 gui.clearResetFlag();
                 if (!isPaused)
                     scene1.simulation->startAsyncUpdates();
@@ -361,12 +368,13 @@ int main(int argc, char *argv[])
             }
             scene1.simulation->setSpringConstant(gui.getSpringConstant());
             scene1.simulation->setDampingCoefficient(gui.getDampingCoefficient());
+            // Update zoom value from the GUI.
             OrbitCamera *orbitCam = dynamic_cast<OrbitCamera *>(scene1.camera);
             if (orbitCam)
             {
                 orbitCam->setZoom(gui.getCameraZoom());
             }
-        }
+        }        
         else // activeScene == 2
         {
             if (gui.isResetRequested())

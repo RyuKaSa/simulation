@@ -701,7 +701,7 @@ void Renderer::renderBalls(const SimulationBase &simulation,
     positions.reserve(soa.position.size());
     colors.reserve(soa.color.size());
     // scales.reserve(soa.dimensions.size());
-    scales.reserve(0.001f);
+    scales.reserve(500000);
 
     // Filter out EXTERNAL particles so we only see the 'balls'
     for (size_t i = 0; i < soa.position.size(); i++)

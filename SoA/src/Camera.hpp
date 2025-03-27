@@ -77,6 +77,7 @@ class OrbitCamera : public Camera {
         // Adjusts the camera's target and distance to fit the simulation's structure.
         // The target (look-at point) is updated quickly, while the camera's position/distance is interpolated more slowly.
         void adjustToFit(const SimulationBase& simulation);
+        void forceFit(const SimulationBase& simulation);
     
         // Set the offset vector. This offset is added to the computed camera position.
         // For example, an offset of (2, 1, 0) will shift the camera 2 units to the right and 1 unit upward.

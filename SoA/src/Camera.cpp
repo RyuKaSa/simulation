@@ -191,6 +191,49 @@ void OrbitCamera::adjustToFit(const SimulationBase& simulation) {
     setDistance(distance);
 }
 
+void OrbitCamera::forceFit(const SimulationBase& simulation) {
+    // Compute bounding box from every third structure particle.
+    std::vector<glm::dvec3> positions = simulation.getStructureParticlePositions();
+    if (positions.empty()) return;
+
+    size_t n = positions.size();
+    glm::dvec3 minPos = positions[0];
+    glm::dvec3 maxPos = positions[0];
+
+    for (size_t i = 0; i < n; i += 3) {
+        minPos = glm::min(minPos, positions[i]);
+        maxPos = glm::max(maxPos, positions[i]);
+    }
+    if ((n - 1) % 3 != 0) {
+        minPos = glm::min(minPos, positions.back());
+        maxPos = glm::max(maxPos, positions.back());
+    }
+    
+    // Determine the center and maximum extent of the bounding box.
+    glm::dvec3 center = (minPos + maxPos) * 0.5;
+    double maxExtent = glm::length(maxPos - minPos);
+    if (maxExtent < 0.0001)
+        maxExtent = 1.0;
+
+    // Set the camera target directly to the computed center.
+    glm::vec3 idealTarget = glm::vec3(center);
+    targetCenter = idealTarget;
+
+    // Calculate the ideal distance scaled by the zoom factor,
+    // clamped between the minimum and maximum allowed distances.
+    float idealDistance = static_cast<float>(glm::clamp(maxExtent * zoom,
+                                  (double)minCameraDistance,
+                                  (double)maxCameraDistance));
+    // Set the distance immediately.
+    targetDistance = idealDistance;
+    distance = idealDistance;
+
+    // Update the camera parameters.
+    setTarget(targetCenter);
+    setDistance(distance);
+}
+
+
 // ------------------ FPSCamera Implementation ------------------ //
 
 FPSCamera::FPSCamera()

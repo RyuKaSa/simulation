@@ -534,8 +534,6 @@ void ClothSimulation::Initialization() {
     sharedParams.springConstant = guiInstance->getSpringConstant();
     sharedParams.dampingCoefficient = guiInstance->getDampingCoefficient();
 
-    
-
     // Choose structure based on the selected dropdown item.
     if (guiInstance->getSelectedStructure() == 0) {
         createMultiLayerSquareGridWithDiagonals(sharedParams.gridSize, guiInstance->getNumberLayers(), 0.03, 0.03, sharedParams.springRestLength);
