@@ -26,7 +26,9 @@ GUI::GUI(SDL_Window* window, SDL_GLContext glContext)
       lightPhi(45.0f),
       lightTheta(-45.0f),
       selectedTemplate(0),     // start with "None"
-      placeTemplateRequested(false)
+      placeTemplateRequested(false),
+      selectedStructure(0),
+      nLayers(2)
 {
     IMGUI_CHECKVERSION();
     ImGui::CreateContext();
@@ -87,8 +89,13 @@ void GUI::draw() {
         ImGui::SliderFloat("Spring Rest Length", &springRestLength, 0.5f, 2.0f);
         ImGui::SliderFloat("Gravity Strength", &gravityStrength, 0.0f, 20.0f);
         ImGui::SliderFloat("Particle Mass", &particleMass, 1.0f, 100.0f);
-    }
+    }   
 
+    // Dropdown (Combo) for selecting the structure.
+    ImGui::Text("Select Structure:");
+    const char* structureItems[] = { "Multi-layer square grid", "Square grid", "Multi-layer hex grid", "Hex grid", "Spring Cord" };
+    ImGui::Combo("##StructureCombo", &selectedStructure, structureItems, IM_ARRAYSIZE(structureItems));
+    ImGui::SliderInt("Number of Layers", &nLayers, 2, 10);
     ImGui::End();
 
     // --- Performance Metrics Window ---

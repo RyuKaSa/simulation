@@ -1,12 +1,36 @@
-CMakeFiles/BallsSimulation.dir/src/Raycaster.cpp.o: \
-  /Users/williambogdanovic/Desktop/simulations/SoA/src/Raycaster.cpp \
-  /Users/williambogdanovic/Desktop/simulations/SoA/src/Raycaster.hpp \
+CMakeFiles/BallsSimulation.dir/src/CubemapCapture.cpp.o: \
+  /Users/williambogdanovic/Desktop/simulations/SoA/src/CubemapCapture.cpp \
+  /Users/williambogdanovic/Desktop/simulations/SoA/src/CubemapCapture.hpp \
+  /Users/williambogdanovic/Desktop/simulations/SoA/glimac/third-party/glad/include/glad/glad.h \
+  /Users/williambogdanovic/Desktop/simulations/SoA/glimac/third-party/glad/include/KHR/khrplatform.h \
+  /Applications/miniconda3/bin/../include/c++/v1/stdint.h \
+  /Applications/miniconda3/bin/../include/c++/v1/__config \
+  /Applications/miniconda3/bin/../include/c++/v1/__config_site \
+  /Applications/miniconda3/lib/clang/16/include/stdint.h \
+  /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX.sdk/usr/include/stdint.h \
+  /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX.sdk/usr/include/sys/_types/_int8_t.h \
+  /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX.sdk/usr/include/sys/_types/_int16_t.h \
+  /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX.sdk/usr/include/sys/_types/_int32_t.h \
+  /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX.sdk/usr/include/sys/_types/_int64_t.h \
+  /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX.sdk/usr/include/_types/_uint8_t.h \
+  /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX.sdk/usr/include/_types/_uint16_t.h \
+  /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX.sdk/usr/include/_types/_uint32_t.h \
+  /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX.sdk/usr/include/_types/_uint64_t.h \
+  /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX.sdk/usr/include/sys/_types.h \
+  /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX.sdk/usr/include/sys/cdefs.h \
+  /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX.sdk/usr/include/sys/_symbol_aliasing.h \
+  /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX.sdk/usr/include/sys/_posix_availability.h \
+  /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX.sdk/usr/include/machine/_types.h \
+  /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX.sdk/usr/include/arm/_types.h \
+  /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX.sdk/usr/include/sys/_pthread/_pthread_types.h \
+  /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX.sdk/usr/include/sys/_types/_intptr_t.h \
+  /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX.sdk/usr/include/sys/_types/_uintptr_t.h \
+  /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX.sdk/usr/include/_types/_intmax_t.h \
+  /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX.sdk/usr/include/_types/_uintmax_t.h \
   /opt/homebrew/include/glm/glm.hpp \
   /opt/homebrew/include/glm/detail/_fixes.hpp \
   /Applications/miniconda3/bin/../include/c++/v1/cmath \
   /Applications/miniconda3/bin/../include/c++/v1/__assert \
-  /Applications/miniconda3/bin/../include/c++/v1/__config \
-  /Applications/miniconda3/bin/../include/c++/v1/__config_site \
   /Applications/miniconda3/bin/../include/c++/v1/__verbose_abort \
   /Applications/miniconda3/bin/../include/c++/v1/__availability \
   /Applications/miniconda3/bin/../include/c++/v1/__type_traits/enable_if.h \
@@ -22,9 +46,6 @@ CMakeFiles/BallsSimulation.dir/src/Raycaster.cpp.o: \
   /Applications/miniconda3/bin/../include/c++/v1/version \
   /Applications/miniconda3/bin/../include/c++/v1/math.h \
   /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX.sdk/usr/include/math.h \
-  /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX.sdk/usr/include/sys/cdefs.h \
-  /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX.sdk/usr/include/sys/_symbol_aliasing.h \
-  /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX.sdk/usr/include/sys/_posix_availability.h \
   /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX.sdk/usr/include/Availability.h \
   /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX.sdk/usr/include/AvailabilityVersions.h \
   /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX.sdk/usr/include/AvailabilityInternal.h \
@@ -153,25 +174,6 @@ CMakeFiles/BallsSimulation.dir/src/Raycaster.cpp.o: \
   /Applications/miniconda3/bin/../include/c++/v1/__type_traits/result_of.h \
   /Applications/miniconda3/bin/../include/c++/v1/__type_traits/type_identity.h \
   /Applications/miniconda3/bin/../include/c++/v1/cstdint \
-  /Applications/miniconda3/bin/../include/c++/v1/stdint.h \
-  /Applications/miniconda3/lib/clang/16/include/stdint.h \
-  /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX.sdk/usr/include/stdint.h \
-  /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX.sdk/usr/include/sys/_types/_int8_t.h \
-  /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX.sdk/usr/include/sys/_types/_int16_t.h \
-  /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX.sdk/usr/include/sys/_types/_int32_t.h \
-  /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX.sdk/usr/include/sys/_types/_int64_t.h \
-  /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX.sdk/usr/include/_types/_uint8_t.h \
-  /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX.sdk/usr/include/_types/_uint16_t.h \
-  /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX.sdk/usr/include/_types/_uint32_t.h \
-  /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX.sdk/usr/include/_types/_uint64_t.h \
-  /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX.sdk/usr/include/sys/_types.h \
-  /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX.sdk/usr/include/machine/_types.h \
-  /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX.sdk/usr/include/arm/_types.h \
-  /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX.sdk/usr/include/sys/_pthread/_pthread_types.h \
-  /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX.sdk/usr/include/sys/_types/_intptr_t.h \
-  /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX.sdk/usr/include/sys/_types/_uintptr_t.h \
-  /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX.sdk/usr/include/_types/_intmax_t.h \
-  /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX.sdk/usr/include/_types/_uintmax_t.h \
   /Applications/miniconda3/bin/../include/c++/v1/stdlib.h \
   /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX.sdk/usr/include/stdlib.h \
   /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX.sdk/usr/include/_stdlib.h \
@@ -383,6 +385,30 @@ CMakeFiles/BallsSimulation.dir/src/Raycaster.cpp.o: \
   /opt/homebrew/include/glm/vector_relational.hpp \
   /opt/homebrew/include/glm/integer.hpp \
   /opt/homebrew/include/glm/detail/func_integer.inl \
+  /opt/homebrew/include/glm/gtc/matrix_transform.hpp \
+  /opt/homebrew/include/glm/gtc/../mat4x4.hpp \
+  /opt/homebrew/include/glm/gtc/../vec2.hpp \
+  /opt/homebrew/include/glm/gtc/../vec3.hpp \
+  /opt/homebrew/include/glm/gtc/../vec4.hpp \
+  /opt/homebrew/include/glm/gtc/../ext/matrix_projection.hpp \
+  /opt/homebrew/include/glm/./ext/../gtc/constants.hpp \
+  /opt/homebrew/include/glm/gtc/../ext/scalar_constants.hpp \
+  /opt/homebrew/include/glm/./ext/scalar_constants.inl \
+  /opt/homebrew/include/glm/gtc/constants.inl \
+  /opt/homebrew/include/glm/./ext/../geometric.hpp \
+  /opt/homebrew/include/glm/./ext/../trigonometric.hpp \
+  /opt/homebrew/include/glm/./ext/../matrix.hpp \
+  /opt/homebrew/include/glm/./ext/matrix_projection.inl \
+  /opt/homebrew/include/glm/gtc/../ext/matrix_clip_space.hpp \
+  /opt/homebrew/include/glm/./ext/../ext/scalar_constants.hpp \
+  /opt/homebrew/include/glm/./ext/matrix_clip_space.inl \
+  /opt/homebrew/include/glm/gtc/../ext/matrix_transform.hpp \
+  /opt/homebrew/include/glm/./ext/matrix_transform.inl \
+  /opt/homebrew/include/glm/gtc/matrix_transform.inl \
+  /opt/homebrew/include/glm/gtc/../geometric.hpp \
+  /opt/homebrew/include/glm/gtc/../trigonometric.hpp \
+  /opt/homebrew/include/glm/gtc/../matrix.hpp \
+  /Users/williambogdanovic/Desktop/simulations/SoA/src/Renderer.hpp \
   /Users/williambogdanovic/Desktop/simulations/SoA/src/Simulation.hpp \
   /Applications/miniconda3/bin/../include/c++/v1/vector \
   /Applications/miniconda3/bin/../include/c++/v1/__algorithm/copy.h \
@@ -913,29 +939,6 @@ CMakeFiles/BallsSimulation.dir/src/Raycaster.cpp.o: \
   /Applications/miniconda3/bin/../include/c++/v1/mutex \
   /Applications/miniconda3/bin/../include/c++/v1/set \
   /Applications/miniconda3/bin/../include/c++/v1/__tree \
-  /opt/homebrew/include/glm/gtc/matrix_transform.hpp \
-  /opt/homebrew/include/glm/gtc/../mat4x4.hpp \
-  /opt/homebrew/include/glm/gtc/../vec2.hpp \
-  /opt/homebrew/include/glm/gtc/../vec3.hpp \
-  /opt/homebrew/include/glm/gtc/../vec4.hpp \
-  /opt/homebrew/include/glm/gtc/../ext/matrix_projection.hpp \
-  /opt/homebrew/include/glm/./ext/../gtc/constants.hpp \
-  /opt/homebrew/include/glm/gtc/../ext/scalar_constants.hpp \
-  /opt/homebrew/include/glm/./ext/scalar_constants.inl \
-  /opt/homebrew/include/glm/gtc/constants.inl \
-  /opt/homebrew/include/glm/./ext/../geometric.hpp \
-  /opt/homebrew/include/glm/./ext/../trigonometric.hpp \
-  /opt/homebrew/include/glm/./ext/../matrix.hpp \
-  /opt/homebrew/include/glm/./ext/matrix_projection.inl \
-  /opt/homebrew/include/glm/gtc/../ext/matrix_clip_space.hpp \
-  /opt/homebrew/include/glm/./ext/../ext/scalar_constants.hpp \
-  /opt/homebrew/include/glm/./ext/matrix_clip_space.inl \
-  /opt/homebrew/include/glm/gtc/../ext/matrix_transform.hpp \
-  /opt/homebrew/include/glm/./ext/matrix_transform.inl \
-  /opt/homebrew/include/glm/gtc/matrix_transform.inl \
-  /opt/homebrew/include/glm/gtc/../geometric.hpp \
-  /opt/homebrew/include/glm/gtc/../trigonometric.hpp \
-  /opt/homebrew/include/glm/gtc/../matrix.hpp \
   /Applications/miniconda3/bin/../include/c++/v1/future \
   /Applications/miniconda3/bin/../include/c++/v1/queue \
   /Applications/miniconda3/bin/../include/c++/v1/deque \
@@ -992,8 +995,6 @@ CMakeFiles/BallsSimulation.dir/src/Raycaster.cpp.o: \
   /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX.sdk/usr/include/_types/_nl_item.h \
   /Applications/miniconda3/bin/../include/c++/v1/__bsd_locale_defaults.h \
   /Applications/miniconda3/bin/../include/c++/v1/cstdarg \
-  /Users/williambogdanovic/Desktop/simulations/SoA/glimac/third-party/glad/include/glad/glad.h \
-  /Users/williambogdanovic/Desktop/simulations/SoA/glimac/third-party/glad/include/KHR/khrplatform.h \
   /Users/williambogdanovic/Desktop/simulations/SoA/src/PMat.hpp \
   /Users/williambogdanovic/Desktop/simulations/SoA/src/Link.hpp \
   /Users/williambogdanovic/Desktop/simulations/SoA/src/SimulationSoAInternals.hpp \
@@ -1058,4 +1059,83 @@ CMakeFiles/BallsSimulation.dir/src/Raycaster.cpp.o: \
   /opt/homebrew/include/SDL2/SDL_locale.h \
   /opt/homebrew/include/SDL2/SDL_misc.h \
   /opt/homebrew/include/SDL2/SDL_opengl.h \
-  /Users/williambogdanovic/Desktop/simulations/SoA/src/Camera.hpp
+  /Users/williambogdanovic/Desktop/simulations/SoA/src/Camera.hpp \
+  /Users/williambogdanovic/Desktop/simulations/SoA/src/Shader.hpp \
+  /opt/homebrew/include/glm/gtc/type_ptr.hpp \
+  /opt/homebrew/include/glm/gtc/../gtc/quaternion.hpp \
+  /opt/homebrew/include/glm/gtc/../gtc/constants.hpp \
+  /opt/homebrew/include/glm/gtc/../gtc/matrix_transform.hpp \
+  /opt/homebrew/include/glm/gtc/../ext/vector_relational.hpp \
+  /opt/homebrew/include/glm/./ext/../detail/qualifier.hpp \
+  /opt/homebrew/include/glm/./ext/vector_relational.inl \
+  /opt/homebrew/include/glm/./ext/../vector_relational.hpp \
+  /opt/homebrew/include/glm/./ext/../common.hpp \
+  /opt/homebrew/include/glm/./ext/../detail/type_float.hpp \
+  /opt/homebrew/include/glm/gtc/../ext/quaternion_common.hpp \
+  /opt/homebrew/include/glm/./ext/../ext/quaternion_geometric.hpp \
+  /opt/homebrew/include/glm/./ext/../exponential.hpp \
+  /opt/homebrew/include/glm/./ext/../ext/vector_relational.hpp \
+  /opt/homebrew/include/glm/./ext/quaternion_geometric.inl \
+  /opt/homebrew/include/glm/./ext/quaternion_common.inl \
+  /opt/homebrew/include/glm/gtc/../ext/quaternion_float.hpp \
+  /opt/homebrew/include/glm/./ext/../detail/type_quat.hpp \
+  /opt/homebrew/include/glm/detail/../detail/type_mat3x3.hpp \
+  /opt/homebrew/include/glm/detail/../detail/type_mat4x4.hpp \
+  /opt/homebrew/include/glm/detail/../detail/type_vec3.hpp \
+  /opt/homebrew/include/glm/detail/../detail/type_vec4.hpp \
+  /opt/homebrew/include/glm/detail/../ext/vector_relational.hpp \
+  /opt/homebrew/include/glm/detail/../ext/quaternion_relational.hpp \
+  /opt/homebrew/include/glm/./ext/quaternion_relational.inl \
+  /opt/homebrew/include/glm/detail/../gtc/constants.hpp \
+  /opt/homebrew/include/glm/detail/../gtc/matrix_transform.hpp \
+  /opt/homebrew/include/glm/detail/type_quat.inl \
+  /opt/homebrew/include/glm/detail/../trigonometric.hpp \
+  /opt/homebrew/include/glm/detail/../ext/quaternion_common.hpp \
+  /opt/homebrew/include/glm/detail/../ext/quaternion_geometric.hpp \
+  /opt/homebrew/include/glm/gtc/../ext/quaternion_float_precision.hpp \
+  /opt/homebrew/include/glm/gtc/../ext/quaternion_double.hpp \
+  /opt/homebrew/include/glm/gtc/../ext/quaternion_double_precision.hpp \
+  /opt/homebrew/include/glm/gtc/../ext/quaternion_relational.hpp \
+  /opt/homebrew/include/glm/gtc/../ext/quaternion_geometric.hpp \
+  /opt/homebrew/include/glm/gtc/../ext/quaternion_trigonometric.hpp \
+  /opt/homebrew/include/glm/./ext/scalar_constants.hpp \
+  /opt/homebrew/include/glm/./ext/vector_relational.hpp \
+  /opt/homebrew/include/glm/./ext/quaternion_trigonometric.inl \
+  /opt/homebrew/include/glm/gtc/../ext/quaternion_transform.hpp \
+  /opt/homebrew/include/glm/./ext/quaternion_transform.inl \
+  /opt/homebrew/include/glm/gtc/../detail/type_mat3x3.hpp \
+  /opt/homebrew/include/glm/gtc/../detail/type_mat4x4.hpp \
+  /opt/homebrew/include/glm/gtc/../detail/type_vec3.hpp \
+  /opt/homebrew/include/glm/gtc/../detail/type_vec4.hpp \
+  /opt/homebrew/include/glm/gtc/quaternion.inl \
+  /opt/homebrew/include/glm/gtc/../exponential.hpp \
+  /opt/homebrew/include/glm/gtc/epsilon.hpp \
+  /opt/homebrew/include/glm/gtc/../detail/setup.hpp \
+  /opt/homebrew/include/glm/gtc/../detail/qualifier.hpp \
+  /opt/homebrew/include/glm/gtc/epsilon.inl \
+  /opt/homebrew/include/glm/gtc/../vector_relational.hpp \
+  /opt/homebrew/include/glm/gtc/../common.hpp \
+  /opt/homebrew/include/glm/gtc/../gtc/vec1.hpp \
+  /opt/homebrew/include/glm/gtc/../ext/vector_bool1.hpp \
+  /opt/homebrew/include/glm/./ext/../detail/type_vec1.hpp \
+  /opt/homebrew/include/glm/gtc/../ext/vector_bool1_precision.hpp \
+  /opt/homebrew/include/glm/gtc/../ext/vector_float1.hpp \
+  /opt/homebrew/include/glm/gtc/../ext/vector_float1_precision.hpp \
+  /opt/homebrew/include/glm/gtc/../ext/vector_double1.hpp \
+  /opt/homebrew/include/glm/gtc/../ext/vector_double1_precision.hpp \
+  /opt/homebrew/include/glm/gtc/../ext/vector_int1.hpp \
+  /opt/homebrew/include/glm/gtc/../ext/vector_int1_sized.hpp \
+  /opt/homebrew/include/glm/./ext/../ext/vector_int1.hpp \
+  /opt/homebrew/include/glm/gtc/../ext/vector_uint1.hpp \
+  /opt/homebrew/include/glm/gtc/../ext/vector_uint1_sized.hpp \
+  /opt/homebrew/include/glm/./ext/../ext/vector_uint1.hpp \
+  /opt/homebrew/include/glm/gtc/../mat2x2.hpp \
+  /opt/homebrew/include/glm/gtc/../mat2x3.hpp \
+  /opt/homebrew/include/glm/gtc/../mat2x4.hpp \
+  /opt/homebrew/include/glm/gtc/../mat3x2.hpp \
+  /opt/homebrew/include/glm/gtc/../mat3x3.hpp \
+  /opt/homebrew/include/glm/gtc/../mat3x4.hpp \
+  /opt/homebrew/include/glm/gtc/../mat4x2.hpp \
+  /opt/homebrew/include/glm/gtc/../mat4x3.hpp \
+  /opt/homebrew/include/glm/gtc/type_ptr.inl \
+  /Users/williambogdanovic/Desktop/simulations/SoA/src/FullscreenQuad.hpp

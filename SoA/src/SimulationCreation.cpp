@@ -34,7 +34,27 @@ void SimulationBase::addStaticCubeUnderGrid()
     {
         center = glm::dvec3(0.0);
     }
-    double cubeSize = 0.7;
+
+    glm::dvec3 minBounds(std::numeric_limits<double>::max());
+    glm::dvec3 maxBounds(std::numeric_limits<double>::lowest());
+
+    for (size_t i = 0; i < soA.position.size(); i++)
+    {
+        if (soA.type[i] == ParticleType::STRUCTURE)
+        {
+            const glm::dvec3& pos = soA.position[i];
+            minBounds = glm::min(minBounds, pos);
+            maxBounds = glm::max(maxBounds, pos);
+        }
+    }
+
+    glm::dvec3 structureSize(0.0);
+    if (minBounds.x <= maxBounds.x) // Check if we actually found any STRUCTURE particles
+    {
+        structureSize = maxBounds - minBounds;
+    }
+    double cubeSize = structureSize.x * 0.5;
+
     glm::dvec3 cubePos = center + glm::dvec3(0.0, -cubeSize - 0.1, 0.0);
 
     soA.position.push_back(cubePos);

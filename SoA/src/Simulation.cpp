@@ -534,12 +534,22 @@ void ClothSimulation::Initialization() {
     sharedParams.springConstant = guiInstance->getSpringConstant();
     sharedParams.dampingCoefficient = guiInstance->getDampingCoefficient();
 
-    // For example, create a multi-layer square grid.
-    createMultiLayerSquareGridWithDiagonals(sharedParams.gridSize, 2, 0.03, 0.03, sharedParams.springRestLength);
+    
 
-    // After creating the cloth, record how many particles belong to cloth(s)
-    // (In this multi-layer creation, all particles just created have a clothID >= 0.)
-    // If you want to integrate all cloth particles regardless of clothID, no further action is needed.
+    // Choose structure based on the selected dropdown item.
+    if (guiInstance->getSelectedStructure() == 0) {
+        createMultiLayerSquareGridWithDiagonals(sharedParams.gridSize, guiInstance->getNumberLayers(), 0.03, 0.03, sharedParams.springRestLength);
+    } else if (guiInstance->getSelectedStructure() == 1) {
+        createSquareGridWithDiagonals(sharedParams.gridSize, 0.03, sharedParams.springRestLength);
+    } else if (guiInstance->getSelectedStructure() == 2) {
+        createMultiLayerHexGrid(sharedParams.gridSize, 0.03, sharedParams.springRestLength, true, 90, 0.03, guiInstance->getNumberLayers());
+    } else if (guiInstance->getSelectedStructure() == 3) {
+        createHexGrid(sharedParams.gridSize, 0.03, sharedParams.springRestLength, true, 90.0);
+    } else if (guiInstance->getSelectedStructure() == 4) {
+        createCord(sharedParams.gridSize, 2, sharedParams.springRestLength, true);
+    } else {
+        std::cerr << "ClothSimulation: unknown structure type, skipping.\n";
+    }
 
     if (gravityLink) {
         delete gravityLink;

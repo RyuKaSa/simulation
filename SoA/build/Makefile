@@ -406,6 +406,78 @@ src/Camera.cpp.s:
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/BallsSimulation.dir/build.make CMakeFiles/BallsSimulation.dir/src/Camera.cpp.s
 .PHONY : src/Camera.cpp.s
 
+src/CubemapCapture.o: src/CubemapCapture.cpp.o
+.PHONY : src/CubemapCapture.o
+
+# target to build an object file
+src/CubemapCapture.cpp.o:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/BallsSimulation.dir/build.make CMakeFiles/BallsSimulation.dir/src/CubemapCapture.cpp.o
+.PHONY : src/CubemapCapture.cpp.o
+
+src/CubemapCapture.i: src/CubemapCapture.cpp.i
+.PHONY : src/CubemapCapture.i
+
+# target to preprocess a source file
+src/CubemapCapture.cpp.i:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/BallsSimulation.dir/build.make CMakeFiles/BallsSimulation.dir/src/CubemapCapture.cpp.i
+.PHONY : src/CubemapCapture.cpp.i
+
+src/CubemapCapture.s: src/CubemapCapture.cpp.s
+.PHONY : src/CubemapCapture.s
+
+# target to generate assembly for a file
+src/CubemapCapture.cpp.s:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/BallsSimulation.dir/build.make CMakeFiles/BallsSimulation.dir/src/CubemapCapture.cpp.s
+.PHONY : src/CubemapCapture.cpp.s
+
+src/EquirectangularConverter.o: src/EquirectangularConverter.cpp.o
+.PHONY : src/EquirectangularConverter.o
+
+# target to build an object file
+src/EquirectangularConverter.cpp.o:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/BallsSimulation.dir/build.make CMakeFiles/BallsSimulation.dir/src/EquirectangularConverter.cpp.o
+.PHONY : src/EquirectangularConverter.cpp.o
+
+src/EquirectangularConverter.i: src/EquirectangularConverter.cpp.i
+.PHONY : src/EquirectangularConverter.i
+
+# target to preprocess a source file
+src/EquirectangularConverter.cpp.i:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/BallsSimulation.dir/build.make CMakeFiles/BallsSimulation.dir/src/EquirectangularConverter.cpp.i
+.PHONY : src/EquirectangularConverter.cpp.i
+
+src/EquirectangularConverter.s: src/EquirectangularConverter.cpp.s
+.PHONY : src/EquirectangularConverter.s
+
+# target to generate assembly for a file
+src/EquirectangularConverter.cpp.s:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/BallsSimulation.dir/build.make CMakeFiles/BallsSimulation.dir/src/EquirectangularConverter.cpp.s
+.PHONY : src/EquirectangularConverter.cpp.s
+
+src/FivePointDistortion.o: src/FivePointDistortion.cpp.o
+.PHONY : src/FivePointDistortion.o
+
+# target to build an object file
+src/FivePointDistortion.cpp.o:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/BallsSimulation.dir/build.make CMakeFiles/BallsSimulation.dir/src/FivePointDistortion.cpp.o
+.PHONY : src/FivePointDistortion.cpp.o
+
+src/FivePointDistortion.i: src/FivePointDistortion.cpp.i
+.PHONY : src/FivePointDistortion.i
+
+# target to preprocess a source file
+src/FivePointDistortion.cpp.i:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/BallsSimulation.dir/build.make CMakeFiles/BallsSimulation.dir/src/FivePointDistortion.cpp.i
+.PHONY : src/FivePointDistortion.cpp.i
+
+src/FivePointDistortion.s: src/FivePointDistortion.cpp.s
+.PHONY : src/FivePointDistortion.s
+
+# target to generate assembly for a file
+src/FivePointDistortion.cpp.s:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/BallsSimulation.dir/build.make CMakeFiles/BallsSimulation.dir/src/FivePointDistortion.cpp.s
+.PHONY : src/FivePointDistortion.cpp.s
+
 src/FullscreenQuad.o: src/FullscreenQuad.cpp.o
 .PHONY : src/FullscreenQuad.o
 
@@ -689,6 +761,15 @@ help:
 	@echo "... src/Camera.o"
 	@echo "... src/Camera.i"
 	@echo "... src/Camera.s"
+	@echo "... src/CubemapCapture.o"
+	@echo "... src/CubemapCapture.i"
+	@echo "... src/CubemapCapture.s"
+	@echo "... src/EquirectangularConverter.o"
+	@echo "... src/EquirectangularConverter.i"
+	@echo "... src/EquirectangularConverter.s"
+	@echo "... src/FivePointDistortion.o"
+	@echo "... src/FivePointDistortion.i"
+	@echo "... src/FivePointDistortion.s"
 	@echo "... src/FullscreenQuad.o"
 	@echo "... src/FullscreenQuad.i"
 	@echo "... src/FullscreenQuad.s"

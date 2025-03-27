@@ -38,6 +38,11 @@ public:
     float getFivePointFactor() const { return fivePointFactor; }
     bool getShowCrosshair() const { return showCrosshair; }
 
+    int getSelectedStructure() const { return selectedStructure; }
+    int selectedStructure;
+    int getNumberLayers() const { return nLayers; }
+    int nLayers;
+
     float getLightPhi() const { return lightPhi; }
     float getLightTheta() const { return lightTheta; }
     

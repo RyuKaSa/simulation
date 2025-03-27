@@ -1,12 +1,37 @@
-CMakeFiles/BallsSimulation.dir/src/Raycaster.cpp.o: \
-  /Users/williambogdanovic/Desktop/simulations/SoA/src/Raycaster.cpp \
-  /Users/williambogdanovic/Desktop/simulations/SoA/src/Raycaster.hpp \
-  /opt/homebrew/include/glm/glm.hpp \
-  /opt/homebrew/include/glm/detail/_fixes.hpp \
-  /Applications/miniconda3/bin/../include/c++/v1/cmath \
-  /Applications/miniconda3/bin/../include/c++/v1/__assert \
+CMakeFiles/BallsSimulation.dir/src/FivePointDistortion.cpp.o: \
+  /Users/williambogdanovic/Desktop/simulations/SoA/src/FivePointDistortion.cpp \
+  /Users/williambogdanovic/Desktop/simulations/SoA/src/FivePointDistortion.hpp \
+  /Users/williambogdanovic/Desktop/simulations/SoA/glimac/third-party/glad/include/glad/glad.h \
+  /Users/williambogdanovic/Desktop/simulations/SoA/glimac/third-party/glad/include/KHR/khrplatform.h \
+  /Applications/miniconda3/bin/../include/c++/v1/stdint.h \
   /Applications/miniconda3/bin/../include/c++/v1/__config \
   /Applications/miniconda3/bin/../include/c++/v1/__config_site \
+  /Applications/miniconda3/lib/clang/16/include/stdint.h \
+  /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX.sdk/usr/include/stdint.h \
+  /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX.sdk/usr/include/sys/_types/_int8_t.h \
+  /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX.sdk/usr/include/sys/_types/_int16_t.h \
+  /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX.sdk/usr/include/sys/_types/_int32_t.h \
+  /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX.sdk/usr/include/sys/_types/_int64_t.h \
+  /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX.sdk/usr/include/_types/_uint8_t.h \
+  /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX.sdk/usr/include/_types/_uint16_t.h \
+  /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX.sdk/usr/include/_types/_uint32_t.h \
+  /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX.sdk/usr/include/_types/_uint64_t.h \
+  /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX.sdk/usr/include/sys/_types.h \
+  /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX.sdk/usr/include/sys/cdefs.h \
+  /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX.sdk/usr/include/sys/_symbol_aliasing.h \
+  /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX.sdk/usr/include/sys/_posix_availability.h \
+  /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX.sdk/usr/include/machine/_types.h \
+  /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX.sdk/usr/include/arm/_types.h \
+  /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX.sdk/usr/include/sys/_pthread/_pthread_types.h \
+  /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX.sdk/usr/include/sys/_types/_intptr_t.h \
+  /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX.sdk/usr/include/sys/_types/_uintptr_t.h \
+  /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX.sdk/usr/include/_types/_intmax_t.h \
+  /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX.sdk/usr/include/_types/_uintmax_t.h \
+  /opt/homebrew/include/glm/gtx/string_cast.hpp \
+  /opt/homebrew/include/glm/gtx/../glm.hpp \
+  /opt/homebrew/include/glm/gtx/../detail/_fixes.hpp \
+  /Applications/miniconda3/bin/../include/c++/v1/cmath \
+  /Applications/miniconda3/bin/../include/c++/v1/__assert \
   /Applications/miniconda3/bin/../include/c++/v1/__verbose_abort \
   /Applications/miniconda3/bin/../include/c++/v1/__availability \
   /Applications/miniconda3/bin/../include/c++/v1/__type_traits/enable_if.h \
@@ -22,9 +47,6 @@ CMakeFiles/BallsSimulation.dir/src/Raycaster.cpp.o: \
   /Applications/miniconda3/bin/../include/c++/v1/version \
   /Applications/miniconda3/bin/../include/c++/v1/math.h \
   /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX.sdk/usr/include/math.h \
-  /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX.sdk/usr/include/sys/cdefs.h \
-  /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX.sdk/usr/include/sys/_symbol_aliasing.h \
-  /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX.sdk/usr/include/sys/_posix_availability.h \
   /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX.sdk/usr/include/Availability.h \
   /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX.sdk/usr/include/AvailabilityVersions.h \
   /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX.sdk/usr/include/AvailabilityInternal.h \
@@ -153,25 +175,6 @@ CMakeFiles/BallsSimulation.dir/src/Raycaster.cpp.o: \
   /Applications/miniconda3/bin/../include/c++/v1/__type_traits/result_of.h \
   /Applications/miniconda3/bin/../include/c++/v1/__type_traits/type_identity.h \
   /Applications/miniconda3/bin/../include/c++/v1/cstdint \
-  /Applications/miniconda3/bin/../include/c++/v1/stdint.h \
-  /Applications/miniconda3/lib/clang/16/include/stdint.h \
-  /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX.sdk/usr/include/stdint.h \
-  /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX.sdk/usr/include/sys/_types/_int8_t.h \
-  /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX.sdk/usr/include/sys/_types/_int16_t.h \
-  /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX.sdk/usr/include/sys/_types/_int32_t.h \
-  /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX.sdk/usr/include/sys/_types/_int64_t.h \
-  /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX.sdk/usr/include/_types/_uint8_t.h \
-  /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX.sdk/usr/include/_types/_uint16_t.h \
-  /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX.sdk/usr/include/_types/_uint32_t.h \
-  /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX.sdk/usr/include/_types/_uint64_t.h \
-  /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX.sdk/usr/include/sys/_types.h \
-  /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX.sdk/usr/include/machine/_types.h \
-  /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX.sdk/usr/include/arm/_types.h \
-  /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX.sdk/usr/include/sys/_pthread/_pthread_types.h \
-  /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX.sdk/usr/include/sys/_types/_intptr_t.h \
-  /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX.sdk/usr/include/sys/_types/_uintptr_t.h \
-  /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX.sdk/usr/include/_types/_intmax_t.h \
-  /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX.sdk/usr/include/_types/_uintmax_t.h \
   /Applications/miniconda3/bin/../include/c++/v1/stdlib.h \
   /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX.sdk/usr/include/stdlib.h \
   /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX.sdk/usr/include/_stdlib.h \
@@ -220,12 +223,12 @@ CMakeFiles/BallsSimulation.dir/src/Raycaster.cpp.o: \
   /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX.sdk/usr/include/_abort.h \
   /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX.sdk/usr/include/sys/_types/_dev_t.h \
   /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX.sdk/usr/include/sys/_types/_mode_t.h \
-  /opt/homebrew/include/glm/detail/setup.hpp \
+  /opt/homebrew/include/glm/gtx/../detail/setup.hpp \
   /Applications/miniconda3/bin/../include/c++/v1/cassert \
   /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX.sdk/usr/include/assert.h \
   /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX.sdk/usr/include/_assert.h \
   /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX.sdk/usr/include/_static_assert.h \
-  /opt/homebrew/include/glm/detail/../simd/platform.h \
+  /opt/homebrew/include/glm/gtx/../detail/../simd/platform.h \
   /Applications/miniconda3/bin/../include/c++/v1/climits \
   /Applications/miniconda3/bin/../include/c++/v1/limits.h \
   /Applications/miniconda3/lib/clang/16/include/limits.h \
@@ -238,210 +241,314 @@ CMakeFiles/BallsSimulation.dir/src/Raycaster.cpp.o: \
   /Applications/miniconda3/bin/../include/c++/v1/float.h \
   /Applications/miniconda3/lib/clang/16/include/float.h \
   /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX.sdk/usr/include/float.h \
-  /opt/homebrew/include/glm/fwd.hpp \
-  /opt/homebrew/include/glm/detail/qualifier.hpp \
-  /opt/homebrew/include/glm/vec2.hpp \
-  /opt/homebrew/include/glm/./ext/vector_bool2.hpp \
-  /opt/homebrew/include/glm/./ext/../detail/type_vec2.hpp \
-  /opt/homebrew/include/glm/detail/type_vec2.inl \
-  /opt/homebrew/include/glm/detail/./compute_vector_relational.hpp \
-  /opt/homebrew/include/glm/./ext/vector_bool2_precision.hpp \
-  /opt/homebrew/include/glm/./ext/vector_float2.hpp \
-  /opt/homebrew/include/glm/./ext/vector_float2_precision.hpp \
-  /opt/homebrew/include/glm/./ext/vector_double2.hpp \
-  /opt/homebrew/include/glm/./ext/vector_double2_precision.hpp \
-  /opt/homebrew/include/glm/./ext/vector_int2.hpp \
-  /opt/homebrew/include/glm/./ext/vector_int2_sized.hpp \
-  /opt/homebrew/include/glm/./ext/../ext/vector_int2.hpp \
-  /opt/homebrew/include/glm/./ext/../ext/scalar_int_sized.hpp \
-  /opt/homebrew/include/glm/./ext/../detail/setup.hpp \
-  /opt/homebrew/include/glm/./ext/vector_uint2.hpp \
-  /opt/homebrew/include/glm/./ext/vector_uint2_sized.hpp \
-  /opt/homebrew/include/glm/./ext/../ext/vector_uint2.hpp \
-  /opt/homebrew/include/glm/./ext/../ext/scalar_uint_sized.hpp \
-  /opt/homebrew/include/glm/vec3.hpp \
-  /opt/homebrew/include/glm/./ext/vector_bool3.hpp \
-  /opt/homebrew/include/glm/./ext/../detail/type_vec3.hpp \
-  /opt/homebrew/include/glm/detail/type_vec3.inl \
-  /opt/homebrew/include/glm/detail/compute_vector_relational.hpp \
-  /opt/homebrew/include/glm/./ext/vector_bool3_precision.hpp \
-  /opt/homebrew/include/glm/./ext/vector_float3.hpp \
-  /opt/homebrew/include/glm/./ext/vector_float3_precision.hpp \
-  /opt/homebrew/include/glm/./ext/vector_double3.hpp \
-  /opt/homebrew/include/glm/./ext/vector_double3_precision.hpp \
-  /opt/homebrew/include/glm/./ext/vector_int3.hpp \
-  /opt/homebrew/include/glm/./ext/vector_int3_sized.hpp \
-  /opt/homebrew/include/glm/./ext/../ext/vector_int3.hpp \
-  /opt/homebrew/include/glm/./ext/vector_uint3.hpp \
-  /opt/homebrew/include/glm/./ext/vector_uint3_sized.hpp \
-  /opt/homebrew/include/glm/./ext/../ext/vector_uint3.hpp \
-  /opt/homebrew/include/glm/vec4.hpp \
-  /opt/homebrew/include/glm/./ext/vector_bool4.hpp \
-  /opt/homebrew/include/glm/./ext/../detail/type_vec4.hpp \
-  /opt/homebrew/include/glm/detail/type_vec4.inl \
-  /opt/homebrew/include/glm/./ext/vector_bool4_precision.hpp \
-  /opt/homebrew/include/glm/./ext/vector_float4.hpp \
-  /opt/homebrew/include/glm/./ext/vector_float4_precision.hpp \
-  /opt/homebrew/include/glm/./ext/vector_double4.hpp \
-  /opt/homebrew/include/glm/./ext/vector_double4_precision.hpp \
-  /opt/homebrew/include/glm/./ext/vector_int4.hpp \
-  /opt/homebrew/include/glm/./ext/vector_int4_sized.hpp \
-  /opt/homebrew/include/glm/./ext/../ext/vector_int4.hpp \
-  /opt/homebrew/include/glm/./ext/vector_uint4.hpp \
-  /opt/homebrew/include/glm/./ext/vector_uint4_sized.hpp \
-  /opt/homebrew/include/glm/./ext/../ext/vector_uint4.hpp \
-  /opt/homebrew/include/glm/mat2x2.hpp \
-  /opt/homebrew/include/glm/./ext/matrix_double2x2.hpp \
-  /opt/homebrew/include/glm/./ext/../detail/type_mat2x2.hpp \
-  /opt/homebrew/include/glm/detail/type_vec2.hpp \
-  /opt/homebrew/include/glm/detail/type_mat2x2.inl \
-  /opt/homebrew/include/glm/detail/../matrix.hpp \
-  /opt/homebrew/include/glm/mat2x3.hpp \
-  /opt/homebrew/include/glm/./ext/matrix_double2x3.hpp \
-  /opt/homebrew/include/glm/./ext/../detail/type_mat2x3.hpp \
-  /opt/homebrew/include/glm/detail/type_vec3.hpp \
-  /opt/homebrew/include/glm/detail/type_mat2x3.inl \
-  /opt/homebrew/include/glm/./ext/matrix_double2x3_precision.hpp \
-  /opt/homebrew/include/glm/./ext/matrix_float2x3.hpp \
-  /opt/homebrew/include/glm/./ext/matrix_float2x3_precision.hpp \
-  /opt/homebrew/include/glm/mat2x4.hpp \
-  /opt/homebrew/include/glm/./ext/matrix_double2x4.hpp \
-  /opt/homebrew/include/glm/./ext/../detail/type_mat2x4.hpp \
-  /opt/homebrew/include/glm/detail/type_vec4.hpp \
-  /opt/homebrew/include/glm/detail/type_mat2x4.inl \
-  /opt/homebrew/include/glm/./ext/matrix_double2x4_precision.hpp \
-  /opt/homebrew/include/glm/./ext/matrix_float2x4.hpp \
-  /opt/homebrew/include/glm/./ext/matrix_float2x4_precision.hpp \
-  /opt/homebrew/include/glm/mat3x2.hpp \
-  /opt/homebrew/include/glm/./ext/matrix_double3x2.hpp \
-  /opt/homebrew/include/glm/./ext/../detail/type_mat3x2.hpp \
-  /opt/homebrew/include/glm/detail/type_mat3x2.inl \
-  /opt/homebrew/include/glm/./ext/matrix_double3x2_precision.hpp \
-  /opt/homebrew/include/glm/./ext/matrix_float3x2.hpp \
-  /opt/homebrew/include/glm/./ext/matrix_float3x2_precision.hpp \
-  /opt/homebrew/include/glm/mat3x3.hpp \
-  /opt/homebrew/include/glm/./ext/matrix_double3x3.hpp \
-  /opt/homebrew/include/glm/./ext/../detail/type_mat3x3.hpp \
-  /opt/homebrew/include/glm/detail/type_mat3x3.inl \
-  /opt/homebrew/include/glm/./ext/matrix_double3x3_precision.hpp \
-  /opt/homebrew/include/glm/./ext/matrix_float3x3.hpp \
-  /opt/homebrew/include/glm/./ext/matrix_float3x3_precision.hpp \
-  /opt/homebrew/include/glm/mat3x4.hpp \
-  /opt/homebrew/include/glm/./ext/matrix_double3x4.hpp \
-  /opt/homebrew/include/glm/./ext/../detail/type_mat3x4.hpp \
-  /opt/homebrew/include/glm/detail/type_mat3x4.inl \
-  /opt/homebrew/include/glm/./ext/matrix_double3x4_precision.hpp \
-  /opt/homebrew/include/glm/./ext/matrix_float3x4.hpp \
-  /opt/homebrew/include/glm/./ext/matrix_float3x4_precision.hpp \
-  /opt/homebrew/include/glm/mat4x2.hpp \
-  /opt/homebrew/include/glm/./ext/matrix_double4x2.hpp \
-  /opt/homebrew/include/glm/./ext/../detail/type_mat4x2.hpp \
-  /opt/homebrew/include/glm/detail/type_mat4x2.inl \
-  /opt/homebrew/include/glm/./ext/matrix_double4x2_precision.hpp \
-  /opt/homebrew/include/glm/./ext/matrix_float4x2.hpp \
-  /opt/homebrew/include/glm/./ext/matrix_float4x2_precision.hpp \
-  /opt/homebrew/include/glm/mat4x3.hpp \
-  /opt/homebrew/include/glm/./ext/matrix_double4x3.hpp \
-  /opt/homebrew/include/glm/./ext/../detail/type_mat4x3.hpp \
-  /opt/homebrew/include/glm/detail/type_mat4x3.inl \
-  /opt/homebrew/include/glm/./ext/matrix_double4x3_precision.hpp \
-  /opt/homebrew/include/glm/./ext/matrix_float4x3.hpp \
-  /opt/homebrew/include/glm/./ext/matrix_float4x3_precision.hpp \
-  /opt/homebrew/include/glm/mat4x4.hpp \
-  /opt/homebrew/include/glm/./ext/matrix_double4x4.hpp \
-  /opt/homebrew/include/glm/./ext/../detail/type_mat4x4.hpp \
-  /opt/homebrew/include/glm/detail/type_mat4x4.inl \
-  /opt/homebrew/include/glm/./ext/matrix_double4x4_precision.hpp \
-  /opt/homebrew/include/glm/./ext/matrix_float4x4.hpp \
-  /opt/homebrew/include/glm/./ext/matrix_float4x4_precision.hpp \
-  /opt/homebrew/include/glm/detail/func_matrix.inl \
-  /opt/homebrew/include/glm/detail/../geometric.hpp \
-  /opt/homebrew/include/glm/detail/func_geometric.inl \
-  /opt/homebrew/include/glm/detail/../exponential.hpp \
-  /opt/homebrew/include/glm/detail/type_vec1.hpp \
-  /opt/homebrew/include/glm/detail/type_vec1.inl \
-  /opt/homebrew/include/glm/detail/func_exponential.inl \
-  /opt/homebrew/include/glm/detail/../vector_relational.hpp \
-  /opt/homebrew/include/glm/detail/func_vector_relational.inl \
-  /opt/homebrew/include/glm/detail/_vectorize.hpp \
-  /opt/homebrew/include/glm/detail/../common.hpp \
-  /opt/homebrew/include/glm/detail/func_common.inl \
-  /opt/homebrew/include/glm/detail/compute_common.hpp \
-  /opt/homebrew/include/glm/./ext/matrix_double2x2_precision.hpp \
-  /opt/homebrew/include/glm/./ext/matrix_float2x2.hpp \
-  /opt/homebrew/include/glm/./ext/matrix_float2x2_precision.hpp \
-  /opt/homebrew/include/glm/trigonometric.hpp \
-  /opt/homebrew/include/glm/detail/func_trigonometric.inl \
-  /opt/homebrew/include/glm/exponential.hpp \
-  /opt/homebrew/include/glm/common.hpp \
-  /opt/homebrew/include/glm/packing.hpp \
-  /opt/homebrew/include/glm/detail/func_packing.inl \
-  /opt/homebrew/include/glm/detail/type_half.hpp \
-  /opt/homebrew/include/glm/detail/type_half.inl \
-  /opt/homebrew/include/glm/geometric.hpp \
-  /opt/homebrew/include/glm/matrix.hpp \
-  /opt/homebrew/include/glm/vector_relational.hpp \
-  /opt/homebrew/include/glm/integer.hpp \
-  /opt/homebrew/include/glm/detail/func_integer.inl \
-  /Users/williambogdanovic/Desktop/simulations/SoA/src/Simulation.hpp \
-  /Applications/miniconda3/bin/../include/c++/v1/vector \
-  /Applications/miniconda3/bin/../include/c++/v1/__algorithm/copy.h \
-  /Applications/miniconda3/bin/../include/c++/v1/__algorithm/copy_move_common.h \
-  /Applications/miniconda3/bin/../include/c++/v1/__algorithm/iterator_operations.h \
-  /Applications/miniconda3/bin/../include/c++/v1/__algorithm/iter_swap.h \
-  /Applications/miniconda3/bin/../include/c++/v1/__utility/swap.h \
-  /Applications/miniconda3/bin/../include/c++/v1/__utility/move.h \
-  /Applications/miniconda3/bin/../include/c++/v1/__algorithm/ranges_iterator_concept.h \
-  /Applications/miniconda3/bin/../include/c++/v1/__iterator/concepts.h \
+  /opt/homebrew/include/glm/gtx/../fwd.hpp \
+  /opt/homebrew/include/glm/gtx/../detail/qualifier.hpp \
+  /opt/homebrew/include/glm/gtx/../vec2.hpp \
+  /opt/homebrew/include/glm/gtx/.././ext/vector_bool2.hpp \
+  /opt/homebrew/include/glm/gtx/.././ext/../detail/type_vec2.hpp \
+  /opt/homebrew/include/glm/gtx/../detail/type_vec2.inl \
+  /opt/homebrew/include/glm/gtx/../detail/./compute_vector_relational.hpp \
+  /opt/homebrew/include/glm/gtx/.././ext/vector_bool2_precision.hpp \
+  /opt/homebrew/include/glm/gtx/.././ext/vector_float2.hpp \
+  /opt/homebrew/include/glm/gtx/.././ext/vector_float2_precision.hpp \
+  /opt/homebrew/include/glm/gtx/.././ext/vector_double2.hpp \
+  /opt/homebrew/include/glm/gtx/.././ext/vector_double2_precision.hpp \
+  /opt/homebrew/include/glm/gtx/.././ext/vector_int2.hpp \
+  /opt/homebrew/include/glm/gtx/.././ext/vector_int2_sized.hpp \
+  /opt/homebrew/include/glm/gtx/.././ext/../ext/vector_int2.hpp \
+  /opt/homebrew/include/glm/gtx/.././ext/../ext/scalar_int_sized.hpp \
+  /opt/homebrew/include/glm/gtx/.././ext/../detail/setup.hpp \
+  /opt/homebrew/include/glm/gtx/.././ext/vector_uint2.hpp \
+  /opt/homebrew/include/glm/gtx/.././ext/vector_uint2_sized.hpp \
+  /opt/homebrew/include/glm/gtx/.././ext/../ext/vector_uint2.hpp \
+  /opt/homebrew/include/glm/gtx/.././ext/../ext/scalar_uint_sized.hpp \
+  /opt/homebrew/include/glm/gtx/../vec3.hpp \
+  /opt/homebrew/include/glm/gtx/.././ext/vector_bool3.hpp \
+  /opt/homebrew/include/glm/gtx/.././ext/../detail/type_vec3.hpp \
+  /opt/homebrew/include/glm/gtx/../detail/type_vec3.inl \
+  /opt/homebrew/include/glm/gtx/../detail/compute_vector_relational.hpp \
+  /opt/homebrew/include/glm/gtx/.././ext/vector_bool3_precision.hpp \
+  /opt/homebrew/include/glm/gtx/.././ext/vector_float3.hpp \
+  /opt/homebrew/include/glm/gtx/.././ext/vector_float3_precision.hpp \
+  /opt/homebrew/include/glm/gtx/.././ext/vector_double3.hpp \
+  /opt/homebrew/include/glm/gtx/.././ext/vector_double3_precision.hpp \
+  /opt/homebrew/include/glm/gtx/.././ext/vector_int3.hpp \
+  /opt/homebrew/include/glm/gtx/.././ext/vector_int3_sized.hpp \
+  /opt/homebrew/include/glm/gtx/.././ext/../ext/vector_int3.hpp \
+  /opt/homebrew/include/glm/gtx/.././ext/vector_uint3.hpp \
+  /opt/homebrew/include/glm/gtx/.././ext/vector_uint3_sized.hpp \
+  /opt/homebrew/include/glm/gtx/.././ext/../ext/vector_uint3.hpp \
+  /opt/homebrew/include/glm/gtx/../vec4.hpp \
+  /opt/homebrew/include/glm/gtx/.././ext/vector_bool4.hpp \
+  /opt/homebrew/include/glm/gtx/.././ext/../detail/type_vec4.hpp \
+  /opt/homebrew/include/glm/gtx/../detail/type_vec4.inl \
+  /opt/homebrew/include/glm/gtx/.././ext/vector_bool4_precision.hpp \
+  /opt/homebrew/include/glm/gtx/.././ext/vector_float4.hpp \
+  /opt/homebrew/include/glm/gtx/.././ext/vector_float4_precision.hpp \
+  /opt/homebrew/include/glm/gtx/.././ext/vector_double4.hpp \
+  /opt/homebrew/include/glm/gtx/.././ext/vector_double4_precision.hpp \
+  /opt/homebrew/include/glm/gtx/.././ext/vector_int4.hpp \
+  /opt/homebrew/include/glm/gtx/.././ext/vector_int4_sized.hpp \
+  /opt/homebrew/include/glm/gtx/.././ext/../ext/vector_int4.hpp \
+  /opt/homebrew/include/glm/gtx/.././ext/vector_uint4.hpp \
+  /opt/homebrew/include/glm/gtx/.././ext/vector_uint4_sized.hpp \
+  /opt/homebrew/include/glm/gtx/.././ext/../ext/vector_uint4.hpp \
+  /opt/homebrew/include/glm/gtx/../mat2x2.hpp \
+  /opt/homebrew/include/glm/gtx/.././ext/matrix_double2x2.hpp \
+  /opt/homebrew/include/glm/gtx/.././ext/../detail/type_mat2x2.hpp \
+  /opt/homebrew/include/glm/gtx/../detail/type_vec2.hpp \
+  /opt/homebrew/include/glm/gtx/../detail/type_mat2x2.inl \
+  /opt/homebrew/include/glm/gtx/../detail/../matrix.hpp \
+  /opt/homebrew/include/glm/gtx/../mat2x3.hpp \
+  /opt/homebrew/include/glm/gtx/.././ext/matrix_double2x3.hpp \
+  /opt/homebrew/include/glm/gtx/.././ext/../detail/type_mat2x3.hpp \
+  /opt/homebrew/include/glm/gtx/../detail/type_vec3.hpp \
+  /opt/homebrew/include/glm/gtx/../detail/type_mat2x3.inl \
+  /opt/homebrew/include/glm/gtx/.././ext/matrix_double2x3_precision.hpp \
+  /opt/homebrew/include/glm/gtx/.././ext/matrix_float2x3.hpp \
+  /opt/homebrew/include/glm/gtx/.././ext/matrix_float2x3_precision.hpp \
+  /opt/homebrew/include/glm/gtx/../mat2x4.hpp \
+  /opt/homebrew/include/glm/gtx/.././ext/matrix_double2x4.hpp \
+  /opt/homebrew/include/glm/gtx/.././ext/../detail/type_mat2x4.hpp \
+  /opt/homebrew/include/glm/gtx/../detail/type_vec4.hpp \
+  /opt/homebrew/include/glm/gtx/../detail/type_mat2x4.inl \
+  /opt/homebrew/include/glm/gtx/.././ext/matrix_double2x4_precision.hpp \
+  /opt/homebrew/include/glm/gtx/.././ext/matrix_float2x4.hpp \
+  /opt/homebrew/include/glm/gtx/.././ext/matrix_float2x4_precision.hpp \
+  /opt/homebrew/include/glm/gtx/../mat3x2.hpp \
+  /opt/homebrew/include/glm/gtx/.././ext/matrix_double3x2.hpp \
+  /opt/homebrew/include/glm/gtx/.././ext/../detail/type_mat3x2.hpp \
+  /opt/homebrew/include/glm/gtx/../detail/type_mat3x2.inl \
+  /opt/homebrew/include/glm/gtx/.././ext/matrix_double3x2_precision.hpp \
+  /opt/homebrew/include/glm/gtx/.././ext/matrix_float3x2.hpp \
+  /opt/homebrew/include/glm/gtx/.././ext/matrix_float3x2_precision.hpp \
+  /opt/homebrew/include/glm/gtx/../mat3x3.hpp \
+  /opt/homebrew/include/glm/gtx/.././ext/matrix_double3x3.hpp \
+  /opt/homebrew/include/glm/gtx/.././ext/../detail/type_mat3x3.hpp \
+  /opt/homebrew/include/glm/gtx/../detail/type_mat3x3.inl \
+  /opt/homebrew/include/glm/gtx/.././ext/matrix_double3x3_precision.hpp \
+  /opt/homebrew/include/glm/gtx/.././ext/matrix_float3x3.hpp \
+  /opt/homebrew/include/glm/gtx/.././ext/matrix_float3x3_precision.hpp \
+  /opt/homebrew/include/glm/gtx/../mat3x4.hpp \
+  /opt/homebrew/include/glm/gtx/.././ext/matrix_double3x4.hpp \
+  /opt/homebrew/include/glm/gtx/.././ext/../detail/type_mat3x4.hpp \
+  /opt/homebrew/include/glm/gtx/../detail/type_mat3x4.inl \
+  /opt/homebrew/include/glm/gtx/.././ext/matrix_double3x4_precision.hpp \
+  /opt/homebrew/include/glm/gtx/.././ext/matrix_float3x4.hpp \
+  /opt/homebrew/include/glm/gtx/.././ext/matrix_float3x4_precision.hpp \
+  /opt/homebrew/include/glm/gtx/../mat4x2.hpp \
+  /opt/homebrew/include/glm/gtx/.././ext/matrix_double4x2.hpp \
+  /opt/homebrew/include/glm/gtx/.././ext/../detail/type_mat4x2.hpp \
+  /opt/homebrew/include/glm/gtx/../detail/type_mat4x2.inl \
+  /opt/homebrew/include/glm/gtx/.././ext/matrix_double4x2_precision.hpp \
+  /opt/homebrew/include/glm/gtx/.././ext/matrix_float4x2.hpp \
+  /opt/homebrew/include/glm/gtx/.././ext/matrix_float4x2_precision.hpp \
+  /opt/homebrew/include/glm/gtx/../mat4x3.hpp \
+  /opt/homebrew/include/glm/gtx/.././ext/matrix_double4x3.hpp \
+  /opt/homebrew/include/glm/gtx/.././ext/../detail/type_mat4x3.hpp \
+  /opt/homebrew/include/glm/gtx/../detail/type_mat4x3.inl \
+  /opt/homebrew/include/glm/gtx/.././ext/matrix_double4x3_precision.hpp \
+  /opt/homebrew/include/glm/gtx/.././ext/matrix_float4x3.hpp \
+  /opt/homebrew/include/glm/gtx/.././ext/matrix_float4x3_precision.hpp \
+  /opt/homebrew/include/glm/gtx/../mat4x4.hpp \
+  /opt/homebrew/include/glm/gtx/.././ext/matrix_double4x4.hpp \
+  /opt/homebrew/include/glm/gtx/.././ext/../detail/type_mat4x4.hpp \
+  /opt/homebrew/include/glm/gtx/../detail/type_mat4x4.inl \
+  /opt/homebrew/include/glm/gtx/.././ext/matrix_double4x4_precision.hpp \
+  /opt/homebrew/include/glm/gtx/.././ext/matrix_float4x4.hpp \
+  /opt/homebrew/include/glm/gtx/.././ext/matrix_float4x4_precision.hpp \
+  /opt/homebrew/include/glm/gtx/../detail/func_matrix.inl \
+  /opt/homebrew/include/glm/gtx/../detail/../geometric.hpp \
+  /opt/homebrew/include/glm/gtx/../detail/func_geometric.inl \
+  /opt/homebrew/include/glm/gtx/../detail/../exponential.hpp \
+  /opt/homebrew/include/glm/gtx/../detail/type_vec1.hpp \
+  /opt/homebrew/include/glm/gtx/../detail/type_vec1.inl \
+  /opt/homebrew/include/glm/gtx/../detail/func_exponential.inl \
+  /opt/homebrew/include/glm/gtx/../detail/../vector_relational.hpp \
+  /opt/homebrew/include/glm/gtx/../detail/func_vector_relational.inl \
+  /opt/homebrew/include/glm/gtx/../detail/_vectorize.hpp \
+  /opt/homebrew/include/glm/gtx/../detail/../common.hpp \
+  /opt/homebrew/include/glm/gtx/../detail/func_common.inl \
+  /opt/homebrew/include/glm/gtx/../detail/compute_common.hpp \
+  /opt/homebrew/include/glm/gtx/.././ext/matrix_double2x2_precision.hpp \
+  /opt/homebrew/include/glm/gtx/.././ext/matrix_float2x2.hpp \
+  /opt/homebrew/include/glm/gtx/.././ext/matrix_float2x2_precision.hpp \
+  /opt/homebrew/include/glm/gtx/../trigonometric.hpp \
+  /opt/homebrew/include/glm/gtx/../detail/func_trigonometric.inl \
+  /opt/homebrew/include/glm/gtx/../exponential.hpp \
+  /opt/homebrew/include/glm/gtx/../common.hpp \
+  /opt/homebrew/include/glm/gtx/../packing.hpp \
+  /opt/homebrew/include/glm/gtx/../detail/func_packing.inl \
+  /opt/homebrew/include/glm/gtx/../detail/type_half.hpp \
+  /opt/homebrew/include/glm/gtx/../detail/type_half.inl \
+  /opt/homebrew/include/glm/gtx/../geometric.hpp \
+  /opt/homebrew/include/glm/gtx/../matrix.hpp \
+  /opt/homebrew/include/glm/gtx/../vector_relational.hpp \
+  /opt/homebrew/include/glm/gtx/../integer.hpp \
+  /opt/homebrew/include/glm/gtx/../detail/func_integer.inl \
+  /opt/homebrew/include/glm/gtx/../gtc/type_precision.hpp \
+  /opt/homebrew/include/glm/gtx/../gtc/../gtc/quaternion.hpp \
+  /opt/homebrew/include/glm/gtx/../gtc/../gtc/constants.hpp \
+  /opt/homebrew/include/glm/gtx/../gtc/../ext/scalar_constants.hpp \
+  /opt/homebrew/include/glm/gtx/.././ext/scalar_constants.inl \
+  /opt/homebrew/include/glm/gtx/../gtc/constants.inl \
+  /opt/homebrew/include/glm/gtx/../gtc/../gtc/matrix_transform.hpp \
+  /opt/homebrew/include/glm/gtx/../gtc/../mat4x4.hpp \
+  /opt/homebrew/include/glm/gtx/../gtc/../vec2.hpp \
+  /opt/homebrew/include/glm/gtx/../gtc/../vec3.hpp \
+  /opt/homebrew/include/glm/gtx/../gtc/../vec4.hpp \
+  /opt/homebrew/include/glm/gtx/../gtc/../ext/matrix_projection.hpp \
+  /opt/homebrew/include/glm/gtx/.././ext/../gtc/constants.hpp \
+  /opt/homebrew/include/glm/gtx/.././ext/../geometric.hpp \
+  /opt/homebrew/include/glm/gtx/.././ext/../trigonometric.hpp \
+  /opt/homebrew/include/glm/gtx/.././ext/../matrix.hpp \
+  /opt/homebrew/include/glm/gtx/.././ext/matrix_projection.inl \
+  /opt/homebrew/include/glm/gtx/../gtc/../ext/matrix_clip_space.hpp \
+  /opt/homebrew/include/glm/gtx/.././ext/../ext/scalar_constants.hpp \
+  /opt/homebrew/include/glm/gtx/.././ext/matrix_clip_space.inl \
+  /opt/homebrew/include/glm/gtx/../gtc/../ext/matrix_transform.hpp \
+  /opt/homebrew/include/glm/gtx/.././ext/matrix_transform.inl \
+  /opt/homebrew/include/glm/gtx/../gtc/matrix_transform.inl \
+  /opt/homebrew/include/glm/gtx/../gtc/../geometric.hpp \
+  /opt/homebrew/include/glm/gtx/../gtc/../trigonometric.hpp \
+  /opt/homebrew/include/glm/gtx/../gtc/../matrix.hpp \
+  /opt/homebrew/include/glm/gtx/../gtc/../ext/vector_relational.hpp \
+  /opt/homebrew/include/glm/gtx/.././ext/../detail/qualifier.hpp \
+  /opt/homebrew/include/glm/gtx/.././ext/vector_relational.inl \
+  /opt/homebrew/include/glm/gtx/.././ext/../vector_relational.hpp \
+  /opt/homebrew/include/glm/gtx/.././ext/../common.hpp \
+  /opt/homebrew/include/glm/gtx/.././ext/../detail/type_float.hpp \
+  /opt/homebrew/include/glm/gtx/../gtc/../ext/quaternion_common.hpp \
+  /opt/homebrew/include/glm/gtx/.././ext/../ext/quaternion_geometric.hpp \
+  /opt/homebrew/include/glm/gtx/.././ext/../exponential.hpp \
+  /opt/homebrew/include/glm/gtx/.././ext/../ext/vector_relational.hpp \
+  /opt/homebrew/include/glm/gtx/.././ext/quaternion_geometric.inl \
+  /opt/homebrew/include/glm/gtx/.././ext/quaternion_common.inl \
+  /opt/homebrew/include/glm/gtx/../gtc/../ext/quaternion_float.hpp \
+  /opt/homebrew/include/glm/gtx/.././ext/../detail/type_quat.hpp \
+  /opt/homebrew/include/glm/gtx/../detail/../detail/type_mat3x3.hpp \
+  /opt/homebrew/include/glm/gtx/../detail/../detail/type_mat4x4.hpp \
+  /opt/homebrew/include/glm/gtx/../detail/../detail/type_vec3.hpp \
+  /opt/homebrew/include/glm/gtx/../detail/../detail/type_vec4.hpp \
+  /opt/homebrew/include/glm/gtx/../detail/../ext/vector_relational.hpp \
+  /opt/homebrew/include/glm/gtx/../detail/../ext/quaternion_relational.hpp \
+  /opt/homebrew/include/glm/gtx/.././ext/quaternion_relational.inl \
+  /opt/homebrew/include/glm/gtx/../detail/../gtc/constants.hpp \
+  /opt/homebrew/include/glm/gtx/../detail/../gtc/matrix_transform.hpp \
+  /opt/homebrew/include/glm/gtx/../detail/type_quat.inl \
+  /opt/homebrew/include/glm/gtx/../detail/../trigonometric.hpp \
+  /opt/homebrew/include/glm/gtx/../detail/../ext/quaternion_common.hpp \
+  /opt/homebrew/include/glm/gtx/../detail/../ext/quaternion_geometric.hpp \
+  /opt/homebrew/include/glm/gtx/../gtc/../ext/quaternion_float_precision.hpp \
+  /opt/homebrew/include/glm/gtx/../gtc/../ext/quaternion_double.hpp \
+  /opt/homebrew/include/glm/gtx/../gtc/../ext/quaternion_double_precision.hpp \
+  /opt/homebrew/include/glm/gtx/../gtc/../ext/quaternion_relational.hpp \
+  /opt/homebrew/include/glm/gtx/../gtc/../ext/quaternion_geometric.hpp \
+  /opt/homebrew/include/glm/gtx/../gtc/../ext/quaternion_trigonometric.hpp \
+  /opt/homebrew/include/glm/gtx/.././ext/scalar_constants.hpp \
+  /opt/homebrew/include/glm/gtx/.././ext/vector_relational.hpp \
+  /opt/homebrew/include/glm/gtx/.././ext/quaternion_trigonometric.inl \
+  /opt/homebrew/include/glm/gtx/../gtc/../ext/quaternion_transform.hpp \
+  /opt/homebrew/include/glm/gtx/.././ext/quaternion_transform.inl \
+  /opt/homebrew/include/glm/gtx/../gtc/../detail/type_mat3x3.hpp \
+  /opt/homebrew/include/glm/gtx/../gtc/../detail/type_mat4x4.hpp \
+  /opt/homebrew/include/glm/gtx/../gtc/../detail/type_vec3.hpp \
+  /opt/homebrew/include/glm/gtx/../gtc/../detail/type_vec4.hpp \
+  /opt/homebrew/include/glm/gtx/../gtc/quaternion.inl \
+  /opt/homebrew/include/glm/gtx/../gtc/../exponential.hpp \
+  /opt/homebrew/include/glm/gtx/../gtc/epsilon.hpp \
+  /opt/homebrew/include/glm/gtx/../gtc/../detail/setup.hpp \
+  /opt/homebrew/include/glm/gtx/../gtc/../detail/qualifier.hpp \
+  /opt/homebrew/include/glm/gtx/../gtc/epsilon.inl \
+  /opt/homebrew/include/glm/gtx/../gtc/../vector_relational.hpp \
+  /opt/homebrew/include/glm/gtx/../gtc/../common.hpp \
+  /opt/homebrew/include/glm/gtx/../gtc/../gtc/vec1.hpp \
+  /opt/homebrew/include/glm/gtx/../gtc/../ext/vector_bool1.hpp \
+  /opt/homebrew/include/glm/gtx/.././ext/../detail/type_vec1.hpp \
+  /opt/homebrew/include/glm/gtx/../gtc/../ext/vector_bool1_precision.hpp \
+  /opt/homebrew/include/glm/gtx/../gtc/../ext/vector_float1.hpp \
+  /opt/homebrew/include/glm/gtx/../gtc/../ext/vector_float1_precision.hpp \
+  /opt/homebrew/include/glm/gtx/../gtc/../ext/vector_double1.hpp \
+  /opt/homebrew/include/glm/gtx/../gtc/../ext/vector_double1_precision.hpp \
+  /opt/homebrew/include/glm/gtx/../gtc/../ext/vector_int1.hpp \
+  /opt/homebrew/include/glm/gtx/../gtc/../ext/vector_int1_sized.hpp \
+  /opt/homebrew/include/glm/gtx/.././ext/../ext/vector_int1.hpp \
+  /opt/homebrew/include/glm/gtx/../gtc/../ext/vector_uint1.hpp \
+  /opt/homebrew/include/glm/gtx/../gtc/../ext/vector_uint1_sized.hpp \
+  /opt/homebrew/include/glm/gtx/.././ext/../ext/vector_uint1.hpp \
+  /opt/homebrew/include/glm/gtx/../gtc/../ext/vector_int2_sized.hpp \
+  /opt/homebrew/include/glm/gtx/../gtc/../ext/vector_int3_sized.hpp \
+  /opt/homebrew/include/glm/gtx/../gtc/../ext/vector_int4_sized.hpp \
+  /opt/homebrew/include/glm/gtx/../gtc/../ext/scalar_int_sized.hpp \
+  /opt/homebrew/include/glm/gtx/../gtc/../ext/vector_uint2_sized.hpp \
+  /opt/homebrew/include/glm/gtx/../gtc/../ext/vector_uint3_sized.hpp \
+  /opt/homebrew/include/glm/gtx/../gtc/../ext/vector_uint4_sized.hpp \
+  /opt/homebrew/include/glm/gtx/../gtc/../ext/scalar_uint_sized.hpp \
+  /opt/homebrew/include/glm/gtx/../gtc/../detail/type_vec2.hpp \
+  /opt/homebrew/include/glm/gtx/../gtc/../detail/type_mat2x2.hpp \
+  /opt/homebrew/include/glm/gtx/../gtc/../detail/type_mat2x3.hpp \
+  /opt/homebrew/include/glm/gtx/../gtc/../detail/type_mat2x4.hpp \
+  /opt/homebrew/include/glm/gtx/../gtc/../detail/type_mat3x2.hpp \
+  /opt/homebrew/include/glm/gtx/../gtc/../detail/type_mat3x4.hpp \
+  /opt/homebrew/include/glm/gtx/../gtc/../detail/type_mat4x2.hpp \
+  /opt/homebrew/include/glm/gtx/../gtc/../detail/type_mat4x3.hpp \
+  /opt/homebrew/include/glm/gtx/../gtc/type_precision.inl \
+  /opt/homebrew/include/glm/gtx/../gtc/quaternion.hpp \
+  /opt/homebrew/include/glm/gtx/../gtx/dual_quaternion.hpp \
+  /opt/homebrew/include/glm/gtx/../gtc/constants.hpp \
+  /opt/homebrew/include/glm/gtx/dual_quaternion.inl \
+  /Applications/miniconda3/bin/../include/c++/v1/string \
+  /Applications/miniconda3/bin/../include/c++/v1/__algorithm/max.h \
+  /Applications/miniconda3/bin/../include/c++/v1/__algorithm/comp.h \
+  /Applications/miniconda3/bin/../include/c++/v1/__algorithm/comp_ref_type.h \
+  /Applications/miniconda3/bin/../include/c++/v1/__debug \
+  /Applications/miniconda3/bin/../include/c++/v1/__algorithm/max_element.h \
+  /Applications/miniconda3/bin/../include/c++/v1/__iterator/iterator_traits.h \
   /Applications/miniconda3/bin/../include/c++/v1/__concepts/arithmetic.h \
   /Applications/miniconda3/bin/../include/c++/v1/__type_traits/is_signed_integer.h \
   /Applications/miniconda3/bin/../include/c++/v1/__type_traits/is_unsigned_integer.h \
-  /Applications/miniconda3/bin/../include/c++/v1/__concepts/assignable.h \
-  /Applications/miniconda3/bin/../include/c++/v1/__concepts/common_reference_with.h \
-  /Applications/miniconda3/bin/../include/c++/v1/__concepts/convertible_to.h \
-  /Applications/miniconda3/bin/../include/c++/v1/__concepts/same_as.h \
   /Applications/miniconda3/bin/../include/c++/v1/__concepts/constructible.h \
+  /Applications/miniconda3/bin/../include/c++/v1/__concepts/convertible_to.h \
   /Applications/miniconda3/bin/../include/c++/v1/__concepts/destructible.h \
   /Applications/miniconda3/bin/../include/c++/v1/__concepts/copyable.h \
+  /Applications/miniconda3/bin/../include/c++/v1/__concepts/assignable.h \
+  /Applications/miniconda3/bin/../include/c++/v1/__concepts/common_reference_with.h \
+  /Applications/miniconda3/bin/../include/c++/v1/__concepts/same_as.h \
   /Applications/miniconda3/bin/../include/c++/v1/__concepts/movable.h \
   /Applications/miniconda3/bin/../include/c++/v1/__concepts/swappable.h \
   /Applications/miniconda3/bin/../include/c++/v1/__concepts/class_or_enum.h \
   /Applications/miniconda3/bin/../include/c++/v1/__utility/exchange.h \
-  /Applications/miniconda3/bin/../include/c++/v1/__concepts/derived_from.h \
+  /Applications/miniconda3/bin/../include/c++/v1/__utility/move.h \
+  /Applications/miniconda3/bin/../include/c++/v1/__utility/swap.h \
   /Applications/miniconda3/bin/../include/c++/v1/__concepts/equality_comparable.h \
   /Applications/miniconda3/bin/../include/c++/v1/__concepts/boolean_testable.h \
-  /Applications/miniconda3/bin/../include/c++/v1/__concepts/invocable.h \
-  /Applications/miniconda3/bin/../include/c++/v1/__concepts/predicate.h \
-  /Applications/miniconda3/bin/../include/c++/v1/__concepts/regular.h \
-  /Applications/miniconda3/bin/../include/c++/v1/__concepts/semiregular.h \
-  /Applications/miniconda3/bin/../include/c++/v1/__concepts/relation.h \
   /Applications/miniconda3/bin/../include/c++/v1/__concepts/totally_ordered.h \
   /Applications/miniconda3/bin/../include/c++/v1/__iterator/incrementable_traits.h \
   /Applications/miniconda3/bin/../include/c++/v1/__type_traits/is_primary_template.h \
   /Applications/miniconda3/bin/../include/c++/v1/__type_traits/is_valid_expansion.h \
-  /Applications/miniconda3/bin/../include/c++/v1/__iterator/iter_move.h \
-  /Applications/miniconda3/bin/../include/c++/v1/__iterator/iterator_traits.h \
   /Applications/miniconda3/bin/../include/c++/v1/__iterator/readable_traits.h \
-  /Applications/miniconda3/bin/../include/c++/v1/__memory/pointer_traits.h \
-  /Applications/miniconda3/bin/../include/c++/v1/__memory/addressof.h \
-  /Applications/miniconda3/bin/../include/c++/v1/__iterator/advance.h \
-  /Applications/miniconda3/bin/../include/c++/v1/__utility/convert_to_integral.h \
-  /Applications/miniconda3/bin/../include/c++/v1/__utility/unreachable.h \
-  /Applications/miniconda3/bin/../include/c++/v1/cstdlib \
-  /Applications/miniconda3/bin/../include/c++/v1/__iterator/distance.h \
-  /Applications/miniconda3/bin/../include/c++/v1/__ranges/access.h \
-  /Applications/miniconda3/bin/../include/c++/v1/__ranges/enable_borrowed_range.h \
-  /Applications/miniconda3/bin/../include/c++/v1/__utility/auto_cast.h \
-  /Applications/miniconda3/bin/../include/c++/v1/__ranges/concepts.h \
-  /Applications/miniconda3/bin/../include/c++/v1/__ranges/data.h \
-  /Applications/miniconda3/bin/../include/c++/v1/__ranges/enable_view.h \
-  /Applications/miniconda3/bin/../include/c++/v1/__ranges/size.h \
   /Applications/miniconda3/bin/../include/c++/v1/initializer_list \
-  /Applications/miniconda3/bin/../include/c++/v1/__iterator/iter_swap.h \
-  /Applications/miniconda3/bin/../include/c++/v1/__iterator/next.h \
-  /Applications/miniconda3/bin/../include/c++/v1/__iterator/prev.h \
-  /Applications/miniconda3/bin/../include/c++/v1/__algorithm/unwrap_iter.h \
-  /Applications/miniconda3/bin/../include/c++/v1/__algorithm/unwrap_range.h \
+  /Applications/miniconda3/bin/../include/c++/v1/__algorithm/min.h \
+  /Applications/miniconda3/bin/../include/c++/v1/__algorithm/min_element.h \
+  /Applications/miniconda3/bin/../include/c++/v1/__functional/identity.h \
+  /Applications/miniconda3/bin/../include/c++/v1/__algorithm/remove.h \
+  /Applications/miniconda3/bin/../include/c++/v1/__algorithm/find.h \
+  /Applications/miniconda3/bin/../include/c++/v1/__algorithm/find_if.h \
+  /Applications/miniconda3/bin/../include/c++/v1/__algorithm/remove_if.h \
+  /Applications/miniconda3/bin/../include/c++/v1/__format/enable_insertable.h \
+  /Applications/miniconda3/bin/../include/c++/v1/__functional/hash.h \
+  /Applications/miniconda3/bin/../include/c++/v1/__functional/unary_function.h \
+  /Applications/miniconda3/bin/../include/c++/v1/__tuple_dir/sfinae_helpers.h \
+  /Applications/miniconda3/bin/../include/c++/v1/__fwd/tuple.h \
+  /Applications/miniconda3/bin/../include/c++/v1/__tuple_dir/make_tuple_types.h \
+  /Applications/miniconda3/bin/../include/c++/v1/__fwd/array.h \
+  /Applications/miniconda3/bin/../include/c++/v1/__tuple_dir/apply_cv.h \
+  /Applications/miniconda3/bin/../include/c++/v1/__tuple_dir/tuple_element.h \
+  /Applications/miniconda3/bin/../include/c++/v1/__tuple_dir/tuple_indices.h \
+  /Applications/miniconda3/bin/../include/c++/v1/__utility/integer_sequence.h \
+  /Applications/miniconda3/bin/../include/c++/v1/__tuple_dir/tuple_types.h \
+  /Applications/miniconda3/bin/../include/c++/v1/__tuple_dir/tuple_size.h \
+  /Applications/miniconda3/bin/../include/c++/v1/__tuple_dir/tuple_like_ext.h \
   /Applications/miniconda3/bin/../include/c++/v1/__utility/pair.h \
   /Applications/miniconda3/bin/../include/c++/v1/__compare/common_comparison_category.h \
   /Applications/miniconda3/bin/../include/c++/v1/__compare/ordering.h \
@@ -449,48 +556,8 @@ CMakeFiles/BallsSimulation.dir/src/Raycaster.cpp.o: \
   /Applications/miniconda3/bin/../include/c++/v1/__compare/three_way_comparable.h \
   /Applications/miniconda3/bin/../include/c++/v1/__functional/unwrap_ref.h \
   /Applications/miniconda3/bin/../include/c++/v1/__fwd/get.h \
-  /Applications/miniconda3/bin/../include/c++/v1/__fwd/array.h \
   /Applications/miniconda3/bin/../include/c++/v1/__fwd/subrange.h \
-  /Applications/miniconda3/bin/../include/c++/v1/__fwd/tuple.h \
-  /Applications/miniconda3/bin/../include/c++/v1/__tuple_dir/tuple_element.h \
-  /Applications/miniconda3/bin/../include/c++/v1/__tuple_dir/tuple_indices.h \
-  /Applications/miniconda3/bin/../include/c++/v1/__utility/integer_sequence.h \
-  /Applications/miniconda3/bin/../include/c++/v1/__tuple_dir/tuple_types.h \
-  /Applications/miniconda3/bin/../include/c++/v1/__tuple_dir/sfinae_helpers.h \
-  /Applications/miniconda3/bin/../include/c++/v1/__tuple_dir/make_tuple_types.h \
-  /Applications/miniconda3/bin/../include/c++/v1/__tuple_dir/apply_cv.h \
-  /Applications/miniconda3/bin/../include/c++/v1/__tuple_dir/tuple_size.h \
-  /Applications/miniconda3/bin/../include/c++/v1/__tuple_dir/tuple_like_ext.h \
   /Applications/miniconda3/bin/../include/c++/v1/__utility/piecewise_construct.h \
-  /Applications/miniconda3/bin/../include/c++/v1/__type_traits/is_always_bitcastable.h \
-  /Applications/miniconda3/bin/../include/c++/v1/__algorithm/min.h \
-  /Applications/miniconda3/bin/../include/c++/v1/__algorithm/comp.h \
-  /Applications/miniconda3/bin/../include/c++/v1/__algorithm/comp_ref_type.h \
-  /Applications/miniconda3/bin/../include/c++/v1/__debug \
-  /Applications/miniconda3/bin/../include/c++/v1/__algorithm/min_element.h \
-  /Applications/miniconda3/bin/../include/c++/v1/__functional/identity.h \
-  /Applications/miniconda3/bin/../include/c++/v1/__iterator/segmented_iterator.h \
-  /Applications/miniconda3/bin/../include/c++/v1/__algorithm/equal.h \
-  /Applications/miniconda3/bin/../include/c++/v1/__algorithm/fill_n.h \
-  /Applications/miniconda3/bin/../include/c++/v1/__algorithm/lexicographical_compare.h \
-  /Applications/miniconda3/bin/../include/c++/v1/__algorithm/remove.h \
-  /Applications/miniconda3/bin/../include/c++/v1/__algorithm/find.h \
-  /Applications/miniconda3/bin/../include/c++/v1/__algorithm/find_if.h \
-  /Applications/miniconda3/bin/../include/c++/v1/__algorithm/remove_if.h \
-  /Applications/miniconda3/bin/../include/c++/v1/__algorithm/rotate.h \
-  /Applications/miniconda3/bin/../include/c++/v1/__algorithm/move.h \
-  /Applications/miniconda3/bin/../include/c++/v1/__algorithm/move_backward.h \
-  /Applications/miniconda3/bin/../include/c++/v1/__algorithm/swap_ranges.h \
-  /Applications/miniconda3/bin/../include/c++/v1/__bit_reference \
-  /Applications/miniconda3/bin/../include/c++/v1/__algorithm/copy_n.h \
-  /Applications/miniconda3/bin/../include/c++/v1/__bit/countr.h \
-  /Applications/miniconda3/bin/../include/c++/v1/__bit/rotate.h \
-  /Applications/miniconda3/bin/../include/c++/v1/__bit/popcount.h \
-  /Applications/miniconda3/bin/../include/c++/v1/__memory/construct_at.h \
-  /Applications/miniconda3/bin/../include/c++/v1/__iterator/access.h \
-  /Applications/miniconda3/bin/../include/c++/v1/__memory/voidify.h \
-  /Applications/miniconda3/bin/../include/c++/v1/new \
-  /Applications/miniconda3/bin/../include/c++/v1/exception \
   /Applications/miniconda3/bin/../include/c++/v1/cstring \
   /Applications/miniconda3/bin/../include/c++/v1/string.h \
   /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX.sdk/usr/include/string.h \
@@ -499,34 +566,10 @@ CMakeFiles/BallsSimulation.dir/src/Raycaster.cpp.o: \
   /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX.sdk/usr/include/sys/_types/_errno_t.h \
   /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX.sdk/usr/include/sys/_types/_ssize_t.h \
   /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX.sdk/usr/include/_strings.h \
-  /Applications/miniconda3/bin/../include/c++/v1/__format/enable_insertable.h \
-  /Applications/miniconda3/bin/../include/c++/v1/__format/formatter.h \
-  /Applications/miniconda3/bin/../include/c++/v1/__format/format_fwd.h \
-  /Applications/miniconda3/bin/../include/c++/v1/__functional/hash.h \
-  /Applications/miniconda3/bin/../include/c++/v1/__functional/unary_function.h \
-  /Applications/miniconda3/bin/../include/c++/v1/__iterator/reverse_iterator.h \
-  /Applications/miniconda3/bin/../include/c++/v1/__compare/compare_three_way_result.h \
-  /Applications/miniconda3/bin/../include/c++/v1/__iterator/iterator.h \
-  /Applications/miniconda3/bin/../include/c++/v1/__ranges/subrange.h \
-  /Applications/miniconda3/bin/../include/c++/v1/__concepts/different_from.h \
-  /Applications/miniconda3/bin/../include/c++/v1/__ranges/dangling.h \
-  /Applications/miniconda3/bin/../include/c++/v1/__ranges/view_interface.h \
-  /Applications/miniconda3/bin/../include/c++/v1/__ranges/empty.h \
-  /Applications/miniconda3/bin/../include/c++/v1/__tuple_dir/pair_like.h \
-  /Applications/miniconda3/bin/../include/c++/v1/__tuple_dir/tuple_like.h \
-  /Applications/miniconda3/bin/../include/c++/v1/__iterator/wrap_iter.h \
-  /Applications/miniconda3/bin/../include/c++/v1/__memory/allocate_at_least.h \
-  /Applications/miniconda3/bin/../include/c++/v1/__memory/allocator_traits.h \
-  /Applications/miniconda3/bin/../include/c++/v1/__memory/swap_allocator.h \
-  /Applications/miniconda3/bin/../include/c++/v1/__memory/temp_value.h \
-  /Applications/miniconda3/bin/../include/c++/v1/__memory/uninitialized_algorithms.h \
-  /Applications/miniconda3/bin/../include/c++/v1/__utility/exception_guard.h \
-  /Applications/miniconda3/bin/../include/c++/v1/__memory_resource/polymorphic_allocator.h \
-  /Applications/miniconda3/bin/../include/c++/v1/__memory_resource/memory_resource.h \
-  /Applications/miniconda3/bin/../include/c++/v1/stdexcept \
-  /Applications/miniconda3/bin/../include/c++/v1/iosfwd \
   /Applications/miniconda3/bin/../include/c++/v1/__fwd/string.h \
   /Applications/miniconda3/bin/../include/c++/v1/__fwd/memory_resource.h \
+  /Applications/miniconda3/bin/../include/c++/v1/__ios/fpos.h \
+  /Applications/miniconda3/bin/../include/c++/v1/iosfwd \
   /Applications/miniconda3/bin/../include/c++/v1/__mbstate_t.h \
   /Applications/miniconda3/bin/../include/c++/v1/wchar.h \
   /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX.sdk/usr/include/wchar.h \
@@ -555,6 +598,58 @@ CMakeFiles/BallsSimulation.dir/src/Raycaster.cpp.o: \
   /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX.sdk/usr/include/ctype.h \
   /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX.sdk/usr/include/_ctype.h \
   /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX.sdk/usr/include/runetype.h \
+  /Applications/miniconda3/bin/../include/c++/v1/__iterator/distance.h \
+  /Applications/miniconda3/bin/../include/c++/v1/__iterator/concepts.h \
+  /Applications/miniconda3/bin/../include/c++/v1/__concepts/derived_from.h \
+  /Applications/miniconda3/bin/../include/c++/v1/__concepts/invocable.h \
+  /Applications/miniconda3/bin/../include/c++/v1/__concepts/predicate.h \
+  /Applications/miniconda3/bin/../include/c++/v1/__concepts/regular.h \
+  /Applications/miniconda3/bin/../include/c++/v1/__concepts/semiregular.h \
+  /Applications/miniconda3/bin/../include/c++/v1/__concepts/relation.h \
+  /Applications/miniconda3/bin/../include/c++/v1/__iterator/iter_move.h \
+  /Applications/miniconda3/bin/../include/c++/v1/__memory/pointer_traits.h \
+  /Applications/miniconda3/bin/../include/c++/v1/__memory/addressof.h \
+  /Applications/miniconda3/bin/../include/c++/v1/__ranges/access.h \
+  /Applications/miniconda3/bin/../include/c++/v1/__ranges/enable_borrowed_range.h \
+  /Applications/miniconda3/bin/../include/c++/v1/__utility/auto_cast.h \
+  /Applications/miniconda3/bin/../include/c++/v1/__ranges/concepts.h \
+  /Applications/miniconda3/bin/../include/c++/v1/__ranges/data.h \
+  /Applications/miniconda3/bin/../include/c++/v1/__ranges/enable_view.h \
+  /Applications/miniconda3/bin/../include/c++/v1/__ranges/size.h \
+  /Applications/miniconda3/bin/../include/c++/v1/__iterator/reverse_iterator.h \
+  /Applications/miniconda3/bin/../include/c++/v1/__algorithm/unwrap_iter.h \
+  /Applications/miniconda3/bin/../include/c++/v1/__compare/compare_three_way_result.h \
+  /Applications/miniconda3/bin/../include/c++/v1/__iterator/advance.h \
+  /Applications/miniconda3/bin/../include/c++/v1/__utility/convert_to_integral.h \
+  /Applications/miniconda3/bin/../include/c++/v1/__utility/unreachable.h \
+  /Applications/miniconda3/bin/../include/c++/v1/cstdlib \
+  /Applications/miniconda3/bin/../include/c++/v1/__iterator/iter_swap.h \
+  /Applications/miniconda3/bin/../include/c++/v1/__iterator/iterator.h \
+  /Applications/miniconda3/bin/../include/c++/v1/__iterator/next.h \
+  /Applications/miniconda3/bin/../include/c++/v1/__iterator/prev.h \
+  /Applications/miniconda3/bin/../include/c++/v1/__iterator/segmented_iterator.h \
+  /Applications/miniconda3/bin/../include/c++/v1/__ranges/subrange.h \
+  /Applications/miniconda3/bin/../include/c++/v1/__concepts/different_from.h \
+  /Applications/miniconda3/bin/../include/c++/v1/__ranges/dangling.h \
+  /Applications/miniconda3/bin/../include/c++/v1/__ranges/view_interface.h \
+  /Applications/miniconda3/bin/../include/c++/v1/__ranges/empty.h \
+  /Applications/miniconda3/bin/../include/c++/v1/__tuple_dir/pair_like.h \
+  /Applications/miniconda3/bin/../include/c++/v1/__tuple_dir/tuple_like.h \
+  /Applications/miniconda3/bin/../include/c++/v1/__iterator/wrap_iter.h \
+  /Applications/miniconda3/bin/../include/c++/v1/__memory/allocate_at_least.h \
+  /Applications/miniconda3/bin/../include/c++/v1/__memory/allocator_traits.h \
+  /Applications/miniconda3/bin/../include/c++/v1/__memory/construct_at.h \
+  /Applications/miniconda3/bin/../include/c++/v1/__iterator/access.h \
+  /Applications/miniconda3/bin/../include/c++/v1/__memory/voidify.h \
+  /Applications/miniconda3/bin/../include/c++/v1/new \
+  /Applications/miniconda3/bin/../include/c++/v1/exception \
+  /Applications/miniconda3/bin/../include/c++/v1/__memory/allocator.h \
+  /Applications/miniconda3/bin/../include/c++/v1/stdexcept \
+  /Applications/miniconda3/bin/../include/c++/v1/__memory/compressed_pair.h \
+  /Applications/miniconda3/bin/../include/c++/v1/__memory/swap_allocator.h \
+  /Applications/miniconda3/bin/../include/c++/v1/__memory_resource/polymorphic_allocator.h \
+  /Applications/miniconda3/bin/../include/c++/v1/__memory_resource/memory_resource.h \
+  /Applications/miniconda3/bin/../include/c++/v1/__utility/exception_guard.h \
   /Applications/miniconda3/bin/../include/c++/v1/tuple \
   /Applications/miniconda3/bin/../include/c++/v1/__memory/allocator_arg_t.h \
   /Applications/miniconda3/bin/../include/c++/v1/__memory/uses_allocator.h \
@@ -577,15 +672,32 @@ CMakeFiles/BallsSimulation.dir/src/Raycaster.cpp.o: \
   /Applications/miniconda3/bin/../include/c++/v1/__utility/in_place.h \
   /Applications/miniconda3/bin/../include/c++/v1/__utility/rel_ops.h \
   /Applications/miniconda3/bin/../include/c++/v1/__utility/to_underlying.h \
-  /Applications/miniconda3/bin/../include/c++/v1/__split_buffer \
-  /Applications/miniconda3/bin/../include/c++/v1/__algorithm/max.h \
-  /Applications/miniconda3/bin/../include/c++/v1/__algorithm/max_element.h \
-  /Applications/miniconda3/bin/../include/c++/v1/__iterator/move_iterator.h \
-  /Applications/miniconda3/bin/../include/c++/v1/__iterator/move_sentinel.h \
-  /Applications/miniconda3/bin/../include/c++/v1/__memory/allocator.h \
-  /Applications/miniconda3/bin/../include/c++/v1/__memory/compressed_pair.h \
+  /Applications/miniconda3/bin/../include/c++/v1/__string/char_traits.h \
+  /Applications/miniconda3/bin/../include/c++/v1/__algorithm/copy_n.h \
+  /Applications/miniconda3/bin/../include/c++/v1/__algorithm/copy.h \
+  /Applications/miniconda3/bin/../include/c++/v1/__algorithm/copy_move_common.h \
+  /Applications/miniconda3/bin/../include/c++/v1/__algorithm/iterator_operations.h \
+  /Applications/miniconda3/bin/../include/c++/v1/__algorithm/iter_swap.h \
+  /Applications/miniconda3/bin/../include/c++/v1/__algorithm/ranges_iterator_concept.h \
+  /Applications/miniconda3/bin/../include/c++/v1/__algorithm/unwrap_range.h \
+  /Applications/miniconda3/bin/../include/c++/v1/__type_traits/is_always_bitcastable.h \
+  /Applications/miniconda3/bin/../include/c++/v1/__algorithm/fill_n.h \
+  /Applications/miniconda3/bin/../include/c++/v1/__algorithm/find_end.h \
+  /Applications/miniconda3/bin/../include/c++/v1/__algorithm/search.h \
+  /Applications/miniconda3/bin/../include/c++/v1/__algorithm/find_first_of.h \
+  /Applications/miniconda3/bin/../include/c++/v1/cstdio \
+  /Applications/miniconda3/bin/../include/c++/v1/cwchar \
+  /Applications/miniconda3/bin/../include/c++/v1/cwctype \
+  /Applications/miniconda3/bin/../include/c++/v1/cctype \
+  /Applications/miniconda3/bin/../include/c++/v1/wctype.h \
+  /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX.sdk/usr/include/wctype.h \
+  /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX.sdk/usr/include/_wctype.h \
+  /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX.sdk/usr/include/_types/_wctrans_t.h \
+  /Applications/miniconda3/bin/../include/c++/v1/__string/extern_template_lists.h \
   /Applications/miniconda3/bin/../include/c++/v1/__type_traits/is_allocator.h \
   /Applications/miniconda3/bin/../include/c++/v1/__type_traits/noexcept_move_assign_container.h \
+  /Applications/miniconda3/bin/../include/c++/v1/string_view \
+  /Applications/miniconda3/bin/../include/c++/v1/__fwd/string_view.h \
   /Applications/miniconda3/bin/../include/c++/v1/__iterator/data.h \
   /Applications/miniconda3/bin/../include/c++/v1/__iterator/empty.h \
   /Applications/miniconda3/bin/../include/c++/v1/__iterator/reverse_access.h \
@@ -602,12 +714,10 @@ CMakeFiles/BallsSimulation.dir/src/Raycaster.cpp.o: \
   /Applications/miniconda3/bin/../include/c++/v1/__algorithm/copy_if.h \
   /Applications/miniconda3/bin/../include/c++/v1/__algorithm/count.h \
   /Applications/miniconda3/bin/../include/c++/v1/__algorithm/count_if.h \
+  /Applications/miniconda3/bin/../include/c++/v1/__algorithm/equal.h \
   /Applications/miniconda3/bin/../include/c++/v1/__algorithm/equal_range.h \
   /Applications/miniconda3/bin/../include/c++/v1/__algorithm/upper_bound.h \
   /Applications/miniconda3/bin/../include/c++/v1/__algorithm/fill.h \
-  /Applications/miniconda3/bin/../include/c++/v1/__algorithm/find_end.h \
-  /Applications/miniconda3/bin/../include/c++/v1/__algorithm/search.h \
-  /Applications/miniconda3/bin/../include/c++/v1/__algorithm/find_first_of.h \
   /Applications/miniconda3/bin/../include/c++/v1/__algorithm/find_if_not.h \
   /Applications/miniconda3/bin/../include/c++/v1/__algorithm/for_each.h \
   /Applications/miniconda3/bin/../include/c++/v1/__algorithm/for_each_n.h \
@@ -621,6 +731,10 @@ CMakeFiles/BallsSimulation.dir/src/Raycaster.cpp.o: \
   /Applications/miniconda3/bin/../include/c++/v1/__algorithm/in_out_result.h \
   /Applications/miniconda3/bin/../include/c++/v1/__algorithm/includes.h \
   /Applications/miniconda3/bin/../include/c++/v1/__algorithm/inplace_merge.h \
+  /Applications/miniconda3/bin/../include/c++/v1/__algorithm/move.h \
+  /Applications/miniconda3/bin/../include/c++/v1/__algorithm/rotate.h \
+  /Applications/miniconda3/bin/../include/c++/v1/__algorithm/move_backward.h \
+  /Applications/miniconda3/bin/../include/c++/v1/__algorithm/swap_ranges.h \
   /Applications/miniconda3/bin/../include/c++/v1/__memory/destruct_n.h \
   /Applications/miniconda3/bin/../include/c++/v1/__memory/temporary_buffer.h \
   /Applications/miniconda3/bin/../include/c++/v1/__memory/unique_ptr.h \
@@ -633,6 +747,7 @@ CMakeFiles/BallsSimulation.dir/src/Raycaster.cpp.o: \
   /Applications/miniconda3/bin/../include/c++/v1/__algorithm/is_permutation.h \
   /Applications/miniconda3/bin/../include/c++/v1/__algorithm/is_sorted.h \
   /Applications/miniconda3/bin/../include/c++/v1/__algorithm/is_sorted_until.h \
+  /Applications/miniconda3/bin/../include/c++/v1/__algorithm/lexicographical_compare.h \
   /Applications/miniconda3/bin/../include/c++/v1/__algorithm/make_heap.h \
   /Applications/miniconda3/bin/../include/c++/v1/__algorithm/sift_down.h \
   /Applications/miniconda3/bin/../include/c++/v1/__algorithm/merge.h \
@@ -654,13 +769,16 @@ CMakeFiles/BallsSimulation.dir/src/Raycaster.cpp.o: \
   /Applications/miniconda3/bin/../include/c++/v1/bit \
   /Applications/miniconda3/bin/../include/c++/v1/__bit/bit_ceil.h \
   /Applications/miniconda3/bin/../include/c++/v1/__bit/countl.h \
+  /Applications/miniconda3/bin/../include/c++/v1/__bit/rotate.h \
   /Applications/miniconda3/bin/../include/c++/v1/__bit/bit_floor.h \
   /Applications/miniconda3/bin/../include/c++/v1/__bit/bit_log2.h \
   /Applications/miniconda3/bin/../include/c++/v1/__bit/bit_width.h \
   /Applications/miniconda3/bin/../include/c++/v1/__bit/blsr.h \
   /Applications/miniconda3/bin/../include/c++/v1/__bit/byteswap.h \
+  /Applications/miniconda3/bin/../include/c++/v1/__bit/countr.h \
   /Applications/miniconda3/bin/../include/c++/v1/__bit/endian.h \
   /Applications/miniconda3/bin/../include/c++/v1/__bit/has_single_bit.h \
+  /Applications/miniconda3/bin/../include/c++/v1/__bit/popcount.h \
   /Applications/miniconda3/bin/../include/c++/v1/__algorithm/partial_sort_copy.h \
   /Applications/miniconda3/bin/../include/c++/v1/__algorithm/make_projected.h \
   /Applications/miniconda3/bin/../include/c++/v1/__algorithm/partition.h \
@@ -802,39 +920,21 @@ CMakeFiles/BallsSimulation.dir/src/Raycaster.cpp.o: \
   /Applications/miniconda3/bin/../include/c++/v1/__chrono/monthday.h \
   /Applications/miniconda3/bin/../include/c++/v1/__chrono/statically_widen.h \
   /Applications/miniconda3/bin/../include/c++/v1/__format/concepts.h \
+  /Applications/miniconda3/bin/../include/c++/v1/__format/format_fwd.h \
   /Applications/miniconda3/bin/../include/c++/v1/__format/format_parse_context.h \
   /Applications/miniconda3/bin/../include/c++/v1/__format/format_error.h \
-  /Applications/miniconda3/bin/../include/c++/v1/string_view \
-  /Applications/miniconda3/bin/../include/c++/v1/__fwd/string_view.h \
-  /Applications/miniconda3/bin/../include/c++/v1/__string/char_traits.h \
-  /Applications/miniconda3/bin/../include/c++/v1/cstdio \
-  /Applications/miniconda3/bin/../include/c++/v1/cwchar \
-  /Applications/miniconda3/bin/../include/c++/v1/cwctype \
-  /Applications/miniconda3/bin/../include/c++/v1/cctype \
-  /Applications/miniconda3/bin/../include/c++/v1/wctype.h \
-  /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX.sdk/usr/include/wctype.h \
-  /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX.sdk/usr/include/_wctype.h \
-  /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX.sdk/usr/include/_types/_wctrans_t.h \
-  /Applications/miniconda3/bin/../include/c++/v1/concepts \
-  /Applications/miniconda3/bin/../include/c++/v1/__concepts/common_with.h \
-  /Applications/miniconda3/bin/../include/c++/v1/functional \
-  /Applications/miniconda3/bin/../include/c++/v1/__functional/binary_negate.h \
-  /Applications/miniconda3/bin/../include/c++/v1/__functional/bind.h \
-  /Applications/miniconda3/bin/../include/c++/v1/__functional/weak_result_type.h \
-  /Applications/miniconda3/bin/../include/c++/v1/__functional/bind_back.h \
-  /Applications/miniconda3/bin/../include/c++/v1/__functional/perfect_forward.h \
-  /Applications/miniconda3/bin/../include/c++/v1/__functional/bind_front.h \
-  /Applications/miniconda3/bin/../include/c++/v1/__functional/binder1st.h \
-  /Applications/miniconda3/bin/../include/c++/v1/__functional/binder2nd.h \
-  /Applications/miniconda3/bin/../include/c++/v1/__functional/boyer_moore_searcher.h \
-  /Applications/miniconda3/bin/../include/c++/v1/__memory/shared_ptr.h \
-  /Applications/miniconda3/bin/../include/c++/v1/__functional/reference_wrapper.h \
-  /Applications/miniconda3/bin/../include/c++/v1/__memory/allocation_guard.h \
-  /Applications/miniconda3/bin/../include/c++/v1/__memory/allocator_destructor.h \
-  /Applications/miniconda3/bin/../include/c++/v1/atomic \
-  /Applications/miniconda3/bin/../include/c++/v1/__thread/poll_with_backoff.h \
+  /Applications/miniconda3/bin/../include/c++/v1/__chrono/year.h \
+  /Applications/miniconda3/bin/../include/c++/v1/__chrono/year_month.h \
+  /Applications/miniconda3/bin/../include/c++/v1/__chrono/year_month_day.h \
+  /Applications/miniconda3/bin/../include/c++/v1/__chrono/year_month_weekday.h \
+  /Applications/miniconda3/bin/../include/c++/v1/__chrono/file_clock.h \
   /Applications/miniconda3/bin/../include/c++/v1/__chrono/high_resolution_clock.h \
   /Applications/miniconda3/bin/../include/c++/v1/__chrono/steady_clock.h \
+  /Applications/miniconda3/bin/../include/c++/v1/__chrono/literals.h \
+  /Applications/miniconda3/bin/../include/c++/v1/concepts \
+  /Applications/miniconda3/bin/../include/c++/v1/__concepts/common_with.h \
+  /Applications/miniconda3/bin/../include/c++/v1/atomic \
+  /Applications/miniconda3/bin/../include/c++/v1/__thread/poll_with_backoff.h \
   /Applications/miniconda3/bin/../include/c++/v1/__thread/timed_backoff_policy.h \
   /Applications/miniconda3/bin/../include/c++/v1/__threading_support \
   /Applications/miniconda3/bin/../include/c++/v1/errno.h \
@@ -856,7 +956,6 @@ CMakeFiles/BallsSimulation.dir/src/Raycaster.cpp.o: \
   /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX.sdk/usr/include/sys/qos.h \
   /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX.sdk/usr/include/sys/_types/_mach_port_t.h \
   /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX.sdk/usr/include/sched.h \
-  /Applications/miniconda3/bin/../include/c++/v1/array \
   /Applications/miniconda3/bin/../include/c++/v1/iterator \
   /Applications/miniconda3/bin/../include/c++/v1/__iterator/back_insert_iterator.h \
   /Applications/miniconda3/bin/../include/c++/v1/__iterator/bounded_iter.h \
@@ -870,21 +969,44 @@ CMakeFiles/BallsSimulation.dir/src/Raycaster.cpp.o: \
   /Applications/miniconda3/bin/../include/c++/v1/__iterator/insert_iterator.h \
   /Applications/miniconda3/bin/../include/c++/v1/__iterator/istream_iterator.h \
   /Applications/miniconda3/bin/../include/c++/v1/__iterator/istreambuf_iterator.h \
+  /Applications/miniconda3/bin/../include/c++/v1/__iterator/move_iterator.h \
+  /Applications/miniconda3/bin/../include/c++/v1/__iterator/move_sentinel.h \
   /Applications/miniconda3/bin/../include/c++/v1/__iterator/ostream_iterator.h \
   /Applications/miniconda3/bin/../include/c++/v1/__iterator/ostreambuf_iterator.h \
+  /Applications/miniconda3/bin/../include/c++/v1/memory \
+  /Applications/miniconda3/bin/../include/c++/v1/__memory/align.h \
+  /Applications/miniconda3/bin/../include/c++/v1/__memory/allocation_guard.h \
+  /Applications/miniconda3/bin/../include/c++/v1/__memory/assume_aligned.h \
+  /Applications/miniconda3/bin/../include/c++/v1/__memory/concepts.h \
+  /Applications/miniconda3/bin/../include/c++/v1/__memory/ranges_construct_at.h \
+  /Applications/miniconda3/bin/../include/c++/v1/__memory/ranges_uninitialized_algorithms.h \
+  /Applications/miniconda3/bin/../include/c++/v1/__memory/uninitialized_algorithms.h \
+  /Applications/miniconda3/bin/../include/c++/v1/__memory/raw_storage_iterator.h \
+  /Applications/miniconda3/bin/../include/c++/v1/__memory/shared_ptr.h \
+  /Applications/miniconda3/bin/../include/c++/v1/__functional/reference_wrapper.h \
+  /Applications/miniconda3/bin/../include/c++/v1/__functional/weak_result_type.h \
+  /Applications/miniconda3/bin/../include/c++/v1/__memory/allocator_destructor.h \
+  /Applications/miniconda3/bin/../include/c++/v1/__memory/uses_allocator_construction.h \
+  /Applications/miniconda3/bin/../include/c++/v1/functional \
+  /Applications/miniconda3/bin/../include/c++/v1/__functional/binary_negate.h \
+  /Applications/miniconda3/bin/../include/c++/v1/__functional/bind.h \
+  /Applications/miniconda3/bin/../include/c++/v1/__functional/bind_back.h \
+  /Applications/miniconda3/bin/../include/c++/v1/__functional/perfect_forward.h \
+  /Applications/miniconda3/bin/../include/c++/v1/__functional/bind_front.h \
+  /Applications/miniconda3/bin/../include/c++/v1/__functional/binder1st.h \
+  /Applications/miniconda3/bin/../include/c++/v1/__functional/binder2nd.h \
+  /Applications/miniconda3/bin/../include/c++/v1/__functional/boyer_moore_searcher.h \
+  /Applications/miniconda3/bin/../include/c++/v1/array \
   /Applications/miniconda3/bin/../include/c++/v1/unordered_map \
   /Applications/miniconda3/bin/../include/c++/v1/__functional/is_transparent.h \
   /Applications/miniconda3/bin/../include/c++/v1/__hash_table \
   /Applications/miniconda3/bin/../include/c++/v1/__node_handle \
   /Applications/miniconda3/bin/../include/c++/v1/optional \
-  /Applications/miniconda3/bin/../include/c++/v1/memory \
-  /Applications/miniconda3/bin/../include/c++/v1/__memory/align.h \
-  /Applications/miniconda3/bin/../include/c++/v1/__memory/assume_aligned.h \
-  /Applications/miniconda3/bin/../include/c++/v1/__memory/concepts.h \
-  /Applications/miniconda3/bin/../include/c++/v1/__memory/ranges_construct_at.h \
-  /Applications/miniconda3/bin/../include/c++/v1/__memory/ranges_uninitialized_algorithms.h \
-  /Applications/miniconda3/bin/../include/c++/v1/__memory/raw_storage_iterator.h \
-  /Applications/miniconda3/bin/../include/c++/v1/__memory/uses_allocator_construction.h \
+  /Applications/miniconda3/bin/../include/c++/v1/vector \
+  /Applications/miniconda3/bin/../include/c++/v1/__bit_reference \
+  /Applications/miniconda3/bin/../include/c++/v1/__format/formatter.h \
+  /Applications/miniconda3/bin/../include/c++/v1/__memory/temp_value.h \
+  /Applications/miniconda3/bin/../include/c++/v1/__split_buffer \
   /Applications/miniconda3/bin/../include/c++/v1/__functional/compose.h \
   /Applications/miniconda3/bin/../include/c++/v1/__functional/default_searcher.h \
   /Applications/miniconda3/bin/../include/c++/v1/__functional/function.h \
@@ -896,56 +1018,21 @@ CMakeFiles/BallsSimulation.dir/src/Raycaster.cpp.o: \
   /Applications/miniconda3/bin/../include/c++/v1/__functional/pointer_to_binary_function.h \
   /Applications/miniconda3/bin/../include/c++/v1/__functional/pointer_to_unary_function.h \
   /Applications/miniconda3/bin/../include/c++/v1/__functional/unary_negate.h \
-  /Applications/miniconda3/bin/../include/c++/v1/__chrono/year.h \
-  /Applications/miniconda3/bin/../include/c++/v1/__chrono/year_month.h \
-  /Applications/miniconda3/bin/../include/c++/v1/__chrono/year_month_day.h \
-  /Applications/miniconda3/bin/../include/c++/v1/__chrono/year_month_weekday.h \
-  /Applications/miniconda3/bin/../include/c++/v1/__chrono/file_clock.h \
-  /Applications/miniconda3/bin/../include/c++/v1/__chrono/literals.h \
-  /Applications/miniconda3/bin/../include/c++/v1/thread \
-  /Applications/miniconda3/bin/../include/c++/v1/__mutex_base \
-  /Applications/miniconda3/bin/../include/c++/v1/system_error \
-  /Applications/miniconda3/bin/../include/c++/v1/__errc \
-  /Applications/miniconda3/bin/../include/c++/v1/cerrno \
-  /Applications/miniconda3/bin/../include/c++/v1/string \
-  /Applications/miniconda3/bin/../include/c++/v1/__ios/fpos.h \
-  /Applications/miniconda3/bin/../include/c++/v1/__string/extern_template_lists.h \
-  /Applications/miniconda3/bin/../include/c++/v1/mutex \
-  /Applications/miniconda3/bin/../include/c++/v1/set \
-  /Applications/miniconda3/bin/../include/c++/v1/__tree \
-  /opt/homebrew/include/glm/gtc/matrix_transform.hpp \
-  /opt/homebrew/include/glm/gtc/../mat4x4.hpp \
-  /opt/homebrew/include/glm/gtc/../vec2.hpp \
-  /opt/homebrew/include/glm/gtc/../vec3.hpp \
-  /opt/homebrew/include/glm/gtc/../vec4.hpp \
-  /opt/homebrew/include/glm/gtc/../ext/matrix_projection.hpp \
-  /opt/homebrew/include/glm/./ext/../gtc/constants.hpp \
-  /opt/homebrew/include/glm/gtc/../ext/scalar_constants.hpp \
-  /opt/homebrew/include/glm/./ext/scalar_constants.inl \
-  /opt/homebrew/include/glm/gtc/constants.inl \
-  /opt/homebrew/include/glm/./ext/../geometric.hpp \
-  /opt/homebrew/include/glm/./ext/../trigonometric.hpp \
-  /opt/homebrew/include/glm/./ext/../matrix.hpp \
-  /opt/homebrew/include/glm/./ext/matrix_projection.inl \
-  /opt/homebrew/include/glm/gtc/../ext/matrix_clip_space.hpp \
-  /opt/homebrew/include/glm/./ext/../ext/scalar_constants.hpp \
-  /opt/homebrew/include/glm/./ext/matrix_clip_space.inl \
-  /opt/homebrew/include/glm/gtc/../ext/matrix_transform.hpp \
-  /opt/homebrew/include/glm/./ext/matrix_transform.inl \
-  /opt/homebrew/include/glm/gtc/matrix_transform.inl \
-  /opt/homebrew/include/glm/gtc/../geometric.hpp \
-  /opt/homebrew/include/glm/gtc/../trigonometric.hpp \
-  /opt/homebrew/include/glm/gtc/../matrix.hpp \
-  /Applications/miniconda3/bin/../include/c++/v1/future \
-  /Applications/miniconda3/bin/../include/c++/v1/queue \
-  /Applications/miniconda3/bin/../include/c++/v1/deque \
-  /Applications/miniconda3/bin/../include/c++/v1/condition_variable \
+  /opt/homebrew/include/glm/gtx/string_cast.inl \
+  /Applications/miniconda3/bin/../include/c++/v1/cstdarg \
+  /Users/williambogdanovic/Desktop/simulations/SoA/src/Shader.hpp \
+  /opt/homebrew/include/glm/glm.hpp \
   /Applications/miniconda3/bin/../include/c++/v1/iostream \
   /Applications/miniconda3/bin/../include/c++/v1/ios \
   /Applications/miniconda3/bin/../include/c++/v1/__locale \
   /Applications/miniconda3/bin/../include/c++/v1/locale.h \
   /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX.sdk/usr/include/locale.h \
   /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX.sdk/usr/include/_locale.h \
+  /Applications/miniconda3/bin/../include/c++/v1/mutex \
+  /Applications/miniconda3/bin/../include/c++/v1/__mutex_base \
+  /Applications/miniconda3/bin/../include/c++/v1/system_error \
+  /Applications/miniconda3/bin/../include/c++/v1/__errc \
+  /Applications/miniconda3/bin/../include/c++/v1/cerrno \
   /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX.sdk/usr/include/xlocale.h \
   /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX.sdk/usr/include/_xlocale.h \
   /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX.sdk/usr/include/__xlocale.h \
@@ -990,72 +1077,4 @@ CMakeFiles/BallsSimulation.dir/src/Raycaster.cpp.o: \
   /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX.sdk/usr/include/sys/_types/_fsblkcnt_t.h \
   /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX.sdk/usr/include/sys/_types/_fsfilcnt_t.h \
   /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX.sdk/usr/include/_types/_nl_item.h \
-  /Applications/miniconda3/bin/../include/c++/v1/__bsd_locale_defaults.h \
-  /Applications/miniconda3/bin/../include/c++/v1/cstdarg \
-  /Users/williambogdanovic/Desktop/simulations/SoA/glimac/third-party/glad/include/glad/glad.h \
-  /Users/williambogdanovic/Desktop/simulations/SoA/glimac/third-party/glad/include/KHR/khrplatform.h \
-  /Users/williambogdanovic/Desktop/simulations/SoA/src/PMat.hpp \
-  /Users/williambogdanovic/Desktop/simulations/SoA/src/Link.hpp \
-  /Users/williambogdanovic/Desktop/simulations/SoA/src/SimulationSoAInternals.hpp \
-  /Users/williambogdanovic/Desktop/simulations/SoA/src/GUI.hpp \
-  /opt/homebrew/include/SDL2/SDL.h /opt/homebrew/include/SDL2/SDL_main.h \
-  /opt/homebrew/include/SDL2/SDL_stdinc.h \
-  /opt/homebrew/include/SDL2/SDL_config.h \
-  /opt/homebrew/include/SDL2/SDL_platform.h \
-  /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX.sdk/usr/include/AvailabilityMacros.h \
-  /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX.sdk/usr/include/TargetConditionals.h \
-  /opt/homebrew/include/SDL2/begin_code.h \
-  /opt/homebrew/include/SDL2/close_code.h \
-  /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX.sdk/usr/include/strings.h \
-  /Applications/miniconda3/bin/../include/c++/v1/inttypes.h \
-  /Applications/miniconda3/lib/clang/16/include/inttypes.h \
-  /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX.sdk/usr/include/inttypes.h \
-  /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX.sdk/usr/include/_inttypes.h \
-  /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX.sdk/usr/include/xlocale/_inttypes.h \
-  /opt/homebrew/include/SDL2/SDL_assert.h \
-  /opt/homebrew/include/SDL2/SDL_atomic.h \
-  /opt/homebrew/include/SDL2/SDL_audio.h \
-  /opt/homebrew/include/SDL2/SDL_error.h \
-  /opt/homebrew/include/SDL2/SDL_endian.h \
-  /opt/homebrew/include/SDL2/SDL_mutex.h \
-  /opt/homebrew/include/SDL2/SDL_thread.h \
-  /opt/homebrew/include/SDL2/SDL_rwops.h \
-  /opt/homebrew/include/SDL2/SDL_clipboard.h \
-  /opt/homebrew/include/SDL2/SDL_cpuinfo.h \
-  /Applications/miniconda3/lib/clang/16/include/arm_neon.h \
-  /Applications/miniconda3/lib/clang/16/include/arm_bf16.h \
-  /opt/homebrew/include/SDL2/SDL_events.h \
-  /opt/homebrew/include/SDL2/SDL_video.h \
-  /opt/homebrew/include/SDL2/SDL_pixels.h \
-  /opt/homebrew/include/SDL2/SDL_rect.h \
-  /opt/homebrew/include/SDL2/SDL_surface.h \
-  /opt/homebrew/include/SDL2/SDL_blendmode.h \
-  /opt/homebrew/include/SDL2/SDL_keyboard.h \
-  /opt/homebrew/include/SDL2/SDL_keycode.h \
-  /opt/homebrew/include/SDL2/SDL_scancode.h \
-  /opt/homebrew/include/SDL2/SDL_mouse.h \
-  /opt/homebrew/include/SDL2/SDL_joystick.h \
-  /opt/homebrew/include/SDL2/SDL_guid.h \
-  /opt/homebrew/include/SDL2/SDL_gamecontroller.h \
-  /opt/homebrew/include/SDL2/SDL_sensor.h \
-  /opt/homebrew/include/SDL2/SDL_quit.h \
-  /opt/homebrew/include/SDL2/SDL_gesture.h \
-  /opt/homebrew/include/SDL2/SDL_touch.h \
-  /opt/homebrew/include/SDL2/SDL_filesystem.h \
-  /opt/homebrew/include/SDL2/SDL_haptic.h \
-  /opt/homebrew/include/SDL2/SDL_hidapi.h \
-  /opt/homebrew/include/SDL2/SDL_hints.h \
-  /opt/homebrew/include/SDL2/SDL_loadso.h \
-  /opt/homebrew/include/SDL2/SDL_log.h \
-  /opt/homebrew/include/SDL2/SDL_messagebox.h \
-  /opt/homebrew/include/SDL2/SDL_metal.h \
-  /opt/homebrew/include/SDL2/SDL_power.h \
-  /opt/homebrew/include/SDL2/SDL_render.h \
-  /opt/homebrew/include/SDL2/SDL_shape.h \
-  /opt/homebrew/include/SDL2/SDL_system.h \
-  /opt/homebrew/include/SDL2/SDL_timer.h \
-  /opt/homebrew/include/SDL2/SDL_version.h \
-  /opt/homebrew/include/SDL2/SDL_locale.h \
-  /opt/homebrew/include/SDL2/SDL_misc.h \
-  /opt/homebrew/include/SDL2/SDL_opengl.h \
-  /Users/williambogdanovic/Desktop/simulations/SoA/src/Camera.hpp
+  /Applications/miniconda3/bin/../include/c++/v1/__bsd_locale_defaults.h

@@ -991,6 +991,8 @@ CMakeFiles/BallsSimulation.dir/src/Simulation.cpp.o: \
   /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX.sdk/usr/include/_types/_nl_item.h \
   /Applications/miniconda3/bin/../include/c++/v1/__bsd_locale_defaults.h \
   /Applications/miniconda3/bin/../include/c++/v1/cstdarg \
+  /Users/williambogdanovic/Desktop/simulations/SoA/glimac/third-party/glad/include/glad/glad.h \
+  /Users/williambogdanovic/Desktop/simulations/SoA/glimac/third-party/glad/include/KHR/khrplatform.h \
   /Users/williambogdanovic/Desktop/simulations/SoA/src/PMat.hpp \
   /Users/williambogdanovic/Desktop/simulations/SoA/src/Link.hpp \
   /Users/williambogdanovic/Desktop/simulations/SoA/src/SimulationSoAInternals.hpp \
@@ -1055,5 +1057,4 @@ CMakeFiles/BallsSimulation.dir/src/Simulation.cpp.o: \
   /opt/homebrew/include/SDL2/SDL_locale.h \
   /opt/homebrew/include/SDL2/SDL_misc.h \
   /opt/homebrew/include/SDL2/SDL_opengl.h \
-  /opt/homebrew/include/SDL2/SDL_opengl_glext.h \
   /Users/williambogdanovic/Desktop/simulations/SoA/src/Camera.hpp

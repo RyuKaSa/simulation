@@ -882,14 +882,16 @@ CMakeFiles/BallsSimulation.dir/src/main.cpp.o: \
   /Applications/miniconda3/bin/../include/c++/v1/__numeric/transform_exclusive_scan.h \
   /Applications/miniconda3/bin/../include/c++/v1/__numeric/transform_inclusive_scan.h \
   /Applications/miniconda3/bin/../include/c++/v1/__numeric/transform_reduce.h \
+  /Users/williambogdanovic/Desktop/simulations/SoA/external/imgui/imgui.h \
+  /Users/williambogdanovic/Desktop/simulations/SoA/external/imgui/imconfig.h \
+  /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX.sdk/usr/include/assert.h \
+  /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX.sdk/usr/include/_assert.h \
+  /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX.sdk/usr/include/_static_assert.h \
   /Users/williambogdanovic/Desktop/simulations/SoA/src/Simulation.hpp \
   /opt/homebrew/include/glm/glm.hpp \
   /opt/homebrew/include/glm/detail/_fixes.hpp \
   /opt/homebrew/include/glm/detail/setup.hpp \
   /Applications/miniconda3/bin/../include/c++/v1/cassert \
-  /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX.sdk/usr/include/assert.h \
-  /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX.sdk/usr/include/_assert.h \
-  /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX.sdk/usr/include/_static_assert.h \
   /opt/homebrew/include/glm/detail/../simd/platform.h \
   /Applications/miniconda3/bin/../include/c++/v1/cfloat \
   /opt/homebrew/include/glm/fwd.hpp \
@@ -1156,4 +1158,33 @@ CMakeFiles/BallsSimulation.dir/src/main.cpp.o: \
   /Users/williambogdanovic/Desktop/simulations/SoA/src/Movement.hpp \
   /Users/williambogdanovic/Desktop/simulations/SoA/src/BlockWorld.hpp \
   /Applications/miniconda3/bin/../include/c++/v1/unordered_set \
-  /Users/williambogdanovic/Desktop/simulations/SoA/src/BlockPlacement.hpp
+  /Users/williambogdanovic/Desktop/simulations/SoA/src/BlockPlacement.hpp \
+  /Users/williambogdanovic/Desktop/simulations/SoA/src/CubemapCapture.hpp \
+  /Users/williambogdanovic/Desktop/simulations/SoA/src/EquirectangularConverter.hpp \
+  /Users/williambogdanovic/Desktop/simulations/SoA/src/FivePointDistortion.hpp \
+  /opt/homebrew/include/glm/gtx/string_cast.hpp \
+  /opt/homebrew/include/glm/gtx/../glm.hpp \
+  /opt/homebrew/include/glm/gtx/../gtc/type_precision.hpp \
+  /opt/homebrew/include/glm/gtc/../ext/vector_int2_sized.hpp \
+  /opt/homebrew/include/glm/gtc/../ext/vector_int3_sized.hpp \
+  /opt/homebrew/include/glm/gtc/../ext/vector_int4_sized.hpp \
+  /opt/homebrew/include/glm/gtc/../ext/scalar_int_sized.hpp \
+  /opt/homebrew/include/glm/gtc/../ext/vector_uint2_sized.hpp \
+  /opt/homebrew/include/glm/gtc/../ext/vector_uint3_sized.hpp \
+  /opt/homebrew/include/glm/gtc/../ext/vector_uint4_sized.hpp \
+  /opt/homebrew/include/glm/gtc/../ext/scalar_uint_sized.hpp \
+  /opt/homebrew/include/glm/gtc/../detail/type_vec2.hpp \
+  /opt/homebrew/include/glm/gtc/../detail/type_mat2x2.hpp \
+  /opt/homebrew/include/glm/gtc/../detail/type_mat2x3.hpp \
+  /opt/homebrew/include/glm/gtc/../detail/type_mat2x4.hpp \
+  /opt/homebrew/include/glm/gtc/../detail/type_mat3x2.hpp \
+  /opt/homebrew/include/glm/gtc/../detail/type_mat3x4.hpp \
+  /opt/homebrew/include/glm/gtc/../detail/type_mat4x2.hpp \
+  /opt/homebrew/include/glm/gtc/../detail/type_mat4x3.hpp \
+  /opt/homebrew/include/glm/gtc/type_precision.inl \
+  /opt/homebrew/include/glm/gtx/../gtc/quaternion.hpp \
+  /opt/homebrew/include/glm/gtx/../gtx/dual_quaternion.hpp \
+  /opt/homebrew/include/glm/gtx/../gtc/constants.hpp \
+  /opt/homebrew/include/glm/gtx/dual_quaternion.inl \
+  /opt/homebrew/include/glm/gtx/../geometric.hpp \
+  /opt/homebrew/include/glm/gtx/string_cast.inl

@@ -105,7 +105,6 @@ public:
     virtual const std::vector<HexTriangle>& getHexTriangles() const;
     virtual std::vector<glm::dvec3> getStructureParticlePositions() const;
 
-    // Creation functions – these were part of your original Simulation.
     virtual void addStaticCubeUnderGrid();
     virtual void createCord(int numBalls, double length, double springRestLength, bool bothEndsStatic);
     virtual void createSquareGridWithDiagonals(int gridSize, double spacing, double springRestLength);
