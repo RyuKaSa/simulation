@@ -536,7 +536,9 @@ void ClothSimulation::Initialization() {
 
     // Choose structure based on the selected dropdown item.
     if (guiInstance->getSelectedStructure() == 0) {
-        createMultiLayerSquareGridWithDiagonals(sharedParams.gridSize, guiInstance->getNumberLayers(), 0.03, 0.03, sharedParams.springRestLength);
+        // int cx, int cy, int cz,  // Grid coordinate of the block center
+        int cx = 0, cy = 0, cz = 0;
+        createMultiLayerSquareGridWithDiagonalsCentered(cx, cy, cz, sharedParams.gridSize, guiInstance->getNumberLayers(), 0.03, 0.03, sharedParams.springRestLength);
     } else if (guiInstance->getSelectedStructure() == 1) {
         createSquareGridWithDiagonals(sharedParams.gridSize, 0.03, sharedParams.springRestLength);
     } else if (guiInstance->getSelectedStructure() == 2) {

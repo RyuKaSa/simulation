@@ -76,7 +76,40 @@ void Renderer::render(const SimulationBase &simulation)
     renderGrid(proj, view);
     renderSprings(simulation, proj, view);
     // renderHexTriangles(simulation, proj, view) and renderBalls(simulation, proj, view)
+    // we now also add the render mesh function, on a toggle
     renderExternalCubes(simulation, proj, view);
+
+    if (guiInstance->isShowClothMesh())
+    {
+        for (const ClothMesh &mesh : simulation.clothMeshes)
+        {
+            // rebuild & upload
+            auto newMeshData = simulation.buildClothMeshData(mesh.startIndex, mesh.gridSize, mesh.nLayers);
+            glBindBuffer(GL_ARRAY_BUFFER, mesh.vbo);
+            glBufferSubData(GL_ARRAY_BUFFER, 0, newMeshData.size()*sizeof(float), newMeshData.data());
+    
+            // now set *all* uniforms your shader needs:
+            meshShader.use();
+    
+            glm::mat4 model = glm::mat4(1.0f);
+            meshShader.setUniform("uModel", model);
+    
+            meshShader.setUniform("uMVP", proj * view * model);
+
+            meshShader.setUniform("uLightSpaceMatrix", glm::mat4(0.0f));
+            meshShader.setUniform("uLightDir", glm::vec3(-0.2f, -0.9f, -0.45f));
+    
+            glActiveTexture(GL_TEXTURE1);
+            glBindTexture(GL_TEXTURE_2D, 0);
+            meshShader.setUniform("uShadowMap", 1);
+    
+            // finally draw
+            glBindVertexArray(mesh.vao);
+            glDrawArrays(GL_TRIANGLES, 0, mesh.vertexCount);
+        }
+        glBindVertexArray(0);
+    }
+    
 
     camera->endRender();
 
@@ -89,7 +122,7 @@ void Renderer::renderWithMatrices(const SimulationBase &simulation, const glm::m
     glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
     glEnable(GL_DEPTH_TEST);
 
-    // Example: Use ball shader
+    // Use ball shader
     ballShader.use();
     ballShader.setUniform("uModel", glm::mat4(1.0f));
     ballShader.setUniform("uMVP", projection * view);
@@ -199,6 +232,9 @@ void Renderer::renderWithMatricesAndShadows(const SimulationBase &simulation,
 
     for (const ClothMesh &mesh : simulation.clothMeshes)
     {
+        // print the mesh ID
+        // std::cout << "Rendering cloth mesh ID: " << mesh.clothID << std::endl;
+
         // 1. Rebuild mesh data using the current particle positions.
         std::vector<float> newMeshData = simulation.buildClothMeshData(mesh.startIndex, mesh.gridSize, mesh.nLayers);
     

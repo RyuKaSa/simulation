@@ -86,6 +86,8 @@ int main(int argc, char *argv[])
     // Initialize each scene once.
     scene1.init();
     scene1.renderer.initTripleGrid(*scene1.simulation);
+    scene1.renderer.setGUI(&gui);
+
     scene2.init();
     scene2.renderer.initHorizontalGrid(50.0f, 0.5f);
 

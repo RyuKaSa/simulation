@@ -104,7 +104,7 @@ void SimulationBase::createCord(int numBalls, double length,
         soA.isStatic.push_back(sflag);
 
         soA.color.push_back(glm::dvec3(1.0, 0.0, 0.0));
-        soA.dimensions.push_back(glm::dvec3(3.0));
+        soA.dimensions.push_back(glm::dvec3(0.1));
         soA.clothID.push_back(clothID);
     }
 

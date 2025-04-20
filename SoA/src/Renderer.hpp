@@ -25,6 +25,7 @@ public:
 
     // Main render call
     void render(const SimulationBase &simulation);
+    void setGUI(GUI* gui) { guiInstance = gui; }
 
     // Attach a camera (OrbitCamera, FPSCamera, etc.)
     void setCamera(Camera *cam) { camera = cam; }
@@ -74,6 +75,8 @@ private:
 
     // Our camera pointer
     Camera *camera;
+
+    GUI* guiInstance = nullptr;
 
     // Geometry for instanced balls
     unsigned int vao, vbo;

@@ -20,6 +20,8 @@ public:
     bool isResetRequested();
     bool isDropStructureRequested() const;
 
+    bool isShowClothMesh() const { return showClothMesh; }
+
     void clearResetFlag();
     void clearDropStructureFlag();
 
@@ -73,6 +75,8 @@ private:
     float particleMass;        // mass for new particles
     float cameraZoom;          // camera zoom level
     float fivePointFactor;     // five-point distortion factor
+
+    bool showClothMesh;
 
     bool showCrosshair;
 

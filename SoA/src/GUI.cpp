@@ -28,7 +28,8 @@ GUI::GUI(SDL_Window* window, SDL_GLContext glContext)
       selectedTemplate(0),     // start with "None"
       placeTemplateRequested(false),
       selectedStructure(0),
-      nLayers(2)
+      nLayers(2),
+      showClothMesh(false)
 {
     IMGUI_CHECKVERSION();
     ImGui::CreateContext();
@@ -96,6 +97,7 @@ void GUI::draw() {
     const char* structureItems[] = { "Multi-layer square grid", "Square grid", "Multi-layer hex grid", "Hex grid", "Spring Cord" };
     ImGui::Combo("##StructureCombo", &selectedStructure, structureItems, IM_ARRAYSIZE(structureItems));
     ImGui::SliderInt("Number of Layers", &nLayers, 2, 10);
+    ImGui::Checkbox("Show Cloth Mesh", &showClothMesh);
     ImGui::End();
 
     // --- Performance Metrics Window ---
