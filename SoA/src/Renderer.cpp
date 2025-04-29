@@ -68,17 +68,6 @@ void Renderer::render(const SimulationBase &simulation)
     glm::mat4 proj = camera->getProjectionMatrix(aspect);
     glm::mat4 view = camera->getViewMatrix();
 
-    ballShader.use();
-    ballShader.setUniform("uModel", glm::mat4(1.0f));
-    ballShader.setUniform("uMVP", proj * view);
-
-    renderBalls(simulation, proj, view);
-    renderGrid(proj, view);
-    renderSprings(simulation, proj, view);
-    // renderHexTriangles(simulation, proj, view) and renderBalls(simulation, proj, view)
-    // we now also add the render mesh function, on a toggle
-    renderExternalCubes(simulation, proj, view);
-
     if (guiInstance->isShowClothMesh())
     {
         for (const ClothMesh &mesh : simulation.clothMeshes)
@@ -109,7 +98,23 @@ void Renderer::render(const SimulationBase &simulation)
         }
         glBindVertexArray(0);
     }
-    
+    else
+    {
+        // --- Normal pass: balls, grid, springs, cubes ---
+        ballShader.use();
+        ballShader.setUniform("uModel", glm::mat4(1.0f));
+        ballShader.setUniform("uMVP", proj * view);
+        renderBalls(simulation, proj, view);
+
+        // renderGrid(proj, view);
+
+        renderSprings(simulation, proj, view);
+
+        // renderExternalCubes(simulation, proj, view);
+    }
+
+    renderGrid(proj, view);
+    renderExternalCubes(simulation, proj, view);
 
     camera->endRender();
 

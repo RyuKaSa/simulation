@@ -229,6 +229,13 @@ void SimulationBase::clearSimulation() {
         delete gravityLink;
         gravityLink = nullptr;
     }
+
+    // also remove mesh data 
+    for (const ClothMesh &m : clothMeshes) {
+        glDeleteVertexArrays(1, &m.vao);
+        glDeleteBuffers     (1, &m.vbo);
+    }
+    clothMeshes.clear();
 }
 
 // ------------------- ThreadPool Implementation -------------------
