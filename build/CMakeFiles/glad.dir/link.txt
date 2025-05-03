@@ -1,2 +1,0 @@
-/Applications/miniconda3/bin/arm64-apple-darwin20.0.0-ar qc libglad.a "CMakeFiles/glad.dir/glimac/third-party/glad/src/glad.c.o"
-/Applications/miniconda3/bin/llvm-ranlib libglad.a

@@ -1,4 +1,0 @@
-/Users/williambogdanovic/Desktop/simulations/SoA/build/CMakeFiles/BallsSimulation.dir
-/Users/williambogdanovic/Desktop/simulations/SoA/build/CMakeFiles/glad.dir
-/Users/williambogdanovic/Desktop/simulations/SoA/build/CMakeFiles/edit_cache.dir
-/Users/williambogdanovic/Desktop/simulations/SoA/build/CMakeFiles/rebuild_cache.dir
